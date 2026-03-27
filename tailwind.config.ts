@@ -8,10 +8,28 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      colors: {
+        bep: {
+          bg: "#050505",
+          card: "#0a0a0a",
+          border: "#1a1a1a",
+          border2: "#252525",
+          green: "#76B900",
+          cyan: "#00D4FF",
+          amber: "#FFB800",
+          red: "#FF4444",
+          purple: "#A855F7",
+          pink: "#EC4899",
+          white: "#f0f0f0",
+          muted: "#666666",
+          dim: "#999999",
+          text: "#cccccc",
+        },
+      },
+      fontFamily: {
+        serif: ["Playfair Display", "Georgia", "serif"],
+        mono: ["JetBrains Mono", "SF Mono", "Consolas", "monospace"],
+        sans: ["Inter", "-apple-system", "sans-serif"],
       },
     },
   },

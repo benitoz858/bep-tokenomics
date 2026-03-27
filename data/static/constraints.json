@@ -1,0 +1,60 @@
+{
+  "source": "BEP Research — Constraint Tracker",
+  "lastUpdated": "2026-03-25",
+  "constraints": [
+    {
+      "name": "CoWoS Packaging",
+      "supply": "120K-130K wafers/mo (->145K)",
+      "demand": "~1M wafers/yr demanded",
+      "gap": "Tight but Groq LPX bypasses it",
+      "trend": "same",
+      "beneficiaries": ["TSM", "ASE", "AMKR"],
+      "note": "NVIDIA alone requires ~595K wafers (60% of total). Groq LPX uses zero CoWoS."
+    },
+    {
+      "name": "HBM Supply",
+      "supply": "SK Hynix ~50%, Samsung ~40%, Micron ~10%",
+      "demand": "Fulfillment rate: 50-65%",
+      "gap": "Severe — persistent for years",
+      "trend": "up",
+      "beneficiaries": ["MU", "SKHynix", "Samsung"],
+      "note": "Micron FQ2: $23.9B rev, 75% GM, guiding $33.5B at 81% GM."
+    },
+    {
+      "name": "Memory Bandwidth",
+      "supply": "Rubin: 22 TB/s HBM4 | Groq V3: 150 TB/s SRAM",
+      "demand": "Reasoning: 50K+ tokens/query, agents: continuous",
+      "gap": "Binding — hierarchy fragmenting",
+      "trend": "same",
+      "beneficiaries": ["NVDA", "MU", "RMBS"],
+      "note": "Memory hierarchy physically realized: HBM4 for training, SRAM for decode, DDR5 for weights."
+    },
+    {
+      "name": "Datacenter Power",
+      "supply": "Grid + fuel cells + SMR (long lead times)",
+      "demand": "Rubin: ~2,300W TDP | DSX power mgmt rack",
+      "gap": "Multi-year permitting delays",
+      "trend": "up",
+      "beneficiaries": ["BE", "VRT", "OKLO"],
+      "note": "Jensen: $300B annual revenue per GW. NVIDIA shipped DSX power management rack."
+    },
+    {
+      "name": "Optical / SiPho Capacity",
+      "supply": "Lumentum San Jose sold out; Tower SiPho expanding",
+      "demand": "800G->1.6T transition + CPO ramp",
+      "gap": "EML laser + SiPho foundry shortage",
+      "trend": "up",
+      "beneficiaries": ["LITE", "CRDO", "TSEM", "ALAB"],
+      "note": "Spectrum-6 SPX optical rack at GTC. NVIDIA $4B photonic investment."
+    },
+    {
+      "name": "Inference Token Economics",
+      "supply": "Cost: falling 10x/year (LLMflation)",
+      "demand": "10,000x inference scaling in 2 years",
+      "gap": "Jevons Paradox: net demand up",
+      "trend": "up",
+      "beneficiaries": ["NVDA", "ORCL", "CRWV", "MU"],
+      "note": "Three forces compound: reasoning, agentic, physical AI. Dynamo separates prefill/decode."
+    }
+  ]
+}

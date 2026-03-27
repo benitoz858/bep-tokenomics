@@ -1,0 +1,90 @@
+{
+  "source": "The Information (Anthropic), IPO prospectus (MiniMax, Zhipu), BEP Research estimates",
+  "lastUpdated": "2026-03-27",
+  "insight": "AI inference isn't a commodity. It's a managed experience. The secret is interactivity: tokens per second per user. Labs that understand the interactivity lever operate at 60%+ margins. The rest race to zero.",
+  "sustainableMarginRange": { "low": 50, "high": 75, "bepResearchEstimate": 60 },
+  "labMargins": [
+    {
+      "lab": "Anthropic",
+      "source": "The Information (Anthropic internal targets)",
+      "dataPoints": [
+        { "year": 2024, "grossMarginPct": -94, "type": "actual", "note": "Paying customers. Massive GPU spend ramp." },
+        { "year": 2025, "grossMarginPct": 40, "type": "actual", "note": "Revised from 25% target. Opus 4.1 pricing power." },
+        { "year": 2027, "grossMarginPct": 77, "type": "target", "note": "Internal target per The Information." }
+      ],
+      "color": "#00D4FF"
+    },
+    {
+      "lab": "MiniMax",
+      "source": "IPO prospectus",
+      "dataPoints": [
+        { "year": 2023, "grossMarginPct": -25, "type": "actual", "note": "Early stage, Chinese market." },
+        { "year": 2024, "grossMarginPct": -24.7, "type": "actual", "note": "IPO prospectus data." },
+        { "year": 2025, "grossMarginPct": 25, "type": "estimate", "note": "BEP Research estimate." },
+        { "year": 2026, "grossMarginPct": 29, "type": "estimate", "note": "Street estimate." },
+        { "year": 2027, "grossMarginPct": 31, "type": "estimate", "note": "Street estimate." },
+        { "year": 2028, "grossMarginPct": 35, "type": "estimate", "note": "Street estimate." }
+      ],
+      "color": "#FFB800"
+    },
+    {
+      "lab": "Zhipu",
+      "source": "IPO prospectus / Cloud API",
+      "dataPoints": [
+        { "year": 2024, "grossMarginPct": -0.4, "type": "actual", "note": "Cloud API. Near breakeven. Raised prices 30% in Feb 2026." }
+      ],
+      "color": "#76B900"
+    }
+  ],
+  "interactivityModel": {
+    "description": "BEP Research model based on public throughput benchmarks and provider pricing. Gross margin as a function of interactivity (tok/sec/user). Higher interactivity = more decode-bound = lower margin on older hardware. B200 maintains margins because of higher decode throughput.",
+    "note": "Zhipu raised prices 30% in February 2026, the first hike in China's AI market. It sold out instantly. ARR went 25x in 10 months.",
+    "curves": {
+      "nvidia-h200": {
+        "label": "H200",
+        "points": [
+          { "interactivity": 20, "marginPct": 35 },
+          { "interactivity": 30, "marginPct": 28 },
+          { "interactivity": 40, "marginPct": 18 },
+          { "interactivity": 50, "marginPct": 8 },
+          { "interactivity": 60, "marginPct": -2 },
+          { "interactivity": 70, "marginPct": -8 },
+          { "interactivity": 80, "marginPct": -15 },
+          { "interactivity": 90, "marginPct": -22 },
+          { "interactivity": 100, "marginPct": -30 }
+        ],
+        "color": "#00D4FF"
+      },
+      "nvidia-b200": {
+        "label": "B200",
+        "points": [
+          { "interactivity": 20, "marginPct": 82 },
+          { "interactivity": 30, "marginPct": 80 },
+          { "interactivity": 40, "marginPct": 78 },
+          { "interactivity": 50, "marginPct": 76 },
+          { "interactivity": 60, "marginPct": 74 },
+          { "interactivity": 70, "marginPct": 72 },
+          { "interactivity": 80, "marginPct": 70 },
+          { "interactivity": 90, "marginPct": 68 },
+          { "interactivity": 100, "marginPct": 65 }
+        ],
+        "color": "#FFB800"
+      },
+      "nvidia-b200-lpx": {
+        "label": "B200 + LPX",
+        "points": [
+          { "interactivity": 20, "marginPct": 92 },
+          { "interactivity": 30, "marginPct": 91 },
+          { "interactivity": 40, "marginPct": 90 },
+          { "interactivity": 50, "marginPct": 89 },
+          { "interactivity": 60, "marginPct": 88 },
+          { "interactivity": 70, "marginPct": 87 },
+          { "interactivity": 80, "marginPct": 85 },
+          { "interactivity": 90, "marginPct": 83 },
+          { "interactivity": 100, "marginPct": 80 }
+        ],
+        "color": "#76B900"
+      }
+    }
+  }
+}

@@ -1,0 +1,157 @@
+{
+  "source": "BEP Research estimates based on InferenceX/SemiAnalysis benchmarks + GTC 2026",
+  "lastUpdated": "2026-03-25",
+  "note": "Throughput per GPU. 'gpuOnly' = standard inference. 'withLPX' = GPU handles prefill, Groq LPX handles decode (Premium/Ultra tiers). LPX multiplier is ~3-5x for decode-bound workloads.",
+  "models": [
+    { "id": "small-7b", "name": "Small model (7-8B)", "params": "7B", "class": "small" },
+    { "id": "llama-70b", "name": "Llama 3.3 70B", "params": "70B", "class": "medium" },
+    { "id": "claude-sonnet", "name": "Claude Sonnet 4.6", "params": "unknown", "class": "medium" },
+    { "id": "deepseek-v3", "name": "DeepSeek V3.2 (671B MoE)", "params": "671B MoE", "class": "large" },
+    { "id": "deepseek-r1", "name": "DeepSeek R1 (671B MoE)", "params": "671B MoE", "class": "reasoning" },
+    { "id": "claude-opus", "name": "Claude Opus 4.6", "params": "unknown", "class": "frontier" },
+    { "id": "gpt5-class", "name": "GPT-5 class (est. 1-2T MoE)", "params": "~1.5T MoE", "class": "frontier" }
+  ],
+  "tierHardware": {
+    "Free":    { "mode": "gpuOnly", "label": "GPU only" },
+    "Medium":  { "mode": "gpuOnly", "label": "GPU only" },
+    "High":    { "mode": "gpuOnly", "label": "GPU only" },
+    "Premium": { "mode": "withLPX", "label": "GPU prefill + LPX decode" },
+    "Ultra":   { "mode": "withLPX", "label": "GPU prefill + LPX decode" }
+  },
+  "lpxCostPerHourAdder": 2.50,
+  "lpxNote": "LPX rack adds ~$2.50/hr equivalent cost per GPU-equivalent slot (BEP estimate based on Groq V3 pricing). This cost is added when Premium/Ultra tier is selected.",
+  "gpus": {
+    "nvidia-a100": {
+      "vramGb": 80,
+      "profiles": {
+        "small-7b":      { "gpuOnly": 220,  "withLPX": null,  "quantization": "FP16", "note": "LPX not paired with A100" },
+        "llama-70b":     { "gpuOnly": 55,   "withLPX": null,  "quantization": "FP16", "note": "LPX not paired with A100" },
+        "claude-sonnet": { "gpuOnly": 45,   "withLPX": null,  "quantization": "est." },
+        "deepseek-v3":   { "gpuOnly": 18,   "withLPX": null,  "quantization": "FP8", "note": "Requires 8xA100" },
+        "deepseek-r1":   { "gpuOnly": 12,   "withLPX": null,  "quantization": "FP8", "note": "Requires 8xA100" },
+        "claude-opus":   { "gpuOnly": null,  "withLPX": null,  "quantization": "N/A", "note": "Cannot run on A100" },
+        "gpt5-class":    { "gpuOnly": null,  "withLPX": null,  "quantization": "N/A", "note": "Cannot run on A100" }
+      }
+    },
+    "nvidia-h100": {
+      "vramGb": 80,
+      "profiles": {
+        "small-7b":      { "gpuOnly": 450,  "withLPX": 1400,  "quantization": "FP8" },
+        "llama-70b":     { "gpuOnly": 95,   "withLPX": 350,   "quantization": "FP8" },
+        "claude-sonnet": { "gpuOnly": 80,   "withLPX": 280,   "quantization": "est." },
+        "deepseek-v3":   { "gpuOnly": 35,   "withLPX": 120,   "quantization": "FP8", "note": "Requires 8xH100" },
+        "deepseek-r1":   { "gpuOnly": 25,   "withLPX": 85,    "quantization": "FP8", "note": "Requires 8xH100" },
+        "claude-opus":   { "gpuOnly": 30,   "withLPX": 100,   "quantization": "est.", "note": "Requires multi-node" },
+        "gpt5-class":    { "gpuOnly": 8,    "withLPX": 28,    "quantization": "FP8", "note": "Requires multi-node" }
+      }
+    },
+    "nvidia-h200": {
+      "vramGb": 141,
+      "profiles": {
+        "small-7b":      { "gpuOnly": 580,  "withLPX": 1800,  "quantization": "FP8" },
+        "llama-70b":     { "gpuOnly": 145,  "withLPX": 480,   "quantization": "FP8" },
+        "claude-sonnet": { "gpuOnly": 120,  "withLPX": 400,   "quantization": "est." },
+        "deepseek-v3":   { "gpuOnly": 55,   "withLPX": 180,   "quantization": "FP8", "note": "Requires 4xH200" },
+        "deepseek-r1":   { "gpuOnly": 40,   "withLPX": 130,   "quantization": "FP8", "note": "Requires 4xH200" },
+        "claude-opus":   { "gpuOnly": 45,   "withLPX": 150,   "quantization": "est.", "note": "Requires multi-node" },
+        "gpt5-class":    { "gpuOnly": 15,   "withLPX": 50,    "quantization": "FP8", "note": "Requires multi-node" }
+      }
+    },
+    "nvidia-b200": {
+      "vramGb": 192,
+      "profiles": {
+        "small-7b":      { "gpuOnly": 1200, "withLPX": 3500,  "quantization": "FP4" },
+        "llama-70b":     { "gpuOnly": 380,  "withLPX": 1100,  "quantization": "FP4" },
+        "claude-sonnet": { "gpuOnly": 280,  "withLPX": 850,   "quantization": "est." },
+        "deepseek-v3":   { "gpuOnly": 130,  "withLPX": 400,   "quantization": "FP4", "note": "Requires 2xB200" },
+        "deepseek-r1":   { "gpuOnly": 95,   "withLPX": 300,   "quantization": "FP4", "note": "Requires 2xB200" },
+        "claude-opus":   { "gpuOnly": 110,  "withLPX": 350,   "quantization": "est." },
+        "gpt5-class":    { "gpuOnly": 40,   "withLPX": 130,   "quantization": "FP4", "note": "Requires multi-node" }
+      }
+    },
+    "nvidia-gb200-nvl72": {
+      "vramGb": 288,
+      "profiles": {
+        "small-7b":      { "gpuOnly": 2500, "withLPX": 6000,  "quantization": "FP4" },
+        "llama-70b":     { "gpuOnly": 520,  "withLPX": 1500,  "quantization": "FP4" },
+        "claude-sonnet": { "gpuOnly": 400,  "withLPX": 1200,  "quantization": "est." },
+        "deepseek-v3":   { "gpuOnly": 280,  "withLPX": 850,   "quantization": "FP4" },
+        "deepseek-r1":   { "gpuOnly": 200,  "withLPX": 600,   "quantization": "FP4" },
+        "claude-opus":   { "gpuOnly": 180,  "withLPX": 550,   "quantization": "est." },
+        "gpt5-class":    { "gpuOnly": 90,   "withLPX": 280,   "quantization": "FP4" }
+      }
+    },
+    "amd-mi300x": {
+      "vramGb": 192,
+      "profiles": {
+        "small-7b":      { "gpuOnly": 280,  "withLPX": null,  "quantization": "FP8", "note": "No LPX support for AMD" },
+        "llama-70b":     { "gpuOnly": 70,   "withLPX": null,  "quantization": "FP8" },
+        "claude-sonnet": { "gpuOnly": 55,   "withLPX": null,  "quantization": "est." },
+        "deepseek-v3":   { "gpuOnly": 25,   "withLPX": null,  "quantization": "FP8", "note": "Requires 8xMI300X" },
+        "deepseek-r1":   { "gpuOnly": 18,   "withLPX": null,  "quantization": "FP8", "note": "Requires 8xMI300X" },
+        "claude-opus":   { "gpuOnly": null,  "withLPX": null,  "quantization": "N/A", "note": "Limited support" },
+        "gpt5-class":    { "gpuOnly": null,  "withLPX": null,  "quantization": "N/A", "note": "Limited support" }
+      }
+    },
+    "amd-mi355x": {
+      "vramGb": 256,
+      "profiles": {
+        "small-7b":      { "gpuOnly": 450,  "withLPX": null,  "quantization": "FP8", "note": "No LPX support for AMD" },
+        "llama-70b":     { "gpuOnly": 130,  "withLPX": null,  "quantization": "FP8" },
+        "claude-sonnet": { "gpuOnly": 100,  "withLPX": null,  "quantization": "est." },
+        "deepseek-v3":   { "gpuOnly": 50,   "withLPX": null,  "quantization": "FP8" },
+        "deepseek-r1":   { "gpuOnly": 35,   "withLPX": null,  "quantization": "FP8" },
+        "claude-opus":   { "gpuOnly": null,  "withLPX": null,  "quantization": "N/A" },
+        "gpt5-class":    { "gpuOnly": 12,   "withLPX": null,  "quantization": "FP8", "note": "Requires multi-node" }
+      }
+    },
+    "google-tpu-v5e": {
+      "vramGb": 16,
+      "profiles": {
+        "small-7b":      { "gpuOnly": 270,  "withLPX": null,  "quantization": "BF16", "note": "Per chip. No LPX — Google silicon." },
+        "llama-70b":     { "gpuOnly": 35,   "withLPX": null,  "quantization": "INT8", "note": "Requires 8-chip pod, per-chip share" },
+        "claude-sonnet": { "gpuOnly": null,  "withLPX": null,  "quantization": "N/A", "note": "Not available on TPU" },
+        "deepseek-v3":   { "gpuOnly": 12,   "withLPX": null,  "quantization": "INT8", "note": "Requires 16+ chips, per-chip share" },
+        "deepseek-r1":   { "gpuOnly": 8,    "withLPX": null,  "quantization": "INT8", "note": "Requires 16+ chips, per-chip share" },
+        "claude-opus":   { "gpuOnly": null,  "withLPX": null,  "quantization": "N/A", "note": "Not available on TPU" },
+        "gpt5-class":    { "gpuOnly": null,  "withLPX": null,  "quantization": "N/A", "note": "Not available on TPU" }
+      }
+    },
+    "google-tpu-v6e": {
+      "vramGb": 32,
+      "profiles": {
+        "small-7b":      { "gpuOnly": 440,  "withLPX": null,  "quantization": "BF16", "note": "Per chip (Trillium). No LPX." },
+        "llama-70b":     { "gpuOnly": 60,   "withLPX": null,  "quantization": "INT8", "note": "Requires 4-chip pod, per-chip share. ~3500 tok/s total per node." },
+        "claude-sonnet": { "gpuOnly": null,  "withLPX": null,  "quantization": "N/A", "note": "Not available on TPU" },
+        "deepseek-v3":   { "gpuOnly": 22,   "withLPX": null,  "quantization": "INT8", "note": "Requires 8+ chips, per-chip share" },
+        "deepseek-r1":   { "gpuOnly": 15,   "withLPX": null,  "quantization": "INT8", "note": "Requires 8+ chips, per-chip share" },
+        "claude-opus":   { "gpuOnly": null,  "withLPX": null,  "quantization": "N/A", "note": "Not available on TPU" },
+        "gpt5-class":    { "gpuOnly": null,  "withLPX": null,  "quantization": "N/A", "note": "Gemini models only on TPU" }
+      }
+    },
+    "aws-trainium1": {
+      "vramGb": 32,
+      "profiles": {
+        "small-7b":      { "gpuOnly": 180,  "withLPX": null,  "quantization": "BF16", "note": "Per chip (trn1). No LPX — AWS silicon." },
+        "llama-70b":     { "gpuOnly": 20,   "withLPX": null,  "quantization": "BF16", "note": "Requires 16 chips (trn1.32xl), per-chip share" },
+        "claude-sonnet": { "gpuOnly": null,  "withLPX": null,  "quantization": "N/A", "note": "Not available on Trainium" },
+        "deepseek-v3":   { "gpuOnly": null,  "withLPX": null,  "quantization": "N/A", "note": "Limited model support on Trainium 1" },
+        "deepseek-r1":   { "gpuOnly": null,  "withLPX": null,  "quantization": "N/A", "note": "Limited model support on Trainium 1" },
+        "claude-opus":   { "gpuOnly": null,  "withLPX": null,  "quantization": "N/A", "note": "Not available on Trainium" },
+        "gpt5-class":    { "gpuOnly": null,  "withLPX": null,  "quantization": "N/A", "note": "Not available on Trainium" }
+      }
+    },
+    "aws-trainium2": {
+      "vramGb": 96,
+      "profiles": {
+        "small-7b":      { "gpuOnly": 380,  "withLPX": null,  "quantization": "BF16", "note": "Per chip (trn2). No LPX — AWS silicon. Est. 30-40% better perf/$ vs H100." },
+        "llama-70b":     { "gpuOnly": 50,   "withLPX": null,  "quantization": "BF16", "note": "Requires 4+ chips, per-chip share. AWS claims 30-40% better price-perf vs H100." },
+        "claude-sonnet": { "gpuOnly": null,  "withLPX": null,  "quantization": "N/A", "note": "Not available on Trainium" },
+        "deepseek-v3":   { "gpuOnly": 18,   "withLPX": null,  "quantization": "BF16", "note": "Requires 16 chips, per-chip share. Neuron SDK support expanding." },
+        "deepseek-r1":   { "gpuOnly": 12,   "withLPX": null,  "quantization": "BF16", "note": "Requires 16 chips, limited support" },
+        "claude-opus":   { "gpuOnly": null,  "withLPX": null,  "quantization": "N/A", "note": "Not available on Trainium" },
+        "gpt5-class":    { "gpuOnly": null,  "withLPX": null,  "quantization": "N/A", "note": "Not available on Trainium" }
+      }
+    }
+  }
+}

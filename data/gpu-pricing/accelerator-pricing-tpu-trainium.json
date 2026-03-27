@@ -1,0 +1,176 @@
+{
+  "fetchedAt": "2026-03-25",
+  "notes": "Pricing researched from public sources as of March 2025. Spot/preemptible prices are approximate and fluctuate. TPU spot discount is typically ~60-70% off on-demand. AWS Trainium spot availability is limited.",
+  "sources": [
+    "https://cloud.google.com/tpu/pricing",
+    "https://instances.vantage.sh/aws/ec2/trn1.32xlarge",
+    "https://sparecores.com/server/aws/trn2.48xlarge",
+    "https://introl.com/blog/google-tpu-vs-nvidia-gpu-infrastructure-decision-framework-2025",
+    "https://www.oreateai.com/blog/unpacking-google-cloud-tpu-pricing-what-you-need-to-know/34dec6ca74a7bf6ce500f934d605f7aa",
+    "https://cloud.google.com/blog/products/compute/trillium-tpu-is-ga",
+    "https://aws.amazon.com/ec2/instance-types/trn2/",
+    "https://markaicode.com/vs/aws-trainium-2-vs-gpu-for-fine-tuning/"
+  ],
+  "google_tpu": {
+    "tpu_v5e": {
+      "chip": "TPU v5e",
+      "hbm_per_chip_gb": 16,
+      "bf16_tflops_per_chip": 197,
+      "pricing_per_chip_hour_usd": {
+        "on_demand": 1.20,
+        "spot_estimated": 0.36,
+        "spot_discount_pct": "~70%",
+        "1yr_cud": null,
+        "3yr_cud": 0.55
+      },
+      "notes": "Widely available. Best for inference and smaller training jobs. Spot ~70% discount typical for TPUs."
+    },
+    "tpu_v5p": {
+      "chip": "TPU v5p",
+      "hbm_per_chip_gb": 95,
+      "bf16_tflops_per_chip": 459,
+      "pricing_per_chip_hour_usd": {
+        "on_demand": 4.20,
+        "spot_estimated": 1.26,
+        "spot_discount_pct": "~70%",
+        "1yr_cud": null,
+        "3yr_cud": null
+      },
+      "notes": "High-performance training chip. Large HBM capacity for big models."
+    },
+    "tpu_v6e_trillium": {
+      "chip": "TPU v6e (Trillium)",
+      "hbm_per_chip_gb": 32,
+      "bf16_tflops_per_chip": 918,
+      "pricing_per_chip_hour_usd": {
+        "on_demand": 2.70,
+        "spot_estimated": 0.81,
+        "spot_discount_pct": "~70%",
+        "1yr_cud": 1.89,
+        "3yr_cud": 1.22
+      },
+      "notes": "GA as of 2025. 4.7x peak compute vs v5e. ~2x inference throughput vs v5e. 67% more energy efficient than v5e. Some sources report on-demand as low as $1.375/chip-hr which may reflect a different config or region."
+    }
+  },
+  "aws_trainium": {
+    "trn1": {
+      "instance_type": "trn1.32xlarge",
+      "chips_per_instance": 16,
+      "chip": "Trainium (1st gen)",
+      "hbm_per_chip_gb": 32,
+      "fp8_pflops_per_instance": 3.0,
+      "pricing_per_instance_hour_usd": {
+        "on_demand": 21.50,
+        "spot_low": 2.15,
+        "spot_mid": 6.78,
+        "spot_high": 11.01,
+        "spot_notes": "Spot varies widely by region: us-east-2 (Ohio) ~$2.15, us-east-1 (Virginia) ~$6.78, us-west-2 (Oregon) ~$11.01"
+      },
+      "pricing_per_chip_hour_usd": {
+        "on_demand": 1.34,
+        "spot_low": 0.13,
+        "spot_mid": 0.42,
+        "spot_high": 0.69
+      },
+      "notes": "16 Trainium chips with NeuronLink-v2 interconnect (2D torus). 128 vCPUs, 512 GiB RAM, 8x100 Gbps EFA."
+    },
+    "trn1_small": {
+      "instance_type": "trn1.2xlarge",
+      "chips_per_instance": 1,
+      "chip": "Trainium (1st gen)",
+      "pricing_per_instance_hour_usd": {
+        "on_demand": 1.34,
+        "spot": null
+      },
+      "pricing_per_chip_hour_usd": {
+        "on_demand": 1.34,
+        "spot": null
+      },
+      "notes": "Single-chip instance for dev/test."
+    },
+    "trn2": {
+      "instance_type": "trn2.48xlarge",
+      "chips_per_instance": 16,
+      "chip": "Trainium2",
+      "hbm_per_chip_gb": 96,
+      "fp8_pflops_per_instance": 20.8,
+      "pricing_per_instance_hour_usd": {
+        "on_demand_estimate_low": 21.50,
+        "on_demand_estimate_high": 85.96,
+        "on_demand_notes": "CONFLICTING DATA across sources. Spare Cores reports ~$16.02/hr, BigBell reports ~$85.96/hr, one blog estimates ~$4.80/hr (likely outdated/incorrect). Limited regional availability (us-east-2 only as of early 2026). Treat all figures as approximate until AWS publishes stable public pricing.",
+        "spot": null,
+        "spot_notes": "Spot pricing not widely available as of March 2026."
+      },
+      "pricing_per_chip_hour_usd": {
+        "on_demand_estimate": "1.00-5.37",
+        "on_demand_notes": "Derived from instance price / 16 chips. Range reflects conflicting source data."
+      },
+      "notes": "16 Trainium2 chips with NeuronLink. 192 vCPUs, 2048 GiB RAM, 16x200 Gbps networking. 1.5 TB HBM3 total. Very limited availability (us-east-2 only). AWS claims 30-40% better price-performance than H100-based P5e instances."
+    }
+  },
+  "benchmarks": {
+    "llama2_70b_inference_tokens_per_sec": {
+      "tpu_v5e_8chip": {
+        "value": 2175,
+        "unit": "tokens/sec total (8 chips)",
+        "per_chip": 272,
+        "source": "PyTorch/XLA blog"
+      },
+      "tpu_v5e_per_chip": {
+        "value": 42,
+        "unit": "tokens/sec/chip",
+        "notes": "Per-chip throughput from PyTorch/XLA, may reflect different batch/sequence config than the 8-chip number",
+        "source": "PyTorch/XLA blog"
+      },
+      "tpu_v6e_trillium_per_node": {
+        "value": 3500,
+        "unit": "tokens/sec per node (long sequence)",
+        "notes": "~2x throughput vs v5e. At low concurrency ~120 tok/s.",
+        "source": "Google Cloud blog"
+      },
+      "nvidia_h100": {
+        "value": 150,
+        "unit": "tokens/sec per GPU (typical)",
+        "source": "Various benchmarks"
+      },
+      "trainium2_trn2": {
+        "value": null,
+        "unit": "tokens/sec",
+        "notes": "No public Llama 70B token/sec benchmarks found for Trainium2 as of March 2026. AWS claims 30-40% better price-perf vs H100 P5e and up to 54% lower cost-per-token for GPT-class models, but without published tok/sec figures."
+      }
+    },
+    "llama_405b_inference": {
+      "trainium2_trn2": {
+        "value": null,
+        "unit": "tokens/sec",
+        "notes": "AWS claims 3x higher token-generation throughput vs other major cloud providers for Llama 405B on Bedrock, but absolute numbers not published."
+      }
+    },
+    "training_relative": {
+      "tpu_v6e_vs_v5e_llama2_70b": "Up to 4x faster training",
+      "tpu_v6e_performance_per_dollar_vs_v5e": "~1.8x",
+      "tpu_v6e_performance_per_dollar_vs_h100": "~4x (Google claim)",
+      "trainium2_vs_h100_price_perf": "30-40% better (AWS claim)"
+    }
+  },
+  "comparison_summary": {
+    "cheapest_on_demand_per_chip_hour": {
+      "accelerator": "TPU v5e",
+      "price_usd": 1.20
+    },
+    "cheapest_spot_per_chip_hour": {
+      "accelerator": "Trainium (trn1, us-east-2 spot)",
+      "price_usd": 0.13
+    },
+    "best_perf_per_dollar_inference": {
+      "accelerator": "TPU v6e (Trillium) with 3yr CUD",
+      "price_usd_per_chip_hour": 1.22,
+      "notes": "Highest throughput per dollar for Llama 70B class inference based on available data"
+    },
+    "highest_raw_throughput": {
+      "accelerator": "TPU v6e (Trillium)",
+      "llama70b_tokens_per_sec_per_node": 3500,
+      "notes": "Long-sequence inference. H100 ~150 tok/s per GPU for comparison."
+    }
+  }
+}

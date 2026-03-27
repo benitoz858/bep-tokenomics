@@ -1,0 +1,51 @@
+{
+  "source": "NVIDIA GTC 2026 Keynote + BEP Research estimates",
+  "lastUpdated": "2026-03-25",
+  "platforms": [
+    {
+      "platform": "Hopper H100",
+      "year": "2023",
+      "revPerSecPerMW": 0.15,
+      "tokPerSecPerUser": 30,
+      "costPerMTok": 60,
+      "tdpWatts": 700,
+      "notes": "First-gen inference at scale"
+    },
+    {
+      "platform": "Blackwell NVL72",
+      "year": "2025",
+      "revPerSecPerMW": 1.0,
+      "tokPerSecPerUser": 80,
+      "costPerMTok": 6,
+      "tdpWatts": 1200,
+      "notes": "6.7x improvement over Hopper"
+    },
+    {
+      "platform": "Vera Rubin NVL72",
+      "year": "2026",
+      "revPerSecPerMW": 4.0,
+      "tokPerSecPerUser": 280,
+      "costPerMTok": 3,
+      "tdpWatts": 2300,
+      "notes": "HBM4, 6 co-designed chips"
+    },
+    {
+      "platform": "VR + Groq LPX",
+      "year": "2026",
+      "revPerSecPerMW": 10.0,
+      "tokPerSecPerUser": 1000,
+      "costPerMTok": 0.60,
+      "tdpWatts": 2300,
+      "notes": "Decode offloaded to LPX — 10x revenue same power"
+    }
+  ],
+  "derivation": {
+    "title": "The $300B/GW Math",
+    "steps": [
+      "VR + LPX pod at Premium tier ($45/M): ~500K tokens/sec/MW -> ~$0.02/sec/MW -> ~$680K/MW/year",
+      "Scale to 1 GW: $680K x 1,000 = ~$680M/year at Premium alone",
+      "Jensen's $300B: Aggregates all five tiers, assumes high utilization, includes Ultra/$150 tier for multi-agent",
+      "Cloud provider revenue opportunity, not NVIDIA take rate"
+    ]
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "source": "NVIDIA GTC 2026 Keynote — Jensen's Five Inference Pricing Tiers",
+  "lastUpdated": "2026-03-25",
+  "tiers": [
+    {
+      "tier": "Free",
+      "pricePerMillionOutput": 0,
+      "workload": "Offline inference, open-source (Qwen 3 235B)",
+      "hardware": "GPU only",
+      "examples": ["DeepSeek V3.2 ($0.28)", "Gemini Flash-Lite ($0.30)", "Grok 4.1 Fast ($0.50)"],
+      "lpxRequired": false
+    },
+    {
+      "tier": "Medium",
+      "pricePerMillionOutput": 3,
+      "workload": "Non-reasoning chatbots (Kimi K2.5 1T)",
+      "hardware": "GPU only",
+      "examples": ["Gemini 2.5 Flash ($2.50)", "Claude Haiku 4.5 ($5)"],
+      "lpxRequired": false
+    },
+    {
+      "tier": "High",
+      "pricePerMillionOutput": 6,
+      "workload": "Reasoning chatbots, coding (GPT MoE 2T, 128K ctx)",
+      "hardware": "GPU only",
+      "examples": ["GPT-5 ($10)", "Gemini 2.5 Pro ($10)", "Claude Sonnet 4.6 ($15)"],
+      "lpxRequired": false
+    },
+    {
+      "tier": "Premium",
+      "pricePerMillionOutput": 45,
+      "workload": "Deep research (GPT MoE 2T, 400K ctx)",
+      "hardware": "GPU + LPX required",
+      "examples": ["Claude Opus 4.6 ($25)", "GPT-5.2 ($14)"],
+      "lpxRequired": true
+    },
+    {
+      "tier": "Ultra",
+      "pricePerMillionOutput": 150,
+      "workload": "Multi-agent systems (400K ctx)",
+      "hardware": "GPU + LPX required",
+      "examples": ["GPT-5.4 Pro ($168)"],
+      "lpxRequired": true
+    }
+  ]
+}

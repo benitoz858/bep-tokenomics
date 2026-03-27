@@ -1,0 +1,12 @@
+{
+  "source": "BEP Research estimates — Token Cost Decomposition",
+  "lastUpdated": "2026-03-25",
+  "components": [
+    { "component": "Silicon (GPU/LPU)", "pctBlackwell": 35, "pctRubin": 30, "pctRubinLPX": 20, "color": "#76B900" },
+    { "component": "Memory (HBM/SRAM/DDR5)", "pctBlackwell": 28, "pctRubin": 30, "pctRubinLPX": 35, "color": "#00D4FF" },
+    { "component": "Power (electricity)", "pctBlackwell": 18, "pctRubin": 18, "pctRubinLPX": 22, "color": "#FFB800" },
+    { "component": "Networking (optical/copper)", "pctBlackwell": 10, "pctRubin": 12, "pctRubinLPX": 13, "color": "#A855F7" },
+    { "component": "Packaging (CoWoS/standard)", "pctBlackwell": 9, "pctRubin": 10, "pctRubinLPX": 10, "color": "#EC4899" }
+  ],
+  "insight": "Memory's share of token cost increases from 28% (Blackwell) to 35% (VR+LPX) as SRAM bandwidth becomes the critical resource for decode. This validates the Memory Wars thesis."
+}
