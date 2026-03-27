@@ -1,11 +1,11 @@
-name: Fetch Pricing Data
+name: Fetch Pricing Data & Deploy
 on:
   schedule:
     - cron: '0 6 * * *' # Daily at 6 AM UTC
   workflow_dispatch: # Manual trigger
 
 jobs:
-  fetch:
+  fetch-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -13,15 +13,19 @@ jobs:
         with:
           node-version: '20'
       - run: npm ci
+
+      # Fetch fresh data
       - name: Fetch OpenRouter token pricing
         run: npx tsx scripts/fetch-openrouter.ts
       - name: Fetch GPU rental pricing
         run: npx tsx scripts/fetch-gpu-pricing.ts
         env:
-          GETDEPLOYING_API_KEY: ${{ secrets.GETDEPLOYING_API_KEY }}
           VASTAI_API_KEY: ${{ secrets.VASTAI_API_KEY }}
+          GETDEPLOYING_API_KEY: ${{ secrets.GETDEPLOYING_API_KEY }}
       - name: Compute indices
         run: npx tsx scripts/compute-indices.ts
+
+      # Commit updated data
       - name: Commit updated data
         run: |
           git config user.name "BEP Data Bot"
@@ -29,3 +33,13 @@ jobs:
           git add data/
           git diff --staged --quiet || git commit -m "data: $(date +%Y-%m-%d) pricing update"
           git push
+
+      # Build and deploy to Cloudflare Pages
+      - name: Build static site
+        run: npm run build
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy out --project-name bep-tokenomics
