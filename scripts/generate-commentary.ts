@@ -92,7 +92,7 @@ async function generateWithClaude(dataContext: string): Promise<{ paragraphs: st
   const client = new Anthropic();
 
   const response = await client.messages.create({
-    model: "claude-sonnet-4-6",
+    model: "claude-opus-4-6",
     max_tokens: 1500,
     messages: [{
       role: "user",
@@ -198,7 +198,7 @@ async function main() {
     generatedAt: nowISO(),
     date: todayISO(),
     title: `Market Brief — ${new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })}`,
-    poweredBy: apiKey ? "Claude Sonnet 4.6" : "BEP Research rule engine",
+    poweredBy: apiKey ? "Claude Opus 4.6" : "BEP Research rule engine",
     summary: result.paragraphs[0] || "",
     paragraphs: result.paragraphs,
     bullets: result.bullets,

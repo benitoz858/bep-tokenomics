@@ -1,18 +1,25 @@
 {
-  "generatedAt": "2026-03-28T03:57:26.360Z",
+  "generatedAt": "2026-03-28T04:01:11.464Z",
   "date": "2026-03-28",
   "title": "Market Brief — Friday, March 27, 2026",
-  "poweredBy": "Claude Sonnet 4.6",
-  "summary": "The BEP LLMflation Index sits at 21.4, down 79% from the GPT-4 launch baseline. Frontier inference continues to deflate — but unevenly. Premium holds pricing power while the commodity floor races toward zero.",
+  "poweredBy": "Claude Opus 4.6",
+  "summary": "The LLMflation Index at 21.41 tells the whole story: inference pricing has collapsed nearly 80% from the GPT-4 baseline in just three years, and the deflationary pressure is accelerating at the bottom of the stack. DeepSeek V3.2 is now printing output tokens at $0.38/M — literally one six-hundredth of what OpenAI charged at GPT-4 launch. Meanwhile GPU spot markets remain supply-constrained across all three tiers, with availability running 18-20%. This is a market where the commodity input is tight but the finished product is in freefall. Someone is eating massive losses.",
   "paragraphs": [
-    "The BEP LLMflation Index sits at 21.4, down 79% from the GPT-4 launch baseline. Frontier inference continues to deflate — but unevenly. Premium holds pricing power while the commodity floor races toward zero.",
-    "18 models tracked. 211x spread between cheapest and premium. This is bifurcation, not commoditization.",
-    "Bottom line: Track the spread between commodity and premium inference. The hardware generation determines profitability. Capital follows the margin."
+    "The LLMflation Index at 21.41 tells the whole story: inference pricing has collapsed nearly 80% from the GPT-4 baseline in just three years, and the deflationary pressure is accelerating at the bottom of the stack. DeepSeek V3.2 is now printing output tokens at $0.38/M — literally one six-hundredth of what OpenAI charged at GPT-4 launch. Meanwhile GPU spot markets remain supply-constrained across all three tiers, with availability running 18-20%. This is a market where the commodity input is tight but the finished product is in freefall. Someone is eating massive losses.",
+    "The GPU divergence overnight is worth flagging. H100 spot dropped 4.3% to $1.47/hr while H200 moved the opposite direction, up 5.3% to $2.45/hr. That H200 bid suggests workloads are migrating to newer silicon for reasoning-heavy models like o3 and R1, while H100 demand softens at the margin. B200 at $7.81/hr median with only 20% availability tells us the next-gen capacity buildout is still woefully behind demand — and anyone running frontier inference on B200s at that rate needs ultra-premium pricing to break even.",
+    "The inference margin stack is brutal and getting worse. Running Llama 70B on B200 costs $5.71/M tokens, which means every model priced below $6/M output is underwater on next-gen hardware. That catches Gemini 2.5 Flash at $2.50, DeepSeek R1 at $2.50, GPT-5 Mini at $2.00, Llama 4 Maverick at $0.60, Grok 4.1 Fast at $0.50, and DeepSeek V3.2 at $0.38. Half the market is selling below production cost. Meta and DeepSeek are running deliberate subsidy strategies to grab distribution; the question is how long Google can justify Flash pricing that bleeds on its own hardware.",
+    "OpenAI is playing both ends. o3 Pro at $80/M output is a 97% margin product on H100 — that is the cash cow funding everything else. GPT-5.4 Mini at $4.50/M output barely clears the H100 cost basis at $4.29/M, running a thin 5% margin at best. The spread between OpenAI's premium reasoning tier and its commodity tier is now 177x on output pricing. That is not a product line, that is two completely different businesses duct-taped together.",
+    "Bottom line: GPU supply remains structurally tight at sub-25% availability across all tiers, which puts a floor under infrastructure value even as token pricing implodes. We would be overweight GPU compute exposure and underweight any pure-play inference provider without a captive hardware advantage. The subsidy war at the bottom of the token stack will claim casualties — likely smaller API resellers running on rented H100s at negative margins. The money is in owning the scarce input, not selling the commoditizing output."
   ],
   "bullets": [
-    "H100: $1.47/hr spot, 20% available (49/250)",
-    "H200: $2.45/hr spot, 18% available (63/350)",
-    "B200: $7.81/hr spot, 20% available (58/295)"
+    "LLMflation Index at 21.41, down roughly 79% from base 100 at GPT-4 launch, with DeepSeek component at 0.38 representing the deflationary floor.",
+    "GPU availability constrained across all tiers: H100 at 20% (49/250), H200 at 18% (63/350), B200 at 20% (58/295) — none approaching the 25% threshold for relief.",
+    "H200 spot up 5.3% day-over-day to $2.45/hr while H100 fell 4.3% to $1.47/hr, signaling a workload migration toward newer silicon for reasoning inference.",
+    "B200 spot median $7.81/hr with a wide $3.13-$9.00 range indicates a fragmented and illiquid market still in price discovery.",
+    "At least six models are priced below the $5.71/M B200 inference cost for Llama 70B, confirming widespread below-cost selling by DeepSeek, Meta, Google, and xAI.",
+    "OpenAI o3 Pro output pricing at $80/M is 211x more expensive than DeepSeek V3.2 at $0.38/M — the widest spread in the tracked universe and a measure of how bifurcated the market has become.",
+    "Medium-tier inference margins are negative across all GPU classes: minus 43% on H100, minus 57% on H200, minus 90% on B200, making volume-tier API serving a money-losing proposition without massive scale or subsidy.",
+    "Anthropic Claude Opus 4.6 at $25/M output is the most expensive non-reasoning model in the dataset, priced at a 67% discount to o3 Pro but still commanding premium margins above 90% on H100."
   ],
   "dataPoints": {
     "modelsTracked": 18,
