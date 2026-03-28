@@ -1,26 +1,26 @@
 {
-  "generatedAt": "2026-03-28T04:17:48.838Z",
+  "generatedAt": "2026-03-28T06:56:48.057Z",
   "date": "2026-03-28",
-  "title": "Market Brief — Friday, March 27, 2026",
+  "title": "Market Brief — Saturday, March 28, 2026",
   "poweredBy": "Claude Opus 4.6",
-  "summary": "LLMflation hit 21.41, meaning the cost of frontier-grade intelligence has collapsed 79% from GPT-4 launch baseline in just three years. DeepSeek V3.2 at $0.38/M output is now 158x cheaper than o3 Pro at $80/M, compressing the entire market toward commodity pricing at the bottom while OpenAI defends ultra-premium at the top.",
+  "summary": "B200 spot surged 15.2% overnight to $9.00/hr, signaling a demand spike for next-gen silicon even as H200s softened 5.2%. With TCO-adjusted B200 cost at $11.25/hr, anyone running inference on Blackwell at medium-tier pricing is hemorrhaging cash at -119% margins.",
   "paragraphs": [
-    "LLMflation hit 21.41, meaning the cost of frontier-grade intelligence has collapsed 79% from GPT-4 launch baseline in just three years. DeepSeek V3.2 at $0.38/M output is now 158x cheaper than o3 Pro at $80/M, compressing the entire market toward commodity pricing at the bottom while OpenAI defends ultra-premium at the top.",
-    "DeepSeek and Meta are selling below TCO-adjusted production cost: Llama 70B on H100 costs roughly $5.36/M tokens after the 1.25x multiplier, meaning Meta's Maverick at $0.60/M and DeepSeek V3.2 at $0.38/M are burning cash to buy market share. OpenAI's o3 Pro prints money at $80/M output against sub-$7 TCO, while B200 operators running medium-tier pricing face negative 90% margins, making new GPU inventory a trap without premium contracts.",
-    "B200 spot at $7.81/hr with only 20% availability is overvalued given margins go negative at every price tier below premium. DeepSeek R1 at $2.50/M output on frontier-class reasoning is the best risk-adjusted value in the stack; accumulate inference allocation there and short B200 spot exposure until availability breaks above 35%."
+    "B200 spot surged 15.2% overnight to $9.00/hr, signaling a demand spike for next-gen silicon even as H200s softened 5.2%. With TCO-adjusted B200 cost at $11.25/hr, anyone running inference on Blackwell at medium-tier pricing is hemorrhaging cash at -119% margins.",
+    "DeepSeek V3.2 sells output at $0.38/M against a Llama 70B TCO-adjusted production cost north of $5.50/M on H100s, meaning DeepSeek is burning cash at roughly $5/M tokens to buy market share. OpenAI's o3 Pro at $80/M output is the lone fat margin play, while Anthropic grades Neutral with Opus 4.6 commanding $25/M output but Haiku 4.5 squeezed at $5/M. Grades: OpenAI Strong, Anthropic Neutral, Google Neutral, DeepSeek Burning Cash.",
+    "H200 at $2.32/hr spot ($2.90 TCO) is undervalued relative to H100 at $1.55/hr ($1.94 TCO) given superior inference throughput per dollar. Rotate out of B200 spot exposure at $9.00/hr until availability clears 40% and pricing normalizes below $6."
   ],
   "bullets": [
-    "21.41 LLMflation index marks a 79% cost collapse from the GPT-4 era baseline of 100.",
-    "$0.38/M output from DeepSeek V3.2 is selling at an estimated loss of $4.98 per million tokens versus TCO-adjusted H100 cost.",
-    "18% H200 availability with a 5.3% day-over-day price spike signals tightening supply for mid-tier GPUs.",
-    "$80/M output on o3 Pro delivers roughly 90% gross margin, making it OpenAI's highest-margin product.",
-    "1.25x TCO-adjusted B200 cost hits $9.76/hr, pushing breakeven above premium tier for most inference workloads.",
-    "$0.60/M output on Llama 4 Maverick grades Meta as Burning Cash against a $5.36/M production floor."
+    "21.41 LLMflation index means API prices have fallen roughly 79% since GPT-4 launched at $60/M output in March 2023.",
+    "$0.38/M output from DeepSeek V3.2 is 210x cheaper than OpenAI o3 Pro at $80/M output.",
+    "22% H200 availability is the tightest across all three GPU classes tracked today.",
+    "$9.00/hr B200 median spot is 3x the floor price of $3.00/hr, showing extreme bid dispersion.",
+    "97% margin at ultra-premium tier on H100 means top-tier API providers net roughly $139/M tokens above cost.",
+    "0.38 index score for DeepSeek and open-source combined is 66x below Anthropic's 25, reflecting aggressive below-cost pricing."
   ],
   "dataPoints": {
     "modelsTracked": 18,
     "gpuMarketsTracked": 3,
     "llmflationIndex": 21.41,
-    "gpuOffers": 50
+    "gpuOffers": 82
   }
 }
