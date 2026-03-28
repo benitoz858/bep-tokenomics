@@ -1,12 +1,12 @@
-// Cloudflare Pages middleware — password gate for Tokenomics dashboard
-// Set the password via Cloudflare Pages environment variable: SITE_PASSWORD
+// Cloudflare Pages middleware — password gate for /tokenomics only
+// Home page (/) is public. Set password via SITE_PASSWORD env var.
 
 const LOGIN_HTML = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tokenomics | BEP Research</title>
+  <title>The Stack | BEP Research</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -73,6 +73,17 @@ const LOGIN_HTML = `<!DOCTYPE html>
       font-family: monospace;
       text-align: center;
     }
+    .back {
+      text-align: center;
+      margin-top: 16px;
+    }
+    .back a {
+      color: #666;
+      font-size: 11px;
+      font-family: monospace;
+      text-decoration: none;
+    }
+    .back a:hover { color: #999; }
     .footer {
       text-align: center;
       margin-top: 32px;
@@ -85,16 +96,17 @@ const LOGIN_HTML = `<!DOCTYPE html>
 </head>
 <body>
   <div class="container">
-    <div class="brand">Tokenomics</div>
+    <div class="brand">The Stack</div>
     <div class="sub">BEP RESEARCH</div>
     <div class="desc">
-      AI infrastructure unit economics — live token pricing, GPU costs, inference margins, and cluster TCO. By Ben Pouladian.
+      Live AI infrastructure data — token pricing, GPU economics, inference margins, cluster TCO. Enter your subscriber access code.
     </div>
-    <form method="POST" action="/__auth">
-      <input type="password" name="password" placeholder="Enter access code" autocomplete="off" autofocus required />
-      <button type="submit">Access Dashboard</button>
+    <form method="POST" action="/tokenomics/__auth">
+      <input type="password" name="password" placeholder="Access code" autocomplete="off" autofocus required />
+      <button type="submit">Enter</button>
       ERRORMSG
     </form>
+    <div class="back"><a href="/">← bepresearch.com</a></div>
     <div class="footer">BEP RESEARCH © 2026</div>
   </div>
 </body>
@@ -109,48 +121,32 @@ export const onRequest: PagesFunction<Env> = async (context) => {
   const url = new URL(request.url);
   const password = env.SITE_PASSWORD || "bepresearch2026";
 
+  // Only gate /tokenomics paths — let everything else through
+  if (!url.pathname.startsWith("/tokenomics")) {
+    return next();
+  }
+
   // Handle login form submission
-  if (url.pathname === "/__auth" && request.method === "POST") {
+  if (url.pathname === "/tokenomics/__auth" && request.method === "POST") {
     const formData = await request.formData();
     const submitted = formData.get("password") as string;
 
     if (submitted === password) {
-      // Set auth cookie and redirect to dashboard
-      const response = new Response(null, {
+      return new Response(null, {
         status: 302,
         headers: {
-          Location: "/",
+          Location: "/tokenomics",
           "Set-Cookie": `bep_auth=${btoa(password)}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=2592000`,
         },
       });
-      return response;
     }
 
-    // Wrong password — show login with error
     const html = LOGIN_HTML.replace("ERRORMSG", '<div class="error">Invalid access code</div>');
-    return new Response(html, {
-      status: 401,
-      headers: { "Content-Type": "text/html" },
-    });
-  }
-
-  // Check for auth cookie on all other requests
-  const cookie = request.headers.get("Cookie") || "";
-  const authMatch = cookie.match(/bep_auth=([^;]+)/);
-
-  if (authMatch) {
-    try {
-      const decoded = atob(authMatch[1]);
-      if (decoded === password) {
-        return next();
-      }
-    } catch {
-      // Invalid cookie, fall through to login
-    }
+    return new Response(html, { status: 401, headers: { "Content-Type": "text/html" } });
   }
 
   // Handle logout
-  if (url.pathname === "/__logout") {
+  if (url.pathname === "/tokenomics/__logout") {
     return new Response(null, {
       status: 302,
       headers: {
@@ -160,10 +156,21 @@ export const onRequest: PagesFunction<Env> = async (context) => {
     });
   }
 
-  // Not authenticated — show login page
+  // Check auth cookie
+  const cookie = request.headers.get("Cookie") || "";
+  const authMatch = cookie.match(/bep_auth=([^;]+)/);
+
+  if (authMatch) {
+    try {
+      if (atob(authMatch[1]) === password) {
+        return next();
+      }
+    } catch {
+      // Invalid cookie
+    }
+  }
+
+  // Not authenticated — show login
   const html = LOGIN_HTML.replace("ERRORMSG", "");
-  return new Response(html, {
-    status: 401,
-    headers: { "Content-Type": "text/html" },
-  });
+  return new Response(html, { status: 401, headers: { "Content-Type": "text/html" } });
 };

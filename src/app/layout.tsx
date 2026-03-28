@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Tokenomics | BEP Research",
-  description: "The unit economics of AI infrastructure — from the cost to produce a token to the price to sell one. By Ben Pouladian, BEP Research.",
+  title: "BEP Research — AI Infrastructure Intelligence",
+  description: "System-level AI infrastructure research by Ben Pouladian. Covering semiconductors, optical interconnects, memory architecture, and the economics of intelligence.",
   openGraph: {
-    title: "Tokenomics | BEP Research",
-    description: "AI infrastructure unit economics dashboard — token pricing, GPU costs, inference margins, and the LLMflation Index.",
+    title: "BEP Research — AI Infrastructure Intelligence",
+    description: "Independent research covering the full AI infrastructure stack by Ben Pouladian.",
     siteName: "BEP Research",
   },
 };

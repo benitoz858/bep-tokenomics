@@ -1,90 +1,125 @@
-import Dashboard from "@/components/Dashboard";
-import {
-  getTokenPricing,
-  getLLMflation,
-  getNVIDIATiers,
-  getRevenuePerWatt,
-  getCostStack,
-  getGPUPricing,
-  getGPUPricingHistory,
-  getGPUThroughput,
-  getCloudAccelerators,
-  getTCOProviders,
-  getInferenceProviderMargins,
-} from "@/lib/data";
+"use client";
 
-// Fallback data when live data hasn't been fetched yet
-const FALLBACK_TOKEN_MODELS = [
-  { model: "GPT-5.4 Pro", modelId: "openai/gpt-5.4", provider: "OpenAI", inputPerMillion: 21, outputPerMillion: 168, contextWindow: 128000, maxOutput: null, fetchedAt: "" },
-  { model: "GPT-5.2", modelId: "openai/gpt-5.2", provider: "OpenAI", inputPerMillion: 1.75, outputPerMillion: 14, contextWindow: 128000, maxOutput: null, fetchedAt: "" },
-  { model: "GPT-5", modelId: "openai/gpt-5", provider: "OpenAI", inputPerMillion: 1.25, outputPerMillion: 10, contextWindow: 128000, maxOutput: null, fetchedAt: "" },
-  { model: "Claude Opus 4.6", modelId: "anthropic/claude-opus-4.6", provider: "Anthropic", inputPerMillion: 5, outputPerMillion: 25, contextWindow: 200000, maxOutput: null, fetchedAt: "" },
-  { model: "Claude Sonnet 4.6", modelId: "anthropic/claude-sonnet-4.6", provider: "Anthropic", inputPerMillion: 3, outputPerMillion: 15, contextWindow: 200000, maxOutput: null, fetchedAt: "" },
-  { model: "Claude Haiku 4.5", modelId: "anthropic/claude-haiku-4.5", provider: "Anthropic", inputPerMillion: 1, outputPerMillion: 5, contextWindow: 200000, maxOutput: null, fetchedAt: "" },
-  { model: "Gemini 2.5 Pro", modelId: "google/gemini-2.5-pro", provider: "Google", inputPerMillion: 1.25, outputPerMillion: 10, contextWindow: 1000000, maxOutput: null, fetchedAt: "" },
-  { model: "Gemini 2.5 Flash", modelId: "google/gemini-2.5-flash", provider: "Google", inputPerMillion: 0.30, outputPerMillion: 2.50, contextWindow: 1000000, maxOutput: null, fetchedAt: "" },
-  { model: "Gemini Flash-Lite", modelId: "google/gemini-2.0-flash-lite", provider: "Google", inputPerMillion: 0.075, outputPerMillion: 0.30, contextWindow: 1000000, maxOutput: null, fetchedAt: "" },
-  { model: "DeepSeek V3.2", modelId: "deepseek/deepseek-v3.2", provider: "DeepSeek", inputPerMillion: 0.14, outputPerMillion: 0.28, contextWindow: 128000, maxOutput: null, fetchedAt: "" },
-  { model: "Grok 4.1 Fast", modelId: "x-ai/grok-4.1-fast", provider: "xAI", inputPerMillion: 0.20, outputPerMillion: 0.50, contextWindow: 131072, maxOutput: null, fetchedAt: "" },
-  { model: "Llama 4 Maverick", modelId: "meta-llama/llama-4-maverick", provider: "Meta", inputPerMillion: 0.15, outputPerMillion: 0.60, contextWindow: 128000, maxOutput: null, fetchedAt: "" },
-];
-
-const FALLBACK_GPU_PRICING = {
-  summaries: [
-    { gpuModel: "nvidia-a100", onDemand: { min: 1.10, median: 1.50, max: 2.20, count: 0 }, spot: { min: 0.70, median: 0.90, max: 1.30, count: 0 }, availabilityPct: 85, offeringCount: 0, totalGpusAvailable: 0, totalGpusRented: 0, avgReliability: 0, regions: {} },
-    { gpuModel: "nvidia-h100", onDemand: { min: 2.00, median: 2.69, max: 3.50, count: 0 }, spot: { min: 1.50, median: 2.00, max: 2.80, count: 0 }, availabilityPct: 70, offeringCount: 0, totalGpusAvailable: 0, totalGpusRented: 0, avgReliability: 0, regions: {} },
-    { gpuModel: "nvidia-h200", onDemand: { min: 3.20, median: 3.80, max: 4.50, count: 0 }, spot: { min: 2.40, median: 3.00, max: 3.80, count: 0 }, availabilityPct: 45, offeringCount: 0, totalGpusAvailable: 0, totalGpusRented: 0, avgReliability: 0, regions: {} },
-    { gpuModel: "nvidia-b200", onDemand: { min: 4.50, median: 5.50, max: 7.00, count: 0 }, spot: { min: 3.50, median: 4.20, max: 5.50, count: 0 }, availabilityPct: 25, offeringCount: 0, totalGpusAvailable: 0, totalGpusRented: 0, avgReliability: 0, regions: {} },
-    { gpuModel: "nvidia-gb200", onDemand: { min: 8.00, median: 10.00, max: 14.00, count: 0 }, spot: { min: null, median: null, max: null, count: 0 }, availabilityPct: 10, offeringCount: 0, totalGpusAvailable: 0, totalGpusRented: 0, avgReliability: 0, regions: {} },
-    { gpuModel: "amd-mi300x", onDemand: { min: 1.80, median: 2.40, max: 3.20, count: 0 }, spot: { min: 1.20, median: 1.60, max: 2.20, count: 0 }, availabilityPct: 60, offeringCount: 0, totalGpusAvailable: 0, totalGpusRented: 0, avgReliability: 0, regions: {} },
-  ],
-  source: "BEP Research estimates (configure API keys for live data)",
-  fetchedAt: new Date().toISOString(),
-};
+import Link from "next/link";
 
 export default function Home() {
-  // Load live data, fall back to static
-  const tokenData = getTokenPricing();
-  const llmflation = getLLMflation();
-  const tiersData = getNVIDIATiers();
-  const rpwData = getRevenuePerWatt();
-  const costStackData = getCostStack();
-  const gpuData = getGPUPricing();
-  const gpuHistory = getGPUPricingHistory();
-  const cloudAccel = getCloudAccelerators();
-  const tcoData = getTCOProviders();
-  const marginData = getInferenceProviderMargins();
-  const throughputData = getGPUThroughput();
-
-  const tokenModels = tokenData?.models || FALLBACK_TOKEN_MODELS;
-  const nvidiaTiers = tiersData?.tiers || [];
-  const revenuePerWatt = rpwData || { platforms: [], derivation: { title: "", steps: [] } };
-  const costStack = costStackData || { components: [], insight: "" };
-  // Merge GPU pricing with cloud accelerators (TPU, Trainium)
-  const baseSummaries = gpuData?.summaries || FALLBACK_GPU_PRICING.summaries;
-  const allSummaries = [...baseSummaries, ...(cloudAccel?.accelerators || [])];
-  const gpuPricing = gpuData
-    ? { summaries: allSummaries, source: gpuData.source + " + GCP/AWS", fetchedAt: gpuData.fetchedAt, history: gpuHistory?.entries || {} }
-    : { ...FALLBACK_GPU_PRICING, summaries: allSummaries, history: {} as Record<string, typeof FALLBACK_GPU_PRICING.summaries> };
-  const gpuThroughput = throughputData?.gpus || {};
-  const throughputModels = throughputData?.models || [];
-  const tierHardware = throughputData?.tierHardware || {};
-  const lpxCostAdder = throughputData?.lpxCostPerHourAdder || 2.50;
-
   return (
-    <Dashboard
-      tokenModels={tokenModels}
-      llmflationIndex={llmflation?.currentIndex}
-      nvidiaTiers={nvidiaTiers}
-      revenuePerWatt={revenuePerWatt}
-      costStack={costStack}
-      gpuPricing={gpuPricing}
-      gpuThroughput={gpuThroughput}
-      throughputModels={throughputModels}
-      tierHardware={tierHardware}
-      lpxCostAdder={lpxCostAdder}
-      tcoProviders={(tcoData?.providers || []) as never[]}
-      inferenceMarginData={marginData}
-    />
+    <div style={{ background: "#050505", minHeight: "100vh", color: "#f0f0f0", fontFamily: "'Inter', -apple-system, sans-serif" }}>
+      <div style={{ maxWidth: 720, margin: "0 auto", padding: "80px 24px" }}>
+        {/* Header */}
+        <div style={{ marginBottom: 60 }}>
+          <h1 style={{ fontFamily: "Georgia, serif", fontSize: 42, fontWeight: 900, marginBottom: 8, lineHeight: 1.1 }}>
+            BEP Research
+          </h1>
+          <p style={{ fontSize: 14, color: "#999", fontFamily: "'JetBrains Mono', monospace", letterSpacing: 1 }}>
+            SYSTEM-LEVEL AI INFRASTRUCTURE INTELLIGENCE
+          </p>
+        </div>
+
+        {/* About */}
+        <div style={{ marginBottom: 48 }}>
+          <p style={{ fontSize: 16, color: "#ccc", lineHeight: 1.8, marginBottom: 16 }}>
+            Independent research covering the full AI infrastructure stack — from silicon architecture to software optimization to business model.
+            Every layer of the stack connects. The constraint in one layer becomes the opportunity in the next.
+          </p>
+          <p style={{ fontSize: 14, color: "#888", lineHeight: 1.7 }}>
+            By <span style={{ color: "#f0f0f0", fontWeight: 600 }}>Ben Pouladian</span>
+          </p>
+        </div>
+
+        {/* Research Products */}
+        <div style={{ marginBottom: 48 }}>
+          <h2 style={{ fontFamily: "Georgia, serif", fontSize: 20, fontWeight: 700, marginBottom: 20, color: "#f0f0f0" }}>
+            Research
+          </h2>
+
+          <Link href="/tokenomics" style={{ textDecoration: "none" }}>
+            <div style={{
+              background: "#0a0a0a", border: "1px solid #1a1a1a", borderRadius: 8, padding: "24px 28px",
+              marginBottom: 12, cursor: "pointer", transition: "border-color 0.2s",
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.borderColor = "#76B900")}
+            onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#1a1a1a")}
+            >
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+                <span style={{ fontFamily: "Georgia, serif", fontSize: 18, fontWeight: 700, color: "#f0f0f0" }}>
+                  The Stack
+                </span>
+                <span style={{ fontSize: 11, fontFamily: "'JetBrains Mono', monospace", color: "#76B900", letterSpacing: 1, padding: "2px 8px", border: "1px solid #76B90040", borderRadius: 4, background: "#76B90010" }}>
+                  LIVE DATA
+                </span>
+              </div>
+              <p style={{ fontSize: 13, color: "#888", lineHeight: 1.6, margin: 0 }}>
+                AI infrastructure unit economics — live token pricing, GPU cloud costs, inference margins, cluster TCO, and lab margin analysis. Updated daily.
+              </p>
+            </div>
+          </Link>
+
+          <a href="https://bepresearch.substack.com" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
+            <div style={{
+              background: "#0a0a0a", border: "1px solid #1a1a1a", borderRadius: 8, padding: "24px 28px",
+              marginBottom: 12, cursor: "pointer", transition: "border-color 0.2s",
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.borderColor = "#00D4FF")}
+            onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#1a1a1a")}
+            >
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+                <span style={{ fontFamily: "Georgia, serif", fontSize: 18, fontWeight: 700, color: "#f0f0f0" }}>
+                  Substack
+                </span>
+                <span style={{ fontSize: 11, fontFamily: "'JetBrains Mono', monospace", color: "#00D4FF", letterSpacing: 1, padding: "2px 8px", border: "1px solid #00D4FF40", borderRadius: 4, background: "#00D4FF10" }}>
+                  46 POSTS
+                </span>
+              </div>
+              <p style={{ fontSize: 13, color: "#888", lineHeight: 1.6, margin: 0 }}>
+                Deep-dive analysis on AI semiconductors, optical interconnects, memory architecture, and the companies building the physical layer of intelligence.
+              </p>
+            </div>
+          </a>
+        </div>
+
+        {/* Thesis Areas */}
+        <div style={{ marginBottom: 48 }}>
+          <h2 style={{ fontFamily: "Georgia, serif", fontSize: 20, fontWeight: 700, marginBottom: 20, color: "#f0f0f0" }}>
+            Coverage
+          </h2>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+            {[
+              { label: "Co-Design Architecture", color: "#76B900" },
+              { label: "Memory & HBM Economics", color: "#00D4FF" },
+              { label: "Optical Interconnects", color: "#A855F7" },
+              { label: "Advanced Packaging", color: "#FFB800" },
+              { label: "NeoCloud Infrastructure", color: "#EC4899" },
+              { label: "Datacenter Power", color: "#FF4444" },
+            ].map((item) => (
+              <div key={item.label} style={{
+                padding: "10px 14px", background: "#0a0a0a", border: "1px solid #1a1a1a", borderRadius: 6,
+                fontSize: 12, color: "#999", display: "flex", alignItems: "center", gap: 8,
+              }}>
+                <span style={{ width: 6, height: 6, borderRadius: "50%", background: item.color, flexShrink: 0 }} />
+                {item.label}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div style={{ borderTop: "1px solid #1a1a1a", paddingTop: 24, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <span style={{ fontSize: 10, fontFamily: "'JetBrains Mono', monospace", color: "#444", letterSpacing: 2 }}>
+            BEP RESEARCH &copy; 2026
+          </span>
+          <div style={{ display: "flex", gap: 16 }}>
+            <a href="https://bepresearch.substack.com" target="_blank" rel="noopener noreferrer"
+              style={{ fontSize: 11, color: "#666", textDecoration: "none", fontFamily: "'JetBrains Mono', monospace" }}>
+              Substack
+            </a>
+            <a href="https://x.com/baborges10" target="_blank" rel="noopener noreferrer"
+              style={{ fontSize: 11, color: "#666", textDecoration: "none", fontFamily: "'JetBrains Mono', monospace" }}>
+              X
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
