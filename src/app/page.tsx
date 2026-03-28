@@ -14,7 +14,7 @@ export default function Home() {
               <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, #76B90020, #00D4FF20)", borderRadius: 6, mixBlendMode: "overlay" }} />
             </div>
             <div>
-              <h1 style={{ fontFamily: "Georgia, serif", fontSize: 36, fontWeight: 900, marginBottom: 2, lineHeight: 1.1 }}>
+              <h1 style={{ fontFamily: "'Inter', -apple-system, sans-serif", fontSize: 36, fontWeight: 800, marginBottom: 2, lineHeight: 1.1, letterSpacing: -0.5 }}>
                 BEP Research
               </h1>
               <p style={{ fontSize: 12, color: "#666", fontFamily: "'JetBrains Mono', monospace", letterSpacing: 2 }}>
@@ -37,7 +37,7 @@ export default function Home() {
 
         {/* Research Products */}
         <div style={{ marginBottom: 48 }}>
-          <h2 style={{ fontFamily: "Georgia, serif", fontSize: 20, fontWeight: 700, marginBottom: 20, color: "#f0f0f0" }}>
+          <h2 style={{ fontFamily: "'Inter', -apple-system, sans-serif", fontSize: 20, fontWeight: 700, marginBottom: 20, color: "#f0f0f0" }}>
             Research
           </h2>
 
@@ -50,7 +50,7 @@ export default function Home() {
             onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#1a1a1a")}
             >
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-                <span style={{ fontFamily: "Georgia, serif", fontSize: 18, fontWeight: 700, color: "#f0f0f0" }}>
+                <span style={{ fontFamily: "'Inter', -apple-system, sans-serif", fontSize: 18, fontWeight: 700, color: "#f0f0f0" }}>
                   The Stack
                 </span>
                 <span style={{ fontSize: 11, fontFamily: "'JetBrains Mono', monospace", color: "#76B900", letterSpacing: 1, padding: "2px 8px", border: "1px solid #76B90040", borderRadius: 4, background: "#76B90010" }}>
@@ -72,7 +72,7 @@ export default function Home() {
             onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#1a1a1a")}
             >
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-                <span style={{ fontFamily: "Georgia, serif", fontSize: 18, fontWeight: 700, color: "#f0f0f0" }}>
+                <span style={{ fontFamily: "'Inter', -apple-system, sans-serif", fontSize: 18, fontWeight: 700, color: "#f0f0f0" }}>
                   Substack
                 </span>
                 <span style={{ fontSize: 11, fontFamily: "'JetBrains Mono', monospace", color: "#00D4FF", letterSpacing: 1, padding: "2px 8px", border: "1px solid #00D4FF40", borderRadius: 4, background: "#00D4FF10" }}>
@@ -88,7 +88,7 @@ export default function Home() {
 
         {/* Thesis Areas */}
         <div style={{ marginBottom: 48 }}>
-          <h2 style={{ fontFamily: "Georgia, serif", fontSize: 20, fontWeight: 700, marginBottom: 20, color: "#f0f0f0" }}>
+          <h2 style={{ fontFamily: "'Inter', -apple-system, sans-serif", fontSize: 20, fontWeight: 700, marginBottom: 20, color: "#f0f0f0" }}>
             Coverage
           </h2>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>

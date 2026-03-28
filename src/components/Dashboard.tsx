@@ -75,7 +75,7 @@ export default function Dashboard({
           </div>
           <div>
             <div className="flex items-baseline gap-2">
-              <span className="font-serif text-[20px] font-black">The Stack</span>
+              <span className="font-sans text-[20px] font-extrabold tracking-tight">The Stack</span>
               <span className="text-[10px] text-bep-muted font-mono tracking-widest">BEP RESEARCH</span>
             </div>
             <div className="text-[11px] text-bep-dim">
