@@ -217,3 +217,30 @@ export function getTCOProviders(): { providers: unknown[] } | null {
 export function getInferenceProviderMargins(): unknown {
   return readJSON(join(DATA_DIR, "static", "inference-provider-margins.json"));
 }
+
+// ── GPU Hardware Specs ──
+export interface GPUHardwareSpec {
+  id: string;
+  name: string;
+  vendor: "nvidia" | "amd";
+  memoryGB: number;
+  memoryType: string;
+  memoryBandwidthTBs: number;
+  fp4TFLOPS: number | null;
+  fp8TFLOPS: number;
+  bf16TFLOPS: number;
+  scaleUpTech: string;
+  scaleUpBandwidthGBs: number;
+  scaleUpDomain: number;
+  scaleOutBandwidthGBs: number | null;
+}
+
+export interface GPUHardwareSpecsData {
+  source: string;
+  lastUpdated: string;
+  gpus: GPUHardwareSpec[];
+}
+
+export function getGPUHardwareSpecs(): GPUHardwareSpecsData | null {
+  return readJSON<GPUHardwareSpecsData>(join(DATA_DIR, "static", "gpu-hardware-specs.json"));
+}

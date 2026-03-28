@@ -11,6 +11,7 @@ import GPUPriceTracker from "./GPUPriceTracker";
 import TCOCalculator from "./TCOCalculator";
 import InferenceProviderMargins from "./InferenceProviderMargins";
 import SignalFeed from "./SignalFeed";
+import HardwareSpecs from "./HardwareSpecs";
 import type {
   TokenPriceModel,
   NVIDIATier,
@@ -20,6 +21,7 @@ import type {
   GPUThroughput,
   ModelInfo,
   TierHardware,
+  GPUHardwareSpecsData,
 } from "@/lib/data";
 
 const TABS = [
@@ -32,6 +34,7 @@ const TABS = [
   { key: "gpu", label: "GPU Tracker" },
   { key: "tco", label: "Cluster TCO" },
   { key: "lab-margins", label: "Lab Margins" },
+  { key: "hardware", label: "Hardware" },
 ];
 
 interface DashboardProps {
@@ -48,6 +51,7 @@ interface DashboardProps {
   lpxCostAdder: number;
   tcoProviders: never[];
   inferenceMarginData: unknown;
+  gpuHardwareSpecs: GPUHardwareSpecsData | null;
 }
 
 export default function Dashboard({
@@ -64,6 +68,7 @@ export default function Dashboard({
   lpxCostAdder,
   tcoProviders,
   inferenceMarginData,
+  gpuHardwareSpecs,
 }: DashboardProps) {
   const [tab, setTab] = useState("llmflation");
 
@@ -138,6 +143,9 @@ export default function Dashboard({
         )}
         {tab === "lab-margins" && (
           <InferenceProviderMargins data={inferenceMarginData} />
+        )}
+        {tab === "hardware" && gpuHardwareSpecs && (
+          <HardwareSpecs data={gpuHardwareSpecs} />
         )}
       </div>
 
