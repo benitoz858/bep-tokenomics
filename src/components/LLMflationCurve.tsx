@@ -6,29 +6,62 @@ import Section from "./ui/Section";
 import InsightBox from "./ui/InsightBox";
 import { PROVIDER_COLORS } from "@/lib/calculations";
 
-// Historical data (will be replaced by live data from history.json once accumulated)
-const priceHistory = [
-  { date: "Mar 2023", OpenAI: 60, Anthropic: null, Google: null, DeepSeek: null },
-  { date: "Jul 2023", OpenAI: 60, Anthropic: 32, Google: null, DeepSeek: null },
-  { date: "Dec 2023", OpenAI: 30, Anthropic: 24, Google: null, DeepSeek: null },
-  { date: "May 2024", OpenAI: 15, Anthropic: 15, Google: 10, DeepSeek: null },
-  { date: "Oct 2024", OpenAI: 10, Anthropic: 15, Google: 5, DeepSeek: 2.19 },
-  { date: "Jan 2025", OpenAI: 10, Anthropic: 15, Google: 5, DeepSeek: 2.19 },
-  { date: "Jun 2025", OpenAI: 10, Anthropic: 75, Google: 10, DeepSeek: 1.10 },
-  { date: "Oct 2025", OpenAI: 14, Anthropic: 75, Google: 10, DeepSeek: 0.42 },
-  { date: "Jan 2026", OpenAI: 14, Anthropic: 25, Google: 10, DeepSeek: 0.42 },
-  { date: "Mar 2026", OpenAI: 10, Anthropic: 15, Google: 2.50, DeepSeek: 0.28 },
-];
+interface HistoryEntry {
+  modelId: string;
+  inputPerMillion: number;
+  outputPerMillion: number;
+}
 
 interface Props {
   models: Array<{
     model: string;
+    modelId?: string;
     provider: string;
     inputPerMillion: number;
     outputPerMillion: number;
     contextWindow: number;
   }>;
   llmflationIndex?: number;
+  history?: Record<string, HistoryEntry[]>;
+}
+
+// Provider mapping for history entries
+const MODEL_TO_PROVIDER: Record<string, string> = {
+  "openai/": "OpenAI",
+  "anthropic/": "Anthropic",
+  "google/": "Google",
+  "deepseek/": "DeepSeek",
+  "x-ai/": "xAI",
+  "meta-llama/": "Meta",
+  "mistralai/": "Mistral",
+};
+
+function getProvider(modelId: string): string {
+  for (const [prefix, provider] of Object.entries(MODEL_TO_PROVIDER)) {
+    if (modelId.startsWith(prefix)) return provider;
+  }
+  return "Other";
+}
+
+function buildPriceHistory(history: Record<string, HistoryEntry[]>) {
+  const dates = Object.keys(history).sort();
+  const providers = ["OpenAI", "Anthropic", "Google", "DeepSeek"];
+
+  return dates.map((date) => {
+    const entries = history[date];
+    const d = new Date(date);
+    const label = d.toLocaleDateString("en-US", { month: "short", year: "numeric" });
+    const row: Record<string, number | string | null> = { date: label };
+
+    for (const provider of providers) {
+      // Find the most expensive model from this provider (flagship proxy)
+      const providerModels = entries.filter((e) => getProvider(e.modelId) === provider);
+      const flagship = providerModels.sort((a, b) => b.outputPerMillion - a.outputPerMillion)[0];
+      row[provider] = flagship?.outputPerMillion ?? null;
+    }
+
+    return row;
+  });
 }
 
 function CustomTooltip({ active, payload, label }: { active?: boolean; payload?: Array<{ name: string; value: number | null; color: string }>; label?: string }) {
@@ -45,7 +78,10 @@ function CustomTooltip({ active, payload, label }: { active?: boolean; payload?:
   );
 }
 
-export default function LLMflationCurve({ models, llmflationIndex }: Props) {
+export default function LLMflationCurve({ models, llmflationIndex, history }: Props) {
+  const priceHistory = history && Object.keys(history).length > 0
+    ? buildPriceHistory(history)
+    : [];
   const sorted = [...models].sort((a, b) => b.outputPerMillion - a.outputPerMillion);
   const cheapestOutput = models.length ? models.reduce((min, m) => m.outputPerMillion < min.outputPerMillion ? m : min) : null;
   const premiumCeiling = sorted[0] || null;

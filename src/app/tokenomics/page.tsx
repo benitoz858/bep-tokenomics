@@ -1,6 +1,7 @@
 import Dashboard from "@/components/Dashboard";
 import {
   getTokenPricing,
+  getTokenPricingHistory,
   getLLMflation,
   getNVIDIATiers,
   getRevenuePerWatt,
@@ -45,6 +46,7 @@ const FALLBACK_GPU_PRICING = {
 export default function Home() {
   // Load live data, fall back to static
   const tokenData = getTokenPricing();
+  const tokenHistory = getTokenPricingHistory();
   const llmflation = getLLMflation();
   const tiersData = getNVIDIATiers();
   const rpwData = getRevenuePerWatt();
@@ -74,6 +76,7 @@ export default function Home() {
   return (
     <Dashboard
       tokenModels={tokenModels}
+      tokenHistory={tokenHistory?.entries || {}}
       llmflationIndex={llmflation?.currentIndex}
       nvidiaTiers={nvidiaTiers}
       revenuePerWatt={revenuePerWatt}

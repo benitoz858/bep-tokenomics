@@ -10,6 +10,7 @@ import TokenCostStack from "./TokenCostStack";
 import GPUPriceTracker from "./GPUPriceTracker";
 import TCOCalculator from "./TCOCalculator";
 import InferenceProviderMargins from "./InferenceProviderMargins";
+import SignalFeed from "./SignalFeed";
 import type {
   TokenPriceModel,
   NVIDIATier,
@@ -35,6 +36,7 @@ const TABS = [
 
 interface DashboardProps {
   tokenModels: TokenPriceModel[];
+  tokenHistory: Record<string, Array<{ modelId: string; inputPerMillion: number; outputPerMillion: number }>>;
   llmflationIndex?: number;
   nvidiaTiers: NVIDIATier[];
   revenuePerWatt: { platforms: RevenuePerWattPlatform[]; derivation: { title: string; steps: string[] } };
@@ -55,6 +57,7 @@ export default function Dashboard({
   revenuePerWatt,
   costStack,
   gpuPricing,
+  tokenHistory,
   gpuThroughput,
   throughputModels,
   tierHardware,
@@ -103,8 +106,14 @@ export default function Dashboard({
 
       {/* Content */}
       <div className="px-6 py-5 max-w-[900px]">
+        <SignalFeed
+          tokenModels={tokenModels}
+          gpuSummaries={gpuPricing.summaries}
+          llmflationIndex={llmflationIndex}
+          fetchedAt={gpuPricing.fetchedAt}
+        />
         {tab === "llmflation" && (
-          <LLMflationCurve models={tokenModels} llmflationIndex={llmflationIndex} />
+          <LLMflationCurve models={tokenModels} llmflationIndex={llmflationIndex} history={tokenHistory} />
         )}
         {tab === "tiers" && (
           <TokenTiers tiers={nvidiaTiers} />

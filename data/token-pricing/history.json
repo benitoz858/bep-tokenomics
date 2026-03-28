@@ -1,6 +1,539 @@
 {
   "lastUpdated": "2026-03-27",
   "entries": {
+    "2023-03-14": [
+      {
+        "modelId": "openai/gpt-4",
+        "inputPerMillion": 30,
+        "outputPerMillion": 60
+      }
+    ],
+    "2023-07-06": [
+      {
+        "modelId": "openai/gpt-4",
+        "inputPerMillion": 30,
+        "outputPerMillion": 60
+      },
+      {
+        "modelId": "anthropic/claude-2",
+        "inputPerMillion": 11,
+        "outputPerMillion": 32
+      }
+    ],
+    "2023-12-06": [
+      {
+        "modelId": "openai/gpt-4",
+        "inputPerMillion": 30,
+        "outputPerMillion": 60
+      },
+      {
+        "modelId": "anthropic/claude-2",
+        "inputPerMillion": 11,
+        "outputPerMillion": 32
+      },
+      {
+        "modelId": "openai/gpt-4-turbo",
+        "inputPerMillion": 10,
+        "outputPerMillion": 30
+      },
+      {
+        "modelId": "google/gemini-pro",
+        "inputPerMillion": 0.25,
+        "outputPerMillion": 0.5
+      }
+    ],
+    "2024-03-04": [
+      {
+        "modelId": "anthropic/claude-3-opus",
+        "inputPerMillion": 15,
+        "outputPerMillion": 75
+      },
+      {
+        "modelId": "openai/gpt-4",
+        "inputPerMillion": 30,
+        "outputPerMillion": 60
+      },
+      {
+        "modelId": "anthropic/claude-2",
+        "inputPerMillion": 11,
+        "outputPerMillion": 32
+      },
+      {
+        "modelId": "openai/gpt-4-turbo",
+        "inputPerMillion": 10,
+        "outputPerMillion": 30
+      },
+      {
+        "modelId": "anthropic/claude-3-sonnet",
+        "inputPerMillion": 3,
+        "outputPerMillion": 15
+      },
+      {
+        "modelId": "google/gemini-pro",
+        "inputPerMillion": 0.25,
+        "outputPerMillion": 0.5
+      }
+    ],
+    "2024-05-13": [
+      {
+        "modelId": "anthropic/claude-3-opus",
+        "inputPerMillion": 15,
+        "outputPerMillion": 75
+      },
+      {
+        "modelId": "openai/gpt-4",
+        "inputPerMillion": 30,
+        "outputPerMillion": 60
+      },
+      {
+        "modelId": "openai/gpt-4-turbo",
+        "inputPerMillion": 10,
+        "outputPerMillion": 30
+      },
+      {
+        "modelId": "openai/gpt-4o",
+        "inputPerMillion": 5,
+        "outputPerMillion": 15
+      },
+      {
+        "modelId": "anthropic/claude-3-sonnet",
+        "inputPerMillion": 3,
+        "outputPerMillion": 15
+      },
+      {
+        "modelId": "anthropic/claude-2",
+        "inputPerMillion": 11,
+        "outputPerMillion": 32
+      },
+      {
+        "modelId": "google/gemini-pro",
+        "inputPerMillion": 0.25,
+        "outputPerMillion": 0.5
+      }
+    ],
+    "2024-06-20": [
+      {
+        "modelId": "anthropic/claude-3-opus",
+        "inputPerMillion": 15,
+        "outputPerMillion": 75
+      },
+      {
+        "modelId": "openai/gpt-4",
+        "inputPerMillion": 30,
+        "outputPerMillion": 60
+      },
+      {
+        "modelId": "openai/gpt-4-turbo",
+        "inputPerMillion": 10,
+        "outputPerMillion": 30
+      },
+      {
+        "modelId": "openai/gpt-4o",
+        "inputPerMillion": 5,
+        "outputPerMillion": 15
+      },
+      {
+        "modelId": "anthropic/claude-3.5-sonnet",
+        "inputPerMillion": 3,
+        "outputPerMillion": 15
+      },
+      {
+        "modelId": "anthropic/claude-3-sonnet",
+        "inputPerMillion": 3,
+        "outputPerMillion": 15
+      },
+      {
+        "modelId": "google/gemini-pro",
+        "inputPerMillion": 0.25,
+        "outputPerMillion": 0.5
+      }
+    ],
+    "2024-09-12": [
+      {
+        "modelId": "anthropic/claude-3-opus",
+        "inputPerMillion": 15,
+        "outputPerMillion": 75
+      },
+      {
+        "modelId": "openai/o1-preview",
+        "inputPerMillion": 15,
+        "outputPerMillion": 60
+      },
+      {
+        "modelId": "openai/gpt-4-turbo",
+        "inputPerMillion": 10,
+        "outputPerMillion": 30
+      },
+      {
+        "modelId": "openai/gpt-4o",
+        "inputPerMillion": 5,
+        "outputPerMillion": 15
+      },
+      {
+        "modelId": "anthropic/claude-3.5-sonnet",
+        "inputPerMillion": 3,
+        "outputPerMillion": 15
+      },
+      {
+        "modelId": "anthropic/claude-3-sonnet",
+        "inputPerMillion": 3,
+        "outputPerMillion": 15
+      },
+      {
+        "modelId": "google/gemini-pro",
+        "inputPerMillion": 0.25,
+        "outputPerMillion": 0.5
+      }
+    ],
+    "2024-12-05": [
+      {
+        "modelId": "anthropic/claude-3-opus",
+        "inputPerMillion": 15,
+        "outputPerMillion": 75
+      },
+      {
+        "modelId": "openai/o1-preview",
+        "inputPerMillion": 15,
+        "outputPerMillion": 60
+      },
+      {
+        "modelId": "openai/gpt-4-turbo",
+        "inputPerMillion": 10,
+        "outputPerMillion": 30
+      },
+      {
+        "modelId": "openai/gpt-4o",
+        "inputPerMillion": 5,
+        "outputPerMillion": 15
+      },
+      {
+        "modelId": "anthropic/claude-3.5-sonnet",
+        "inputPerMillion": 3,
+        "outputPerMillion": 15
+      },
+      {
+        "modelId": "anthropic/claude-3-sonnet",
+        "inputPerMillion": 3,
+        "outputPerMillion": 15
+      },
+      {
+        "modelId": "google/gemini-2.0-flash",
+        "inputPerMillion": 0,
+        "outputPerMillion": 0
+      },
+      {
+        "modelId": "google/gemini-pro",
+        "inputPerMillion": 0.25,
+        "outputPerMillion": 0.5
+      }
+    ],
+    "2025-01-20": [
+      {
+        "modelId": "anthropic/claude-3-opus",
+        "inputPerMillion": 15,
+        "outputPerMillion": 75
+      },
+      {
+        "modelId": "openai/o1-preview",
+        "inputPerMillion": 15,
+        "outputPerMillion": 60
+      },
+      {
+        "modelId": "openai/gpt-4-turbo",
+        "inputPerMillion": 10,
+        "outputPerMillion": 30
+      },
+      {
+        "modelId": "openai/gpt-4o",
+        "inputPerMillion": 5,
+        "outputPerMillion": 15
+      },
+      {
+        "modelId": "anthropic/claude-3.5-sonnet",
+        "inputPerMillion": 3,
+        "outputPerMillion": 15
+      },
+      {
+        "modelId": "anthropic/claude-3-sonnet",
+        "inputPerMillion": 3,
+        "outputPerMillion": 15
+      },
+      {
+        "modelId": "deepseek/deepseek-v3",
+        "inputPerMillion": 0.27,
+        "outputPerMillion": 2.19
+      },
+      {
+        "modelId": "google/gemini-2.0-flash",
+        "inputPerMillion": 0,
+        "outputPerMillion": 0
+      },
+      {
+        "modelId": "google/gemini-pro",
+        "inputPerMillion": 0.25,
+        "outputPerMillion": 0.5
+      }
+    ],
+    "2025-01-27": [
+      {
+        "modelId": "anthropic/claude-3-opus",
+        "inputPerMillion": 15,
+        "outputPerMillion": 75
+      },
+      {
+        "modelId": "openai/o1-preview",
+        "inputPerMillion": 15,
+        "outputPerMillion": 60
+      },
+      {
+        "modelId": "openai/gpt-4-turbo",
+        "inputPerMillion": 10,
+        "outputPerMillion": 30
+      },
+      {
+        "modelId": "openai/gpt-4o",
+        "inputPerMillion": 5,
+        "outputPerMillion": 15
+      },
+      {
+        "modelId": "anthropic/claude-3.5-sonnet",
+        "inputPerMillion": 3,
+        "outputPerMillion": 15
+      },
+      {
+        "modelId": "anthropic/claude-3-sonnet",
+        "inputPerMillion": 3,
+        "outputPerMillion": 15
+      },
+      {
+        "modelId": "deepseek/deepseek-r1",
+        "inputPerMillion": 0.55,
+        "outputPerMillion": 2.19
+      },
+      {
+        "modelId": "deepseek/deepseek-v3",
+        "inputPerMillion": 0.27,
+        "outputPerMillion": 2.19
+      },
+      {
+        "modelId": "google/gemini-2.0-flash",
+        "inputPerMillion": 0,
+        "outputPerMillion": 0
+      },
+      {
+        "modelId": "google/gemini-pro",
+        "inputPerMillion": 0.25,
+        "outputPerMillion": 0.5
+      }
+    ],
+    "2025-03-25": [
+      {
+        "modelId": "openai/gpt-4.5",
+        "inputPerMillion": 75,
+        "outputPerMillion": 150
+      },
+      {
+        "modelId": "anthropic/claude-3-opus",
+        "inputPerMillion": 15,
+        "outputPerMillion": 75
+      },
+      {
+        "modelId": "openai/o1-preview",
+        "inputPerMillion": 15,
+        "outputPerMillion": 60
+      },
+      {
+        "modelId": "openai/gpt-4-turbo",
+        "inputPerMillion": 10,
+        "outputPerMillion": 30
+      },
+      {
+        "modelId": "openai/gpt-4o",
+        "inputPerMillion": 5,
+        "outputPerMillion": 15
+      },
+      {
+        "modelId": "anthropic/claude-3.5-sonnet",
+        "inputPerMillion": 3,
+        "outputPerMillion": 15
+      },
+      {
+        "modelId": "deepseek/deepseek-r1",
+        "inputPerMillion": 0.55,
+        "outputPerMillion": 2.19
+      },
+      {
+        "modelId": "deepseek/deepseek-v3",
+        "inputPerMillion": 0.27,
+        "outputPerMillion": 2.19
+      },
+      {
+        "modelId": "google/gemini-2.0-flash",
+        "inputPerMillion": 0,
+        "outputPerMillion": 0
+      }
+    ],
+    "2025-06-25": [
+      {
+        "modelId": "openai/gpt-4.5",
+        "inputPerMillion": 75,
+        "outputPerMillion": 150
+      },
+      {
+        "modelId": "anthropic/claude-opus-4.1",
+        "inputPerMillion": 15,
+        "outputPerMillion": 75
+      },
+      {
+        "modelId": "openai/o1-preview",
+        "inputPerMillion": 15,
+        "outputPerMillion": 60
+      },
+      {
+        "modelId": "openai/gpt-4-turbo",
+        "inputPerMillion": 10,
+        "outputPerMillion": 30
+      },
+      {
+        "modelId": "openai/gpt-4o",
+        "inputPerMillion": 5,
+        "outputPerMillion": 15
+      },
+      {
+        "modelId": "anthropic/claude-sonnet-4.1",
+        "inputPerMillion": 3,
+        "outputPerMillion": 15
+      },
+      {
+        "modelId": "anthropic/claude-3.5-sonnet",
+        "inputPerMillion": 3,
+        "outputPerMillion": 15
+      },
+      {
+        "modelId": "deepseek/deepseek-r1",
+        "inputPerMillion": 0.55,
+        "outputPerMillion": 2.19
+      },
+      {
+        "modelId": "deepseek/deepseek-v3",
+        "inputPerMillion": 0.27,
+        "outputPerMillion": 2.19
+      },
+      {
+        "modelId": "google/gemini-2.0-flash",
+        "inputPerMillion": 0,
+        "outputPerMillion": 0
+      }
+    ],
+    "2025-10-22": [
+      {
+        "modelId": "openai/gpt-4.5",
+        "inputPerMillion": 75,
+        "outputPerMillion": 150
+      },
+      {
+        "modelId": "anthropic/claude-opus-4.1",
+        "inputPerMillion": 15,
+        "outputPerMillion": 75
+      },
+      {
+        "modelId": "openai/o1-preview",
+        "inputPerMillion": 15,
+        "outputPerMillion": 60
+      },
+      {
+        "modelId": "openai/gpt-4-turbo",
+        "inputPerMillion": 10,
+        "outputPerMillion": 30
+      },
+      {
+        "modelId": "openai/gpt-4o",
+        "inputPerMillion": 5,
+        "outputPerMillion": 15
+      },
+      {
+        "modelId": "anthropic/claude-sonnet-4.5",
+        "inputPerMillion": 3,
+        "outputPerMillion": 15
+      },
+      {
+        "modelId": "anthropic/claude-sonnet-4.1",
+        "inputPerMillion": 3,
+        "outputPerMillion": 15
+      },
+      {
+        "modelId": "deepseek/deepseek-r1",
+        "inputPerMillion": 0.55,
+        "outputPerMillion": 2.19
+      },
+      {
+        "modelId": "deepseek/deepseek-v3",
+        "inputPerMillion": 0.27,
+        "outputPerMillion": 2.19
+      },
+      {
+        "modelId": "google/gemini-2.0-flash",
+        "inputPerMillion": 0,
+        "outputPerMillion": 0
+      }
+    ],
+    "2026-01-14": [
+      {
+        "modelId": "openai/gpt-4.5",
+        "inputPerMillion": 75,
+        "outputPerMillion": 150
+      },
+      {
+        "modelId": "anthropic/claude-opus-4.1",
+        "inputPerMillion": 15,
+        "outputPerMillion": 75
+      },
+      {
+        "modelId": "openai/o1-preview",
+        "inputPerMillion": 15,
+        "outputPerMillion": 60
+      },
+      {
+        "modelId": "openai/gpt-4-turbo",
+        "inputPerMillion": 10,
+        "outputPerMillion": 30
+      },
+      {
+        "modelId": "anthropic/claude-opus-4.6",
+        "inputPerMillion": 5,
+        "outputPerMillion": 25
+      },
+      {
+        "modelId": "openai/gpt-4o",
+        "inputPerMillion": 5,
+        "outputPerMillion": 15
+      },
+      {
+        "modelId": "anthropic/claude-sonnet-4.5",
+        "inputPerMillion": 3,
+        "outputPerMillion": 15
+      },
+      {
+        "modelId": "anthropic/claude-sonnet-4.1",
+        "inputPerMillion": 3,
+        "outputPerMillion": 15
+      },
+      {
+        "modelId": "deepseek/deepseek-r1",
+        "inputPerMillion": 0.55,
+        "outputPerMillion": 2.19
+      },
+      {
+        "modelId": "deepseek/deepseek-v3",
+        "inputPerMillion": 0.27,
+        "outputPerMillion": 2.19
+      },
+      {
+        "modelId": "google/gemini-2.0-flash",
+        "inputPerMillion": 0,
+        "outputPerMillion": 0
+      }
+    ],
     "2026-03-26": [
       {
         "modelId": "openai/o3-pro",
