@@ -4,6 +4,7 @@ interface CommentaryData {
   generatedAt: string;
   date: string;
   title: string;
+  poweredBy?: string;
   summary: string;
   paragraphs: string[];
   bullets: string[];
@@ -39,7 +40,14 @@ export default function MarketBrief({ data }: Props) {
             <div className="w-2 h-2 rounded-full bg-bep-green animate-pulse" />
             <span className="text-[13px] font-semibold text-bep-white">{data.title}</span>
           </div>
-          <span className="text-[10px] font-mono text-bep-dim">{timeAgo} · {data.dataPoints.modelsTracked} models · {data.dataPoints.gpuOffers} GPU offers</span>
+          <div className="flex items-center gap-2">
+            {data.poweredBy && (
+              <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-[#A855F710] border border-[#A855F730] text-[#A855F7]">
+                {data.poweredBy}
+              </span>
+            )}
+            <span className="text-[10px] font-mono text-bep-dim">{timeAgo} · {data.dataPoints.modelsTracked} models · {data.dataPoints.gpuOffers} GPU offers</span>
+          </div>
         </div>
 
         {/* Body */}

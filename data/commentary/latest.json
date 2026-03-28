@@ -1,24 +1,18 @@
 {
-  "generatedAt": "2026-03-28T03:48:29.375Z",
+  "generatedAt": "2026-03-28T03:57:26.360Z",
   "date": "2026-03-28",
   "title": "Market Brief — Friday, March 27, 2026",
-  "summary": "The BEP LLMflation Index sits at 21.4, down 79% from the GPT-4 launch baseline of 100. Frontier inference continues to deflate — but the deflation is uneven. The premium tier is holding pricing power while the commodity floor races toward zero.",
+  "poweredBy": "Claude Sonnet 4.6",
+  "summary": "The BEP LLMflation Index sits at 21.4, down 79% from the GPT-4 launch baseline. Frontier inference continues to deflate — but unevenly. Premium holds pricing power while the commodity floor races toward zero.",
   "paragraphs": [
-    "The BEP LLMflation Index sits at 21.4, down 79% from the GPT-4 launch baseline of 100. Frontier inference continues to deflate — but the deflation is uneven. The premium tier is holding pricing power while the commodity floor races toward zero.",
-    "Tracking 18 frontier models today. The price spread stands at 211x — DeepSeek: DeepSeek V3.2 at $0.38/M output versus OpenAI: o3 Pro at $80/M. This isn't convergence — it's bifurcation. The market is segmenting into distinct tiers exactly as Jensen mapped at GTC.",
-    "GPU spot market: H200 is the tightest at 18% availability. This is a supply constraint signal — demand exceeds deployed capacity on the spot market. 50 total offerings tracked across Vast.ai.",
-    "At current spot rates, the cheapest path to token production is H100 at $1.47/hr — roughly $4.29/M tokens for a 70B model. At Premium tier pricing ($45/M), that's ~90% gross margin. At High tier ($6/M), it's barely break-even. The hardware generation you're on determines whether inference is a business or a charity.",
-    "Bottom line: The token economy continues to bifurcate. Commodity inference deflates toward zero while premium reasoning and agentic workloads command 50-200x premiums. The investment signal is in the spread, not the average. Track which hardware generation can profitably serve which tier — that's where capital allocation decisions live."
+    "The BEP LLMflation Index sits at 21.4, down 79% from the GPT-4 launch baseline. Frontier inference continues to deflate — but unevenly. Premium holds pricing power while the commodity floor races toward zero.",
+    "18 models tracked. 211x spread between cheapest and premium. This is bifurcation, not commoditization.",
+    "Bottom line: Track the spread between commodity and premium inference. The hardware generation determines profitability. Capital follows the margin."
   ],
   "bullets": [
-    "OpenAI flagship: OpenAI: o3 Pro at $80/M output",
-    "Anthropic flagship: Anthropic: Claude Opus 4.6 at $25/M output",
-    "DeepSeek floor: DeepSeek: DeepSeek V3.2 at $0.38/M output — sub-dollar inference is here",
-    "H100: $1.47/hr spot median, 20% available (49/250 GPUs)",
-    "H200: $2.45/hr spot median, 18% available (63/350 GPUs)",
-    "B200: $7.81/hr spot median, 20% available (58/295 GPUs)",
-    "H100 spot down 4.3% day-over-day ($1.54 → $1.47)",
-    "H200 spot up 5.3% day-over-day ($2.33 → $2.45)"
+    "H100: $1.47/hr spot, 20% available (49/250)",
+    "H200: $2.45/hr spot, 18% available (63/350)",
+    "B200: $7.81/hr spot, 20% available (58/295)"
   ],
   "dataPoints": {
     "modelsTracked": 18,
