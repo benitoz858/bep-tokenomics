@@ -1,6 +1,6 @@
 {
   "source": "BEP Research estimates — Token Cost Decomposition",
-  "lastUpdated": "2026-03-25",
+  "lastUpdated": "2026-03-27",
   "components": [
     { "component": "Silicon (GPU/LPU)", "pctBlackwell": 35, "pctRubin": 30, "pctRubinLPX": 20, "color": "#76B900" },
     { "component": "Memory (HBM/SRAM/DDR5)", "pctBlackwell": 28, "pctRubin": 30, "pctRubinLPX": 35, "color": "#00D4FF" },

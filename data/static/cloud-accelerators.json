@@ -1,6 +1,6 @@
 {
   "source": "Google Cloud TPU Pricing + AWS EC2 Pricing — manually updated",
-  "lastUpdated": "2026-03-25",
+  "lastUpdated": "2026-03-27",
   "note": "Static pricing for non-GPU accelerators. These are not on Vast.ai/GetDeploying — priced from GCP/AWS directly. Per-chip pricing.",
   "accelerators": [
     {

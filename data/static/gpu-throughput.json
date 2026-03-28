@@ -1,6 +1,6 @@
 {
   "source": "BEP Research estimates based on InferenceX/SemiAnalysis benchmarks + GTC 2026",
-  "lastUpdated": "2026-03-25",
+  "lastUpdated": "2026-03-27",
   "note": "Throughput per GPU. 'gpuOnly' = standard inference. 'withLPX' = GPU handles prefill, Groq LPX handles decode (Premium/Ultra tiers). LPX multiplier is ~3-5x for decode-bound workloads.",
   "models": [
     { "id": "small-7b", "name": "Small model (7-8B)", "params": "7B", "class": "small" },
