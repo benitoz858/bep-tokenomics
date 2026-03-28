@@ -1,21 +1,21 @@
 {
-  "generatedAt": "2026-03-28T18:04:46.772Z",
+  "generatedAt": "2026-03-28T18:08:54.308Z",
   "date": "2026-03-28",
   "title": "Market Brief — Saturday, March 28, 2026",
   "poweredBy": "Claude Opus 4.6",
-  "summary": "B200 spot surged 17.6% overnight to $9.19/hr, the sharpest single-day GPU move in the dataset, while availability sits at just 29%. TCO-adjusted B200 cost hits $11.49/hr, making next-gen inference economics underwater at medium and high pricing tiers — the Blackwell premium is real and unsustainable at current spot.",
+  "summary": "Compute is scarce across all GPU classes. H100 availability sits at 24% (67/283), H200 at 24% (90/372), and B200 at 29% (97/339), all below the 25% threshold signaling tight supply. B200 spot surged 17.6% overnight to $9.19/hr, the largest single-day move in the stack, suggesting acute demand for next-gen silicon even as older chips hold steady.",
   "paragraphs": [
-    "B200 spot surged 17.6% overnight to $9.19/hr, the sharpest single-day GPU move in the dataset, while availability sits at just 29%. TCO-adjusted B200 cost hits $11.49/hr, making next-gen inference economics underwater at medium and high pricing tiers — the Blackwell premium is real and unsustainable at current spot.",
-    "DeepSeek V3.2 sells output at $0.38/M against a TCO-adjusted Llama 70B production cost north of $5/M on H100s — DeepSeek is burning cash at roughly $4.50/M tokens to hold market share. OpenAI's o3 Pro at $80/M output commands 97% Ultra-tier margins on H200s, effectively subsidizing the entire industry price war from the top end while Anthropic holds a comfortable middle with Sonnet 4.6 at $15/M output earning Strong margins.",
-    "B200 spot is overvalued at $9.19/hr given 29% availability signals incoming supply relief and TCO-adjusted costs that destroy inference margins below premium tier. DeepSeek and Meta's sub-$1/M output models are undervalued for buyers — lock in enterprise contracts now before the subsidy window closes."
+    "Compute is scarce across all GPU classes. H100 availability sits at 24% (67/283), H200 at 24% (90/372), and B200 at 29% (97/339), all below the 25% threshold signaling tight supply. B200 spot surged 17.6% overnight to $9.19/hr, the largest single-day move in the stack, suggesting acute demand for next-gen silicon even as older chips hold steady.",
+    "At TCO-adjusted costs (1.25x spot), Llama 70B inference runs $5.85/M on H100, $5.56/M on H200, and $8.40/M on B200. Medium-tier API providers selling at $3/M output are bleeding roughly $2.85/M tokens on H100 alone. DeepSeek V3.2 at $0.38/M output is either running on subsidized Chinese compute or burning cash at industrial scale. Grades: OpenAI Strong, Anthropic Neutral, Google Neutral, DeepSeek Burning Cash.",
+    "OpenAI o3 Pro at $80/M output is overvalued when Claude Opus 4.6 delivers frontier capability at $25/M. DeepSeek V3.2 and Meta Llama 4 Maverick at sub-$0.60/M output are the undervalued trade, offering viable inference at prices no closed-source provider can match without margin destruction."
   ],
   "bullets": [
-    "17.6% overnight B200 spot increase is the largest single-day GPU price move tracked this quarter.",
-    "$11.49/hr TCO-adjusted B200 cost produces a negative 12% margin even at high-tier pricing.",
-    "$0.38/M output from DeepSeek V3.2 implies a loss of approximately $4.50 per million tokens on H100 inference.",
-    "21.41 on the LLMflation Index means API prices have fallen 79% since GPT-4 launch three years ago.",
-    "$80/M output on o3 Pro delivers 97% margin, making it OpenAI's most profitable product by far.",
-    "24% GPU availability across both H100 and H200 pools signals tight but stable supply conditions."
+    "24% of H100 GPUs are available, with only 67 of 283 units free on spot markets.",
+    "29% B200 availability (97/339) masks a 17.6% overnight price spike to $9.19/hr median.",
+    "$0.38/M output from DeepSeek V3.2 undercuts the nearest competitor by 32%.",
+    "21.41 on the LLMflation Index means token prices have fallen roughly 79% since GPT-4 launch.",
+    "$8.40/M is the TCO-adjusted B200 inference cost, making mid-tier API pricing unprofitable on new silicon.",
+    "0.6 cents per million output tokens from Llama 4 Maverick is 133x cheaper than OpenAI o3 Pro."
   ],
   "dataPoints": {
     "modelsTracked": 18,

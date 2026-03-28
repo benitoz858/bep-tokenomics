@@ -26,7 +26,8 @@ function colorize(text: string): JSX.Element[] {
     { regex: /(-\d+\.?\d*%\s*margin|-\d+%)/g, color: "#FF4444" },
     { regex: /(hemorrhaging|burning cash|loss of|selling at a loss|Burning Cash)/gi, color: "#FF4444" },
     { regex: /(\d+\.?\d*%\s*margin|Strong)/g, color: "#76B900" },
-    { regex: /(surged|spike|tightest)/gi, color: "#FFB800" },
+    { regex: /(surged|spike|tightest|scarce|shortage|tight|constrained)/gi, color: "#FFB800" },
+    { regex: /(\d+%\s*(?:available|availability))/g, color: "#FFB800" },
     { regex: /(\$[\d,.]+\/M\s*(?:output|tokens?)|\$[\d,.]+\/hr)/g, color: "#00D4FF" },
     { regex: /(undervalued|best.*value)/gi, color: "#76B900" },
     { regex: /(overvalued|overpriced)/gi, color: "#FF4444" },
@@ -76,7 +77,7 @@ function colorize(text: string): JSX.Element[] {
 }
 
 const CARD_STYLES = [
-  { border: "#FFB80040", bg: "#FFB80006", accent: "#FFB800", label: "SIGNAL" },
+  { border: "#FFB80040", bg: "#FFB80006", accent: "#FFB800", label: "COMPUTE" },
   { border: "#FF444440", bg: "#FF444406", accent: "#FF4444", label: "MARGINS" },
   { border: "#76B90040", bg: "#76B90006", accent: "#76B900", label: "ACTION" },
 ];

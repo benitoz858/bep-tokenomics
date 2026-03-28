@@ -104,17 +104,17 @@ ${dataContext}
 
 Write a brief with:
 1. Exactly 3 short paragraphs (2 sentences max each):
-   - Para 1: THE signal. What's the one thing that matters today? One data point, one implication.
-   - Para 2: Who's making money, who's losing money. Name names. Use numbers. One sentence on margins, one on who's subsidizing.
-   - Para 3: What to do about it. One sentence on what's overvalued, one on what's undervalued. Portfolio action.
-2. Exactly 6 bullet points. Each bullet is ONE short sentence with ONE number. No compound sentences.
+   - Para 1: COMPUTE AVAILABILITY & PRICE SIGNAL. Lead with GPU availability — how tight is the market? State availability % for each GPU class. Then the biggest price move. This is the supply/demand story.
+   - Para 2: TOKEN MARGINS. Who's making money, who's losing money. Name names. Use numbers. Call out who's selling below TCO-adjusted production cost and estimate the per-token loss.
+   - Para 3: PORTFOLIO ACTION. One sentence on what's overvalued, one on what's undervalued. Concrete trade.
+2. Exactly 6 bullet points. Each bullet is ONE short sentence with ONE number. No compound sentences. At least 2 bullets must be about compute availability/GPU supply.
 
 Rules:
-- MAXIMUM 100 words per paragraph. Cut ruthlessly.
+- MAXIMUM 80 words per paragraph. Cut ruthlessly.
 - Write at a 10th grade reading level. No jargon without context.
 - Be unbiased — grade Anthropic, OpenAI, Google, DeepSeek equally hard.
-- IMPORTANT: Raw GPU spot $/hr understates true cost. Apply a 1.25x TCO multiplier for spot market (storage, reliability, goodput, support overhead). When computing production cost per million tokens, use TCO-adjusted GPU rate, not raw spot.
-- If a model sells tokens below TCO-adjusted production cost, say "X is selling at a loss of $Y per million tokens."
+- CRITICAL: Always state GPU availability percentages. Below 25% = "compute is scarce." Below 15% = "severe shortage." Above 60% = "oversupply." State free/total GPUs.
+- Apply a 1.25x TCO multiplier to raw GPU spot for true cost. If a model sells below TCO-adjusted cost, say "X is selling at a loss of $Y per million tokens."
 - Provider grades in one word each: Strong / Neutral / Weak / Burning Cash.
 - Do NOT use markdown. Plain text. No headers, bold, or dashes.
 - Each bullet starts with a number or dollar amount.
