@@ -161,6 +161,34 @@ export default function TokenWaterfall({ data }: Props) {
         </div>
       </Section>
 
+      {/* Compression points + Arbitrage */}
+      {(summary.compression_points?.length > 0 || summary.arbitrage_opportunities?.length > 0) && (
+        <div className="grid grid-cols-2 gap-3 mb-4">
+          {summary.compression_points?.length > 0 && (
+            <div className="bg-bep-card border border-bep-border rounded-md p-3">
+              <div className="text-[10px] font-mono text-bep-amber uppercase tracking-wider mb-2">Compression Points</div>
+              {summary.compression_points.map((p: string, i: number) => (
+                <div key={i} className="flex items-start gap-2 text-[11px] text-bep-dim mb-1.5 last:mb-0">
+                  <span className="text-bep-amber mt-0.5 flex-shrink-0">▸</span>
+                  <span className="leading-relaxed">{p}</span>
+                </div>
+              ))}
+            </div>
+          )}
+          {summary.arbitrage_opportunities?.length > 0 && (
+            <div className="bg-bep-card border border-bep-border rounded-md p-3">
+              <div className="text-[10px] font-mono text-bep-green uppercase tracking-wider mb-2">Arbitrage Opportunities</div>
+              {summary.arbitrage_opportunities.map((p: string, i: number) => (
+                <div key={i} className="flex items-start gap-2 text-[11px] text-bep-dim mb-1.5 last:mb-0">
+                  <span className="text-bep-green mt-0.5 flex-shrink-0">▸</span>
+                  <span className="leading-relaxed">{p}</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
       {/* Key finding */}
       <InsightBox>
         {summary.key_finding || "Margin concentrates at the distribution layer. Enterprise platforms capture 90%+ margins on AI while model providers operate at 20-60% and GPU providers at single digits. The platform is the moat, not the model."}
