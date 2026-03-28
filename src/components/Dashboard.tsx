@@ -68,12 +68,20 @@ export default function Dashboard({
     <div className="min-h-screen" style={{ background: "#050505", color: "#f0f0f0" }}>
       {/* Header */}
       <div className="px-6 pt-6 border-b border-bep-border">
-        <div className="flex items-baseline gap-2.5 mb-0.5">
-          <span className="font-serif text-[22px] font-black">Tokenomics</span>
-          <span className="text-[10px] text-bep-muted font-mono tracking-widest">BEP RESEARCH</span>
-        </div>
-        <div className="text-xs text-bep-dim mb-3.5">
-          The unit economics of AI infrastructure — from silicon to business model. By Ben Pouladian.
+        <div className="flex items-center gap-3 mb-1">
+          <div className="relative w-8 h-8 flex-shrink-0">
+            <img src="/bep-icon.png" alt="BEP Research" width={32} height={32} style={{ filter: "brightness(1.2)", borderRadius: 4 }} />
+            <div className="absolute inset-0 rounded" style={{ background: "linear-gradient(135deg, #76B90025, #00D4FF25)", mixBlendMode: "overlay" }} />
+          </div>
+          <div>
+            <div className="flex items-baseline gap-2">
+              <span className="font-serif text-[20px] font-black">The Stack</span>
+              <span className="text-[10px] text-bep-muted font-mono tracking-widest">BEP RESEARCH</span>
+            </div>
+            <div className="text-[11px] text-bep-dim">
+              AI infrastructure unit economics — live data by Ben Pouladian
+            </div>
+          </div>
         </div>
         <div className="flex overflow-x-auto gap-0">
           {TABS.map((t) => (

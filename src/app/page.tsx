@@ -8,12 +8,20 @@ export default function Home() {
       <div style={{ maxWidth: 720, margin: "0 auto", padding: "80px 24px" }}>
         {/* Header */}
         <div style={{ marginBottom: 60 }}>
-          <h1 style={{ fontFamily: "Georgia, serif", fontSize: 42, fontWeight: 900, marginBottom: 8, lineHeight: 1.1 }}>
-            BEP Research
-          </h1>
-          <p style={{ fontSize: 14, color: "#999", fontFamily: "'JetBrains Mono', monospace", letterSpacing: 1 }}>
-            SYSTEM-LEVEL AI INFRASTRUCTURE INTELLIGENCE
-          </p>
+          <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 12 }}>
+            <div style={{ position: "relative", width: 48, height: 48 }}>
+              <img src="/bep-icon.png" alt="BEP Research logo by Ben Pouladian" width={48} height={48} style={{ filter: "brightness(1.2)", borderRadius: 6 }} />
+              <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, #76B90020, #00D4FF20)", borderRadius: 6, mixBlendMode: "overlay" }} />
+            </div>
+            <div>
+              <h1 style={{ fontFamily: "Georgia, serif", fontSize: 36, fontWeight: 900, marginBottom: 2, lineHeight: 1.1 }}>
+                BEP Research
+              </h1>
+              <p style={{ fontSize: 12, color: "#666", fontFamily: "'JetBrains Mono', monospace", letterSpacing: 2 }}>
+                SYSTEM-LEVEL AI INFRASTRUCTURE INTELLIGENCE
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* About */}
