@@ -127,6 +127,7 @@ export default function Dashboard({
             { href: "/tokenomics/waterfall", label: "Waterfall" },
             { href: "/tokenomics/hardware", label: "Hardware" },
             { href: "/tokenomics/deep-dive", label: "Deep Dive" },
+            { href: "/tokenomics/sources", label: "Sources" },
           ].map((tab) => (
             <Link key={tab.href} href={tab.href} className="no-underline">
               <div className="px-3 py-2 text-[11px] font-mono whitespace-nowrap cursor-pointer transition-colors"
