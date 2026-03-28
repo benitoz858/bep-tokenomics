@@ -93,37 +93,33 @@ async function generateWithClaude(dataContext: string): Promise<{ paragraphs: st
 
   const response = await client.messages.create({
     model: "claude-opus-4-6",
-    max_tokens: 2500,
+    max_tokens: 800,
     messages: [{
       role: "user",
-      content: `You are a senior data scientist and quantitative analyst at BEP Research. Your job is to analyze the AI infrastructure market using live data — no narratives, no hype, just what the numbers say. You are completely unbiased. You have no affiliation with any provider. You call out every company equally — OpenAI, Anthropic, Google, DeepSeek, Meta, xAI, and every GPU cloud provider. If Anthropic is overpriced, say so. If DeepSeek is subsidizing, quantify it. If OpenAI's spread is unsustainable, flag it.
+      content: `You are a senior data scientist at BEP Research. Analyze this AI infrastructure data and write a SHORT, punchy market brief. Think Bloomberg terminal, not research report. Every word must earn its place.
 
-Here is today's live data:
+Live data:
 
 ${dataContext}
 
-Write a market brief with:
-1. 5-6 short paragraphs (2-3 sentences each). Structure:
-   - Para 1: The single most important signal in today's data. What changed, what's anomalous, what matters.
-   - Para 2: Token pricing analysis. Who's expensive, who's cheap, who's below production cost, and what that means. Name every provider.
-   - Para 3: GPU compute market. Supply/demand dynamics. Price movements. Availability constraints. What's tightening, what's loosening.
-   - Para 4: Margin analysis. Where is inference profitable vs unprofitable? At which tiers? On which hardware? Be specific with numbers.
-   - Para 5: Provider-by-provider assessment. Grade each major provider (OpenAI, Anthropic, Google, DeepSeek, Meta, xAI) on pricing strategy — who has pricing power, who's burning cash, who's positioned well.
-   - Para 6: Bottom line. What would a portfolio manager do with this data today? Be concrete.
-2. After the paragraphs, list 8-10 bullet points — each a specific quantitative finding from the data. Lead each with the metric.
+Write a brief with:
+1. Exactly 3 short paragraphs (2 sentences max each):
+   - Para 1: THE signal. What's the one thing that matters today? One data point, one implication.
+   - Para 2: Who's making money, who's losing money. Name names. Use numbers. One sentence on margins, one on who's subsidizing.
+   - Para 3: What to do about it. One sentence on what's overvalued, one on what's undervalued. Portfolio action.
+2. Exactly 6 bullet points. Each bullet is ONE short sentence with ONE number. No compound sentences.
 
 Rules:
-- Be ruthlessly data-driven. Every claim needs a number from the data provided.
-- Be unbiased. Criticize Anthropic, OpenAI, Google equally. No sacred cows.
-- Compare token sell prices to GPU production costs. If sell < cost, name the subsidy and estimate the monthly burn.
-- Calculate implied margins for each major provider's flagship model on the cheapest available GPU.
-- If GPU availability is below 25%, call it a supply constraint. Above 60%, oversupply.
-- Note day-over-day price changes and what they signal.
-- Do NOT use markdown. Plain text only. No headers, bold, or bullet dashes.
-- Bullet points are plain sentences starting with the key number.
+- MAXIMUM 100 words per paragraph. Cut ruthlessly.
+- Write at a 10th grade reading level. No jargon without context.
+- Be unbiased — grade Anthropic, OpenAI, Google, DeepSeek equally hard.
+- If a model sells tokens below production cost, say "X is selling at a loss of $Y per million tokens."
+- Provider grades in one word each: Strong / Neutral / Weak / Burning Cash.
+- Do NOT use markdown. Plain text. No headers, bold, or dashes.
+- Each bullet starts with a number or dollar amount.
 
-Format your response as JSON:
-{"paragraphs": ["paragraph 1", "paragraph 2", ...], "bullets": ["bullet 1", "bullet 2", ...]}`
+Format as JSON:
+{"paragraphs": ["para 1", "para 2", "para 3"], "bullets": ["bullet 1", ..., "bullet 6"]}`
     }],
   });
 
