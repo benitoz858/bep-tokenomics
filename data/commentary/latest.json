@@ -1,26 +1,26 @@
 {
-  "generatedAt": "2026-03-28T06:56:48.057Z",
+  "generatedAt": "2026-03-28T17:57:18.075Z",
   "date": "2026-03-28",
   "title": "Market Brief — Saturday, March 28, 2026",
   "poweredBy": "Claude Opus 4.6",
-  "summary": "B200 spot surged 15.2% overnight to $9.00/hr, signaling a demand spike for next-gen silicon even as H200s softened 5.2%. With TCO-adjusted B200 cost at $11.25/hr, anyone running inference on Blackwell at medium-tier pricing is hemorrhaging cash at -119% margins.",
+  "summary": "B200 spot surged 17.6% overnight to $9.19/hr, the sharpest single-day GPU move in the dataset, while availability sits at just 29%. This signals a demand squeeze on next-gen silicon that will pressure inference margins for anyone not locked into long-term contracts.",
   "paragraphs": [
-    "B200 spot surged 15.2% overnight to $9.00/hr, signaling a demand spike for next-gen silicon even as H200s softened 5.2%. With TCO-adjusted B200 cost at $11.25/hr, anyone running inference on Blackwell at medium-tier pricing is hemorrhaging cash at -119% margins.",
-    "DeepSeek V3.2 sells output at $0.38/M against a Llama 70B TCO-adjusted production cost north of $5.50/M on H100s, meaning DeepSeek is burning cash at roughly $5/M tokens to buy market share. OpenAI's o3 Pro at $80/M output is the lone fat margin play, while Anthropic grades Neutral with Opus 4.6 commanding $25/M output but Haiku 4.5 squeezed at $5/M. Grades: OpenAI Strong, Anthropic Neutral, Google Neutral, DeepSeek Burning Cash.",
-    "H200 at $2.32/hr spot ($2.90 TCO) is undervalued relative to H100 at $1.55/hr ($1.94 TCO) given superior inference throughput per dollar. Rotate out of B200 spot exposure at $9.00/hr until availability clears 40% and pricing normalizes below $6."
+    "B200 spot surged 17.6% overnight to $9.19/hr, the sharpest single-day GPU move in the dataset, while availability sits at just 29%. This signals a demand squeeze on next-gen silicon that will pressure inference margins for anyone not locked into long-term contracts.",
+    "DeepSeek V3.2 sells output at $0.38/M against a TCO-adjusted Llama 70B production cost north of $5/M on H100s — they are burning cash at industrial scale, subsidizing adoption by selling at a loss of roughly $4.30 per million tokens. OpenAI's o3 Pro at $80/M output prints money at 90%+ margins, while B200 operators running medium-tier pricing are underwater at negative 124% margins — every token served destroys value.",
+    "B200 spot at $11.49 TCO-adjusted is overvalued relative to H200 at $2.90, which delivers comparable Llama 70B throughput at 40% of the effective cost. Rotate GPU exposure from B200 to H200 spot and harvest the spread before availability tightens further."
   ],
   "bullets": [
-    "21.41 LLMflation index means API prices have fallen roughly 79% since GPT-4 launched at $60/M output in March 2023.",
-    "$0.38/M output from DeepSeek V3.2 is 210x cheaper than OpenAI o3 Pro at $80/M output.",
-    "22% H200 availability is the tightest across all three GPU classes tracked today.",
-    "$9.00/hr B200 median spot is 3x the floor price of $3.00/hr, showing extreme bid dispersion.",
-    "97% margin at ultra-premium tier on H100 means top-tier API providers net roughly $139/M tokens above cost.",
-    "0.38 index score for DeepSeek and open-source combined is 66x below Anthropic's 25, reflecting aggressive below-cost pricing."
+    "21.41 on the LLMflation Index means API prices have fallen roughly 79% since GPT-4 launch three years ago.",
+    "$0.38/M output from DeepSeek V3.2 is the cheapest token on the market, priced 99.5% below o3 Pro.",
+    "29% B200 availability is the tightest supply among all three GPU classes tracked.",
+    "$2.32/hr H200 spot dropped 5.2% day-over-day, the only GPU class to cheapen.",
+    "97% ultra-tier margin on H100 and H200 confirms premium API pricing remains the only reliably profitable inference play.",
+    "$0.60/M output from Llama 4 Maverick undercuts every closed-source frontier model by at least 4x."
   ],
   "dataPoints": {
     "modelsTracked": 18,
     "gpuMarketsTracked": 3,
     "llmflationIndex": 21.41,
-    "gpuOffers": 82
+    "gpuOffers": 73
   }
 }

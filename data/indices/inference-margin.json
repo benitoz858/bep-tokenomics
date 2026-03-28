@@ -1,12 +1,12 @@
 {
-  "computedAt": "2026-03-28T06:56:32.739Z",
+  "computedAt": "2026-03-28T17:56:46.191Z",
   "date": "2026-03-28",
   "margins": [
     {
       "gpuModel": "nvidia-h100",
-      "gpuCostPerHour": 1.550037037037037,
+      "gpuCostPerHour": 1.6014814814814813,
       "tokPerSecPerGpu": 95,
-      "costPerMillionTokens": 4.53,
+      "costPerMillionTokens": 4.68,
       "margins": [
         {
           "tier": "Free",
@@ -17,26 +17,26 @@
         {
           "tier": "Medium",
           "revenuePerMillion": 3,
-          "margin": -51.08,
-          "breakEvenUtilization": 151.08
+          "margin": -56.09,
+          "breakEvenUtilization": 156.09
         },
         {
           "tier": "High",
           "revenuePerMillion": 6,
-          "margin": 24.46,
-          "breakEvenUtilization": 75.54
+          "margin": 21.96,
+          "breakEvenUtilization": 78.04
         },
         {
           "tier": "Premium",
           "revenuePerMillion": 45,
-          "margin": 89.93,
-          "breakEvenUtilization": 10.07
+          "margin": 89.59,
+          "breakEvenUtilization": 10.41
         },
         {
           "tier": "Ultra",
           "revenuePerMillion": 150,
-          "margin": 96.98,
-          "breakEvenUtilization": 3.02
+          "margin": 96.88,
+          "breakEvenUtilization": 3.12
         }
       ]
     },
@@ -80,9 +80,9 @@
     },
     {
       "gpuModel": "nvidia-b200",
-      "gpuCostPerHour": 9.000555555555556,
+      "gpuCostPerHour": 9.1878125,
       "tokPerSecPerGpu": 380,
-      "costPerMillionTokens": 6.58,
+      "costPerMillionTokens": 6.72,
       "margins": [
         {
           "tier": "Free",
@@ -93,26 +93,26 @@
         {
           "tier": "Medium",
           "revenuePerMillion": 3,
-          "margin": -119.31,
-          "breakEvenUtilization": 219.31
+          "margin": -123.87,
+          "breakEvenUtilization": 223.87
         },
         {
           "tier": "High",
           "revenuePerMillion": 6,
-          "margin": -9.66,
-          "breakEvenUtilization": 109.66
+          "margin": -11.94,
+          "breakEvenUtilization": 111.94
         },
         {
           "tier": "Premium",
           "revenuePerMillion": 45,
-          "margin": 85.38,
-          "breakEvenUtilization": 14.62
+          "margin": 85.08,
+          "breakEvenUtilization": 14.92
         },
         {
           "tier": "Ultra",
           "revenuePerMillion": 150,
-          "margin": 95.61,
-          "breakEvenUtilization": 4.39
+          "margin": 95.52,
+          "breakEvenUtilization": 4.48
         }
       ]
     }
