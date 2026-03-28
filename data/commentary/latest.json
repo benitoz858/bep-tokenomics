@@ -1,21 +1,21 @@
 {
-  "generatedAt": "2026-03-28T17:57:18.075Z",
+  "generatedAt": "2026-03-28T18:04:46.772Z",
   "date": "2026-03-28",
   "title": "Market Brief — Saturday, March 28, 2026",
   "poweredBy": "Claude Opus 4.6",
-  "summary": "B200 spot surged 17.6% overnight to $9.19/hr, the sharpest single-day GPU move in the dataset, while availability sits at just 29%. This signals a demand squeeze on next-gen silicon that will pressure inference margins for anyone not locked into long-term contracts.",
+  "summary": "B200 spot surged 17.6% overnight to $9.19/hr, the sharpest single-day GPU move in the dataset, while availability sits at just 29%. TCO-adjusted B200 cost hits $11.49/hr, making next-gen inference economics underwater at medium and high pricing tiers — the Blackwell premium is real and unsustainable at current spot.",
   "paragraphs": [
-    "B200 spot surged 17.6% overnight to $9.19/hr, the sharpest single-day GPU move in the dataset, while availability sits at just 29%. This signals a demand squeeze on next-gen silicon that will pressure inference margins for anyone not locked into long-term contracts.",
-    "DeepSeek V3.2 sells output at $0.38/M against a TCO-adjusted Llama 70B production cost north of $5/M on H100s — they are burning cash at industrial scale, subsidizing adoption by selling at a loss of roughly $4.30 per million tokens. OpenAI's o3 Pro at $80/M output prints money at 90%+ margins, while B200 operators running medium-tier pricing are underwater at negative 124% margins — every token served destroys value.",
-    "B200 spot at $11.49 TCO-adjusted is overvalued relative to H200 at $2.90, which delivers comparable Llama 70B throughput at 40% of the effective cost. Rotate GPU exposure from B200 to H200 spot and harvest the spread before availability tightens further."
+    "B200 spot surged 17.6% overnight to $9.19/hr, the sharpest single-day GPU move in the dataset, while availability sits at just 29%. TCO-adjusted B200 cost hits $11.49/hr, making next-gen inference economics underwater at medium and high pricing tiers — the Blackwell premium is real and unsustainable at current spot.",
+    "DeepSeek V3.2 sells output at $0.38/M against a TCO-adjusted Llama 70B production cost north of $5/M on H100s — DeepSeek is burning cash at roughly $4.50/M tokens to hold market share. OpenAI's o3 Pro at $80/M output commands 97% Ultra-tier margins on H200s, effectively subsidizing the entire industry price war from the top end while Anthropic holds a comfortable middle with Sonnet 4.6 at $15/M output earning Strong margins.",
+    "B200 spot is overvalued at $9.19/hr given 29% availability signals incoming supply relief and TCO-adjusted costs that destroy inference margins below premium tier. DeepSeek and Meta's sub-$1/M output models are undervalued for buyers — lock in enterprise contracts now before the subsidy window closes."
   ],
   "bullets": [
-    "21.41 on the LLMflation Index means API prices have fallen roughly 79% since GPT-4 launch three years ago.",
-    "$0.38/M output from DeepSeek V3.2 is the cheapest token on the market, priced 99.5% below o3 Pro.",
-    "29% B200 availability is the tightest supply among all three GPU classes tracked.",
-    "$2.32/hr H200 spot dropped 5.2% day-over-day, the only GPU class to cheapen.",
-    "97% ultra-tier margin on H100 and H200 confirms premium API pricing remains the only reliably profitable inference play.",
-    "$0.60/M output from Llama 4 Maverick undercuts every closed-source frontier model by at least 4x."
+    "17.6% overnight B200 spot increase is the largest single-day GPU price move tracked this quarter.",
+    "$11.49/hr TCO-adjusted B200 cost produces a negative 12% margin even at high-tier pricing.",
+    "$0.38/M output from DeepSeek V3.2 implies a loss of approximately $4.50 per million tokens on H100 inference.",
+    "21.41 on the LLMflation Index means API prices have fallen 79% since GPT-4 launch three years ago.",
+    "$80/M output on o3 Pro delivers 97% margin, making it OpenAI's most profitable product by far.",
+    "24% GPU availability across both H100 and H200 pools signals tight but stable supply conditions."
   ],
   "dataPoints": {
     "modelsTracked": 18,
