@@ -10,7 +10,8 @@
     "fetch:tokens": "tsx scripts/fetch-openrouter.ts",
     "fetch:gpus": "tsx scripts/fetch-gpu-pricing.ts",
     "compute": "tsx scripts/compute-indices.ts",
-    "fetch:all": "npm run fetch:tokens && npm run fetch:gpus && npm run compute"
+    "commentary": "tsx scripts/generate-commentary.ts",
+    "fetch:all": "npm run fetch:tokens && npm run fetch:gpus && npm run compute && npm run commentary"
   },
   "dependencies": {
     "next": "^16.2.1",

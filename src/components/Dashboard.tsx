@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import MarketBrief from "./MarketBrief";
 import SignalFeed from "./SignalFeed";
 import ActionableInsights from "./ActionableInsights";
 import Metric from "./ui/Metric";
@@ -34,6 +35,7 @@ interface DashboardProps {
   tcoProviders: never[];
   inferenceMarginData: unknown;
   gpuHardwareSpecs: GPUHardwareSpecsData | null;
+  commentary: unknown;
 }
 
 export default function Dashboard({
@@ -45,6 +47,7 @@ export default function Dashboard({
   throughputModels,
   tierHardware,
   lpxCostAdder,
+  commentary,
 }: DashboardProps) {
 
   // ── Compute derived data for overview ──
@@ -129,6 +132,9 @@ export default function Dashboard({
       </div>
 
       <div className="px-6 py-5 max-w-[920px]">
+
+        {/* ═══ MARKET BRIEF ═══ */}
+        <MarketBrief data={commentary as never} />
 
         {/* ═══ SIGNALS + INSIGHTS ═══ */}
         <SignalFeed

@@ -218,6 +218,11 @@ export function getInferenceProviderMargins(): unknown {
   return readJSON(join(DATA_DIR, "static", "inference-provider-margins.json"));
 }
 
+// ── Market Commentary ──
+export function getCommentary(): unknown {
+  return readJSON(join(DATA_DIR, "commentary", "latest.json"));
+}
+
 // ── GPU Hardware Specs ──
 export interface GPUHardwareSpec {
   id: string;

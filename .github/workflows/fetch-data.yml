@@ -27,6 +27,8 @@ jobs:
           GETDEPLOYING_API_KEY: ${{ secrets.GETDEPLOYING_API_KEY }}
       - name: Compute indices
         run: npx tsx scripts/compute-indices.ts
+      - name: Generate market commentary
+        run: npx tsx scripts/generate-commentary.ts
 
       # Commit updated data
       - name: Commit updated data

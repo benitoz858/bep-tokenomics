@@ -13,6 +13,7 @@ import {
   getTCOProviders,
   getInferenceProviderMargins,
   getGPUHardwareSpecs,
+  getCommentary,
 } from "@/lib/data";
 
 // Fallback data when live data hasn't been fetched yet
@@ -59,6 +60,7 @@ export default function Home() {
   const marginData = getInferenceProviderMargins();
   const throughputData = getGPUThroughput();
   const gpuHardwareSpecs = getGPUHardwareSpecs();
+  const commentary = getCommentary();
 
   const tokenModels = tokenData?.models || FALLBACK_TOKEN_MODELS;
   const nvidiaTiers = tiersData?.tiers || [];
@@ -91,6 +93,7 @@ export default function Home() {
       tcoProviders={(tcoData?.providers || []) as never[]}
       inferenceMarginData={marginData}
       gpuHardwareSpecs={gpuHardwareSpecs}
+      commentary={commentary}
     />
   );
 }
