@@ -256,32 +256,152 @@ export default function Dashboard({
         </Section>
 
         {/* ═══ GPU SPOT MARKET ═══ */}
-        <Section title="GPU Spot Market" subtitle="Live availability and pricing from Vast.ai. Red = tight supply.">
+        <Section title="GPU Spot Market" subtitle="Live pricing, availability, and trends. Updated daily from Vast.ai.">
+          {/* GPU cards with day-over-day changes */}
           <div className="grid grid-cols-3 gap-2.5 mb-3">
             {gpusWithData.slice(0, 3).map((gpu) => {
               const name = GPU_DISPLAY_NAMES[gpu.gpuModel] || gpu.gpuModel;
-              const spot = gpu.spot.median;
+              const spot = gpu.spot.median || 0;
+
+              // Compute day-over-day from history
+              const historyDates = Object.keys(gpuPricing.history).sort();
+              let prevSpot: number | null = null;
+              let dayChange = 0;
+              if (historyDates.length >= 2) {
+                const prevDate = historyDates[historyDates.length - 2];
+                const prevGpu = gpuPricing.history[prevDate]?.find((g: GPUSummary) => g.gpuModel === gpu.gpuModel);
+                prevSpot = prevGpu?.spot.median || null;
+                if (prevSpot && spot) dayChange = ((spot - prevSpot) / prevSpot) * 100;
+              }
+
               return (
                 <div key={gpu.gpuModel} className="bg-bep-card border border-bep-border rounded-md p-3">
-                  <div className="text-sm font-bold font-mono text-bep-white mb-2">{name}</div>
-                  <div className="flex justify-between text-[11px] mb-1">
-                    <span className="text-bep-muted">Spot median</span>
-                    <span className="font-mono text-bep-cyan">{spot ? `$${spot.toFixed(2)}/hr` : "N/A"}</span>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-bold font-mono text-bep-white">{name}</span>
+                    {dayChange !== 0 && (
+                      <span className="text-[11px] font-mono font-semibold" style={{ color: dayChange > 0 ? "#FF4444" : "#76B900" }}>
+                        {dayChange > 0 ? "▲" : "▼"} {Math.abs(dayChange).toFixed(1)}%
+                      </span>
+                    )}
                   </div>
-                  <div className="flex justify-between text-[11px] mb-1">
+                  <div className="text-xl font-bold font-mono text-bep-cyan mb-1">
+                    ${spot.toFixed(2)}<span className="text-xs text-bep-dim">/hr</span>
+                  </div>
+                  <div className="flex justify-between text-[10px] mb-0.5">
+                    <span className="text-bep-muted">Range</span>
+                    <span className="font-mono text-bep-dim">${gpu.spot.min?.toFixed(2) || "?"} – ${gpu.spot.max?.toFixed(2) || "?"}</span>
+                  </div>
+                  <div className="flex justify-between text-[10px] mb-0.5">
                     <span className="text-bep-muted">Availability</span>
-                    <span className="font-mono" style={{ color: gpu.availabilityPct < 20 ? "#FF4444" : gpu.availabilityPct < 40 ? "#FFB800" : "#76B900" }}>
+                    <span className="font-mono font-semibold" style={{ color: gpu.availabilityPct < 20 ? "#FF4444" : gpu.availabilityPct < 30 ? "#FFB800" : "#76B900" }}>
                       {gpu.availabilityPct}%
                     </span>
                   </div>
-                  <div className="flex justify-between text-[11px]">
-                    <span className="text-bep-muted">GPUs</span>
-                    <span className="font-mono text-bep-dim">{gpu.totalGpusAvailable}/{gpu.totalGpusAvailable + gpu.totalGpusRented}</span>
+                  <div className="flex justify-between text-[10px] mb-0.5">
+                    <span className="text-bep-muted">Supply</span>
+                    <span className="font-mono text-bep-dim">{gpu.totalGpusAvailable} free / {gpu.totalGpusAvailable + gpu.totalGpusRented} total</span>
+                  </div>
+                  <div className="flex justify-between text-[10px]">
+                    <span className="text-bep-muted">TCO cost</span>
+                    <span className="font-mono text-bep-amber">${(spot * 1.25).toFixed(2)}/hr</span>
+                  </div>
+                  {/* Availability bar */}
+                  <div className="mt-2 h-1.5 rounded-full bg-bep-bg overflow-hidden">
+                    <div className="h-full rounded-full" style={{
+                      width: `${Math.min(gpu.availabilityPct, 100)}%`,
+                      background: gpu.availabilityPct < 20 ? "#FF4444" : gpu.availabilityPct < 30 ? "#FFB800" : "#76B900",
+                    }} />
                   </div>
                 </div>
               );
             })}
           </div>
+
+          {/* Spot price trend chart */}
+          {Object.keys(gpuPricing.history).length >= 2 && (() => {
+            const dates = Object.keys(gpuPricing.history).sort();
+            const gpuModels = ["nvidia-h100", "nvidia-h200", "nvidia-b200"];
+            const gpuColors: Record<string, string> = { "nvidia-h100": "#A855F7", "nvidia-h200": "#00D4FF", "nvidia-b200": "#FF4444" };
+
+            const chartData = dates.map(date => {
+              const row: Record<string, number | string | null> = {
+                date: new Date(date).toLocaleDateString("en-US", { month: "short", day: "numeric" }),
+              };
+              for (const gm of gpuModels) {
+                const entry = gpuPricing.history[date]?.find((g: GPUSummary) => g.gpuModel === gm);
+                row[GPU_DISPLAY_NAMES[gm] || gm] = entry?.spot.median || null;
+              }
+              return row;
+            });
+
+            return (
+              <div className="bg-bep-card border border-bep-border rounded-md p-3 mb-3">
+                <div className="text-[10px] font-mono text-bep-muted uppercase tracking-wider mb-2">Spot $/hr — {dates.length} day trend</div>
+                <ResponsiveContainer width="100%" height={160}>
+                  <LineChart data={chartData} margin={{ top: 5, right: 5, left: 0, bottom: 0 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#1a1a1a" />
+                    <XAxis dataKey="date" tick={{ fill: "#666", fontSize: 9 }} />
+                    <YAxis tick={{ fill: "#666", fontSize: 9 }} tickFormatter={(v: number) => `$${v}`} />
+                    <Tooltip contentStyle={{ background: "#111", border: "1px solid #252525", fontSize: 10, fontFamily: "monospace" }}
+                      formatter={(v) => [`$${Number(v).toFixed(2)}/hr`, ""]} />
+                    {gpuModels.map(gm => (
+                      <Line key={gm} type="monotone" dataKey={GPU_DISPLAY_NAMES[gm] || gm}
+                        stroke={gpuColors[gm]} strokeWidth={2} dot={{ r: 3, fill: gpuColors[gm] }} connectNulls />
+                    ))}
+                  </LineChart>
+                </ResponsiveContainer>
+                <div className="flex gap-3 mt-1 text-[9px] font-mono text-bep-muted justify-center">
+                  {gpuModels.map(gm => (
+                    <span key={gm}><span style={{ color: gpuColors[gm] }}>●</span> {GPU_DISPLAY_NAMES[gm]}</span>
+                  ))}
+                </div>
+              </div>
+            );
+          })()}
+
+          {/* Availability trend chart */}
+          {Object.keys(gpuPricing.history).length >= 2 && (() => {
+            const dates = Object.keys(gpuPricing.history).sort();
+            const gpuModels = ["nvidia-h100", "nvidia-h200", "nvidia-b200"];
+            const gpuColors: Record<string, string> = { "nvidia-h100": "#A855F7", "nvidia-h200": "#00D4FF", "nvidia-b200": "#FF4444" };
+
+            const chartData = dates.map(date => {
+              const row: Record<string, number | string | null> = {
+                date: new Date(date).toLocaleDateString("en-US", { month: "short", day: "numeric" }),
+              };
+              for (const gm of gpuModels) {
+                const entry = gpuPricing.history[date]?.find((g: GPUSummary) => g.gpuModel === gm);
+                row[GPU_DISPLAY_NAMES[gm] || gm] = entry?.availabilityPct ?? null;
+              }
+              return row;
+            });
+
+            return (
+              <div className="bg-bep-card border border-bep-border rounded-md p-3">
+                <div className="text-[10px] font-mono text-bep-muted uppercase tracking-wider mb-2">Availability % — {dates.length} day trend</div>
+                <ResponsiveContainer width="100%" height={160}>
+                  <LineChart data={chartData} margin={{ top: 5, right: 5, left: 0, bottom: 0 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#1a1a1a" />
+                    <XAxis dataKey="date" tick={{ fill: "#666", fontSize: 9 }} />
+                    <YAxis tick={{ fill: "#666", fontSize: 9 }} tickFormatter={(v: number) => `${v}%`} domain={[0, 100]} />
+                    <Tooltip contentStyle={{ background: "#111", border: "1px solid #252525", fontSize: 10, fontFamily: "monospace" }}
+                      formatter={(v) => [`${Number(v)}%`, ""]} />
+                    <ReferenceLine y={25} stroke="#FFB80040" strokeDasharray="4 4" label={{ value: "Tight", fill: "#FFB80060", fontSize: 8, position: "right" }} />
+                    {gpuModels.map(gm => (
+                      <Line key={gm} type="monotone" dataKey={GPU_DISPLAY_NAMES[gm] || gm}
+                        stroke={gpuColors[gm]} strokeWidth={2} dot={{ r: 3, fill: gpuColors[gm] }} connectNulls />
+                    ))}
+                  </LineChart>
+                </ResponsiveContainer>
+                <div className="flex gap-3 mt-1 text-[9px] font-mono text-bep-muted justify-center">
+                  {gpuModels.map(gm => (
+                    <span key={gm}><span style={{ color: gpuColors[gm] }}>●</span> {GPU_DISPLAY_NAMES[gm]}</span>
+                  ))}
+                  <span>--- 25% tight threshold</span>
+                </div>
+              </div>
+            );
+          })()}
         </Section>
 
         {/* Footer */}
