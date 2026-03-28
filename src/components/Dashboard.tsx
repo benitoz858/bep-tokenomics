@@ -11,6 +11,7 @@ import GPUPriceTracker from "./GPUPriceTracker";
 import TCOCalculator from "./TCOCalculator";
 import InferenceProviderMargins from "./InferenceProviderMargins";
 import SignalFeed from "./SignalFeed";
+import ActionableInsights from "./ActionableInsights";
 import HardwareSpecs from "./HardwareSpecs";
 import type {
   TokenPriceModel,
@@ -116,6 +117,12 @@ export default function Dashboard({
           gpuSummaries={gpuPricing.summaries}
           llmflationIndex={llmflationIndex}
           fetchedAt={gpuPricing.fetchedAt}
+        />
+        <ActionableInsights
+          tokenModels={tokenModels}
+          gpuSummaries={gpuPricing.summaries}
+          gpuThroughput={gpuThroughput}
+          llmflationIndex={llmflationIndex}
         />
         {tab === "llmflation" && (
           <LLMflationCurve models={tokenModels} llmflationIndex={llmflationIndex} history={tokenHistory} />
