@@ -1,0 +1,260 @@
+{
+  "source": "BEP Research — compiled from public pricing pages, earnings calls, SEC filings, press releases",
+  "lastUpdated": "2026-03-28",
+  "methodology": "Token Cost Waterfall maps the margin stack from GPU silicon to end-customer. Three layers: (1) Model Provider — what it costs to produce and sell tokens, (2) Enterprise Platform — what SaaS companies pay model providers and charge customers, (3) End Customer — effective cost per AI interaction. Assumptions flagged with confidence levels.",
+  "layers": {
+    "model_providers": {
+      "description": "What model providers charge per token via API. Source: OpenRouter live pricing.",
+      "confidence": "high",
+      "data_source": "Live API — OpenRouter daily fetch"
+    },
+    "enterprise_platforms": {
+      "description": "What enterprise SaaS platforms charge customers for AI features, and what they pay model providers.",
+      "confidence": "medium",
+      "data_source": "Public pricing pages, earnings calls, analyst estimates"
+    },
+    "end_customer": {
+      "description": "Effective cost per AI interaction for the end customer after platform markup.",
+      "confidence": "medium-low",
+      "data_source": "Estimated from platform pricing and typical usage patterns"
+    }
+  },
+  "platforms": [
+    {
+      "id": "microsoft-copilot",
+      "name": "Microsoft 365 Copilot",
+      "vendor": "Microsoft",
+      "modelProvider": "OpenAI (GPT-4o/GPT-5 class)",
+      "customerPricing": {
+        "model": "per-user-month",
+        "price": 30,
+        "unit": "$/user/month",
+        "notes": "M365 Copilot. Unlimited AI queries within subscription."
+      },
+      "estimatedModelCost": {
+        "tokensPerInteraction": 4000,
+        "interactionsPerUserPerDay": 15,
+        "modelCostPerMTokens": 10,
+        "monthlyModelCostPerUser": 18.00,
+        "confidence": "medium",
+        "assumptions": "Assumes GPT-4o class at $10/M output with 50% volume discount = $5/M effective. 15 interactions/day × 4K tokens × 30 days."
+      },
+      "margins": {
+        "platformMarginPct": 40,
+        "platformMarginPerUser": 12.00,
+        "modelProviderShare": 18.00,
+        "notes": "Microsoft likely gets significant volume discount from OpenAI (49% investor). Actual margin could be higher."
+      },
+      "flagged": false,
+      "dataGap": null
+    },
+    {
+      "id": "github-copilot",
+      "name": "GitHub Copilot",
+      "vendor": "Microsoft",
+      "modelProvider": "OpenAI (GPT-4o/Codex) + Anthropic (Claude Sonnet)",
+      "customerPricing": {
+        "model": "per-user-month",
+        "price": 19,
+        "unit": "$/user/month",
+        "notes": "Individual plan. Business at $19/user/month. Enterprise at $39/user/month."
+      },
+      "estimatedModelCost": {
+        "tokensPerInteraction": 8000,
+        "interactionsPerUserPerDay": 40,
+        "modelCostPerMTokens": 8,
+        "monthlyModelCostPerUser": 76.80,
+        "confidence": "medium-low",
+        "assumptions": "Heavy usage: 40 completions/day × 8K tokens. Multi-model routing (GPT-4o + Sonnet). Blended cost ~$8/M output. At this usage, GitHub Copilot may be loss-making per user."
+      },
+      "margins": {
+        "platformMarginPct": -304,
+        "platformMarginPerUser": -57.80,
+        "modelProviderShare": 76.80,
+        "notes": "DATA GAP: Actual usage varies wildly. Light users (~10 completions/day) are profitable. Heavy users are deeply subsidized. GitHub disclosed Copilot is approaching profitability in aggregate as of late 2025."
+      },
+      "flagged": true,
+      "dataGap": "Actual per-user token consumption is not disclosed. Margin estimate is highly usage-dependent."
+    },
+    {
+      "id": "servicenow-nowassist",
+      "name": "ServiceNow Now Assist",
+      "vendor": "ServiceNow",
+      "modelProvider": "Anthropic (Claude) + ServiceNow proprietary models",
+      "customerPricing": {
+        "model": "per-user-month",
+        "price": 50,
+        "unit": "$/user/month (estimated add-on)",
+        "notes": "Now Assist is an add-on to existing ServiceNow licenses. Pricing varies by module. $600M+ ACV as of Q4 2025. Estimated $40-60/user/month."
+      },
+      "estimatedModelCost": {
+        "tokensPerInteraction": 6000,
+        "interactionsPerUserPerDay": 8,
+        "modelCostPerMTokens": 15,
+        "monthlyModelCostPerUser": 21.60,
+        "confidence": "low",
+        "assumptions": "Uses Claude as default model for Build Agent (Anthropic partnership). Mixed with proprietary smaller models for routing/classification. 8 interactions/day is conservative for IT workflow automation."
+      },
+      "margins": {
+        "platformMarginPct": 57,
+        "platformMarginPerUser": 28.40,
+        "modelProviderShare": 21.60,
+        "notes": "ServiceNow has strong pricing power — enterprise customers locked into platform. McDermott bought $23M personal shares. Margin likely higher due to model routing (cheap models for simple queries)."
+      },
+      "flagged": true,
+      "dataGap": "Now Assist pricing is not publicly listed. ACV disclosed but per-user breakdown is estimated."
+    },
+    {
+      "id": "salesforce-agentforce",
+      "name": "Salesforce Agentforce",
+      "vendor": "Salesforce",
+      "modelProvider": "OpenAI + Anthropic + Salesforce proprietary (xGen)",
+      "customerPricing": {
+        "model": "per-conversation",
+        "price": 2,
+        "unit": "$/conversation",
+        "notes": "Agentforce pricing: $2 per conversation. This is a usage-based model, not per-seat."
+      },
+      "estimatedModelCost": {
+        "tokensPerInteraction": 10000,
+        "interactionsPerUserPerDay": 1,
+        "modelCostPerMTokens": 12,
+        "monthlyModelCostPerUser": null,
+        "costPerConversation": 0.12,
+        "confidence": "medium",
+        "assumptions": "~10K tokens per conversation (multi-turn agent interaction). Blended model cost ~$12/M using mix of GPT-4o and proprietary xGen for routing. Volume discount likely."
+      },
+      "margins": {
+        "platformMarginPct": 94,
+        "platformMarginPerUser": null,
+        "marginPerConversation": 1.88,
+        "modelProviderShare": 0.12,
+        "notes": "Extraordinary margin. Salesforce charges $2/conversation against ~$0.12 model cost. This is a 94% gross margin on AI — the platform distribution premium in action."
+      },
+      "flagged": false,
+      "dataGap": null
+    },
+    {
+      "id": "zendesk-ai",
+      "name": "Zendesk AI Agents",
+      "vendor": "Zendesk",
+      "modelProvider": "OpenAI + proprietary",
+      "customerPricing": {
+        "model": "per-resolution",
+        "price": 1.00,
+        "unit": "$/automated resolution",
+        "notes": "Zendesk AI agent pricing: $1 per automated resolution. Only charged when AI fully resolves a ticket without human handoff."
+      },
+      "estimatedModelCost": {
+        "tokensPerInteraction": 8000,
+        "interactionsPerUserPerDay": 1,
+        "modelCostPerMTokens": 10,
+        "costPerResolution": 0.08,
+        "confidence": "medium",
+        "assumptions": "~8K tokens per resolution (multi-turn support conversation). Uses GPT-4o class with proprietary fine-tuning. Volume discount from OpenAI likely."
+      },
+      "margins": {
+        "platformMarginPct": 92,
+        "marginPerResolution": 0.92,
+        "modelProviderShare": 0.08,
+        "notes": "Similar to Salesforce — enormous markup on the model cost. Enterprise distribution is the margin, not the AI."
+      },
+      "flagged": false,
+      "dataGap": null
+    },
+    {
+      "id": "intercom-fin",
+      "name": "Intercom Fin AI",
+      "vendor": "Intercom",
+      "modelProvider": "OpenAI (GPT-4o) + Anthropic (Claude)",
+      "customerPricing": {
+        "model": "per-resolution",
+        "price": 0.99,
+        "unit": "$/resolution",
+        "notes": "Fin AI agent: $0.99 per resolution. Fin AI Copilot for agents included in plans."
+      },
+      "estimatedModelCost": {
+        "tokensPerInteraction": 6000,
+        "interactionsPerUserPerDay": 1,
+        "modelCostPerMTokens": 10,
+        "costPerResolution": 0.06,
+        "confidence": "medium",
+        "assumptions": "~6K tokens per resolution. Multi-model (GPT-4o + Claude for quality). Volume discount."
+      },
+      "margins": {
+        "platformMarginPct": 94,
+        "marginPerResolution": 0.93,
+        "modelProviderShare": 0.06,
+        "notes": "Near-identical margin to Zendesk. The AI agent per-resolution model is the highest-margin pricing model in enterprise SaaS."
+      },
+      "flagged": false,
+      "dataGap": null
+    },
+    {
+      "id": "google-vertex",
+      "name": "Google Vertex AI (Platform markup)",
+      "vendor": "Google",
+      "modelProvider": "Google (Gemini) — same company",
+      "customerPricing": {
+        "model": "per-token",
+        "price": null,
+        "unit": "$/M tokens",
+        "notes": "Vertex AI charges same as direct Gemini API pricing. No platform markup on own models. Third-party models (Claude, Llama) carry small markup."
+      },
+      "estimatedModelCost": {
+        "tokensPerInteraction": null,
+        "modelCostPerMTokens": null,
+        "confidence": "high",
+        "assumptions": "Google is vertically integrated — no external model provider cost. Margin is GPU cost to API price."
+      },
+      "margins": {
+        "platformMarginPct": null,
+        "notes": "Vertically integrated. Google's margin is the inference margin from our GPU tracker — hardware cost to API price. No platform layer."
+      },
+      "flagged": false,
+      "dataGap": "Vertex markup on third-party models not publicly disclosed."
+    },
+    {
+      "id": "azure-openai",
+      "name": "Azure OpenAI Service",
+      "vendor": "Microsoft",
+      "modelProvider": "OpenAI — Microsoft distribution",
+      "customerPricing": {
+        "model": "per-token",
+        "price": null,
+        "unit": "$/M tokens",
+        "notes": "Azure OpenAI pricing matches or slightly exceeds direct OpenAI API pricing. Enterprise customers often get volume discounts through EAs."
+      },
+      "estimatedModelCost": {
+        "tokensPerInteraction": null,
+        "modelCostPerMTokens": null,
+        "confidence": "high",
+        "assumptions": "Microsoft takes a revenue share from OpenAI API usage on Azure. Estimated 20-30% of token revenue goes to Microsoft as platform fee."
+      },
+      "margins": {
+        "platformMarginPct": 25,
+        "notes": "Microsoft keeps estimated 20-30% of OpenAI API revenue on Azure as platform/infra fee. OpenAI keeps the rest. Source: partnership structure disclosed in SEC filings."
+      },
+      "flagged": true,
+      "dataGap": "Exact revenue share between Microsoft and OpenAI is not publicly confirmed."
+    }
+  ],
+  "waterfall_summary": {
+    "gpu_to_token": {
+      "description": "GPU rental → token production cost",
+      "example": "H100 at $1.84 TCO/hr → $5.36/M output tokens (Llama 70B)",
+      "margin_holder": "Cloud provider (Vast.ai, CoreWeave, etc.)"
+    },
+    "token_to_api": {
+      "description": "Token production cost → API sell price",
+      "example": "$5.36/M cost → $15/M sell (Anthropic Sonnet) = 64% margin",
+      "margin_holder": "Model provider (OpenAI, Anthropic, Google)"
+    },
+    "api_to_platform": {
+      "description": "API price → enterprise platform price",
+      "example": "$15/M API cost → $2/conversation (Salesforce) = ~94% margin",
+      "margin_holder": "Enterprise platform (Salesforce, ServiceNow, Zendesk)"
+    },
+    "key_finding": "Margin concentrates at the distribution layer, not the production layer. Enterprise platforms capture 90%+ margins on AI features while model providers operate at 20-60% margins and GPU providers at single-digit margins on commodity hardware. The platform is the moat, not the model."
+  }
+}

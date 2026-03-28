@@ -124,6 +124,7 @@ export default function Dashboard({
             { href: "/tokenomics", label: "Overview", active: true },
             { href: "/tokenomics/margins", label: "Margin Calculator" },
             { href: "/tokenomics/tco", label: "Cluster TCO" },
+            { href: "/tokenomics/waterfall", label: "Waterfall" },
             { href: "/tokenomics/hardware", label: "Hardware" },
             { href: "/tokenomics/deep-dive", label: "Deep Dive" },
           ].map((tab) => (
