@@ -91,20 +91,40 @@ export default function Dashboard({
   return (
     <div className="min-h-screen" style={{ background: "#050505", color: "#f0f0f0" }}>
       {/* Header */}
-      <div className="px-6 pt-5 pb-4 border-b border-bep-border">
-        <div className="flex items-center gap-3">
-          <div className="relative w-8 h-8 flex-shrink-0">
-            <img src="/bep-icon.png" alt="BEP Research" width={32} height={32} style={{ filter: "brightness(1.2)", borderRadius: 4 }} />
-          </div>
-          <div>
-            <div className="flex items-baseline gap-2">
-              <span className="font-sans text-[20px] font-extrabold tracking-tight">The Stack</span>
-              <span className="text-[10px] text-bep-muted font-mono tracking-widest">BEP RESEARCH</span>
+      <div className="sticky top-0 z-50 px-6 pt-4 pb-0 border-b border-bep-border" style={{ background: "#050505ee", backdropFilter: "blur(12px)" }}>
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center gap-3">
+            <div className="relative w-7 h-7 flex-shrink-0">
+              <img src="/bep-icon.png" alt="BEP Research" width={28} height={28} style={{ filter: "brightness(1.2)", borderRadius: 4 }} />
             </div>
-            <div className="text-[11px] text-bep-dim">
-              AI infrastructure unit economics — live data by Ben Pouladian
+            <div>
+              <span className="font-sans text-[17px] font-extrabold tracking-tight">The Stack</span>
+              <span className="text-[9px] text-bep-muted font-mono tracking-widest ml-2">BEP RESEARCH</span>
             </div>
           </div>
+          <div className="text-[10px] font-mono text-bep-dim">
+            by Ben Pouladian
+          </div>
+        </div>
+        <div className="flex gap-0 overflow-x-auto -mb-px">
+          {[
+            { href: "/tokenomics", label: "Overview", active: true },
+            { href: "/tokenomics/margins", label: "Margin Calculator" },
+            { href: "/tokenomics/tco", label: "Cluster TCO" },
+            { href: "/tokenomics/hardware", label: "Hardware" },
+            { href: "/tokenomics/deep-dive", label: "Deep Dive" },
+          ].map((tab) => (
+            <Link key={tab.href} href={tab.href} className="no-underline">
+              <div className="px-3 py-2 text-[11px] font-mono whitespace-nowrap cursor-pointer transition-colors"
+                style={{
+                  color: tab.active ? "#f0f0f0" : "#666",
+                  fontWeight: tab.active ? 600 : 400,
+                  borderBottom: tab.active ? "2px solid #76B900" : "2px solid transparent",
+                }}>
+                {tab.label}
+              </div>
+            </Link>
+          ))}
         </div>
       </div>
 
@@ -245,31 +265,6 @@ export default function Dashboard({
             })}
           </div>
         </Section>
-
-        {/* ═══ DEEP DIVE LINKS ═══ */}
-        <div className="mt-8 pt-6 border-t border-bep-border">
-          <div className="text-[11px] font-mono text-bep-muted uppercase tracking-widest mb-3">Go Deeper</div>
-          <div className="grid grid-cols-2 gap-2">
-            {[
-              { href: "/tokenomics/margins", title: "Inference Margin Calculator", desc: "Pick GPU + model + tier → see margin. LPX-aware. Lab margin convergence.", color: "#76B900" },
-              { href: "/tokenomics/tco", title: "Cluster TCO", desc: "8-component framework. 7 providers. Sticker vs true cost. Scenario presets.", color: "#00D4FF" },
-              { href: "/tokenomics/hardware", title: "Hardware Specs", desc: "9 GPUs compared. TFLOPS, memory, bandwidth, scale-up domain totals.", color: "#FFB800" },
-              { href: "/tokenomics/deep-dive", title: "Full Deep Dive", desc: "LLMflation history, Jensen's tiers, Revenue/Watt, Jevons Paradox, Token Cost Stack, GPU tracker.", color: "#A855F7" },
-            ].map((link) => (
-              <Link key={link.href} href={link.href} className="no-underline">
-                <div className="bg-bep-card border border-bep-border rounded-md p-3.5 hover:border-opacity-60 transition-colors cursor-pointer"
-                  onMouseEnter={(e) => (e.currentTarget.style.borderColor = link.color + "80")}
-                  onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#1a1a1a")}>
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="text-sm font-semibold text-bep-white">{link.title}</span>
-                    <span className="text-xs" style={{ color: link.color }}>→</span>
-                  </div>
-                  <div className="text-[11px] text-bep-dim leading-relaxed">{link.desc}</div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
 
         {/* Footer */}
         <div className="mt-6 pt-4 border-t border-bep-border flex items-center justify-between">
