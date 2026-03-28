@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import Link from "next/link";
 import SignalFeed from "./SignalFeed";
 import ActionableInsights from "./ActionableInsights";
 import Metric from "./ui/Metric";
@@ -246,8 +246,33 @@ export default function Dashboard({
           </div>
         </Section>
 
+        {/* ═══ DEEP DIVE LINKS ═══ */}
+        <div className="mt-8 pt-6 border-t border-bep-border">
+          <div className="text-[11px] font-mono text-bep-muted uppercase tracking-widest mb-3">Go Deeper</div>
+          <div className="grid grid-cols-2 gap-2">
+            {[
+              { href: "/tokenomics/margins", title: "Inference Margin Calculator", desc: "Pick GPU + model + tier → see margin. LPX-aware. Lab margin convergence.", color: "#76B900" },
+              { href: "/tokenomics/tco", title: "Cluster TCO", desc: "8-component framework. 7 providers. Sticker vs true cost. Scenario presets.", color: "#00D4FF" },
+              { href: "/tokenomics/hardware", title: "Hardware Specs", desc: "9 GPUs compared. TFLOPS, memory, bandwidth, scale-up domain totals.", color: "#FFB800" },
+              { href: "/tokenomics/deep-dive", title: "Full Deep Dive", desc: "LLMflation history, Jensen's tiers, Revenue/Watt, Jevons Paradox, Token Cost Stack, GPU tracker.", color: "#A855F7" },
+            ].map((link) => (
+              <Link key={link.href} href={link.href} className="no-underline">
+                <div className="bg-bep-card border border-bep-border rounded-md p-3.5 hover:border-opacity-60 transition-colors cursor-pointer"
+                  onMouseEnter={(e) => (e.currentTarget.style.borderColor = link.color + "80")}
+                  onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#1a1a1a")}>
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-sm font-semibold text-bep-white">{link.title}</span>
+                    <span className="text-xs" style={{ color: link.color }}>→</span>
+                  </div>
+                  <div className="text-[11px] text-bep-dim leading-relaxed">{link.desc}</div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+
         {/* Footer */}
-        <div className="mt-8 pt-4 border-t border-bep-border flex items-center justify-between">
+        <div className="mt-6 pt-4 border-t border-bep-border flex items-center justify-between">
           <span className="text-[9px] font-mono" style={{ color: "rgba(102,102,102,0.3)", letterSpacing: 2 }}>
             BEP RESEARCH &copy; 2026
           </span>
