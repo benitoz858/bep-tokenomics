@@ -1,21 +1,21 @@
 {
-  "generatedAt": "2026-03-28T04:12:18.067Z",
+  "generatedAt": "2026-03-28T04:17:48.838Z",
   "date": "2026-03-28",
   "title": "Market Brief — Friday, March 27, 2026",
   "poweredBy": "Claude Opus 4.6",
-  "summary": "LLMflation hit 21.41, meaning the cost of frontier-grade intelligence has collapsed 79% from GPT-4 launch baseline in three years. DeepSeek V3.2 output at $0.38/M tokens is now 158x cheaper than o3 Pro at $80/M, and the floor is still falling.",
+  "summary": "LLMflation hit 21.41, meaning the cost of frontier-grade intelligence has collapsed 79% from GPT-4 launch baseline in just three years. DeepSeek V3.2 at $0.38/M output is now 158x cheaper than o3 Pro at $80/M, compressing the entire market toward commodity pricing at the bottom while OpenAI defends ultra-premium at the top.",
   "paragraphs": [
-    "LLMflation hit 21.41, meaning the cost of frontier-grade intelligence has collapsed 79% from GPT-4 launch baseline in three years. DeepSeek V3.2 output at $0.38/M tokens is now 158x cheaper than o3 Pro at $80/M, and the floor is still falling.",
-    "B200 inference margins are razor-thin: medium-tier providers selling Llama 70B lose 90 cents on every dollar at $3/M output, and even high-tier barely breaks even at 5% margin. DeepSeek is selling R1 output at $2.50/M against estimated costs north of $4/M, meaning DeepSeek is selling at a loss of roughly $1.50 per million tokens to buy market share.",
-    "o3 Pro at $80/M output is overvalued when GPT-5.4 delivers comparable reasoning at $15/M, an 81% discount from the same provider. DeepSeek V3.2 and Llama 4 Maverick at sub-$0.60/M output are undervalued commodity plays; accumulate GPU capacity on H100 spot while it dips and route non-critical inference to open-weight models."
+    "LLMflation hit 21.41, meaning the cost of frontier-grade intelligence has collapsed 79% from GPT-4 launch baseline in just three years. DeepSeek V3.2 at $0.38/M output is now 158x cheaper than o3 Pro at $80/M, compressing the entire market toward commodity pricing at the bottom while OpenAI defends ultra-premium at the top.",
+    "DeepSeek and Meta are selling below TCO-adjusted production cost: Llama 70B on H100 costs roughly $5.36/M tokens after the 1.25x multiplier, meaning Meta's Maverick at $0.60/M and DeepSeek V3.2 at $0.38/M are burning cash to buy market share. OpenAI's o3 Pro prints money at $80/M output against sub-$7 TCO, while B200 operators running medium-tier pricing face negative 90% margins, making new GPU inventory a trap without premium contracts.",
+    "B200 spot at $7.81/hr with only 20% availability is overvalued given margins go negative at every price tier below premium. DeepSeek R1 at $2.50/M output on frontier-class reasoning is the best risk-adjusted value in the stack; accumulate inference allocation there and short B200 spot exposure until availability breaks above 35%."
   ],
   "bullets": [
-    "$0.38 per million output tokens is DeepSeek V3.2's price, the lowest of all 18 tracked models.",
-    "21.41 is the LLMflation index, down from 100 at GPT-4 launch just three years ago.",
-    "$1.47 per hour is H100 spot median, down 4.3% overnight signaling softening demand.",
-    "18% availability on H200s is the tightest GPU class, with only 63 of 350 units open.",
-    "$80 per million output tokens makes o3 Pro 133x more expensive than Grok 4.1 Fast.",
-    "90% margin at premium tier on H100 confirms frontier API markup still dwarfs commodity hardware cost."
+    "21.41 LLMflation index marks a 79% cost collapse from the GPT-4 era baseline of 100.",
+    "$0.38/M output from DeepSeek V3.2 is selling at an estimated loss of $4.98 per million tokens versus TCO-adjusted H100 cost.",
+    "18% H200 availability with a 5.3% day-over-day price spike signals tightening supply for mid-tier GPUs.",
+    "$80/M output on o3 Pro delivers roughly 90% gross margin, making it OpenAI's highest-margin product.",
+    "1.25x TCO-adjusted B200 cost hits $9.76/hr, pushing breakeven above premium tier for most inference workloads.",
+    "$0.60/M output on Llama 4 Maverick grades Meta as Burning Cash against a $5.36/M production floor."
   ],
   "dataPoints": {
     "modelsTracked": 18,

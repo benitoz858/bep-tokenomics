@@ -113,7 +113,8 @@ Rules:
 - MAXIMUM 100 words per paragraph. Cut ruthlessly.
 - Write at a 10th grade reading level. No jargon without context.
 - Be unbiased — grade Anthropic, OpenAI, Google, DeepSeek equally hard.
-- If a model sells tokens below production cost, say "X is selling at a loss of $Y per million tokens."
+- IMPORTANT: Raw GPU spot $/hr understates true cost. Apply a 1.25x TCO multiplier for spot market (storage, reliability, goodput, support overhead). When computing production cost per million tokens, use TCO-adjusted GPU rate, not raw spot.
+- If a model sells tokens below TCO-adjusted production cost, say "X is selling at a loss of $Y per million tokens."
 - Provider grades in one word each: Strong / Neutral / Weak / Burning Cash.
 - Do NOT use markdown. Plain text. No headers, bold, or dashes.
 - Each bullet starts with a number or dollar amount.

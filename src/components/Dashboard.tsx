@@ -60,19 +60,29 @@ export default function Dashboard({
   const gpusWithData = gpuPricing.summaries.filter(g => (g.spot.median || g.onDemand.median) && g.gpuModel.startsWith("nvidia-"));
   const cheapestGpu = gpusWithData.length ? gpusWithData.reduce((min, g) => ((g.spot.median || 99) < (min.spot.median || 99) ? g : min)) : null;
 
+  // TCO multiplier: spot market raw GPU $/hr understates true cost.
+  // Based on BEP Research TCO framework:
+  // - Support, storage, networking, goodput losses, setup, debugging add overhead
+  // - Spot market (Vast.ai): ~1.25x due to low reliability, no support, no hot spares
+  // - NeoCloud reserved: ~1.08x
+  // - Hyperscaler: ~1.30-2.13x
+  const SPOT_TCO_MULTIPLIER = 1.25;
+
   // Margin highlights
   const marginHighlights = gpusWithData.map(gpu => {
     const tp = gpuThroughput[gpu.gpuModel];
     const llama = tp?.profiles?.["llama-70b"];
     const tokGpu = llama?.gpuOnly;
     const tokLpx = llama?.withLPX;
-    const costHr = gpu.spot.median || gpu.onDemand.median || 0;
-    if (!tokGpu || costHr === 0) return null;
+    const rawCostHr = gpu.spot.median || gpu.onDemand.median || 0;
+    const costHr = rawCostHr * SPOT_TCO_MULTIPLIER; // TCO-adjusted
+    if (!tokGpu || rawCostHr === 0) return null;
     const costPerM = costPerMillionFromGPU(costHr, tokGpu);
-    const costPerMLpx = tokLpx ? costPerMillionFromGPU(costHr + lpxCostAdder, tokLpx) : null;
+    const costPerMLpx = tokLpx ? costPerMillionFromGPU((costHr + lpxCostAdder), tokLpx) : null;
     return {
       name: GPU_DISPLAY_NAMES[gpu.gpuModel] || gpu.gpuModel,
       gpuModel: gpu.gpuModel,
+      rawCostHr: rawCostHr,
       costHr,
       costPerM: Math.round(costPerM * 100) / 100,
       costPerMLpx: costPerMLpx ? Math.round(costPerMLpx * 100) / 100 : null,
@@ -83,7 +93,7 @@ export default function Dashboard({
       totalGpus: gpu.totalGpusAvailable + gpu.totalGpusRented,
     };
   }).filter(Boolean) as Array<{
-    name: string; gpuModel: string; costHr: number; costPerM: number; costPerMLpx: number | null;
+    name: string; gpuModel: string; rawCostHr: number; costHr: number; costPerM: number; costPerMLpx: number | null;
     marginHigh: number; marginPremium: number; marginPremiumLpx: number | null;
     availPct: number; totalGpus: number;
   }>;
@@ -160,25 +170,27 @@ export default function Dashboard({
         </div>
 
         {/* ═══ GPU ECONOMICS AT A GLANCE ═══ */}
-        <Section title="GPU Economics at a Glance" subtitle="Spot price, token production cost, and margin at each tier — all from live data. Green = profitable, red = losing money.">
+        <Section title="GPU Economics at a Glance" subtitle="TCO-adjusted token production cost vs sell price. Raw spot + 25% overhead (storage, reliability, support, goodput). Green = profitable, red = losing money.">
           <div className="bg-bep-card border border-bep-border rounded-md overflow-hidden">
             <div className="grid font-mono text-[10px] text-bep-muted uppercase tracking-wider px-3.5 py-2.5 border-b border-bep-border"
-              style={{ gridTemplateColumns: "1fr 0.7fr 0.7fr 0.8fr 0.8fr 0.8fr 0.6fr" }}>
+              style={{ gridTemplateColumns: "1fr 0.6fr 0.6fr 0.7fr 0.7fr 0.7fr 0.7fr 0.5fr" }}>
               <span>GPU</span>
-              <span className="text-right">Spot $/hr</span>
+              <span className="text-right">Spot</span>
+              <span className="text-right">TCO $/hr</span>
               <span className="text-right">Cost/M tok</span>
               <span className="text-right" style={{ color: "#FFB800" }}>High ($6)</span>
-              <span className="text-right" style={{ color: "#76B900" }}>Premium ($45)</span>
-              <span className="text-right" style={{ color: "#76B900" }}>+LPX ($45)</span>
+              <span className="text-right" style={{ color: "#76B900" }}>Prem ($45)</span>
+              <span className="text-right" style={{ color: "#76B900" }}>+LPX</span>
               <span className="text-right">Avail</span>
             </div>
             {marginHighlights.map((m, i) => (
               <div key={m.gpuModel} className="grid px-3.5 py-2 text-xs border-b border-bep-border last:border-0"
                 style={{
-                  gridTemplateColumns: "1fr 0.7fr 0.7fr 0.8fr 0.8fr 0.8fr 0.6fr",
+                  gridTemplateColumns: "1fr 0.6fr 0.6fr 0.7fr 0.7fr 0.7fr 0.7fr 0.5fr",
                   background: i % 2 === 0 ? "transparent" : "#0d0d0d",
                 }}>
                 <span className="text-bep-white font-medium font-mono">{m.name}</span>
+                <span className="text-right font-mono text-bep-dim">${m.rawCostHr.toFixed(2)}</span>
                 <span className="text-right font-mono text-bep-amber">${m.costHr.toFixed(2)}</span>
                 <span className="text-right font-mono text-bep-dim">${m.costPerM}</span>
                 <span className="text-right font-mono font-semibold" style={{ color: m.marginHigh > 0 ? "#76B900" : "#FF4444" }}>
@@ -195,7 +207,7 @@ export default function Dashboard({
             ))}
           </div>
           <div className="text-[10px] font-mono text-bep-dim mt-2">
-            Serving Llama 3.3 70B. Cost/M = token production cost. Margins at Jensen&apos;s tier pricing. LPX adds ~$2.50/hr but 3-5x throughput.
+            Serving Llama 3.3 70B. TCO = spot + 25% overhead (storage, reliability, downtime). Margins are real-world, not sticker-price fantasy. LPX adds ~$2.50/hr but 3-5x throughput.
           </div>
         </Section>
 

@@ -40,13 +40,14 @@ export default function ActionableInsights({ tokenModels, gpuSummaries, gpuThrou
     for (const gpu of gpusWithThroughput) {
       const tp = gpuThroughput[gpu.gpuModel];
       if (!tp) continue;
-      const costPerHr = gpu.spot.median || gpu.onDemand.median || 0;
+      const rawCostPerHr = gpu.spot.median || gpu.onDemand.median || 0;
+      const costPerHr = rawCostPerHr * 1.25; // TCO-adjusted: +25% for storage, reliability, support
       const gpuName = GPU_DISPLAY_NAMES[gpu.gpuModel] || gpu.gpuModel;
 
       // Check llama-70b gpuOnly throughput
       const llama = tp.profiles?.["llama-70b"];
       const llamaTok = llama?.gpuOnly;
-      if (llamaTok && costPerHr > 0) {
+      if (llamaTok && rawCostPerHr > 0) {
         const costPerM = costPerMillionFromGPU(costPerHr, llamaTok);
         const marginPremium = inferenceMargin(45, costPerM);
         const marginHigh = inferenceMargin(6, costPerM);
@@ -129,20 +130,21 @@ export default function ActionableInsights({ tokenModels, gpuSummaries, gpuThrou
         severity: "info",
       });
 
-      // Find models where selling price < production cost on cheapest GPU
+      // Find models where selling price < TCO-adjusted production cost on cheapest GPU
       const cheapestGpu = gpusWithThroughput.sort((a, b) => (a.spot.median || 99) - (b.spot.median || 99))[0];
       if (cheapestGpu) {
         const tp = gpuThroughput[cheapestGpu.gpuModel];
         const llama = tp?.profiles?.["llama-70b"];
         if (llama?.gpuOnly) {
-          const costPerM = costPerMillionFromGPU(cheapestGpu.spot.median || 0, llama.gpuOnly);
+          const tcoCostPerHr = (cheapestGpu.spot.median || 0) * 1.25;
+          const costPerM = costPerMillionFromGPU(tcoCostPerHr, llama.gpuOnly);
           const underpriced = tokenModels.filter(m => m.outputPerMillion > 0 && m.outputPerMillion < costPerM);
           if (underpriced.length > 0) {
             results.push({
               tag: "BELOW COST",
               tagColor: "#FF4444",
-              headline: `${underpriced.length} model${underpriced.length > 1 ? "s" : ""} priced below GPU production cost`,
-              detail: `${underpriced.map(m => m.model).join(", ")} sell output tokens below the $${costPerM.toFixed(2)}/M it costs to produce on ${GPU_DISPLAY_NAMES[cheapestGpu.gpuModel]}. These providers are subsidizing inference or running at a loss.`,
+              headline: `${underpriced.length} model${underpriced.length > 1 ? "s" : ""} priced below TCO-adjusted production cost`,
+              detail: `${underpriced.map(m => m.model).join(", ")} sell output below the $${costPerM.toFixed(2)}/M true cost (TCO-adjusted) on ${GPU_DISPLAY_NAMES[cheapestGpu.gpuModel]}. These providers are subsidizing every token served.`,
               severity: "warning",
             });
           }
