@@ -17,9 +17,7 @@ const TABS = [
   { href: "/tokenomics/margins", label: "Margins" },
   { href: "/tokenomics/waterfall", label: "Waterfall" },
   { href: "/tokenomics/tco", label: "TCO" },
-  { href: "/tokenomics/hardware", label: "Hardware" },
   { href: "/tokenomics/deep-dive", label: "More" },
-  { href: "/tokenomics/sources", label: "Sources" },
 ];
 
 interface Props {
