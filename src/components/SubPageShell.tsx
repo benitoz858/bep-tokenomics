@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const TABS = [
-  { href: "/tokenomics", label: "Overview" },
+  { href: "/tokenomics/v2", label: "Overview" },
   { href: "/tokenomics/margins", label: "Margin Calculator" },
   { href: "/tokenomics/tco", label: "Cluster TCO" },
   { href: "/tokenomics/waterfall", label: "Waterfall" },
@@ -26,7 +26,7 @@ export default function SubPageShell({ title, children }: Props) {
       <div className="sticky top-0 z-50 px-6 pt-4 pb-0 border-b border-bep-border" style={{ background: "#050505ee", backdropFilter: "blur(12px)" }}>
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-3">
-            <Link href="/tokenomics" className="no-underline flex items-center gap-2">
+            <Link href="/tokenomics/v2" className="no-underline flex items-center gap-2">
               <div className="relative w-7 h-7 flex-shrink-0">
                 <img src="/bep-icon.png" alt="BEP Research" width={28} height={28} style={{ filter: "brightness(1.2)", borderRadius: 4 }} />
               </div>

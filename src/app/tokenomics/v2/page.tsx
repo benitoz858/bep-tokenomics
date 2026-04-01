@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import DashboardV2 from "@/components/DashboardV2";
 import {
   getTokenPricing,
@@ -8,6 +9,16 @@ import {
   getCloudAccelerators,
   getCommentary,
 } from "@/lib/data";
+
+export const metadata: Metadata = {
+  title: "The Stack — AI Infrastructure Dashboard by Ben Pouladian | BEP Research",
+  description: "Ben Pouladian's live AI infrastructure intelligence dashboard. Daily GPU pricing, token economics, inference margins, and LLMflation tracking across H100, H200, and B200.",
+  openGraph: {
+    title: "The Stack — AI Infrastructure Dashboard by Ben Pouladian",
+    description: "Live GPU pricing, token economics, and inference margin data. Updated daily by BEP Research.",
+    siteName: "BEP Research",
+  },
+};
 
 const FALLBACK_TOKEN_MODELS = [
   { model: "GPT-5.4 Pro", modelId: "openai/gpt-5.4", provider: "OpenAI", inputPerMillion: 21, outputPerMillion: 168, contextWindow: 128000, maxOutput: null, fetchedAt: "" },

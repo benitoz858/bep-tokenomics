@@ -121,7 +121,7 @@ export default function Home() {
               style={{ fontSize: 11, color: "#666", textDecoration: "none", fontFamily: "'JetBrains Mono', monospace" }}>
               Substack
             </a>
-            <a href="https://x.com/benitoz" target="_blank" rel="noopener noreferrer"
+            <a href="https://bepresearch.substack.com" target="_blank" rel="noopener noreferrer"
               style={{ fontSize: 11, color: "#666", textDecoration: "none", fontFamily: "'JetBrains Mono', monospace" }}>
               X
             </a>

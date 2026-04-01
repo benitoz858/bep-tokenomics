@@ -14,10 +14,12 @@ import type {
 
 const TABS = [
   { href: "/tokenomics/v2", label: "Overview", active: true },
-  { href: "/tokenomics/margins", label: "Margins" },
+  { href: "/tokenomics/margins", label: "Margin Calculator" },
+  { href: "/tokenomics/tco", label: "Cluster TCO" },
   { href: "/tokenomics/waterfall", label: "Waterfall" },
-  { href: "/tokenomics/tco", label: "TCO" },
-  { href: "/tokenomics/deep-dive", label: "More" },
+  { href: "/tokenomics/hardware", label: "Hardware" },
+  { href: "/tokenomics/deep-dive", label: "Deep Dive" },
+  { href: "/tokenomics/sources", label: "Sources" },
 ];
 
 interface Props {
@@ -85,8 +87,8 @@ export default function DashboardV2({
     };
   }).filter(Boolean) as NonNullable<ReturnType<typeof Array.prototype.map>>[number][];
 
-  // Top 8 models
-  const topModels = sorted.slice(0, 8);
+  // Show all models
+  const topModels = sorted;
 
   return (
     <div className="min-h-screen" style={{ background: "#050505", color: "#f0f0f0" }}>
@@ -100,10 +102,9 @@ export default function DashboardV2({
             <span className="font-sans text-[17px] font-extrabold tracking-tight text-bep-white">The Stack</span>
             <span className="text-[9px] text-bep-muted font-mono tracking-widest">BEP RESEARCH</span>
           </Link>
-          <a href="https://bepresearch.substack.com" target="_blank" rel="noopener noreferrer"
-            className="text-[10px] font-mono text-bep-green hover:underline no-underline">
-            Subscribe
-          </a>
+          <div className="text-[10px] font-mono text-bep-dim">
+            by Ben Pouladian
+          </div>
         </div>
         <div className="flex gap-0 overflow-x-auto -mb-px">
           {TABS.map((tab) => (
@@ -123,11 +124,28 @@ export default function DashboardV2({
 
       <div className="px-6 py-5 max-w-[920px]">
 
+        {/* ═══ HERO: What this is ═══ */}
+        <div className="mb-5">
+          <div className="text-[13px] text-bep-dim leading-relaxed">
+            The unit economics of AI inference — from silicon to API. Updated daily.
+          </div>
+        </div>
+
         {/* ═══ 1. MARKET BRIEF ═══ */}
         <MarketBrief data={commentary as never} />
 
-        {/* ═══ 2. GPU ECONOMICS ═══ */}
-        <Section title="GPU Economics" subtitle="TCO-adjusted cost to produce tokens. Who's profitable, who's not. Updated daily.">
+        {/* ═══ 2. TODAY'S NUMBERS ═══ */}
+        <div className="mb-6">
+          <div className="text-[10px] font-mono text-bep-muted uppercase tracking-wider mb-2">Today&apos;s Numbers</div>
+          <div className="grid grid-cols-3 gap-2">
+            <Metric label="LLMflation Index" value={llmflationIndex ? llmflationIndex.toFixed(1) : "—"} sub="Token price index (100 = GPT-4 launch)" color="#76B900" />
+            <Metric label="Cheapest Token" value={cheapest ? `$${cheapest.outputPerMillion < 1 ? cheapest.outputPerMillion.toFixed(2) : cheapest.outputPerMillion}/M` : "—"} sub={cheapest ? `${cheapest.model} output` : ""} color="#FF4444" />
+            <Metric label="Price Spread" value={spread ? `${spread}x` : "—"} sub={cheapest && priciest ? `${priciest.model} vs ${cheapest.model}` : "Floor to ceiling"} color="#00D4FF" />
+          </div>
+        </div>
+
+        {/* ═══ 3. GPU ECONOMICS — The cost side ═══ */}
+        <Section title="Step 1: The Cost to Produce a Token" subtitle="Rent a GPU, run inference, calculate cost per million output tokens.">
 
           {/* GPU cards row */}
           <div className="grid grid-cols-3 gap-2 mb-3">
@@ -144,8 +162,8 @@ export default function DashboardV2({
                 <div className="text-xl font-bold font-mono text-bep-cyan">${m.rawCostHr.toFixed(2)}<span className="text-[10px] text-bep-dim">/hr spot</span></div>
                 <div className="grid grid-cols-2 gap-x-2 mt-2 text-[10px]">
                   <div className="flex justify-between"><span className="text-bep-muted">TCO</span><span className="font-mono text-bep-amber">${m.costHr.toFixed(2)}/hr</span></div>
-                  <div className="flex justify-between"><span className="text-bep-muted">Cost/M</span><span className="font-mono text-bep-dim">${m.costPerM}</span></div>
-                  <div className="flex justify-between"><span className="text-bep-muted">Avail</span>
+                  <div className="flex justify-between"><span className="text-bep-muted">Cost/M tokens</span><span className="font-mono text-bep-white font-semibold">${m.costPerM}</span></div>
+                  <div className="flex justify-between"><span className="text-bep-muted">Available</span>
                     <span className="font-mono font-semibold" style={{ color: m.availPct < 20 ? "#FF4444" : m.availPct < 30 ? "#FFB800" : "#76B900" }}>{m.availPct}%</span>
                   </div>
                   <div className="flex justify-between"><span className="text-bep-muted">Supply</span><span className="font-mono text-bep-dim">{m.totalFree}/{m.totalGpus}</span></div>
@@ -158,13 +176,14 @@ export default function DashboardV2({
           </div>
 
           {/* Margin table */}
+          <div className="text-[10px] text-bep-dim mb-1">Inference provider margins selling Llama 70B output tokens at two price tiers.</div>
           <div className="bg-bep-card border border-bep-border rounded-md overflow-hidden mb-3">
             <div className="grid font-mono text-[9px] text-bep-muted uppercase tracking-wider px-3 py-2 border-b border-bep-border"
               style={{ gridTemplateColumns: "1fr 0.6fr 0.6fr 0.7fr 0.7fr 0.7fr 0.5fr" }}>
               <span>GPU</span><span className="text-right">Spot</span><span className="text-right">TCO</span>
               <span className="text-right">Cost/M</span>
-              <span className="text-right" style={{ color: "#FFB800" }}>High $6</span>
-              <span className="text-right" style={{ color: "#76B900" }}>Prem $45</span>
+              <span className="text-right" title="Profit margin if selling tokens at $6/M (standard reasoning chatbot tier)" style={{ color: "#FFB800" }}>Margin @$6</span>
+              <span className="text-right" title="Profit margin if selling tokens at $45/M (premium deep-research tier)" style={{ color: "#76B900" }}>Margin @$45</span>
               <span className="text-right">Avail</span>
             </div>
             {(marginHighlights as any[]).map((m: any, i: number) => (
@@ -244,20 +263,27 @@ export default function DashboardV2({
           </div>
         </Section>
 
-        {/* ═══ 3. TOKEN PRICING ═══ */}
-        <Section title="Token Pricing" subtitle={`${tokenModels.length} frontier models. ${spread}x spread between floor and ceiling.`}>
-          <div className="grid grid-cols-4 gap-2 mb-3">
-            <Metric label="LLMflation" value={llmflationIndex ? llmflationIndex.toFixed(1) : "—"} sub="Base 100 = GPT-4 launch" color="#76B900" />
+        {/* ═══ CONNECTOR ═══ */}
+        <div className="flex items-center gap-3 my-1 px-1">
+          <div className="h-px flex-1 bg-bep-border" />
+          <span className="text-[10px] font-mono text-bep-muted whitespace-nowrap">These GPU costs become the floor for API token prices ↓</span>
+          <div className="h-px flex-1 bg-bep-border" />
+        </div>
+
+        {/* ═══ 4. TOKEN PRICING — The sell side ═══ */}
+        <Section title="Step 2: What Tokens Sell For" subtitle={`${tokenModels.length} frontier models tracked. The spread tells the story.`}>
+          <div className="grid grid-cols-3 gap-2 mb-3">
             <Metric label="Floor" value={cheapest ? `$${cheapest.outputPerMillion < 1 ? cheapest.outputPerMillion.toFixed(2) : cheapest.outputPerMillion}/M` : "—"} sub={cheapest?.model || ""} color="#FF4444" />
             <Metric label="Ceiling" value={priciest ? `$${priciest.outputPerMillion}/M` : "—"} sub={priciest?.model || ""} color="#A855F7" />
-            <Metric label="Spread" value={spread ? `${spread}x` : "—"} sub="Bifurcation, not convergence" color="#00D4FF" />
+            <Metric label="Spread" value={spread ? `${spread}x` : "—"} sub="Floor to ceiling — bifurcation, not convergence" color="#00D4FF" />
           </div>
           <div className="bg-bep-card border border-bep-border rounded-md overflow-hidden">
             <div className="grid font-mono text-[9px] text-bep-muted uppercase tracking-wider px-3 py-1.5 border-b border-bep-border"
               style={{ gridTemplateColumns: "2fr 1fr 0.7fr 0.7fr" }}>
               <span>Model</span><span>Provider</span><span className="text-right">In $/M</span><span className="text-right">Out $/M</span>
             </div>
-            {topModels.map((p, i) => (
+            {/* Cheapest first — volume models drive GPU demand, expensive models show the ceiling */}
+            {[...tokenModels].sort((a, b) => a.outputPerMillion - b.outputPerMillion).map((p, i) => (
               <div key={p.model} className="grid px-3 py-1 text-[11px] border-b border-bep-border last:border-0"
                 style={{ gridTemplateColumns: "2fr 1fr 0.7fr 0.7fr", background: i % 2 ? "#0d0d0d" : "transparent" }}>
                 <span className="text-bep-white font-medium truncate">{p.model}</span>
@@ -267,11 +293,19 @@ export default function DashboardV2({
               </div>
             ))}
           </div>
+          <div className="text-center mt-1.5">
+            <Link href="/tokenomics/margins" className="text-[10px] font-mono text-bep-muted hover:text-bep-green no-underline transition-colors">
+              Explore margins by model →
+            </Link>
+          </div>
         </Section>
 
-        {/* ═══ THESIS CONNECTION ═══ */}
-        <div className="mt-6 bg-bep-card border border-bep-border rounded-md p-4">
-          <div className="text-[10px] font-mono text-bep-green uppercase tracking-wider mb-2">BEP Research Thesis Framework</div>
+        {/* ═══ WHAT THE DATA SAYS ═══ */}
+        <div className="mt-6 bg-bep-card border border-[#76B90030] rounded-md p-4">
+          <div className="text-[10px] font-mono text-bep-green uppercase tracking-wider mb-1">What the Data Says</div>
+          <div className="text-[12px] text-bep-dim leading-relaxed mb-3">
+            GPU costs set the production floor. API pricing sets the revenue ceiling. The gap between them — and who captures it — is the entire game. Three theses explain what happens next:
+          </div>
           <div className="grid grid-cols-3 gap-3 text-[11px]">
             {[
               { name: "Token Explosion", link: "https://bepresearch.substack.com", desc: "Cheaper tokens don't reduce demand — Jevons Paradox. 10,000x inference scaling." },
@@ -294,16 +328,16 @@ export default function DashboardV2({
               className="text-[11px] font-mono px-4 py-1.5 rounded bg-bep-green text-[#050505] font-bold no-underline hover:opacity-90 transition-opacity">
               Subscribe
             </a>
-            <a href="https://x.com/benitoz" target="_blank" rel="noopener noreferrer"
+            <a href="https://bepresearch.substack.com" target="_blank" rel="noopener noreferrer"
               className="text-[11px] font-mono px-4 py-1.5 rounded border border-bep-border text-bep-dim no-underline hover:text-bep-white transition-colors">
-              Follow @benitoz
+              Read on Substack
             </a>
           </div>
         </div>
 
         {/* Footer */}
         <div className="mt-6 pt-4 border-t border-bep-border flex items-center justify-between">
-          <span className="text-[9px] font-mono" style={{ color: "rgba(102,102,102,0.3)", letterSpacing: 2 }}>BEP RESEARCH &copy; 2026</span>
+          <span className="text-[9px] font-mono" style={{ color: "rgba(102,102,102,0.3)", letterSpacing: 2 }}>BEP RESEARCH &copy; 2026 · BY BEN POULADIAN</span>
           <span className="text-[10px] font-mono text-bep-dim">Updated daily 6AM UTC</span>
         </div>
       </div>

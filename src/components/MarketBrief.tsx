@@ -85,12 +85,14 @@ const CARD_STYLES = [
 export default function MarketBrief({ data }: Props) {
   if (!data) return null;
 
-  const timeAgo = (() => {
-    const ms = Date.now() - new Date(data.generatedAt).getTime();
+  const timeLabel = (() => {
+    const d = new Date(data.generatedAt);
+    const ms = Date.now() - d.getTime();
     const hrs = Math.round(ms / (1000 * 60 * 60));
     if (hrs < 1) return "just now";
     if (hrs < 24) return `${hrs}h ago`;
-    return `${Math.round(hrs / 24)}d ago`;
+    // After 24h, show the date to avoid looking stale
+    return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
   })();
 
   return (
@@ -101,14 +103,7 @@ export default function MarketBrief({ data }: Props) {
           <div className="w-2 h-2 rounded-full bg-bep-green animate-pulse" />
           <span className="text-[13px] font-semibold text-bep-white">{data.title}</span>
         </div>
-        <div className="flex items-center gap-2">
-          {data.poweredBy && (
-            <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-[#A855F710] border border-[#A855F730] text-[#A855F7]">
-              {data.poweredBy}
-            </span>
-          )}
-          <span className="text-[10px] font-mono text-bep-dim">{timeAgo}</span>
-        </div>
+        <span className="text-[10px] font-mono text-bep-dim">{timeLabel}</span>
       </div>
 
       {/* Paragraph cards */}
@@ -131,27 +126,7 @@ export default function MarketBrief({ data }: Props) {
         })}
       </div>
 
-      {/* Bullet metric cards */}
-      <div className="grid grid-cols-3 gap-1.5">
-        {data.bullets.map((b, i) => {
-          // Extract the leading number/dollar amount
-          const numMatch = b.match(/^([\$\d][^\s]*)/);
-          const num = numMatch ? numMatch[1] : "";
-          const rest = num ? b.slice(num.length).trim() : b;
-
-          const colors = ["#00D4FF", "#76B900", "#FFB800", "#FF4444", "#A855F7", "#EC4899"];
-          const color = colors[i % colors.length];
-
-          return (
-            <div key={i} className="bg-bep-card border border-bep-border rounded px-3 py-2">
-              {num && (
-                <div className="text-[15px] font-bold font-mono" style={{ color }}>{num}</div>
-              )}
-              <div className="text-[10px] text-bep-dim leading-snug mt-0.5">{rest}</div>
-            </div>
-          );
-        })}
-      </div>
+      {/* Bullet metrics removed — redundant with Today's Numbers and the brief itself */}
     </div>
   );
 }
