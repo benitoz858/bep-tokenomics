@@ -41,6 +41,7 @@ jobs:
           git config user.email "bot@bepresearch.com"
           git add data/
           git diff --staged --quiet || git commit -m "data: $(date +%Y-%m-%d) pricing update"
+          git pull --rebase origin main
           git push
 
       # Build and deploy to Cloudflare Pages
