@@ -61,6 +61,33 @@ function buildDataContext(): string {
     }).join("\n")}`);
   }
 
+  // Ornn AI OCPI data
+  const ornnUtil = readJSON<{ gpus: Record<string, Array<{ date: string; utilization: number }>> }>(dataPath("ornn", "gpu-utilization-history.json"));
+  const ornnOCPI = readJSON<{ latest: Record<string, { price: number; volatility: number }> }>(dataPath("ornn", "ocpi-prices.json"));
+  const ornnMemory = readJSON<{ current: Array<{ label: string; price: number; changePct: number; weeklyHigh: number; weeklyLow: number }> }>(dataPath("ornn", "memory-pricing.json"));
+
+  if (ornnOCPI?.latest) {
+    const entries = Object.entries(ornnOCPI.latest);
+    sections.push(`## Ornn AI OCPI Index (trade-based GPU pricing)\n${entries.map(([k, v]) => `${k.toUpperCase()}: $${v.price}/hr OCPI, ${v.volatility}% annualized volatility`).join("\n")}`);
+  }
+
+  if (ornnUtil?.gpus) {
+    const utilLines: string[] = [];
+    for (const [k, arr] of Object.entries(ornnUtil.gpus)) {
+      if (arr.length >= 30) {
+        const latest = arr[arr.length - 1];
+        const thirtyDaysAgo = arr[arr.length - 30];
+        const change = latest.utilization - thirtyDaysAgo.utilization;
+        utilLines.push(`${k.toUpperCase()}: ${latest.utilization}% utilized today (30d change: ${change > 0 ? "+" : ""}${change.toFixed(1)}pp)`);
+      }
+    }
+    if (utilLines.length) sections.push(`## GPU Utilization Trends (Ornn OCPI, 30-day)\n${utilLines.join("\n")}`);
+  }
+
+  if (ornnMemory?.current?.length) {
+    sections.push(`## Memory Spot Pricing (Ornn AI)\n${ornnMemory.current.map(m => `${m.label}: $${m.price} (${m.changePct > 0 ? "+" : ""}${m.changePct}% WoW, range $${m.weeklyLow}-$${m.weeklyHigh})`).join("\n")}`);
+  }
+
   if (gpuHistory?.entries) {
     const dates = Object.keys(gpuHistory.entries).sort();
     if (dates.length >= 2) {
