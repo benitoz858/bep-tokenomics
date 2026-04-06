@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useState, useEffect } from "react";
 import MarketBrief from "./MarketBrief";
 import Metric from "./ui/Metric";
 import Section from "./ui/Section";
@@ -48,6 +49,11 @@ export default function DashboardV2({
   ornnUtilization,
   ornnOCPI,
 }: Props) {
+
+  // Hydration guard — charts render blank in static export, need client render
+  const [mounted, setMounted] = useState(false);
+  const [showAllModels, setShowAllModels] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   // Derived data
   const sorted = [...tokenModels].sort((a, b) => b.outputPerMillion - a.outputPerMillion);
@@ -169,7 +175,7 @@ export default function DashboardV2({
           </div>
 
           {/* OCPI 6-month price chart — single full-width */}
-          {(() => {
+          {mounted && (() => {
             const ocpiHistory = ornnOCPI?.history || {};
             const ocpiKeys = Object.keys(ocpiHistory).filter(k => ocpiHistory[k]?.length > 0);
             if (ocpiKeys.length === 0) return null;
@@ -226,7 +232,7 @@ export default function DashboardV2({
           })()}
 
           {/* GPU Utilization Trend — 6 months */}
-          {ornnUtilization && Object.keys(ornnUtilization.gpus).length > 0 && (() => {
+          {mounted && ornnUtilization && Object.keys(ornnUtilization.gpus).length > 0 && (() => {
             const keys = Object.keys(ornnUtilization.gpus).filter(k => ornnUtilization.gpus[k]?.length > 0);
             const refData = ornnUtilization.gpus[keys[0]];
             const step = refData.length > 60 ? 3 : refData.length > 30 ? 2 : 1;
@@ -310,15 +316,25 @@ export default function DashboardV2({
               style={{ gridTemplateColumns: "2fr 1fr 0.7fr 0.7fr" }}>
               <span>Model</span><span>Provider</span><span className="text-right">In $/M</span><span className="text-right">Out $/M</span>
             </div>
-            {[...tokenModels].sort((a, b) => a.outputPerMillion - b.outputPerMillion).map((p, i) => (
-              <div key={p.model} className="grid px-3 py-1 text-[11px] border-b border-bep-border last:border-0"
-                style={{ gridTemplateColumns: "2fr 1fr 0.7fr 0.7fr", background: i % 2 ? "#0d0d0d" : "transparent" }}>
-                <span className="text-bep-white font-medium truncate">{p.model}</span>
-                <span style={{ color: PROVIDER_COLORS[p.provider] || "#666" }}>{p.provider}</span>
-                <span className="text-right text-bep-dim font-mono">${p.inputPerMillion < 1 ? p.inputPerMillion.toFixed(2) : p.inputPerMillion}</span>
-                <span className="text-right text-bep-white font-mono font-semibold">${p.outputPerMillion < 1 ? p.outputPerMillion.toFixed(2) : p.outputPerMillion}</span>
-              </div>
-            ))}
+            {(() => {
+              const sortedModels = [...tokenModels].sort((a, b) => a.outputPerMillion - b.outputPerMillion);
+              const displayModels = showAllModels ? sortedModels : sortedModels.slice(0, 8);
+              return displayModels.map((p, i) => (
+                <div key={p.model} className="grid px-3 py-1 text-[11px] border-b border-bep-border last:border-0"
+                  style={{ gridTemplateColumns: "2fr 1fr 0.7fr 0.7fr", background: i % 2 ? "#0d0d0d" : "transparent" }}>
+                  <span className="text-bep-white font-medium truncate">{p.model}</span>
+                  <span style={{ color: PROVIDER_COLORS[p.provider] || "#666" }}>{p.provider}</span>
+                  <span className="text-right text-bep-dim font-mono">${p.inputPerMillion < 1 ? p.inputPerMillion.toFixed(2) : p.inputPerMillion}</span>
+                  <span className="text-right text-bep-white font-mono font-semibold">${p.outputPerMillion < 1 ? p.outputPerMillion.toFixed(2) : p.outputPerMillion}</span>
+                </div>
+              ));
+            })()}
+            {!showAllModels && tokenModels.length > 8 && (
+              <button onClick={() => setShowAllModels(true)}
+                className="w-full py-1.5 text-[10px] font-mono text-bep-muted hover:text-bep-green transition-colors border-t border-bep-border">
+                Show all {tokenModels.length} models ↓
+              </button>
+            )}
           </div>
           <div className="text-center mt-1.5">
             <Link href="/tokenomics/margins" className="text-[10px] font-mono text-bep-muted hover:text-bep-green no-underline transition-colors">
@@ -335,9 +351,9 @@ export default function DashboardV2({
           </div>
           <div className="grid grid-cols-3 gap-3 text-[11px]">
             {[
-              { name: "Token Explosion", link: "https://bepresearch.substack.com", desc: "Cheaper tokens don't reduce demand — Jevons Paradox." },
-              { name: "Memory Wars", link: "https://bepresearch.substack.com", desc: "HBM bandwidth is the binding constraint. Memory cost rises to 35%." },
-              { name: "NeoCloud Hypothesis", link: "https://bepresearch.substack.com", desc: "CoreWeave, Nebius, Oracle deploy NVIDIA silicon first." },
+              { name: "Token Explosion", link: "https://bepresearch.substack.com/p/the-token-explosion-why-gtc-2026", desc: "Cheaper tokens don't reduce demand — Jevons Paradox." },
+              { name: "Memory Wars", link: "https://bepresearch.substack.com/p/micron-just-proved-the-memory-thesis", desc: "HBM bandwidth is the binding constraint. Memory cost rises to 35%." },
+              { name: "NeoCloud Hypothesis", link: "https://bepresearch.substack.com/p/the-neocloud-hypothesis", desc: "CoreWeave, Nebius, Oracle deploy NVIDIA silicon first." },
             ].map((t) => (
               <a key={t.name} href={t.link} target="_blank" rel="noopener noreferrer" className="no-underline">
                 <div className="text-bep-white font-semibold mb-0.5 hover:text-bep-green transition-colors">{t.name}</div>
