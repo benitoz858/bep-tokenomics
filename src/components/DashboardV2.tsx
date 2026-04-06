@@ -4,7 +4,7 @@ import Link from "next/link";
 import MarketBrief from "./MarketBrief";
 import Metric from "./ui/Metric";
 import Section from "./ui/Section";
-import { LineChart, Line, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Cell, ReferenceLine } from "recharts";
+import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, ReferenceLine } from "recharts";
 import { GPU_DISPLAY_NAMES, PROVIDER_COLORS, costPerMillionFromGPU, inferenceMargin } from "@/lib/calculations";
 import type {
   TokenPriceModel,
@@ -61,14 +61,11 @@ export default function DashboardV2({
     const tp = gpuThroughput[gpu.gpuModel];
     const llama = tp?.profiles?.["llama-70b"];
     const tokGpu = llama?.gpuOnly;
-    const tokLpx = llama?.withLPX;
     const rawCostHr = gpu.spot.median || gpu.onDemand.median || 0;
     const costHr = rawCostHr * SPOT_TCO_MULTIPLIER;
     if (!tokGpu || rawCostHr === 0) return null;
     const costPerM = costPerMillionFromGPU(costHr, tokGpu);
-    const costPerMLpx = tokLpx ? costPerMillionFromGPU(costHr + lpxCostAdder, tokLpx) : null;
 
-    // Day-over-day
     const historyDates = Object.keys(gpuPricing.history).sort();
     let dayChange = 0;
     if (historyDates.length >= 2) {
@@ -80,21 +77,18 @@ export default function DashboardV2({
       name: GPU_DISPLAY_NAMES[gpu.gpuModel] || gpu.gpuModel,
       gpuModel: gpu.gpuModel,
       rawCostHr, costHr, costPerM: Math.round(costPerM * 100) / 100,
-      costPerMLpx: costPerMLpx ? Math.round(costPerMLpx * 100) / 100 : null,
       marginHigh: Math.round(inferenceMargin(6, costPerM)),
       marginPremium: Math.round(inferenceMargin(45, costPerM)),
-      marginPremiumLpx: costPerMLpx ? Math.round(inferenceMargin(45, costPerMLpx)) : null,
       availPct: gpu.availabilityPct,
       totalFree: gpu.totalGpusAvailable,
       totalGpus: gpu.totalGpusAvailable + gpu.totalGpusRented,
       dayChange,
-      spotMin: gpu.spot.min,
-      spotMax: gpu.spot.max,
     };
-  }).filter(Boolean) as NonNullable<ReturnType<typeof Array.prototype.map>>[number][];
+  }).filter(Boolean) as any[];
 
-  // Show all models
-  const topModels = sorted;
+  // Utilization chart data
+  const utilColors: Record<string, string> = { h100: "#A855F7", h200: "#00D4FF", b200: "#FF4444", a100: "#76B900" };
+  const utilLabels: Record<string, string> = { h100: "H100", h200: "H200", b200: "B200", a100: "A100" };
 
   return (
     <div className="min-h-screen" style={{ background: "#050505", color: "#f0f0f0" }}>
@@ -108,19 +102,14 @@ export default function DashboardV2({
             <span className="font-sans text-[17px] font-extrabold tracking-tight text-bep-white">The Stack</span>
             <span className="text-[9px] text-bep-muted font-mono tracking-widest">BEP RESEARCH</span>
           </Link>
-          <div className="text-[10px] font-mono text-bep-dim">
-            by Ben Pouladian
-          </div>
+          <div className="text-[10px] font-mono text-bep-dim">by Ben Pouladian</div>
         </div>
         <div className="flex gap-0 overflow-x-auto -mb-px">
           {TABS.map((tab) => (
             <Link key={tab.href} href={tab.href} className="no-underline">
               <div className="px-2.5 py-2 text-[11px] font-mono whitespace-nowrap transition-colors"
-                style={{
-                  color: tab.active ? "#f0f0f0" : "#666",
-                  fontWeight: tab.active ? 600 : 400,
-                  borderBottom: tab.active ? "2px solid #76B900" : "2px solid transparent",
-                }}>
+                style={{ color: tab.active ? "#f0f0f0" : "#666", fontWeight: tab.active ? 600 : 400,
+                  borderBottom: tab.active ? "2px solid #76B900" : "2px solid transparent" }}>
                 {tab.label}
               </div>
             </Link>
@@ -128,71 +117,43 @@ export default function DashboardV2({
         </div>
       </div>
 
-      <div className="px-6 py-5 max-w-[920px]">
+      <div className="px-6 py-4 max-w-[920px]">
 
-        {/* ═══ HERO: What this is ═══ */}
-        <div className="mb-5">
-          <div className="text-[13px] text-bep-dim leading-relaxed">
-            The unit economics of AI inference — from silicon to API. Updated daily.
-          </div>
+        {/* ═══ MARKET BRIEF ═══ */}
+        <div className="text-[13px] text-bep-dim leading-relaxed mb-4">
+          The unit economics of AI inference — from silicon to API. Updated daily.
         </div>
-
-        {/* ═══ 1. MARKET BRIEF ═══ */}
         <MarketBrief data={commentary as never} />
 
-        {/* ═══ 2. TODAY'S NUMBERS ═══ */}
-        <div className="mb-6">
+        {/* ═══ KEY METRICS — above the fold ═══ */}
+        <div className="mb-5">
           <div className="text-[10px] font-mono text-bep-muted uppercase tracking-wider mb-2">Today&apos;s Numbers</div>
-          <div className="grid grid-cols-3 gap-2">
-            <Metric label="LLMflation Index" value={llmflationIndex ? llmflationIndex.toFixed(1) : "—"} sub="Token price index (100 = GPT-4 launch)" color="#76B900" />
-            <Metric label="Cheapest Token" value={cheapest ? `$${cheapest.outputPerMillion < 1 ? cheapest.outputPerMillion.toFixed(2) : cheapest.outputPerMillion}/M` : "—"} sub={cheapest ? `${cheapest.model} output` : ""} color="#FF4444" />
-            <Metric label="Price Spread" value={spread ? `${spread}x` : "—"} sub={cheapest && priciest ? `${priciest.model} vs ${cheapest.model}` : "Floor to ceiling"} color="#00D4FF" />
+          <div className="grid grid-cols-6 gap-1.5">
+            <Metric label="LLMflation" value={llmflationIndex ? llmflationIndex.toFixed(1) : "—"} sub="Base 100 = GPT-4" color="#76B900" />
+            <Metric label="Token Floor" value={cheapest ? `$${cheapest.outputPerMillion < 1 ? cheapest.outputPerMillion.toFixed(2) : cheapest.outputPerMillion}/M` : "—"} sub={cheapest?.model || ""} color="#FF4444" />
+            <Metric label="Spread" value={spread ? `${spread}x` : "—"} sub="Floor to ceiling" color="#00D4FF" />
+            {marginHighlights.slice(0, 3).map((m: any) => (
+              <Metric key={m.gpuModel} label={m.name}
+                value={`$${m.rawCostHr.toFixed(2)}/hr`}
+                sub={`${m.availPct}% avail · ${m.dayChange !== 0 ? (m.dayChange > 0 ? "▲" : "▼") + Math.abs(m.dayChange).toFixed(1) + "%" : "flat"}`}
+                color={m.availPct < 20 ? "#FF4444" : m.availPct < 30 ? "#FFB800" : "#00D4FF"} />
+            ))}
           </div>
         </div>
 
-        {/* ═══ 3. GPU ECONOMICS — The cost side ═══ */}
-        <Section title="Step 1: The Cost to Produce a Token" subtitle="Rent a GPU, run inference, calculate cost per million output tokens.">
-
-          {/* GPU cards row */}
-          <div className="grid grid-cols-3 gap-2 mb-3">
-            {(marginHighlights as any[]).slice(0, 3).map((m: any) => (
-              <div key={m.gpuModel} className="bg-bep-card border border-bep-border rounded-md p-3">
-                <div className="flex items-center justify-between mb-1">
-                  <span className="text-sm font-bold font-mono text-bep-white">{m.name}</span>
-                  {m.dayChange !== 0 && (
-                    <span className="text-[10px] font-mono font-semibold" style={{ color: m.dayChange > 0 ? "#FF4444" : "#76B900" }}>
-                      {m.dayChange > 0 ? "▲" : "▼"}{Math.abs(m.dayChange).toFixed(1)}%
-                    </span>
-                  )}
-                </div>
-                <div className="text-xl font-bold font-mono text-bep-cyan">${m.rawCostHr.toFixed(2)}<span className="text-[10px] text-bep-dim">/hr spot</span></div>
-                <div className="grid grid-cols-2 gap-x-2 mt-2 text-[10px]">
-                  <div className="flex justify-between"><span className="text-bep-muted">TCO</span><span className="font-mono text-bep-amber">${m.costHr.toFixed(2)}/hr</span></div>
-                  <div className="flex justify-between"><span className="text-bep-muted">Cost/M tokens</span><span className="font-mono text-bep-white font-semibold">${m.costPerM}</span></div>
-                  <div className="flex justify-between"><span className="text-bep-muted">Available</span>
-                    <span className="font-mono font-semibold" style={{ color: m.availPct < 20 ? "#FF4444" : m.availPct < 30 ? "#FFB800" : "#76B900" }}>{m.availPct}%</span>
-                  </div>
-                  <div className="flex justify-between"><span className="text-bep-muted">Supply</span><span className="font-mono text-bep-dim">{m.totalFree}/{m.totalGpus}</span></div>
-                </div>
-                <div className="mt-2 h-1 rounded-full bg-bep-bg overflow-hidden">
-                  <div className="h-full rounded-full" style={{ width: `${Math.min(m.availPct, 100)}%`, background: m.availPct < 20 ? "#FF4444" : m.availPct < 30 ? "#FFB800" : "#76B900" }} />
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Margin table */}
-          <div className="text-[10px] text-bep-dim mb-1">Inference provider margins selling Llama 70B output tokens at two price tiers.</div>
+        {/* ═══ GPU ECONOMICS ═══ */}
+        <Section title="GPU Inference Economics" subtitle="TCO-adjusted margins on Llama 70B. Who profits, who bleeds.">
+          {/* Compact margin table */}
           <div className="bg-bep-card border border-bep-border rounded-md overflow-hidden mb-3">
             <div className="grid font-mono text-[9px] text-bep-muted uppercase tracking-wider px-3 py-2 border-b border-bep-border"
               style={{ gridTemplateColumns: "1fr 0.6fr 0.6fr 0.7fr 0.7fr 0.7fr 0.5fr" }}>
               <span>GPU</span><span className="text-right">Spot</span><span className="text-right">TCO</span>
               <span className="text-right">Cost/M</span>
-              <span className="text-right" title="Profit margin if selling tokens at $6/M (standard reasoning chatbot tier)" style={{ color: "#FFB800" }}>Margin @$6</span>
-              <span className="text-right" title="Profit margin if selling tokens at $45/M (premium deep-research tier)" style={{ color: "#76B900" }}>Margin @$45</span>
+              <span className="text-right" style={{ color: "#FFB800" }}>@$6</span>
+              <span className="text-right" style={{ color: "#76B900" }}>@$45</span>
               <span className="text-right">Avail</span>
             </div>
-            {(marginHighlights as any[]).map((m: any, i: number) => (
+            {marginHighlights.map((m: any, i: number) => (
               <div key={m.gpuModel} className="grid px-3 py-1.5 text-[11px] border-b border-bep-border last:border-0"
                 style={{ gridTemplateColumns: "1fr 0.6fr 0.6fr 0.7fr 0.7fr 0.7fr 0.5fr", background: i % 2 ? "#0d0d0d" : "transparent" }}>
                 <span className="text-bep-white font-medium font-mono">{m.name}</span>
@@ -206,95 +167,61 @@ export default function DashboardV2({
             ))}
           </div>
 
-          {/* ── OCPI Price Index (Ornn trade-based) + Short-term Spot ── */}
+          {/* OCPI 6-month price chart — single full-width */}
           {(() => {
-            const ocpiColors: Record<string, string> = { h100: "#A855F7", h200: "#00D4FF", b200: "#FF4444", a100: "#76B900" };
-            const ocpiLabels: Record<string, string> = { h100: "H100", h200: "H200", b200: "B200", a100: "A100" };
-
-            // OCPI price history (6 months, trade-based)
             const ocpiHistory = ornnOCPI?.history || {};
             const ocpiKeys = Object.keys(ocpiHistory).filter(k => ocpiHistory[k]?.length > 0);
+            if (ocpiKeys.length === 0) return null;
 
-            // Sample every 3rd day for readability
-            const maxLen = Math.max(...ocpiKeys.map(k => ocpiHistory[k].length), 0);
+            const refKey = ocpiKeys[0];
+            const maxLen = ocpiHistory[refKey].length;
             const step = maxLen > 60 ? 3 : maxLen > 30 ? 2 : 1;
-            const ocpiPriceData: Record<string, unknown>[] = [];
-            if (ocpiKeys.length > 0) {
-              const refKey = ocpiKeys[0];
-              for (let i = 0; i < ocpiHistory[refKey].length; i += step) {
-                const row: Record<string, unknown> = {
-                  date: new Date(ocpiHistory[refKey][i].date).toLocaleDateString("en-US", { month: "short", day: "numeric" }),
-                };
-                for (const k of ocpiKeys) {
-                  if (ocpiHistory[k][i]) row[ocpiLabels[k] || k] = ocpiHistory[k][i].price;
-                }
-                ocpiPriceData.push(row);
+            const chartData: Record<string, unknown>[] = [];
+            for (let i = 0; i < maxLen; i += step) {
+              const row: Record<string, unknown> = {
+                date: new Date(ocpiHistory[refKey][i].date).toLocaleDateString("en-US", { month: "short", day: "numeric" }),
+              };
+              for (const k of ocpiKeys) {
+                if (ocpiHistory[k][i]) row[utilLabels[k] || k] = ocpiHistory[k][i].price;
               }
+              chartData.push(row);
             }
 
-            // Short-term spot from existing history (last ~10 days)
-            const dates = Object.keys(gpuPricing.history).sort();
-            const gpuModels = ["nvidia-h100", "nvidia-h200", "nvidia-b200"];
-            const spotData = dates.map(date => {
-              const row: Record<string, number | string | null> = { date: new Date(date).toLocaleDateString("en-US", { month: "short", day: "numeric" }) };
-              for (const gm of gpuModels) {
-                const e = gpuPricing.history[date]?.find((g: GPUSummary) => g.gpuModel === gm);
-                row[GPU_DISPLAY_NAMES[gm]] = e?.spot.median || null;
-              }
-              return row;
-            });
-            const spotColors: Record<string, string> = { "nvidia-h100": "#A855F7", "nvidia-h200": "#00D4FF", "nvidia-b200": "#FF4444" };
-
             return (
-              <div className="grid grid-cols-2 gap-2">
-                {/* OCPI 6-month price trend */}
-                <div className="bg-bep-card border border-bep-border rounded-md p-2.5">
-                  <div className="flex items-center justify-between mb-1">
-                    <div className="text-[9px] font-mono text-bep-muted uppercase tracking-wider">OCPI Index $/hr (6mo)</div>
-                    <a href="https://www.ornn.com" target="_blank" rel="noopener noreferrer" className="text-[8px] font-mono text-bep-cyan no-underline hover:underline">Ornn AI</a>
+              <div className="bg-bep-card border border-bep-border rounded-md p-3 mb-3">
+                <div className="flex items-center justify-between mb-1">
+                  <div className="text-[9px] font-mono text-bep-muted uppercase tracking-wider">OCPI Spot Index — 6 Month (trade-based $/hr)</div>
+                  <a href="https://www.ornn.com" target="_blank" rel="noopener noreferrer" className="text-[8px] font-mono text-bep-cyan no-underline hover:underline">Ornn AI</a>
+                </div>
+                <ResponsiveContainer width="100%" height={160}>
+                  <LineChart data={chartData} margin={{ top: 5, right: 5, left: 0, bottom: 0 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#1a1a1a" />
+                    <XAxis dataKey="date" tick={{ fill: "#666", fontSize: 7 }} interval={Math.floor(chartData.length / 7)} />
+                    <YAxis tick={{ fill: "#666", fontSize: 8 }} tickFormatter={(v: number) => `$${v}`} />
+                    <Tooltip contentStyle={{ background: "#111", border: "1px solid #252525", fontSize: 9, fontFamily: "monospace" }}
+                      formatter={(v) => [`$${Number(v).toFixed(2)}/hr`, ""]} />
+                    {ocpiKeys.map(k => <Line key={k} type="monotone" dataKey={utilLabels[k] || k} stroke={utilColors[k]} strokeWidth={2} dot={false} connectNulls />)}
+                  </LineChart>
+                </ResponsiveContainer>
+                {/* OCPI price + vol cards inline */}
+                {ornnOCPI?.latest && (
+                  <div className="grid grid-cols-4 gap-1.5 mt-2">
+                    {Object.entries(ornnOCPI.latest).map(([k, v]) => (
+                      <div key={k} className="text-center">
+                        <span className="text-[12px] font-bold font-mono text-bep-cyan">${v.price}/hr</span>
+                        <span className="text-[8px] font-mono text-bep-dim ml-1">{utilLabels[k]} · {v.volatility}% vol</span>
+                      </div>
+                    ))}
                   </div>
-                  {ocpiPriceData.length > 0 ? (
-                    <ResponsiveContainer width="100%" height={140}>
-                      <LineChart data={ocpiPriceData} margin={{ top: 2, right: 2, left: 0, bottom: 0 }}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#1a1a1a" />
-                        <XAxis dataKey="date" tick={{ fill: "#666", fontSize: 7 }} interval={Math.floor(ocpiPriceData.length / 6)} />
-                        <YAxis tick={{ fill: "#666", fontSize: 8 }} tickFormatter={(v: number) => `$${v}`} />
-                        <Tooltip contentStyle={{ background: "#111", border: "1px solid #252525", fontSize: 9, fontFamily: "monospace" }}
-                          formatter={(v) => [`$${Number(v).toFixed(2)}/hr`, ""]} />
-                        {ocpiKeys.map(k => <Line key={k} type="monotone" dataKey={ocpiLabels[k] || k} stroke={ocpiColors[k]} strokeWidth={2} dot={false} connectNulls />)}
-                      </LineChart>
-                    </ResponsiveContainer>
-                  ) : (
-                    <div className="h-[140px] flex items-center justify-center text-[10px] text-bep-dim">OCPI data loading...</div>
-                  )}
-                </div>
-                {/* Short-term spot pricing */}
-                <div className="bg-bep-card border border-bep-border rounded-md p-2.5">
-                  <div className="text-[9px] font-mono text-bep-muted uppercase tracking-wider mb-1">Spot $/hr (recent)</div>
-                  <ResponsiveContainer width="100%" height={140}>
-                    <LineChart data={spotData} margin={{ top: 2, right: 2, left: 0, bottom: 0 }}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#1a1a1a" />
-                      <XAxis dataKey="date" tick={{ fill: "#666", fontSize: 8 }} />
-                      <YAxis tick={{ fill: "#666", fontSize: 8 }} tickFormatter={(v: number) => `$${v}`} />
-                      <Tooltip contentStyle={{ background: "#111", border: "1px solid #252525", fontSize: 9, fontFamily: "monospace" }}
-                        formatter={(v) => [`$${Number(v).toFixed(2)}`, ""]} />
-                      {gpuModels.map(gm => <Line key={gm} type="monotone" dataKey={GPU_DISPLAY_NAMES[gm]} stroke={spotColors[gm]} strokeWidth={2} dot={{ r: 2 }} connectNulls />)}
-                    </LineChart>
-                  </ResponsiveContainer>
-                </div>
+                )}
               </div>
             );
           })()}
 
-          {/* ── GPU Utilization Trend (Ornn OCPI — 6 months) ── */}
+          {/* GPU Utilization Trend — 6 months */}
           {ornnUtilization && Object.keys(ornnUtilization.gpus).length > 0 && (() => {
-            const utilColors: Record<string, string> = { h100: "#A855F7", h200: "#00D4FF", b200: "#FF4444", a100: "#76B900" };
-            const utilLabels: Record<string, string> = { h100: "H100", h200: "H200", b200: "B200", a100: "A100" };
             const keys = Object.keys(ornnUtilization.gpus).filter(k => ornnUtilization.gpus[k]?.length > 0);
-
-            // Sample for readability
-            const refKey = keys[0];
-            const refData = ornnUtilization.gpus[refKey];
+            const refData = ornnUtilization.gpus[keys[0]];
             const step = refData.length > 60 ? 3 : refData.length > 30 ? 2 : 1;
             const utilData: Record<string, unknown>[] = [];
             for (let i = 0; i < refData.length; i += step) {
@@ -307,7 +234,6 @@ export default function DashboardV2({
               utilData.push(row);
             }
 
-            // Latest values for metrics
             const latestUtil: Record<string, number> = {};
             for (const k of keys) {
               const arr = ornnUtilization.gpus[k];
@@ -315,42 +241,30 @@ export default function DashboardV2({
             }
 
             return (
-              <div className="mt-3">
-                <div className="flex items-center justify-between mb-2">
-                  <div className="text-[10px] font-mono text-bep-muted uppercase tracking-wider">GPU Compute Demand — 6 Month Trend</div>
+              <div className="bg-bep-card border border-bep-border rounded-md p-3">
+                <div className="flex items-center justify-between mb-1">
+                  <div className="text-[9px] font-mono text-bep-muted uppercase tracking-wider">GPU Compute Demand — 6 Month Utilization</div>
                   <a href="https://www.ornn.com" target="_blank" rel="noopener noreferrer" className="text-[8px] font-mono text-bep-cyan no-underline hover:underline">Ornn AI OCPI</a>
                 </div>
-                <div className="grid grid-cols-4 gap-1.5 mb-2">
+                <ResponsiveContainer width="100%" height={160}>
+                  <LineChart data={utilData} margin={{ top: 5, right: 5, left: 0, bottom: 0 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#1a1a1a" />
+                    <XAxis dataKey="date" tick={{ fill: "#666", fontSize: 7 }} interval={Math.floor(utilData.length / 7)} />
+                    <YAxis tick={{ fill: "#666", fontSize: 8 }} tickFormatter={(v: number) => `${v}%`} domain={[0, 100]} />
+                    <Tooltip contentStyle={{ background: "#111", border: "1px solid #252525", fontSize: 9, fontFamily: "monospace" }}
+                      formatter={(v) => [`${Number(v).toFixed(1)}%`, ""]} />
+                    <ReferenceLine y={75} stroke="#FFB80030" strokeDasharray="3 3" />
+                    {keys.map(k => <Line key={k} type="monotone" dataKey={utilLabels[k] || k} stroke={utilColors[k]} strokeWidth={2} dot={false} connectNulls />)}
+                  </LineChart>
+                </ResponsiveContainer>
+                <div className="grid grid-cols-4 gap-1.5 mt-2">
                   {keys.map(k => (
-                    <div key={k} className="bg-bep-card border border-bep-border rounded px-2 py-1.5 text-center">
-                      <div className="text-[15px] font-bold font-mono" style={{ color: utilColors[k] }}>{latestUtil[k]?.toFixed(1)}%</div>
-                      <div className="text-[8px] font-mono text-bep-dim">{utilLabels[k]} utilized</div>
+                    <div key={k} className="text-center">
+                      <span className="text-[13px] font-bold font-mono" style={{ color: utilColors[k] }}>{latestUtil[k]?.toFixed(1)}%</span>
+                      <span className="text-[8px] font-mono text-bep-dim ml-1">{utilLabels[k]}</span>
                     </div>
                   ))}
                 </div>
-                <div className="bg-bep-card border border-bep-border rounded-md p-3">
-                  <ResponsiveContainer width="100%" height={200}>
-                    <LineChart data={utilData} margin={{ top: 5, right: 5, left: 0, bottom: 0 }}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#1a1a1a" />
-                      <XAxis dataKey="date" tick={{ fill: "#666", fontSize: 8 }} interval={Math.floor(utilData.length / 8)} />
-                      <YAxis tick={{ fill: "#666", fontSize: 8 }} tickFormatter={(v: number) => `${v}%`} domain={[0, 100]} />
-                      <Tooltip contentStyle={{ background: "#111", border: "1px solid #252525", fontSize: 9, fontFamily: "monospace" }}
-                        formatter={(v) => [`${Number(v).toFixed(1)}%`, ""]} />
-                      <ReferenceLine y={75} stroke="#FFB80030" strokeDasharray="3 3" label={{ value: "Scarcity", position: "right", fill: "#FFB80050", fontSize: 8 }} />
-                      {keys.map(k => <Line key={k} type="monotone" dataKey={utilLabels[k] || k} stroke={utilColors[k]} strokeWidth={2} dot={false} connectNulls />)}
-                    </LineChart>
-                  </ResponsiveContainer>
-                </div>
-                {ornnOCPI?.latest && (
-                  <div className="grid grid-cols-4 gap-1.5 mt-2">
-                    {Object.entries(ornnOCPI.latest).map(([k, v]) => (
-                      <div key={k} className="bg-bep-card border border-bep-border rounded px-2 py-1.5 text-center">
-                        <div className="text-[13px] font-bold font-mono text-bep-cyan">${v.price}/hr</div>
-                        <div className="text-[8px] font-mono text-bep-dim">{utilLabels[k]} OCPI · {v.volatility}% vol</div>
-                      </div>
-                    ))}
-                  </div>
-                )}
               </div>
             );
           })()}
@@ -366,23 +280,22 @@ export default function DashboardV2({
         {/* ═══ CONNECTOR ═══ */}
         <div className="flex items-center gap-3 my-1 px-1">
           <div className="h-px flex-1 bg-bep-border" />
-          <span className="text-[10px] font-mono text-bep-muted whitespace-nowrap">These GPU costs become the floor for API token prices ↓</span>
+          <span className="text-[10px] font-mono text-bep-muted whitespace-nowrap">GPU costs → token floor price ↓</span>
           <div className="h-px flex-1 bg-bep-border" />
         </div>
 
-        {/* ═══ 4. TOKEN PRICING — The sell side ═══ */}
-        <Section title="Step 2: What Tokens Sell For" subtitle={`${tokenModels.length} frontier models tracked. The spread tells the story.`}>
+        {/* ═══ TOKEN PRICING ═══ */}
+        <Section title="Token Pricing" subtitle={`${tokenModels.length} frontier models. ${spread}x spread between floor and ceiling.`}>
           <div className="grid grid-cols-3 gap-2 mb-3">
             <Metric label="Floor" value={cheapest ? `$${cheapest.outputPerMillion < 1 ? cheapest.outputPerMillion.toFixed(2) : cheapest.outputPerMillion}/M` : "—"} sub={cheapest?.model || ""} color="#FF4444" />
             <Metric label="Ceiling" value={priciest ? `$${priciest.outputPerMillion}/M` : "—"} sub={priciest?.model || ""} color="#A855F7" />
-            <Metric label="Spread" value={spread ? `${spread}x` : "—"} sub="Floor to ceiling — bifurcation, not convergence" color="#00D4FF" />
+            <Metric label="Spread" value={spread ? `${spread}x` : "—"} sub="Bifurcation, not convergence" color="#00D4FF" />
           </div>
           <div className="bg-bep-card border border-bep-border rounded-md overflow-hidden">
             <div className="grid font-mono text-[9px] text-bep-muted uppercase tracking-wider px-3 py-1.5 border-b border-bep-border"
               style={{ gridTemplateColumns: "2fr 1fr 0.7fr 0.7fr" }}>
               <span>Model</span><span>Provider</span><span className="text-right">In $/M</span><span className="text-right">Out $/M</span>
             </div>
-            {/* Cheapest first — volume models drive GPU demand, expensive models show the ceiling */}
             {[...tokenModels].sort((a, b) => a.outputPerMillion - b.outputPerMillion).map((p, i) => (
               <div key={p.model} className="grid px-3 py-1 text-[11px] border-b border-bep-border last:border-0"
                 style={{ gridTemplateColumns: "2fr 1fr 0.7fr 0.7fr", background: i % 2 ? "#0d0d0d" : "transparent" }}>
@@ -400,30 +313,29 @@ export default function DashboardV2({
           </div>
         </Section>
 
-        {/* ═══ WHAT THE DATA SAYS ═══ */}
-        <div className="mt-6 bg-bep-card border border-[#76B90030] rounded-md p-4">
+        {/* ═══ THESIS + CTA ═══ */}
+        <div className="mt-5 bg-bep-card border border-[#76B90030] rounded-md p-4">
           <div className="text-[10px] font-mono text-bep-green uppercase tracking-wider mb-1">What the Data Says</div>
           <div className="text-[12px] text-bep-dim leading-relaxed mb-3">
-            GPU costs set the production floor. API pricing sets the revenue ceiling. The gap between them — and who captures it — is the entire game. Three theses explain what happens next:
+            GPU costs set the production floor. API pricing sets the revenue ceiling. The gap between them is the entire game.
           </div>
           <div className="grid grid-cols-3 gap-3 text-[11px]">
             {[
-              { name: "Token Explosion", link: "https://bepresearch.substack.com", desc: "Cheaper tokens don't reduce demand — Jevons Paradox. 10,000x inference scaling." },
-              { name: "Memory Wars", link: "https://bepresearch.substack.com", desc: "HBM bandwidth is the binding constraint. Memory's share of token cost rises to 35%." },
-              { name: "NeoCloud Hypothesis", link: "https://bepresearch.substack.com", desc: "CoreWeave, Nebius, Oracle deploy NVIDIA silicon first. No competing chips." },
+              { name: "Token Explosion", link: "https://bepresearch.substack.com", desc: "Cheaper tokens don't reduce demand — Jevons Paradox." },
+              { name: "Memory Wars", link: "https://bepresearch.substack.com", desc: "HBM bandwidth is the binding constraint. Memory cost rises to 35%." },
+              { name: "NeoCloud Hypothesis", link: "https://bepresearch.substack.com", desc: "CoreWeave, Nebius, Oracle deploy NVIDIA silicon first." },
             ].map((t) => (
               <a key={t.name} href={t.link} target="_blank" rel="noopener noreferrer" className="no-underline">
-                <div className="text-bep-white font-semibold mb-1 hover:text-bep-green transition-colors">{t.name}</div>
+                <div className="text-bep-white font-semibold mb-0.5 hover:text-bep-green transition-colors">{t.name}</div>
                 <div className="text-bep-dim leading-relaxed">{t.desc}</div>
               </a>
             ))}
           </div>
         </div>
 
-        {/* ═══ CTA ═══ */}
-        <div className="mt-4 bg-[#76B90008] border border-[#76B90025] rounded-md p-4 text-center">
-          <div className="text-[13px] text-bep-white font-semibold mb-1">Premium subscribers get daily AI-generated market briefs, live calculators, and full data access.</div>
-          <div className="flex gap-3 justify-center mt-2">
+        <div className="mt-3 bg-[#76B90008] border border-[#76B90025] rounded-md p-3 text-center">
+          <div className="text-[12px] text-bep-white font-semibold mb-1">Premium subscribers get daily briefs, live calculators, and full data access.</div>
+          <div className="flex gap-3 justify-center mt-1.5">
             <a href="https://bepresearch.substack.com" target="_blank" rel="noopener noreferrer"
               className="text-[11px] font-mono px-4 py-1.5 rounded bg-bep-green text-[#050505] font-bold no-underline hover:opacity-90 transition-opacity">
               Subscribe
@@ -436,8 +348,8 @@ export default function DashboardV2({
         </div>
 
         {/* Footer */}
-        <div className="mt-6 pt-4 border-t border-bep-border">
-          <div className="flex items-center justify-between mb-2">
+        <div className="mt-5 pt-3 border-t border-bep-border">
+          <div className="flex items-center justify-between mb-1">
             <span className="text-[9px] font-mono" style={{ color: "rgba(102,102,102,0.3)", letterSpacing: 2 }}>BEP RESEARCH &copy; 2026 · BY BEN POULADIAN</span>
             <span className="text-[10px] font-mono text-bep-dim">Updated daily 6AM UTC</span>
           </div>
