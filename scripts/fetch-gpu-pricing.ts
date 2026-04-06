@@ -6,6 +6,9 @@ const GETDEPLOYING_API = "https://getdeploying.com/api/gpu-offerings";
 // ── Vast.ai API ──
 const VASTAI_API = "https://console.vast.ai/api/v0/bundles/";
 
+// ── Ornn AI API (OCPI — GPU compute derivatives exchange) ──
+const ORNN_API = "https://data.ornnai.com";
+
 const TRACKED_GPUS = [
   "nvidia-a100", "nvidia-h100", "nvidia-h200",
   "nvidia-b200", "nvidia-gb200",
@@ -236,6 +239,69 @@ async function fetchVastAI(): Promise<GPUOffering[]> {
   return offerings;
 }
 
+// ── Ornn AI: GPU utilization from real trade data ──
+const ORNN_GPU_MAP: Record<string, string> = {
+  "H100 SXM": "nvidia-h100",
+  "H200": "nvidia-h200",
+  "B200": "nvidia-b200",
+  "A100 SXM4": "nvidia-a100",
+};
+
+interface OrnnUtilization {
+  gpuModel: string;
+  utilizationRatio: number; // 0-1 (0.89 = 89% utilized = 11% available)
+  date: string;
+}
+
+async function fetchOrnn(): Promise<OrnnUtilization[]> {
+  const token = process.env.ORNN_AI_TOKEN;
+  if (!token) {
+    console.log("[Ornn AI] No API token — skipping. Set ORNN_AI_TOKEN.");
+    return [];
+  }
+
+  console.log("Fetching Ornn AI GPU utilization (OCPI)...");
+  const results: OrnnUtilization[] = [];
+  const today = todayISO();
+  const yesterday = new Date(Date.now() - 86400000).toISOString().split("T")[0];
+
+  for (const [ornnName, gpuModel] of Object.entries(ORNN_GPU_MAP)) {
+    try {
+      const url = `${ORNN_API}/api/gpu/${encodeURIComponent(ornnName)}/volume-metrics?startDate=${yesterday}&endDate=${today}`;
+      const res = await fetch(url, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (!res.ok) {
+        console.error(`  [Ornn AI] ${ornnName}: HTTP ${res.status}`);
+        continue;
+      }
+
+      const body = await res.json() as {
+        success: boolean;
+        data: Array<{ recorded_at: string; utilization_ratio: number }>;
+      };
+
+      if (body.success && body.data.length > 0) {
+        // Take the most recent data point
+        const latest = body.data[0];
+        results.push({
+          gpuModel,
+          utilizationRatio: latest.utilization_ratio,
+          date: latest.recorded_at,
+        });
+        const availPct = Math.round((1 - latest.utilization_ratio) * 100);
+        console.log(`  [Ornn AI] ${ornnName}: ${(latest.utilization_ratio * 100).toFixed(1)}% utilized (${availPct}% available)`);
+      }
+    } catch (err) {
+      console.error(`  [Ornn AI] Error fetching ${ornnName}:`, err);
+    }
+  }
+
+  console.log(`[Ornn AI] Got utilization data for ${results.length} GPU types`);
+  return results;
+}
+
 function summarize(offerings: GPUOffering[]): GPUSummary[] {
   const byGpu = new Map<string, GPUOffering[]>();
   for (const o of offerings) {
@@ -284,9 +350,10 @@ function summarize(offerings: GPUOffering[]): GPUSummary[] {
 }
 
 async function main() {
-  const [getDeployingData, vastData] = await Promise.all([
+  const [getDeployingData, vastData, ornnData] = await Promise.all([
     fetchGetDeploying(),
     fetchVastAI(),
+    fetchOrnn(),
   ]);
 
   const allOfferings = [...getDeployingData, ...vastData];
@@ -322,10 +389,26 @@ async function main() {
 
   const summaries = summarize(allOfferings);
 
+  // Overlay Ornn AI utilization data (real trade-based, more accurate than offer counts)
+  if (ornnData.length > 0) {
+    for (const ornn of ornnData) {
+      const summary = summaries.find(s => s.gpuModel === ornn.gpuModel);
+      if (summary) {
+        const ornnAvailPct = Math.round((1 - ornn.utilizationRatio) * 100);
+        console.log(`  Ornn override: ${summary.gpuModel} availability ${summary.availabilityPct}% → ${ornnAvailPct}% (OCPI trade data)`);
+        summary.availabilityPct = ornnAvailPct;
+      }
+    }
+  }
+
+  const source = ornnData.length > 0
+    ? "GetDeploying + Vast.ai + Ornn AI (OCPI)"
+    : "GetDeploying + Vast.ai";
+
   // Write current snapshot
   writeJSON(dataPath("gpu-pricing", "current.json"), {
     fetchedAt: nowISO(),
-    source: "GetDeploying + Vast.ai",
+    source,
     offeringCount: allOfferings.length,
     summaries,
     offerings: allOfferings,

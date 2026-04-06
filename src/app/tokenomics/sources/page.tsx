@@ -9,6 +9,7 @@ const SOURCES = [
     items: [
       { name: "OpenRouter API", url: "https://openrouter.ai/api/v1/models", what: "Token pricing for 18 frontier models. Fetched daily.", frequency: "Daily (6AM UTC)" },
       { name: "Vast.ai API", url: "https://docs.vast.ai/", what: "GPU spot pricing, availability, reliability scores for H100/H200/B200. Includes rented vs available counts.", frequency: "Daily (6AM UTC)" },
+      { name: "Ornn AI (OCPI)", url: "https://www.ornn.com", what: "GPU compute utilization data from the Ornn Compute Price Index. Transaction-based availability metrics derived from real GPU compute trades across the market.", frequency: "Daily (6AM UTC)" },
     ]
   },
   {

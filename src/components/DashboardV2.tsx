@@ -336,9 +336,16 @@ export default function DashboardV2({
         </div>
 
         {/* Footer */}
-        <div className="mt-6 pt-4 border-t border-bep-border flex items-center justify-between">
-          <span className="text-[9px] font-mono" style={{ color: "rgba(102,102,102,0.3)", letterSpacing: 2 }}>BEP RESEARCH &copy; 2026 · BY BEN POULADIAN</span>
-          <span className="text-[10px] font-mono text-bep-dim">Updated daily 6AM UTC</span>
+        <div className="mt-6 pt-4 border-t border-bep-border">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-[9px] font-mono" style={{ color: "rgba(102,102,102,0.3)", letterSpacing: 2 }}>BEP RESEARCH &copy; 2026 · BY BEN POULADIAN</span>
+            <span className="text-[10px] font-mono text-bep-dim">Updated daily 6AM UTC</span>
+          </div>
+          <div className="text-[9px] font-mono text-bep-dim">
+            GPU utilization data powered by{" "}
+            <a href="https://www.ornn.com" target="_blank" rel="noopener noreferrer" className="text-bep-cyan hover:underline no-underline">Ornn AI (OCPI)</a>
+            {" "}· Pricing from GetDeploying + Vast.ai · Token pricing from OpenRouter
+          </div>
         </div>
       </div>
     </div>

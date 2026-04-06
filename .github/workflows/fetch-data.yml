@@ -27,6 +27,7 @@ jobs:
         env:
           VASTAI_API_KEY: ${{ secrets.VASTAI_API_KEY }}
           GETDEPLOYING_API_KEY: ${{ secrets.GETDEPLOYING_API_KEY }}
+          ORNN_AI_TOKEN: ${{ secrets.ORNN_AI_TOKEN }}
       - name: Compute indices
         run: npx tsx scripts/compute-indices.ts
       - name: Generate market commentary
