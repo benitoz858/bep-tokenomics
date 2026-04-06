@@ -39,7 +39,7 @@ export default function ExpandableChart({ title, attribution, children, compactH
   }
 
   return (
-    <div className="bg-bep-card border border-bep-border rounded-md p-3 relative group">
+    <div className="bg-bep-card border border-bep-border rounded-md p-3 relative">
       <div className="flex items-center justify-between mb-1">
         <div className="text-[9px] font-mono text-bep-muted uppercase tracking-wider">{title}</div>
         <div className="flex items-center gap-2">
@@ -47,9 +47,9 @@ export default function ExpandableChart({ title, attribution, children, compactH
             <a href={attribution.href} target="_blank" rel="noopener noreferrer" className="text-[8px] font-mono text-bep-cyan no-underline hover:underline">{attribution.label}</a>
           )}
           <button onClick={() => setExpanded(true)}
-            className="opacity-0 group-hover:opacity-100 transition-opacity text-[9px] font-mono text-bep-dim hover:text-bep-white px-1.5 py-0.5 rounded border border-bep-border bg-[#111]"
+            className="text-[9px] font-mono text-bep-dim hover:text-bep-white px-1.5 py-0.5 rounded border border-bep-border hover:border-bep-dim bg-[#111] hover:bg-[#1a1a1a] transition-colors cursor-pointer"
             title="Expand chart">
-            ⛶
+            Expand
           </button>
         </div>
       </div>
