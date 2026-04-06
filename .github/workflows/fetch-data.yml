@@ -30,6 +30,10 @@ jobs:
           ORNN_AI_TOKEN: ${{ secrets.ORNN_AI_TOKEN }}
       - name: Compute indices
         run: npx tsx scripts/compute-indices.ts
+      - name: Fetch Ornn AI history (GPU utilization, OCPI, memory)
+        run: npx tsx scripts/fetch-ornn-history.ts
+        env:
+          ORNN_AI_TOKEN: ${{ secrets.ORNN_AI_TOKEN }}
       - name: Generate market commentary
         run: npx tsx scripts/generate-commentary.ts
         env:
@@ -40,7 +44,7 @@ jobs:
         run: |
           git config user.name "BEP Data Bot"
           git config user.email "bot@bepresearch.com"
-          git add data/
+          git add data/ || true
           git diff --staged --quiet || git commit -m "data: $(date +%Y-%m-%d) pricing update"
           git pull --rebase origin main
           git push

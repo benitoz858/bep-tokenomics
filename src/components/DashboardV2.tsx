@@ -10,6 +10,8 @@ import type {
   TokenPriceModel,
   GPUSummary,
   GPUThroughput,
+  OrnnUtilizationHistory,
+  OrnnOCPIPrices,
 } from "@/lib/data";
 
 const TABS = [
@@ -29,6 +31,8 @@ interface Props {
   gpuThroughput: Record<string, GPUThroughput>;
   lpxCostAdder: number;
   commentary: unknown;
+  ornnUtilization?: OrnnUtilizationHistory | null;
+  ornnOCPI?: OrnnOCPIPrices | null;
 }
 
 const SPOT_TCO_MULTIPLIER = 1.25;
@@ -40,6 +44,8 @@ export default function DashboardV2({
   gpuThroughput,
   lpxCostAdder,
   commentary,
+  ornnUtilization,
+  ornnOCPI,
 }: Props) {
 
   // Derived data
@@ -200,13 +206,36 @@ export default function DashboardV2({
             ))}
           </div>
 
-          {/* Price + Availability mini charts side by side */}
-          {Object.keys(gpuPricing.history).length >= 2 && (() => {
+          {/* ── OCPI Price Index (Ornn trade-based) + Short-term Spot ── */}
+          {(() => {
+            const ocpiColors: Record<string, string> = { h100: "#A855F7", h200: "#00D4FF", b200: "#FF4444", a100: "#76B900" };
+            const ocpiLabels: Record<string, string> = { h100: "H100", h200: "H200", b200: "B200", a100: "A100" };
+
+            // OCPI price history (6 months, trade-based)
+            const ocpiHistory = ornnOCPI?.history || {};
+            const ocpiKeys = Object.keys(ocpiHistory).filter(k => ocpiHistory[k]?.length > 0);
+
+            // Sample every 3rd day for readability
+            const maxLen = Math.max(...ocpiKeys.map(k => ocpiHistory[k].length), 0);
+            const step = maxLen > 60 ? 3 : maxLen > 30 ? 2 : 1;
+            const ocpiPriceData: Record<string, unknown>[] = [];
+            if (ocpiKeys.length > 0) {
+              const refKey = ocpiKeys[0];
+              for (let i = 0; i < ocpiHistory[refKey].length; i += step) {
+                const row: Record<string, unknown> = {
+                  date: new Date(ocpiHistory[refKey][i].date).toLocaleDateString("en-US", { month: "short", day: "numeric" }),
+                };
+                for (const k of ocpiKeys) {
+                  if (ocpiHistory[k][i]) row[ocpiLabels[k] || k] = ocpiHistory[k][i].price;
+                }
+                ocpiPriceData.push(row);
+              }
+            }
+
+            // Short-term spot from existing history (last ~10 days)
             const dates = Object.keys(gpuPricing.history).sort();
             const gpuModels = ["nvidia-h100", "nvidia-h200", "nvidia-b200"];
-            const colors: Record<string, string> = { "nvidia-h100": "#A855F7", "nvidia-h200": "#00D4FF", "nvidia-b200": "#FF4444" };
-
-            const priceData = dates.map(date => {
+            const spotData = dates.map(date => {
               const row: Record<string, number | string | null> = { date: new Date(date).toLocaleDateString("en-US", { month: "short", day: "numeric" }) };
               for (const gm of gpuModels) {
                 const e = gpuPricing.history[date]?.find((g: GPUSummary) => g.gpuModel === gm);
@@ -214,44 +243,114 @@ export default function DashboardV2({
               }
               return row;
             });
-            const availData = dates.map(date => {
-              const row: Record<string, number | string | null> = { date: new Date(date).toLocaleDateString("en-US", { month: "short", day: "numeric" }) };
-              for (const gm of gpuModels) {
-                const e = gpuPricing.history[date]?.find((g: GPUSummary) => g.gpuModel === gm);
-                row[GPU_DISPLAY_NAMES[gm]] = e?.availabilityPct ?? null;
-              }
-              return row;
-            });
+            const spotColors: Record<string, string> = { "nvidia-h100": "#A855F7", "nvidia-h200": "#00D4FF", "nvidia-b200": "#FF4444" };
 
             return (
               <div className="grid grid-cols-2 gap-2">
+                {/* OCPI 6-month price trend */}
                 <div className="bg-bep-card border border-bep-border rounded-md p-2.5">
-                  <div className="text-[9px] font-mono text-bep-muted uppercase tracking-wider mb-1">Spot $/hr</div>
-                  <ResponsiveContainer width="100%" height={120}>
-                    <LineChart data={priceData} margin={{ top: 2, right: 2, left: 0, bottom: 0 }}>
+                  <div className="flex items-center justify-between mb-1">
+                    <div className="text-[9px] font-mono text-bep-muted uppercase tracking-wider">OCPI Index $/hr (6mo)</div>
+                    <a href="https://www.ornn.com" target="_blank" rel="noopener noreferrer" className="text-[8px] font-mono text-bep-cyan no-underline hover:underline">Ornn AI</a>
+                  </div>
+                  {ocpiPriceData.length > 0 ? (
+                    <ResponsiveContainer width="100%" height={140}>
+                      <LineChart data={ocpiPriceData} margin={{ top: 2, right: 2, left: 0, bottom: 0 }}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="#1a1a1a" />
+                        <XAxis dataKey="date" tick={{ fill: "#666", fontSize: 7 }} interval={Math.floor(ocpiPriceData.length / 6)} />
+                        <YAxis tick={{ fill: "#666", fontSize: 8 }} tickFormatter={(v: number) => `$${v}`} />
+                        <Tooltip contentStyle={{ background: "#111", border: "1px solid #252525", fontSize: 9, fontFamily: "monospace" }}
+                          formatter={(v) => [`$${Number(v).toFixed(2)}/hr`, ""]} />
+                        {ocpiKeys.map(k => <Line key={k} type="monotone" dataKey={ocpiLabels[k] || k} stroke={ocpiColors[k]} strokeWidth={2} dot={false} connectNulls />)}
+                      </LineChart>
+                    </ResponsiveContainer>
+                  ) : (
+                    <div className="h-[140px] flex items-center justify-center text-[10px] text-bep-dim">OCPI data loading...</div>
+                  )}
+                </div>
+                {/* Short-term spot pricing */}
+                <div className="bg-bep-card border border-bep-border rounded-md p-2.5">
+                  <div className="text-[9px] font-mono text-bep-muted uppercase tracking-wider mb-1">Spot $/hr (recent)</div>
+                  <ResponsiveContainer width="100%" height={140}>
+                    <LineChart data={spotData} margin={{ top: 2, right: 2, left: 0, bottom: 0 }}>
                       <CartesianGrid strokeDasharray="3 3" stroke="#1a1a1a" />
                       <XAxis dataKey="date" tick={{ fill: "#666", fontSize: 8 }} />
                       <YAxis tick={{ fill: "#666", fontSize: 8 }} tickFormatter={(v: number) => `$${v}`} />
                       <Tooltip contentStyle={{ background: "#111", border: "1px solid #252525", fontSize: 9, fontFamily: "monospace" }}
                         formatter={(v) => [`$${Number(v).toFixed(2)}`, ""]} />
-                      {gpuModels.map(gm => <Line key={gm} type="monotone" dataKey={GPU_DISPLAY_NAMES[gm]} stroke={colors[gm]} strokeWidth={2} dot={{ r: 2 }} connectNulls />)}
+                      {gpuModels.map(gm => <Line key={gm} type="monotone" dataKey={GPU_DISPLAY_NAMES[gm]} stroke={spotColors[gm]} strokeWidth={2} dot={{ r: 2 }} connectNulls />)}
                     </LineChart>
                   </ResponsiveContainer>
                 </div>
-                <div className="bg-bep-card border border-bep-border rounded-md p-2.5">
-                  <div className="text-[9px] font-mono text-bep-muted uppercase tracking-wider mb-1">Availability %</div>
-                  <ResponsiveContainer width="100%" height={120}>
-                    <LineChart data={availData} margin={{ top: 2, right: 2, left: 0, bottom: 0 }}>
+              </div>
+            );
+          })()}
+
+          {/* ── GPU Utilization Trend (Ornn OCPI — 6 months) ── */}
+          {ornnUtilization && Object.keys(ornnUtilization.gpus).length > 0 && (() => {
+            const utilColors: Record<string, string> = { h100: "#A855F7", h200: "#00D4FF", b200: "#FF4444", a100: "#76B900" };
+            const utilLabels: Record<string, string> = { h100: "H100", h200: "H200", b200: "B200", a100: "A100" };
+            const keys = Object.keys(ornnUtilization.gpus).filter(k => ornnUtilization.gpus[k]?.length > 0);
+
+            // Sample for readability
+            const refKey = keys[0];
+            const refData = ornnUtilization.gpus[refKey];
+            const step = refData.length > 60 ? 3 : refData.length > 30 ? 2 : 1;
+            const utilData: Record<string, unknown>[] = [];
+            for (let i = 0; i < refData.length; i += step) {
+              const row: Record<string, unknown> = {
+                date: new Date(refData[i].date).toLocaleDateString("en-US", { month: "short", day: "numeric" }),
+              };
+              for (const k of keys) {
+                if (ornnUtilization.gpus[k][i]) row[utilLabels[k] || k] = ornnUtilization.gpus[k][i].utilization;
+              }
+              utilData.push(row);
+            }
+
+            // Latest values for metrics
+            const latestUtil: Record<string, number> = {};
+            for (const k of keys) {
+              const arr = ornnUtilization.gpus[k];
+              latestUtil[k] = arr[arr.length - 1]?.utilization || 0;
+            }
+
+            return (
+              <div className="mt-3">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="text-[10px] font-mono text-bep-muted uppercase tracking-wider">GPU Compute Demand — 6 Month Trend</div>
+                  <a href="https://www.ornn.com" target="_blank" rel="noopener noreferrer" className="text-[8px] font-mono text-bep-cyan no-underline hover:underline">Ornn AI OCPI</a>
+                </div>
+                <div className="grid grid-cols-4 gap-1.5 mb-2">
+                  {keys.map(k => (
+                    <div key={k} className="bg-bep-card border border-bep-border rounded px-2 py-1.5 text-center">
+                      <div className="text-[15px] font-bold font-mono" style={{ color: utilColors[k] }}>{latestUtil[k]?.toFixed(1)}%</div>
+                      <div className="text-[8px] font-mono text-bep-dim">{utilLabels[k]} utilized</div>
+                    </div>
+                  ))}
+                </div>
+                <div className="bg-bep-card border border-bep-border rounded-md p-3">
+                  <ResponsiveContainer width="100%" height={200}>
+                    <LineChart data={utilData} margin={{ top: 5, right: 5, left: 0, bottom: 0 }}>
                       <CartesianGrid strokeDasharray="3 3" stroke="#1a1a1a" />
-                      <XAxis dataKey="date" tick={{ fill: "#666", fontSize: 8 }} />
+                      <XAxis dataKey="date" tick={{ fill: "#666", fontSize: 8 }} interval={Math.floor(utilData.length / 8)} />
                       <YAxis tick={{ fill: "#666", fontSize: 8 }} tickFormatter={(v: number) => `${v}%`} domain={[0, 100]} />
                       <Tooltip contentStyle={{ background: "#111", border: "1px solid #252525", fontSize: 9, fontFamily: "monospace" }}
-                        formatter={(v) => [`${v}%`, ""]} />
-                      <ReferenceLine y={25} stroke="#FFB80030" strokeDasharray="3 3" />
-                      {gpuModels.map(gm => <Line key={gm} type="monotone" dataKey={GPU_DISPLAY_NAMES[gm]} stroke={colors[gm]} strokeWidth={2} dot={{ r: 2 }} connectNulls />)}
+                        formatter={(v) => [`${Number(v).toFixed(1)}%`, ""]} />
+                      <ReferenceLine y={75} stroke="#FFB80030" strokeDasharray="3 3" label={{ value: "Scarcity", position: "right", fill: "#FFB80050", fontSize: 8 }} />
+                      {keys.map(k => <Line key={k} type="monotone" dataKey={utilLabels[k] || k} stroke={utilColors[k]} strokeWidth={2} dot={false} connectNulls />)}
                     </LineChart>
                   </ResponsiveContainer>
                 </div>
+                {ornnOCPI?.latest && (
+                  <div className="grid grid-cols-4 gap-1.5 mt-2">
+                    {Object.entries(ornnOCPI.latest).map(([k, v]) => (
+                      <div key={k} className="bg-bep-card border border-bep-border rounded px-2 py-1.5 text-center">
+                        <div className="text-[13px] font-bold font-mono text-bep-cyan">${v.price}/hr</div>
+                        <div className="text-[8px] font-mono text-bep-dim">{utilLabels[k]} OCPI · {v.volatility}% vol</div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             );
           })()}
@@ -260,6 +359,7 @@ export default function DashboardV2({
             <span><span className="text-[#A855F7]">●</span> H100</span>
             <span><span className="text-[#00D4FF]">●</span> H200</span>
             <span><span className="text-[#FF4444]">●</span> B200</span>
+            <span><span className="text-[#76B900]">●</span> A100</span>
           </div>
         </Section>
 

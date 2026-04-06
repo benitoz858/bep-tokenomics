@@ -5,9 +5,11 @@ import RevenuePerWatt from "@/components/RevenuePerWatt";
 import JevonsParadox from "@/components/JevonsParadox";
 import TokenCostStack from "@/components/TokenCostStack";
 import GPUPriceTracker from "@/components/GPUPriceTracker";
+import MemoryMarkets from "@/components/MemoryMarkets";
 import {
   getTokenPricing, getTokenPricingHistory, getLLMflation, getNVIDIATiers,
   getRevenuePerWatt, getCostStack, getGPUPricing, getGPUPricingHistory, getCloudAccelerators,
+  getOrnnMemory,
 } from "@/lib/data";
 
 export default function DeepDivePage() {
@@ -20,6 +22,7 @@ export default function DeepDivePage() {
   const gpuData = getGPUPricing();
   const gpuHistory = getGPUPricingHistory();
   const cloudAccel = getCloudAccelerators();
+  const memoryData = getOrnnMemory();
 
   const baseSummaries = gpuData?.summaries || [];
   const allSummaries = [...baseSummaries, ...(cloudAccel?.accelerators || [])];
@@ -58,6 +61,12 @@ export default function DeepDivePage() {
       {costStackData && (
         <div className="mt-8">
           <TokenCostStack components={costStackData.components} insight={costStackData.insight} />
+        </div>
+      )}
+
+      {memoryData && memoryData.current.length > 0 && (
+        <div className="mt-8">
+          <MemoryMarkets data={memoryData} />
         </div>
       )}
     </SubPageShell>

@@ -1,0 +1,3633 @@
+{
+  "fetchedAt": "2026-04-06T21:40:23.555Z",
+  "startDate": "2025-10-08",
+  "endDate": "2026-04-06",
+  "latest": {
+    "h100": {
+      "price": 1.77,
+      "volatility": 20.7
+    },
+    "h200": {
+      "price": 2.58,
+      "volatility": 23.6
+    },
+    "b200": {
+      "price": 4.11,
+      "volatility": 96
+    },
+    "a100": {
+      "price": 0.96,
+      "volatility": 29.6
+    }
+  },
+  "history": {
+    "h100": [
+      {
+        "date": "2025-10-08",
+        "price": 1.94,
+        "volatility": 18.9
+      },
+      {
+        "date": "2025-10-09",
+        "price": 1.95,
+        "volatility": 18.9
+      },
+      {
+        "date": "2025-10-10",
+        "price": 1.95,
+        "volatility": 18.9
+      },
+      {
+        "date": "2025-10-11",
+        "price": 1.97,
+        "volatility": 18.9
+      },
+      {
+        "date": "2025-10-12",
+        "price": 1.95,
+        "volatility": 19.1
+      },
+      {
+        "date": "2025-10-13",
+        "price": 1.92,
+        "volatility": 19.8
+      },
+      {
+        "date": "2025-10-14",
+        "price": 1.93,
+        "volatility": 18.1
+      },
+      {
+        "date": "2025-10-15",
+        "price": 1.91,
+        "volatility": 18.2
+      },
+      {
+        "date": "2025-10-16",
+        "price": 1.82,
+        "volatility": 22.8
+      },
+      {
+        "date": "2025-10-17",
+        "price": 1.86,
+        "volatility": 24.2
+      },
+      {
+        "date": "2025-10-18",
+        "price": 1.83,
+        "volatility": 24.5
+      },
+      {
+        "date": "2025-10-19",
+        "price": 1.87,
+        "volatility": 25.7
+      },
+      {
+        "date": "2025-10-20",
+        "price": 1.84,
+        "volatility": 26.1
+      },
+      {
+        "date": "2025-10-21",
+        "price": 1.88,
+        "volatility": 27.3
+      },
+      {
+        "date": "2025-10-22",
+        "price": 1.89,
+        "volatility": 27
+      },
+      {
+        "date": "2025-10-23",
+        "price": 1.88,
+        "volatility": 27
+      },
+      {
+        "date": "2025-10-24",
+        "price": 1.87,
+        "volatility": 27
+      },
+      {
+        "date": "2025-10-25",
+        "price": 1.85,
+        "volatility": 27.3
+      },
+      {
+        "date": "2025-10-26",
+        "price": 1.86,
+        "volatility": 27.4
+      },
+      {
+        "date": "2025-10-27",
+        "price": 1.87,
+        "volatility": 27.4
+      },
+      {
+        "date": "2025-10-28",
+        "price": 1.91,
+        "volatility": 28.3
+      },
+      {
+        "date": "2025-10-29",
+        "price": 1.93,
+        "volatility": 28.4
+      },
+      {
+        "date": "2025-10-30",
+        "price": 1.92,
+        "volatility": 28.4
+      },
+      {
+        "date": "2025-10-31",
+        "price": 1.93,
+        "volatility": 27.1
+      },
+      {
+        "date": "2025-11-01",
+        "price": 1.87,
+        "volatility": 28.8
+      },
+      {
+        "date": "2025-11-02",
+        "price": 1.9,
+        "volatility": 28.9
+      },
+      {
+        "date": "2025-11-03",
+        "price": 1.9,
+        "volatility": 28.7
+      },
+      {
+        "date": "2025-11-04",
+        "price": 1.87,
+        "volatility": 29.3
+      },
+      {
+        "date": "2025-11-05",
+        "price": 1.89,
+        "volatility": 29.7
+      },
+      {
+        "date": "2025-11-06",
+        "price": 1.89,
+        "volatility": 29.4
+      },
+      {
+        "date": "2025-11-07",
+        "price": 1.85,
+        "volatility": 29.9
+      },
+      {
+        "date": "2025-11-08",
+        "price": 1.84,
+        "volatility": 29.8
+      },
+      {
+        "date": "2025-11-09",
+        "price": 1.85,
+        "volatility": 29.9
+      },
+      {
+        "date": "2025-11-10",
+        "price": 1.86,
+        "volatility": 29.8
+      },
+      {
+        "date": "2025-11-11",
+        "price": 1.87,
+        "volatility": 29.8
+      },
+      {
+        "date": "2025-11-12",
+        "price": 1.87,
+        "volatility": 29.4
+      },
+      {
+        "date": "2025-11-13",
+        "price": 1.88,
+        "volatility": 29.4
+      },
+      {
+        "date": "2025-11-14",
+        "price": 1.91,
+        "volatility": 29.9
+      },
+      {
+        "date": "2025-11-15",
+        "price": 1.87,
+        "volatility": 25.9
+      },
+      {
+        "date": "2025-11-16",
+        "price": 1.89,
+        "volatility": 25
+      },
+      {
+        "date": "2025-11-17",
+        "price": 1.87,
+        "volatility": 24.7
+      },
+      {
+        "date": "2025-11-18",
+        "price": 1.87,
+        "volatility": 23.4
+      },
+      {
+        "date": "2025-11-19",
+        "price": 1.87,
+        "volatility": 22.6
+      },
+      {
+        "date": "2025-11-20",
+        "price": 1.88,
+        "volatility": 21.4
+      },
+      {
+        "date": "2025-11-21",
+        "price": 1.91,
+        "volatility": 22.2
+      },
+      {
+        "date": "2025-11-22",
+        "price": 1.83,
+        "volatility": 26.7
+      },
+      {
+        "date": "2025-11-23",
+        "price": 1.83,
+        "volatility": 26.7
+      },
+      {
+        "date": "2025-11-24",
+        "price": 1.85,
+        "volatility": 26.7
+      },
+      {
+        "date": "2025-11-25",
+        "price": 1.86,
+        "volatility": 26.7
+      },
+      {
+        "date": "2025-11-26",
+        "price": 1.81,
+        "volatility": 28.2
+      },
+      {
+        "date": "2025-11-27",
+        "price": 1.86,
+        "volatility": 28.8
+      },
+      {
+        "date": "2025-11-28",
+        "price": 1.83,
+        "volatility": 28.9
+      },
+      {
+        "date": "2025-11-29",
+        "price": 1.75,
+        "volatility": 32.5
+      },
+      {
+        "date": "2025-11-30",
+        "price": 1.75,
+        "volatility": 32.4
+      },
+      {
+        "date": "2025-12-01",
+        "price": 1.83,
+        "volatility": 35.1
+      },
+      {
+        "date": "2025-12-02",
+        "price": 1.81,
+        "volatility": 34.8
+      },
+      {
+        "date": "2025-12-03",
+        "price": 1.82,
+        "volatility": 34.8
+      },
+      {
+        "date": "2025-12-04",
+        "price": 1.83,
+        "volatility": 34.5
+      },
+      {
+        "date": "2025-12-05",
+        "price": 1.8,
+        "volatility": 34.4
+      },
+      {
+        "date": "2025-12-06",
+        "price": 1.81,
+        "volatility": 34.4
+      },
+      {
+        "date": "2025-12-07",
+        "price": 1.82,
+        "volatility": 34.1
+      },
+      {
+        "date": "2025-12-08",
+        "price": 1.83,
+        "volatility": 34.1
+      },
+      {
+        "date": "2025-12-09",
+        "price": 1.83,
+        "volatility": 34
+      },
+      {
+        "date": "2025-12-10",
+        "price": 1.83,
+        "volatility": 34
+      },
+      {
+        "date": "2025-12-11",
+        "price": 1.83,
+        "volatility": 33.9
+      },
+      {
+        "date": "2025-12-12",
+        "price": 1.84,
+        "volatility": 34
+      },
+      {
+        "date": "2025-12-13",
+        "price": 1.84,
+        "volatility": 34
+      },
+      {
+        "date": "2025-12-14",
+        "price": 1.83,
+        "volatility": 33.3
+      },
+      {
+        "date": "2025-12-15",
+        "price": 1.84,
+        "volatility": 32.7
+      },
+      {
+        "date": "2025-12-16",
+        "price": 1.84,
+        "volatility": 32.6
+      },
+      {
+        "date": "2025-12-17",
+        "price": 1.83,
+        "volatility": 32.5
+      },
+      {
+        "date": "2025-12-18",
+        "price": 1.86,
+        "volatility": 33
+      },
+      {
+        "date": "2025-12-19",
+        "price": 1.84,
+        "volatility": 33.3
+      },
+      {
+        "date": "2025-12-20",
+        "price": 2.21,
+        "volatility": 73.4
+      },
+      {
+        "date": "2025-12-21",
+        "price": 2.2,
+        "volatility": 73.4
+      },
+      {
+        "date": "2025-12-22",
+        "price": 2.15,
+        "volatility": 72
+      },
+      {
+        "date": "2025-12-23",
+        "price": 2.16,
+        "volatility": 71.9
+      },
+      {
+        "date": "2025-12-24",
+        "price": 2.19,
+        "volatility": 71.9
+      },
+      {
+        "date": "2025-12-25",
+        "price": 2.19,
+        "volatility": 72
+      },
+      {
+        "date": "2025-12-26",
+        "price": 2.19,
+        "volatility": 71
+      },
+      {
+        "date": "2025-12-27",
+        "price": 2.19,
+        "volatility": 70.7
+      },
+      {
+        "date": "2025-12-28",
+        "price": 2.18,
+        "volatility": 70.5
+      },
+      {
+        "date": "2025-12-29",
+        "price": 2.19,
+        "volatility": 68.1
+      },
+      {
+        "date": "2025-12-30",
+        "price": 2.18,
+        "volatility": 68.1
+      },
+      {
+        "date": "2025-12-31",
+        "price": 2.17,
+        "volatility": 66.9
+      },
+      {
+        "date": "2026-01-01",
+        "price": 2.17,
+        "volatility": 66.8
+      },
+      {
+        "date": "2026-01-02",
+        "price": 2.18,
+        "volatility": 66.8
+      },
+      {
+        "date": "2026-01-03",
+        "price": 1.93,
+        "volatility": 80.7
+      },
+      {
+        "date": "2026-01-04",
+        "price": 1.81,
+        "volatility": 84.1
+      },
+      {
+        "date": "2026-01-05",
+        "price": 1.81,
+        "volatility": 84.1
+      },
+      {
+        "date": "2026-01-06",
+        "price": 1.76,
+        "volatility": 84.6
+      },
+      {
+        "date": "2026-01-07",
+        "price": 1.73,
+        "volatility": 84.7
+      },
+      {
+        "date": "2026-01-08",
+        "price": 1.73,
+        "volatility": 84.7
+      },
+      {
+        "date": "2026-01-09",
+        "price": 1.69,
+        "volatility": 84.9
+      },
+      {
+        "date": "2026-01-10",
+        "price": 1.7,
+        "volatility": 84.9
+      },
+      {
+        "date": "2026-01-11",
+        "price": 1.68,
+        "volatility": 84.9
+      },
+      {
+        "date": "2026-01-12",
+        "price": 1.69,
+        "volatility": 84.9
+      },
+      {
+        "date": "2026-01-13",
+        "price": 1.7,
+        "volatility": 85
+      },
+      {
+        "date": "2026-01-14",
+        "price": 1.73,
+        "volatility": 85.3
+      },
+      {
+        "date": "2026-01-15",
+        "price": 1.73,
+        "volatility": 85.3
+      },
+      {
+        "date": "2026-01-16",
+        "price": 1.74,
+        "volatility": 85.3
+      },
+      {
+        "date": "2026-01-17",
+        "price": 1.73,
+        "volatility": 85.1
+      },
+      {
+        "date": "2026-01-18",
+        "price": 1.75,
+        "volatility": 85.1
+      },
+      {
+        "date": "2026-01-19",
+        "price": 1.75,
+        "volatility": 51.3
+      },
+      {
+        "date": "2026-01-20",
+        "price": 1.72,
+        "volatility": 51.3
+      },
+      {
+        "date": "2026-01-21",
+        "price": 1.72,
+        "volatility": 51.2
+      },
+      {
+        "date": "2026-01-22",
+        "price": 1.72,
+        "volatility": 51.1
+      },
+      {
+        "date": "2026-01-23",
+        "price": 1.71,
+        "volatility": 50.6
+      },
+      {
+        "date": "2026-01-24",
+        "price": 1.72,
+        "volatility": 50.7
+      },
+      {
+        "date": "2026-01-25",
+        "price": 1.71,
+        "volatility": 50.6
+      },
+      {
+        "date": "2026-01-26",
+        "price": 1.71,
+        "volatility": 50.7
+      },
+      {
+        "date": "2026-01-27",
+        "price": 1.73,
+        "volatility": 51.1
+      },
+      {
+        "date": "2026-01-28",
+        "price": 1.73,
+        "volatility": 51
+      },
+      {
+        "date": "2026-01-29",
+        "price": 1.73,
+        "volatility": 51.1
+      },
+      {
+        "date": "2026-01-30",
+        "price": 1.75,
+        "volatility": 51.4
+      },
+      {
+        "date": "2026-01-31",
+        "price": 1.72,
+        "volatility": 51.4
+      },
+      {
+        "date": "2026-02-01",
+        "price": 1.71,
+        "volatility": 51.2
+      },
+      {
+        "date": "2026-02-02",
+        "price": 1.65,
+        "volatility": 31.7
+      },
+      {
+        "date": "2026-02-03",
+        "price": 1.63,
+        "volatility": 22.7
+      },
+      {
+        "date": "2026-02-04",
+        "price": 1.65,
+        "volatility": 23.2
+      },
+      {
+        "date": "2026-02-05",
+        "price": 1.67,
+        "volatility": 21.9
+      },
+      {
+        "date": "2026-02-06",
+        "price": 1.69,
+        "volatility": 21.8
+      },
+      {
+        "date": "2026-02-07",
+        "price": 1.7,
+        "volatility": 21.9
+      },
+      {
+        "date": "2026-02-08",
+        "price": 1.7,
+        "volatility": 20.9
+      },
+      {
+        "date": "2026-02-09",
+        "price": 1.67,
+        "volatility": 21.6
+      },
+      {
+        "date": "2026-02-10",
+        "price": 1.67,
+        "volatility": 21.4
+      },
+      {
+        "date": "2026-02-11",
+        "price": 1.69,
+        "volatility": 21.3
+      },
+      {
+        "date": "2026-02-12",
+        "price": 1.69,
+        "volatility": 21.4
+      },
+      {
+        "date": "2026-02-13",
+        "price": 1.71,
+        "volatility": 20.2
+      },
+      {
+        "date": "2026-02-14",
+        "price": 1.7,
+        "volatility": 20.2
+      },
+      {
+        "date": "2026-02-15",
+        "price": 1.7,
+        "volatility": 20.2
+      },
+      {
+        "date": "2026-02-16",
+        "price": 1.68,
+        "volatility": 20.5
+      },
+      {
+        "date": "2026-02-17",
+        "price": 1.68,
+        "volatility": 20
+      },
+      {
+        "date": "2026-02-18",
+        "price": 1.7,
+        "volatility": 20.5
+      },
+      {
+        "date": "2026-02-19",
+        "price": 1.7,
+        "volatility": 19.9
+      },
+      {
+        "date": "2026-02-20",
+        "price": 1.65,
+        "volatility": 22.2
+      },
+      {
+        "date": "2026-02-21",
+        "price": 1.65,
+        "volatility": 22.2
+      },
+      {
+        "date": "2026-02-22",
+        "price": 1.65,
+        "volatility": 22.2
+      },
+      {
+        "date": "2026-02-23",
+        "price": 1.65,
+        "volatility": 22.1
+      },
+      {
+        "date": "2026-02-24",
+        "price": 1.66,
+        "volatility": 22
+      },
+      {
+        "date": "2026-02-25",
+        "price": 1.66,
+        "volatility": 21.9
+      },
+      {
+        "date": "2026-02-26",
+        "price": 1.66,
+        "volatility": 21.6
+      },
+      {
+        "date": "2026-02-27",
+        "price": 1.67,
+        "volatility": 21.9
+      },
+      {
+        "date": "2026-02-28",
+        "price": 1.64,
+        "volatility": 22.7
+      },
+      {
+        "date": "2026-03-01",
+        "price": 1.67,
+        "volatility": 23.3
+      },
+      {
+        "date": "2026-03-02",
+        "price": 1.7,
+        "volatility": 23.8
+      },
+      {
+        "date": "2026-03-03",
+        "price": 1.7,
+        "volatility": 23.8
+      },
+      {
+        "date": "2026-03-04",
+        "price": 1.69,
+        "volatility": 20.3
+      },
+      {
+        "date": "2026-03-05",
+        "price": 1.69,
+        "volatility": 19.8
+      },
+      {
+        "date": "2026-03-06",
+        "price": 1.68,
+        "volatility": 19.7
+      },
+      {
+        "date": "2026-03-07",
+        "price": 1.68,
+        "volatility": 19.3
+      },
+      {
+        "date": "2026-03-08",
+        "price": 1.68,
+        "volatility": 19
+      },
+      {
+        "date": "2026-03-09",
+        "price": 1.67,
+        "volatility": 19
+      },
+      {
+        "date": "2026-03-10",
+        "price": 1.69,
+        "volatility": 19.4
+      },
+      {
+        "date": "2026-03-11",
+        "price": 1.7,
+        "volatility": 18.7
+      },
+      {
+        "date": "2026-03-12",
+        "price": 1.75,
+        "volatility": 20.8
+      },
+      {
+        "date": "2026-03-13",
+        "price": 1.75,
+        "volatility": 20.7
+      },
+      {
+        "date": "2026-03-14",
+        "price": 1.73,
+        "volatility": 21
+      },
+      {
+        "date": "2026-03-15",
+        "price": 1.73,
+        "volatility": 20.9
+      },
+      {
+        "date": "2026-03-16",
+        "price": 1.72,
+        "volatility": 21
+      },
+      {
+        "date": "2026-03-17",
+        "price": 1.71,
+        "volatility": 21.2
+      },
+      {
+        "date": "2026-03-18",
+        "price": 1.69,
+        "volatility": 21
+      },
+      {
+        "date": "2026-03-19",
+        "price": 1.69,
+        "volatility": 21
+      },
+      {
+        "date": "2026-03-20",
+        "price": 1.7,
+        "volatility": 20.7
+      },
+      {
+        "date": "2026-03-21",
+        "price": 1.71,
+        "volatility": 20.9
+      },
+      {
+        "date": "2026-03-22",
+        "price": 1.68,
+        "volatility": 19.4
+      },
+      {
+        "date": "2026-03-23",
+        "price": 1.68,
+        "volatility": 19.4
+      },
+      {
+        "date": "2026-03-24",
+        "price": 1.72,
+        "volatility": 20.5
+      },
+      {
+        "date": "2026-03-25",
+        "price": 1.72,
+        "volatility": 20.5
+      },
+      {
+        "date": "2026-03-26",
+        "price": 1.71,
+        "volatility": 20.7
+      },
+      {
+        "date": "2026-03-27",
+        "price": 1.76,
+        "volatility": 22.9
+      },
+      {
+        "date": "2026-03-28",
+        "price": 1.75,
+        "volatility": 23.2
+      },
+      {
+        "date": "2026-03-29",
+        "price": 1.74,
+        "volatility": 23.1
+      },
+      {
+        "date": "2026-03-30",
+        "price": 1.77,
+        "volatility": 22.6
+      },
+      {
+        "date": "2026-03-31",
+        "price": 1.76,
+        "volatility": 22
+      },
+      {
+        "date": "2026-04-01",
+        "price": 1.77,
+        "volatility": 21.2
+      },
+      {
+        "date": "2026-04-02",
+        "price": 1.77,
+        "volatility": 21.2
+      },
+      {
+        "date": "2026-04-03",
+        "price": 1.77,
+        "volatility": 20.7
+      },
+      {
+        "date": "2026-04-04",
+        "price": 1.78,
+        "volatility": 20.7
+      },
+      {
+        "date": "2026-04-05",
+        "price": 1.77,
+        "volatility": 20.7
+      }
+    ],
+    "h200": [
+      {
+        "date": "2025-10-08",
+        "price": 2.58,
+        "volatility": 13.8
+      },
+      {
+        "date": "2025-10-09",
+        "price": 2.58,
+        "volatility": 13.8
+      },
+      {
+        "date": "2025-10-10",
+        "price": 2.55,
+        "volatility": 14.5
+      },
+      {
+        "date": "2025-10-11",
+        "price": 2.56,
+        "volatility": 14.6
+      },
+      {
+        "date": "2025-10-12",
+        "price": 2.55,
+        "volatility": 14.5
+      },
+      {
+        "date": "2025-10-13",
+        "price": 2.53,
+        "volatility": 14.7
+      },
+      {
+        "date": "2025-10-14",
+        "price": 2.52,
+        "volatility": 14.6
+      },
+      {
+        "date": "2025-10-15",
+        "price": 2.52,
+        "volatility": 14.6
+      },
+      {
+        "date": "2025-10-16",
+        "price": 2.52,
+        "volatility": 14.6
+      },
+      {
+        "date": "2025-10-17",
+        "price": 2.53,
+        "volatility": 14.7
+      },
+      {
+        "date": "2025-10-18",
+        "price": 2.55,
+        "volatility": 14.7
+      },
+      {
+        "date": "2025-10-19",
+        "price": 2.57,
+        "volatility": 15
+      },
+      {
+        "date": "2025-10-20",
+        "price": 2.56,
+        "volatility": 15.1
+      },
+      {
+        "date": "2025-10-21",
+        "price": 2.55,
+        "volatility": 15
+      },
+      {
+        "date": "2025-10-22",
+        "price": 2.55,
+        "volatility": 14.8
+      },
+      {
+        "date": "2025-10-23",
+        "price": 2.56,
+        "volatility": 14.6
+      },
+      {
+        "date": "2025-10-24",
+        "price": 2.55,
+        "volatility": 14.7
+      },
+      {
+        "date": "2025-10-25",
+        "price": 2.54,
+        "volatility": 14.8
+      },
+      {
+        "date": "2025-10-26",
+        "price": 2.52,
+        "volatility": 14.8
+      },
+      {
+        "date": "2025-10-27",
+        "price": 2.51,
+        "volatility": 14.8
+      },
+      {
+        "date": "2025-10-28",
+        "price": 2.51,
+        "volatility": 14.4
+      },
+      {
+        "date": "2025-10-29",
+        "price": 2.51,
+        "volatility": 14.3
+      },
+      {
+        "date": "2025-10-30",
+        "price": 2.5,
+        "volatility": 14
+      },
+      {
+        "date": "2025-10-31",
+        "price": 2.51,
+        "volatility": 12.6
+      },
+      {
+        "date": "2025-11-01",
+        "price": 2.51,
+        "volatility": 10.1
+      },
+      {
+        "date": "2025-11-02",
+        "price": 2.53,
+        "volatility": 10.3
+      },
+      {
+        "date": "2025-11-03",
+        "price": 2.51,
+        "volatility": 10.3
+      },
+      {
+        "date": "2025-11-04",
+        "price": 2.51,
+        "volatility": 10.1
+      },
+      {
+        "date": "2025-11-05",
+        "price": 2.52,
+        "volatility": 10.2
+      },
+      {
+        "date": "2025-11-06",
+        "price": 2.55,
+        "volatility": 11.3
+      },
+      {
+        "date": "2025-11-07",
+        "price": 2.58,
+        "volatility": 11.3
+      },
+      {
+        "date": "2025-11-08",
+        "price": 2.58,
+        "volatility": 11.3
+      },
+      {
+        "date": "2025-11-09",
+        "price": 2.58,
+        "volatility": 10.3
+      },
+      {
+        "date": "2025-11-10",
+        "price": 2.56,
+        "volatility": 10.6
+      },
+      {
+        "date": "2025-11-11",
+        "price": 2.52,
+        "volatility": 11.2
+      },
+      {
+        "date": "2025-11-12",
+        "price": 2.52,
+        "volatility": 10.8
+      },
+      {
+        "date": "2025-11-13",
+        "price": 2.55,
+        "volatility": 11.6
+      },
+      {
+        "date": "2025-11-14",
+        "price": 2.57,
+        "volatility": 11.7
+      },
+      {
+        "date": "2025-11-15",
+        "price": 2.58,
+        "volatility": 11.9
+      },
+      {
+        "date": "2025-11-16",
+        "price": 2.55,
+        "volatility": 12.7
+      },
+      {
+        "date": "2025-11-17",
+        "price": 2.57,
+        "volatility": 12.8
+      },
+      {
+        "date": "2025-11-18",
+        "price": 2.63,
+        "volatility": 14.6
+      },
+      {
+        "date": "2025-11-19",
+        "price": 2.65,
+        "volatility": 14.8
+      },
+      {
+        "date": "2025-11-20",
+        "price": 2.73,
+        "volatility": 17.5
+      },
+      {
+        "date": "2025-11-21",
+        "price": 2.73,
+        "volatility": 17.5
+      },
+      {
+        "date": "2025-11-22",
+        "price": 2.71,
+        "volatility": 17.6
+      },
+      {
+        "date": "2025-11-23",
+        "price": 2.7,
+        "volatility": 17.7
+      },
+      {
+        "date": "2025-11-24",
+        "price": 2.7,
+        "volatility": 17.5
+      },
+      {
+        "date": "2025-11-25",
+        "price": 2.7,
+        "volatility": 17.3
+      },
+      {
+        "date": "2025-11-26",
+        "price": 2.67,
+        "volatility": 17.8
+      },
+      {
+        "date": "2025-11-27",
+        "price": 2.64,
+        "volatility": 18.5
+      },
+      {
+        "date": "2025-11-28",
+        "price": 2.68,
+        "volatility": 19.1
+      },
+      {
+        "date": "2025-11-29",
+        "price": 2.62,
+        "volatility": 20.9
+      },
+      {
+        "date": "2025-11-30",
+        "price": 2.63,
+        "volatility": 20.9
+      },
+      {
+        "date": "2025-12-01",
+        "price": 2.65,
+        "volatility": 21
+      },
+      {
+        "date": "2025-12-02",
+        "price": 2.67,
+        "volatility": 21
+      },
+      {
+        "date": "2025-12-03",
+        "price": 2.59,
+        "volatility": 23.5
+      },
+      {
+        "date": "2025-12-04",
+        "price": 2.57,
+        "volatility": 23.8
+      },
+      {
+        "date": "2025-12-05",
+        "price": 2.55,
+        "volatility": 23.9
+      },
+      {
+        "date": "2025-12-06",
+        "price": 2.54,
+        "volatility": 23.4
+      },
+      {
+        "date": "2025-12-07",
+        "price": 2.51,
+        "volatility": 23.4
+      },
+      {
+        "date": "2025-12-08",
+        "price": 2.48,
+        "volatility": 24
+      },
+      {
+        "date": "2025-12-09",
+        "price": 2.43,
+        "volatility": 24.6
+      },
+      {
+        "date": "2025-12-10",
+        "price": 2.36,
+        "volatility": 26.2
+      },
+      {
+        "date": "2025-12-11",
+        "price": 2.43,
+        "volatility": 27.8
+      },
+      {
+        "date": "2025-12-12",
+        "price": 2.47,
+        "volatility": 28.7
+      },
+      {
+        "date": "2025-12-13",
+        "price": 2.38,
+        "volatility": 31.4
+      },
+      {
+        "date": "2025-12-14",
+        "price": 2.31,
+        "volatility": 32.7
+      },
+      {
+        "date": "2025-12-15",
+        "price": 2.29,
+        "volatility": 32.5
+      },
+      {
+        "date": "2025-12-16",
+        "price": 2.38,
+        "volatility": 35.5
+      },
+      {
+        "date": "2025-12-17",
+        "price": 2.47,
+        "volatility": 37.5
+      },
+      {
+        "date": "2025-12-18",
+        "price": 2.51,
+        "volatility": 37.1
+      },
+      {
+        "date": "2025-12-19",
+        "price": 2.49,
+        "volatility": 36.9
+      },
+      {
+        "date": "2025-12-20",
+        "price": 2.73,
+        "volatility": 48.3
+      },
+      {
+        "date": "2025-12-21",
+        "price": 2.64,
+        "volatility": 49.8
+      },
+      {
+        "date": "2025-12-22",
+        "price": 2.51,
+        "volatility": 52.7
+      },
+      {
+        "date": "2025-12-23",
+        "price": 2.46,
+        "volatility": 53
+      },
+      {
+        "date": "2025-12-24",
+        "price": 2.49,
+        "volatility": 53.2
+      },
+      {
+        "date": "2025-12-25",
+        "price": 2.48,
+        "volatility": 53.2
+      },
+      {
+        "date": "2025-12-26",
+        "price": 2.47,
+        "volatility": 53.2
+      },
+      {
+        "date": "2025-12-27",
+        "price": 2.43,
+        "volatility": 53.3
+      },
+      {
+        "date": "2025-12-28",
+        "price": 2.41,
+        "volatility": 52.9
+      },
+      {
+        "date": "2025-12-29",
+        "price": 2.41,
+        "volatility": 52.5
+      },
+      {
+        "date": "2025-12-30",
+        "price": 2.33,
+        "volatility": 53.8
+      },
+      {
+        "date": "2025-12-31",
+        "price": 2.26,
+        "volatility": 54.2
+      },
+      {
+        "date": "2026-01-01",
+        "price": 2.27,
+        "volatility": 54.2
+      },
+      {
+        "date": "2026-01-02",
+        "price": 2.28,
+        "volatility": 53.6
+      },
+      {
+        "date": "2026-01-03",
+        "price": 2.37,
+        "volatility": 55.3
+      },
+      {
+        "date": "2026-01-04",
+        "price": 2.4,
+        "volatility": 55.6
+      },
+      {
+        "date": "2026-01-05",
+        "price": 2.37,
+        "volatility": 55.7
+      },
+      {
+        "date": "2026-01-06",
+        "price": 2.33,
+        "volatility": 55.9
+      },
+      {
+        "date": "2026-01-07",
+        "price": 2.28,
+        "volatility": 56.1
+      },
+      {
+        "date": "2026-01-08",
+        "price": 2.28,
+        "volatility": 55.9
+      },
+      {
+        "date": "2026-01-09",
+        "price": 2.27,
+        "volatility": 55.1
+      },
+      {
+        "date": "2026-01-10",
+        "price": 2.24,
+        "volatility": 54.3
+      },
+      {
+        "date": "2026-01-11",
+        "price": 2.25,
+        "volatility": 53.8
+      },
+      {
+        "date": "2026-01-12",
+        "price": 2.26,
+        "volatility": 52.2
+      },
+      {
+        "date": "2026-01-13",
+        "price": 2.27,
+        "volatility": 51.2
+      },
+      {
+        "date": "2026-01-14",
+        "price": 2.29,
+        "volatility": 51.2
+      },
+      {
+        "date": "2026-01-15",
+        "price": 2.28,
+        "volatility": 49.4
+      },
+      {
+        "date": "2026-01-16",
+        "price": 2.29,
+        "volatility": 47.7
+      },
+      {
+        "date": "2026-01-17",
+        "price": 2.3,
+        "volatility": 47.3
+      },
+      {
+        "date": "2026-01-18",
+        "price": 2.3,
+        "volatility": 47.3
+      },
+      {
+        "date": "2026-01-19",
+        "price": 2.27,
+        "volatility": 32.9
+      },
+      {
+        "date": "2026-01-20",
+        "price": 2.28,
+        "volatility": 31.4
+      },
+      {
+        "date": "2026-01-21",
+        "price": 2.27,
+        "volatility": 26.7
+      },
+      {
+        "date": "2026-01-22",
+        "price": 2.22,
+        "volatility": 27
+      },
+      {
+        "date": "2026-01-23",
+        "price": 2.25,
+        "volatility": 27
+      },
+      {
+        "date": "2026-01-24",
+        "price": 2.24,
+        "volatility": 27
+      },
+      {
+        "date": "2026-01-25",
+        "price": 2.21,
+        "volatility": 27.2
+      },
+      {
+        "date": "2026-01-26",
+        "price": 2.23,
+        "volatility": 27
+      },
+      {
+        "date": "2026-01-27",
+        "price": 2.26,
+        "volatility": 27.5
+      },
+      {
+        "date": "2026-01-28",
+        "price": 2.28,
+        "volatility": 27.8
+      },
+      {
+        "date": "2026-01-29",
+        "price": 2.26,
+        "volatility": 24.8
+      },
+      {
+        "date": "2026-01-30",
+        "price": 2.25,
+        "volatility": 23
+      },
+      {
+        "date": "2026-01-31",
+        "price": 2.28,
+        "volatility": 23.4
+      },
+      {
+        "date": "2026-02-01",
+        "price": 2.28,
+        "volatility": 23.3
+      },
+      {
+        "date": "2026-02-02",
+        "price": 2.29,
+        "volatility": 19.5
+      },
+      {
+        "date": "2026-02-03",
+        "price": 2.27,
+        "volatility": 19
+      },
+      {
+        "date": "2026-02-04",
+        "price": 2.21,
+        "volatility": 20.7
+      },
+      {
+        "date": "2026-02-05",
+        "price": 2.25,
+        "volatility": 21.4
+      },
+      {
+        "date": "2026-02-06",
+        "price": 2.27,
+        "volatility": 20.1
+      },
+      {
+        "date": "2026-02-07",
+        "price": 2.25,
+        "volatility": 20.4
+      },
+      {
+        "date": "2026-02-08",
+        "price": 2.27,
+        "volatility": 20.6
+      },
+      {
+        "date": "2026-02-09",
+        "price": 2.27,
+        "volatility": 20.2
+      },
+      {
+        "date": "2026-02-10",
+        "price": 2.26,
+        "volatility": 20.2
+      },
+      {
+        "date": "2026-02-11",
+        "price": 2.28,
+        "volatility": 20.5
+      },
+      {
+        "date": "2026-02-12",
+        "price": 2.23,
+        "volatility": 22.5
+      },
+      {
+        "date": "2026-02-13",
+        "price": 2.2,
+        "volatility": 22.6
+      },
+      {
+        "date": "2026-02-14",
+        "price": 2.2,
+        "volatility": 22.6
+      },
+      {
+        "date": "2026-02-15",
+        "price": 2.22,
+        "volatility": 22.8
+      },
+      {
+        "date": "2026-02-16",
+        "price": 2.21,
+        "volatility": 22.8
+      },
+      {
+        "date": "2026-02-17",
+        "price": 2.23,
+        "volatility": 23
+      },
+      {
+        "date": "2026-02-18",
+        "price": 2.23,
+        "volatility": 22.6
+      },
+      {
+        "date": "2026-02-19",
+        "price": 2.23,
+        "volatility": 22.5
+      },
+      {
+        "date": "2026-02-20",
+        "price": 2.23,
+        "volatility": 22.5
+      },
+      {
+        "date": "2026-02-21",
+        "price": 2.23,
+        "volatility": 21.2
+      },
+      {
+        "date": "2026-02-22",
+        "price": 2.25,
+        "volatility": 21.3
+      },
+      {
+        "date": "2026-02-23",
+        "price": 2.27,
+        "volatility": 21.4
+      },
+      {
+        "date": "2026-02-24",
+        "price": 2.26,
+        "volatility": 20.9
+      },
+      {
+        "date": "2026-02-25",
+        "price": 2.31,
+        "volatility": 21.8
+      },
+      {
+        "date": "2026-02-26",
+        "price": 2.28,
+        "volatility": 21.8
+      },
+      {
+        "date": "2026-02-27",
+        "price": 2.3,
+        "volatility": 21.8
+      },
+      {
+        "date": "2026-02-28",
+        "price": 2.42,
+        "volatility": 27.6
+      },
+      {
+        "date": "2026-03-01",
+        "price": 2.34,
+        "volatility": 30.6
+      },
+      {
+        "date": "2026-03-02",
+        "price": 2.37,
+        "volatility": 30.8
+      },
+      {
+        "date": "2026-03-03",
+        "price": 2.42,
+        "volatility": 31.5
+      },
+      {
+        "date": "2026-03-04",
+        "price": 2.45,
+        "volatility": 31.6
+      },
+      {
+        "date": "2026-03-05",
+        "price": 2.41,
+        "volatility": 31.8
+      },
+      {
+        "date": "2026-03-06",
+        "price": 2.42,
+        "volatility": 29.9
+      },
+      {
+        "date": "2026-03-07",
+        "price": 2.41,
+        "volatility": 29.5
+      },
+      {
+        "date": "2026-03-08",
+        "price": 2.39,
+        "volatility": 29.7
+      },
+      {
+        "date": "2026-03-09",
+        "price": 2.42,
+        "volatility": 29.8
+      },
+      {
+        "date": "2026-03-10",
+        "price": 2.4,
+        "volatility": 30
+      },
+      {
+        "date": "2026-03-11",
+        "price": 2.44,
+        "volatility": 30.3
+      },
+      {
+        "date": "2026-03-12",
+        "price": 2.47,
+        "volatility": 30.4
+      },
+      {
+        "date": "2026-03-13",
+        "price": 2.48,
+        "volatility": 30.3
+      },
+      {
+        "date": "2026-03-14",
+        "price": 2.49,
+        "volatility": 28.5
+      },
+      {
+        "date": "2026-03-15",
+        "price": 2.53,
+        "volatility": 28
+      },
+      {
+        "date": "2026-03-16",
+        "price": 2.54,
+        "volatility": 28
+      },
+      {
+        "date": "2026-03-17",
+        "price": 2.6,
+        "volatility": 28.6
+      },
+      {
+        "date": "2026-03-18",
+        "price": 2.63,
+        "volatility": 28.6
+      },
+      {
+        "date": "2026-03-19",
+        "price": 2.65,
+        "volatility": 28.6
+      },
+      {
+        "date": "2026-03-20",
+        "price": 2.63,
+        "volatility": 29
+      },
+      {
+        "date": "2026-03-21",
+        "price": 2.59,
+        "volatility": 29.6
+      },
+      {
+        "date": "2026-03-22",
+        "price": 2.59,
+        "volatility": 29.7
+      },
+      {
+        "date": "2026-03-23",
+        "price": 2.58,
+        "volatility": 29.6
+      },
+      {
+        "date": "2026-03-24",
+        "price": 2.53,
+        "volatility": 30.7
+      },
+      {
+        "date": "2026-03-25",
+        "price": 2.49,
+        "volatility": 31.7
+      },
+      {
+        "date": "2026-03-26",
+        "price": 2.46,
+        "volatility": 32.1
+      },
+      {
+        "date": "2026-03-27",
+        "price": 2.49,
+        "volatility": 31.8
+      },
+      {
+        "date": "2026-03-28",
+        "price": 2.52,
+        "volatility": 31.5
+      },
+      {
+        "date": "2026-03-29",
+        "price": 2.48,
+        "volatility": 32.3
+      },
+      {
+        "date": "2026-03-30",
+        "price": 2.49,
+        "volatility": 27.4
+      },
+      {
+        "date": "2026-03-31",
+        "price": 2.55,
+        "volatility": 25
+      },
+      {
+        "date": "2026-04-01",
+        "price": 2.59,
+        "volatility": 24.9
+      },
+      {
+        "date": "2026-04-02",
+        "price": 2.59,
+        "volatility": 24.2
+      },
+      {
+        "date": "2026-04-03",
+        "price": 2.58,
+        "volatility": 24.2
+      },
+      {
+        "date": "2026-04-04",
+        "price": 2.58,
+        "volatility": 23.6
+      },
+      {
+        "date": "2026-04-05",
+        "price": 2.58,
+        "volatility": 23.6
+      }
+    ],
+    "b200": [
+      {
+        "date": "2025-10-08",
+        "price": 4.7,
+        "volatility": 12.8
+      },
+      {
+        "date": "2025-10-09",
+        "price": 4.68,
+        "volatility": 12.5
+      },
+      {
+        "date": "2025-10-10",
+        "price": 4.69,
+        "volatility": 12.1
+      },
+      {
+        "date": "2025-10-11",
+        "price": 4.69,
+        "volatility": 11.8
+      },
+      {
+        "date": "2025-10-12",
+        "price": 4.7,
+        "volatility": 11.5
+      },
+      {
+        "date": "2025-10-13",
+        "price": 4.66,
+        "volatility": 11.8
+      },
+      {
+        "date": "2025-10-14",
+        "price": 4.67,
+        "volatility": 11.6
+      },
+      {
+        "date": "2025-10-15",
+        "price": 4.63,
+        "volatility": 11.9
+      },
+      {
+        "date": "2025-10-16",
+        "price": 4.68,
+        "volatility": 12.5
+      },
+      {
+        "date": "2025-10-17",
+        "price": 4.52,
+        "volatility": 18.6
+      },
+      {
+        "date": "2025-10-18",
+        "price": 4.51,
+        "volatility": 18.2
+      },
+      {
+        "date": "2025-10-19",
+        "price": 4.4,
+        "volatility": 19.9
+      },
+      {
+        "date": "2025-10-20",
+        "price": 3.61,
+        "volatility": 74.1
+      },
+      {
+        "date": "2025-10-21",
+        "price": 3.91,
+        "volatility": 79.6
+      },
+      {
+        "date": "2025-10-22",
+        "price": 3.81,
+        "volatility": 78.5
+      },
+      {
+        "date": "2025-10-23",
+        "price": 2.97,
+        "volatility": 114.2
+      },
+      {
+        "date": "2025-10-24",
+        "price": 3.04,
+        "volatility": 114.7
+      },
+      {
+        "date": "2025-10-25",
+        "price": 3.46,
+        "volatility": 125.4
+      },
+      {
+        "date": "2025-10-26",
+        "price": 3.05,
+        "volatility": 131.6
+      },
+      {
+        "date": "2025-10-27",
+        "price": 3.1,
+        "volatility": 131.9
+      },
+      {
+        "date": "2025-10-28",
+        "price": 3.31,
+        "volatility": 134.7
+      },
+      {
+        "date": "2025-10-29",
+        "price": 3.28,
+        "volatility": 134.7
+      },
+      {
+        "date": "2025-10-30",
+        "price": 3.34,
+        "volatility": 135
+      },
+      {
+        "date": "2025-10-31",
+        "price": 3.78,
+        "volatility": 142.8
+      },
+      {
+        "date": "2025-11-01",
+        "price": 3.59,
+        "volatility": 143.6
+      },
+      {
+        "date": "2025-11-02",
+        "price": 4.39,
+        "volatility": 161
+      },
+      {
+        "date": "2025-11-03",
+        "price": 3.78,
+        "volatility": 169
+      },
+      {
+        "date": "2025-11-04",
+        "price": 3.37,
+        "volatility": 173.1
+      },
+      {
+        "date": "2025-11-05",
+        "price": 2.93,
+        "volatility": 178.8
+      },
+      {
+        "date": "2025-11-06",
+        "price": 2.91,
+        "volatility": 178.7
+      },
+      {
+        "date": "2025-11-07",
+        "price": 3,
+        "volatility": 179.4
+      },
+      {
+        "date": "2025-11-08",
+        "price": 2.87,
+        "volatility": 179.7
+      },
+      {
+        "date": "2025-11-09",
+        "price": 2.86,
+        "volatility": 179.6
+      },
+      {
+        "date": "2025-11-10",
+        "price": 3.09,
+        "volatility": 182.5
+      },
+      {
+        "date": "2025-11-11",
+        "price": 3.18,
+        "volatility": 183
+      },
+      {
+        "date": "2025-11-12",
+        "price": 3.18,
+        "volatility": 183.1
+      },
+      {
+        "date": "2025-11-13",
+        "price": 3.19,
+        "volatility": 183.1
+      },
+      {
+        "date": "2025-11-14",
+        "price": 3.1,
+        "volatility": 183.2
+      },
+      {
+        "date": "2025-11-15",
+        "price": 3.24,
+        "volatility": 184.2
+      },
+      {
+        "date": "2025-11-16",
+        "price": 3.1,
+        "volatility": 184.4
+      },
+      {
+        "date": "2025-11-17",
+        "price": 3.11,
+        "volatility": 184.4
+      },
+      {
+        "date": "2025-11-18",
+        "price": 3.08,
+        "volatility": 184.3
+      },
+      {
+        "date": "2025-11-19",
+        "price": 3.35,
+        "volatility": 174.6
+      },
+      {
+        "date": "2025-11-20",
+        "price": 3.37,
+        "volatility": 172.1
+      },
+      {
+        "date": "2025-11-21",
+        "price": 3.35,
+        "volatility": 171.9
+      },
+      {
+        "date": "2025-11-22",
+        "price": 3.33,
+        "volatility": 147.6
+      },
+      {
+        "date": "2025-11-23",
+        "price": 3.33,
+        "volatility": 147.5
+      },
+      {
+        "date": "2025-11-24",
+        "price": 3.24,
+        "volatility": 140.4
+      },
+      {
+        "date": "2025-11-25",
+        "price": 3.17,
+        "volatility": 133.4
+      },
+      {
+        "date": "2025-11-26",
+        "price": 3.05,
+        "volatility": 134
+      },
+      {
+        "date": "2025-11-27",
+        "price": 3.06,
+        "volatility": 131.9
+      },
+      {
+        "date": "2025-11-28",
+        "price": 3.13,
+        "volatility": 132.2
+      },
+      {
+        "date": "2025-11-29",
+        "price": 3.27,
+        "volatility": 133.1
+      },
+      {
+        "date": "2025-11-30",
+        "price": 3.05,
+        "volatility": 127.4
+      },
+      {
+        "date": "2025-12-01",
+        "price": 3.02,
+        "volatility": 126.5
+      },
+      {
+        "date": "2025-12-02",
+        "price": 3.08,
+        "volatility": 103
+      },
+      {
+        "date": "2025-12-03",
+        "price": 3,
+        "volatility": 90.5
+      },
+      {
+        "date": "2025-12-04",
+        "price": 3.07,
+        "volatility": 82.3
+      },
+      {
+        "date": "2025-12-05",
+        "price": 3.07,
+        "volatility": 65.7
+      },
+      {
+        "date": "2025-12-06",
+        "price": 3.08,
+        "volatility": 65.6
+      },
+      {
+        "date": "2025-12-07",
+        "price": 3.03,
+        "volatility": 65
+      },
+      {
+        "date": "2025-12-08",
+        "price": 3.06,
+        "volatility": 63.2
+      },
+      {
+        "date": "2025-12-09",
+        "price": 3.1,
+        "volatility": 63.3
+      },
+      {
+        "date": "2025-12-10",
+        "price": 3.08,
+        "volatility": 57.2
+      },
+      {
+        "date": "2025-12-11",
+        "price": 3.04,
+        "volatility": 56.5
+      },
+      {
+        "date": "2025-12-12",
+        "price": 3.08,
+        "volatility": 56.7
+      },
+      {
+        "date": "2025-12-13",
+        "price": 3.01,
+        "volatility": 57.2
+      },
+      {
+        "date": "2025-12-14",
+        "price": 2.95,
+        "volatility": 56.6
+      },
+      {
+        "date": "2025-12-15",
+        "price": 3.05,
+        "volatility": 55.5
+      },
+      {
+        "date": "2025-12-16",
+        "price": 3.03,
+        "volatility": 53.4
+      },
+      {
+        "date": "2025-12-17",
+        "price": 3.08,
+        "volatility": 53.7
+      },
+      {
+        "date": "2025-12-18",
+        "price": 3.08,
+        "volatility": 53.6
+      },
+      {
+        "date": "2025-12-19",
+        "price": 3.08,
+        "volatility": 44.3
+      },
+      {
+        "date": "2025-12-20",
+        "price": 3.65,
+        "volatility": 74.8
+      },
+      {
+        "date": "2025-12-21",
+        "price": 3.65,
+        "volatility": 74.7
+      },
+      {
+        "date": "2025-12-22",
+        "price": 3.65,
+        "volatility": 74.7
+      },
+      {
+        "date": "2025-12-23",
+        "price": 3.65,
+        "volatility": 74.7
+      },
+      {
+        "date": "2025-12-24",
+        "price": 3.65,
+        "volatility": 73.9
+      },
+      {
+        "date": "2025-12-25",
+        "price": 3.68,
+        "volatility": 73.3
+      },
+      {
+        "date": "2025-12-26",
+        "price": 3.7,
+        "volatility": 71.6
+      },
+      {
+        "date": "2025-12-27",
+        "price": 3.64,
+        "volatility": 71.9
+      },
+      {
+        "date": "2025-12-28",
+        "price": 3.64,
+        "volatility": 71.8
+      },
+      {
+        "date": "2025-12-29",
+        "price": 3.62,
+        "volatility": 70.3
+      },
+      {
+        "date": "2025-12-30",
+        "price": 3.62,
+        "volatility": 65
+      },
+      {
+        "date": "2025-12-31",
+        "price": 3.64,
+        "volatility": 64.8
+      },
+      {
+        "date": "2026-01-01",
+        "price": 3.64,
+        "volatility": 64.5
+      },
+      {
+        "date": "2026-01-02",
+        "price": 3.63,
+        "volatility": 63.4
+      },
+      {
+        "date": "2026-01-03",
+        "price": 3.66,
+        "volatility": 63.1
+      },
+      {
+        "date": "2026-01-04",
+        "price": 3.67,
+        "volatility": 63.1
+      },
+      {
+        "date": "2026-01-05",
+        "price": 3.58,
+        "volatility": 64
+      },
+      {
+        "date": "2026-01-06",
+        "price": 3.66,
+        "volatility": 63.8
+      },
+      {
+        "date": "2026-01-07",
+        "price": 3.62,
+        "volatility": 64.1
+      },
+      {
+        "date": "2026-01-08",
+        "price": 3.58,
+        "volatility": 64.2
+      },
+      {
+        "date": "2026-01-09",
+        "price": 3.26,
+        "volatility": 72.8
+      },
+      {
+        "date": "2026-01-10",
+        "price": 2.94,
+        "volatility": 81.7
+      },
+      {
+        "date": "2026-01-11",
+        "price": 2.99,
+        "volatility": 81.9
+      },
+      {
+        "date": "2026-01-12",
+        "price": 3,
+        "volatility": 81.5
+      },
+      {
+        "date": "2026-01-13",
+        "price": 3.1,
+        "volatility": 82
+      },
+      {
+        "date": "2026-01-14",
+        "price": 2.98,
+        "volatility": 82.4
+      },
+      {
+        "date": "2026-01-15",
+        "price": 3.05,
+        "volatility": 82.8
+      },
+      {
+        "date": "2026-01-16",
+        "price": 2.98,
+        "volatility": 83
+      },
+      {
+        "date": "2026-01-17",
+        "price": 3.07,
+        "volatility": 83.7
+      },
+      {
+        "date": "2026-01-18",
+        "price": 3.19,
+        "volatility": 84.8
+      },
+      {
+        "date": "2026-01-19",
+        "price": 3.01,
+        "volatility": 62
+      },
+      {
+        "date": "2026-01-20",
+        "price": 2.95,
+        "volatility": 62.2
+      },
+      {
+        "date": "2026-01-21",
+        "price": 2.65,
+        "volatility": 71.2
+      },
+      {
+        "date": "2026-01-22",
+        "price": 3.12,
+        "volatility": 93.3
+      },
+      {
+        "date": "2026-01-23",
+        "price": 3.21,
+        "volatility": 94.1
+      },
+      {
+        "date": "2026-01-24",
+        "price": 3.21,
+        "volatility": 94
+      },
+      {
+        "date": "2026-01-25",
+        "price": 3.07,
+        "volatility": 95.1
+      },
+      {
+        "date": "2026-01-26",
+        "price": 3.09,
+        "volatility": 95.2
+      },
+      {
+        "date": "2026-01-27",
+        "price": 3.25,
+        "volatility": 97.1
+      },
+      {
+        "date": "2026-01-28",
+        "price": 3.29,
+        "volatility": 97.3
+      },
+      {
+        "date": "2026-01-29",
+        "price": 3.18,
+        "volatility": 98
+      },
+      {
+        "date": "2026-01-30",
+        "price": 3.01,
+        "volatility": 99.4
+      },
+      {
+        "date": "2026-01-31",
+        "price": 3.01,
+        "volatility": 99.3
+      },
+      {
+        "date": "2026-02-01",
+        "price": 2.89,
+        "volatility": 100
+      },
+      {
+        "date": "2026-02-02",
+        "price": 2.9,
+        "volatility": 99.9
+      },
+      {
+        "date": "2026-02-03",
+        "price": 2.89,
+        "volatility": 99.9
+      },
+      {
+        "date": "2026-02-04",
+        "price": 2.96,
+        "volatility": 100.3
+      },
+      {
+        "date": "2026-02-05",
+        "price": 2.86,
+        "volatility": 100.3
+      },
+      {
+        "date": "2026-02-06",
+        "price": 2.86,
+        "volatility": 100.3
+      },
+      {
+        "date": "2026-02-07",
+        "price": 2.83,
+        "volatility": 100.4
+      },
+      {
+        "date": "2026-02-08",
+        "price": 2.75,
+        "volatility": 95.8
+      },
+      {
+        "date": "2026-02-09",
+        "price": 2.66,
+        "volatility": 89.5
+      },
+      {
+        "date": "2026-02-10",
+        "price": 2.69,
+        "volatility": 89.3
+      },
+      {
+        "date": "2026-02-11",
+        "price": 2.85,
+        "volatility": 91.7
+      },
+      {
+        "date": "2026-02-12",
+        "price": 3.15,
+        "volatility": 97.7
+      },
+      {
+        "date": "2026-02-13",
+        "price": 3.1,
+        "volatility": 96.8
+      },
+      {
+        "date": "2026-02-14",
+        "price": 3.04,
+        "volatility": 96.8
+      },
+      {
+        "date": "2026-02-15",
+        "price": 3,
+        "volatility": 96.5
+      },
+      {
+        "date": "2026-02-16",
+        "price": 3.01,
+        "volatility": 95.9
+      },
+      {
+        "date": "2026-02-17",
+        "price": 2.93,
+        "volatility": 95.2
+      },
+      {
+        "date": "2026-02-18",
+        "price": 2.99,
+        "volatility": 93.5
+      },
+      {
+        "date": "2026-02-19",
+        "price": 3.02,
+        "volatility": 93.2
+      },
+      {
+        "date": "2026-02-20",
+        "price": 2.81,
+        "volatility": 88.8
+      },
+      {
+        "date": "2026-02-21",
+        "price": 2.93,
+        "volatility": 69.4
+      },
+      {
+        "date": "2026-02-22",
+        "price": 2.96,
+        "volatility": 68.6
+      },
+      {
+        "date": "2026-02-23",
+        "price": 3,
+        "volatility": 68.9
+      },
+      {
+        "date": "2026-02-24",
+        "price": 3.01,
+        "volatility": 67
+      },
+      {
+        "date": "2026-02-25",
+        "price": 3.01,
+        "volatility": 66.9
+      },
+      {
+        "date": "2026-02-26",
+        "price": 3,
+        "volatility": 64.3
+      },
+      {
+        "date": "2026-02-27",
+        "price": 3.06,
+        "volatility": 64.5
+      },
+      {
+        "date": "2026-02-28",
+        "price": 3.05,
+        "volatility": 63.4
+      },
+      {
+        "date": "2026-03-01",
+        "price": 3.03,
+        "volatility": 60.6
+      },
+      {
+        "date": "2026-03-02",
+        "price": 3.01,
+        "volatility": 60.6
+      },
+      {
+        "date": "2026-03-03",
+        "price": 3.07,
+        "volatility": 59.3
+      },
+      {
+        "date": "2026-03-04",
+        "price": 3.51,
+        "volatility": 74.8
+      },
+      {
+        "date": "2026-03-05",
+        "price": 3.06,
+        "volatility": 89.7
+      },
+      {
+        "date": "2026-03-06",
+        "price": 3.24,
+        "volatility": 91.3
+      },
+      {
+        "date": "2026-03-07",
+        "price": 3.25,
+        "volatility": 90.2
+      },
+      {
+        "date": "2026-03-08",
+        "price": 3.28,
+        "volatility": 90.3
+      },
+      {
+        "date": "2026-03-09",
+        "price": 3.34,
+        "volatility": 90.2
+      },
+      {
+        "date": "2026-03-10",
+        "price": 3.35,
+        "volatility": 89.4
+      },
+      {
+        "date": "2026-03-11",
+        "price": 3.37,
+        "volatility": 88.2
+      },
+      {
+        "date": "2026-03-12",
+        "price": 3.4,
+        "volatility": 88.2
+      },
+      {
+        "date": "2026-03-13",
+        "price": 3.49,
+        "volatility": 86.7
+      },
+      {
+        "date": "2026-03-14",
+        "price": 3.52,
+        "volatility": 79.8
+      },
+      {
+        "date": "2026-03-15",
+        "price": 3.37,
+        "volatility": 81.2
+      },
+      {
+        "date": "2026-03-16",
+        "price": 3.37,
+        "volatility": 80.8
+      },
+      {
+        "date": "2026-03-17",
+        "price": 3.33,
+        "volatility": 80.8
+      },
+      {
+        "date": "2026-03-18",
+        "price": 3.33,
+        "volatility": 80.8
+      },
+      {
+        "date": "2026-03-19",
+        "price": 3.72,
+        "volatility": 88.3
+      },
+      {
+        "date": "2026-03-20",
+        "price": 3.56,
+        "volatility": 90
+      },
+      {
+        "date": "2026-03-21",
+        "price": 3.44,
+        "volatility": 91
+      },
+      {
+        "date": "2026-03-22",
+        "price": 3.89,
+        "volatility": 95.7
+      },
+      {
+        "date": "2026-03-23",
+        "price": 4.21,
+        "volatility": 98
+      },
+      {
+        "date": "2026-03-24",
+        "price": 3.97,
+        "volatility": 101
+      },
+      {
+        "date": "2026-03-25",
+        "price": 4.53,
+        "volatility": 109.7
+      },
+      {
+        "date": "2026-03-26",
+        "price": 4.59,
+        "volatility": 109.6
+      },
+      {
+        "date": "2026-03-27",
+        "price": 4.77,
+        "volatility": 109.8
+      },
+      {
+        "date": "2026-03-28",
+        "price": 4.59,
+        "volatility": 111.2
+      },
+      {
+        "date": "2026-03-29",
+        "price": 4.58,
+        "volatility": 111.3
+      },
+      {
+        "date": "2026-03-30",
+        "price": 4.61,
+        "volatility": 111.2
+      },
+      {
+        "date": "2026-03-31",
+        "price": 4.7,
+        "volatility": 111
+      },
+      {
+        "date": "2026-04-01",
+        "price": 4.67,
+        "volatility": 111
+      },
+      {
+        "date": "2026-04-02",
+        "price": 4.31,
+        "volatility": 115.7
+      },
+      {
+        "date": "2026-04-03",
+        "price": 4.05,
+        "volatility": 109.7
+      },
+      {
+        "date": "2026-04-04",
+        "price": 4.12,
+        "volatility": 97.3
+      },
+      {
+        "date": "2026-04-05",
+        "price": 4.11,
+        "volatility": 96
+      }
+    ],
+    "a100": [
+      {
+        "date": "2025-10-08",
+        "price": 0.84,
+        "volatility": 49.2
+      },
+      {
+        "date": "2025-10-09",
+        "price": 0.78,
+        "volatility": 55.6
+      },
+      {
+        "date": "2025-10-10",
+        "price": 0.79,
+        "volatility": 55.6
+      },
+      {
+        "date": "2025-10-11",
+        "price": 0.76,
+        "volatility": 57
+      },
+      {
+        "date": "2025-10-12",
+        "price": 0.74,
+        "volatility": 57.3
+      },
+      {
+        "date": "2025-10-13",
+        "price": 0.75,
+        "volatility": 57.3
+      },
+      {
+        "date": "2025-10-14",
+        "price": 0.81,
+        "volatility": 64.4
+      },
+      {
+        "date": "2025-10-15",
+        "price": 0.86,
+        "volatility": 67.3
+      },
+      {
+        "date": "2025-10-16",
+        "price": 0.84,
+        "volatility": 67.1
+      },
+      {
+        "date": "2025-10-17",
+        "price": 0.89,
+        "volatility": 69.5
+      },
+      {
+        "date": "2025-10-18",
+        "price": 0.84,
+        "volatility": 73.1
+      },
+      {
+        "date": "2025-10-19",
+        "price": 0.82,
+        "volatility": 73.4
+      },
+      {
+        "date": "2025-10-20",
+        "price": 0.87,
+        "volatility": 75.7
+      },
+      {
+        "date": "2025-10-21",
+        "price": 0.92,
+        "volatility": 78
+      },
+      {
+        "date": "2025-10-22",
+        "price": 0.91,
+        "volatility": 77.5
+      },
+      {
+        "date": "2025-10-23",
+        "price": 0.92,
+        "volatility": 77.3
+      },
+      {
+        "date": "2025-10-24",
+        "price": 0.93,
+        "volatility": 76.8
+      },
+      {
+        "date": "2025-10-25",
+        "price": 0.93,
+        "volatility": 76.8
+      },
+      {
+        "date": "2025-10-26",
+        "price": 0.9,
+        "volatility": 77.8
+      },
+      {
+        "date": "2025-10-27",
+        "price": 0.83,
+        "volatility": 83
+      },
+      {
+        "date": "2025-10-28",
+        "price": 0.86,
+        "volatility": 84.1
+      },
+      {
+        "date": "2025-10-29",
+        "price": 0.86,
+        "volatility": 83.7
+      },
+      {
+        "date": "2025-10-30",
+        "price": 0.88,
+        "volatility": 82.6
+      },
+      {
+        "date": "2025-10-31",
+        "price": 0.89,
+        "volatility": 81.2
+      },
+      {
+        "date": "2025-11-01",
+        "price": 0.89,
+        "volatility": 80.2
+      },
+      {
+        "date": "2025-11-02",
+        "price": 0.91,
+        "volatility": 76.9
+      },
+      {
+        "date": "2025-11-03",
+        "price": 0.9,
+        "volatility": 76.8
+      },
+      {
+        "date": "2025-11-04",
+        "price": 0.89,
+        "volatility": 75.6
+      },
+      {
+        "date": "2025-11-05",
+        "price": 0.9,
+        "volatility": 75.5
+      },
+      {
+        "date": "2025-11-06",
+        "price": 0.89,
+        "volatility": 75.7
+      },
+      {
+        "date": "2025-11-07",
+        "price": 0.91,
+        "volatility": 73.9
+      },
+      {
+        "date": "2025-11-08",
+        "price": 0.92,
+        "volatility": 68.9
+      },
+      {
+        "date": "2025-11-09",
+        "price": 0.92,
+        "volatility": 69
+      },
+      {
+        "date": "2025-11-10",
+        "price": 0.92,
+        "volatility": 67.3
+      },
+      {
+        "date": "2025-11-11",
+        "price": 0.92,
+        "volatility": 66.7
+      },
+      {
+        "date": "2025-11-12",
+        "price": 0.89,
+        "volatility": 68.1
+      },
+      {
+        "date": "2025-11-13",
+        "price": 0.91,
+        "volatility": 62.4
+      },
+      {
+        "date": "2025-11-14",
+        "price": 0.89,
+        "volatility": 60
+      },
+      {
+        "date": "2025-11-15",
+        "price": 0.87,
+        "volatility": 59.8
+      },
+      {
+        "date": "2025-11-16",
+        "price": 0.87,
+        "volatility": 55.8
+      },
+      {
+        "date": "2025-11-17",
+        "price": 0.88,
+        "volatility": 51.1
+      },
+      {
+        "date": "2025-11-18",
+        "price": 0.87,
+        "volatility": 50.5
+      },
+      {
+        "date": "2025-11-19",
+        "price": 0.89,
+        "volatility": 47.6
+      },
+      {
+        "date": "2025-11-20",
+        "price": 0.89,
+        "volatility": 43.1
+      },
+      {
+        "date": "2025-11-21",
+        "price": 0.93,
+        "volatility": 46
+      },
+      {
+        "date": "2025-11-22",
+        "price": 0.91,
+        "volatility": 46.9
+      },
+      {
+        "date": "2025-11-23",
+        "price": 0.91,
+        "volatility": 46.9
+      },
+      {
+        "date": "2025-11-24",
+        "price": 0.94,
+        "volatility": 47.9
+      },
+      {
+        "date": "2025-11-25",
+        "price": 1.01,
+        "volatility": 52.9
+      },
+      {
+        "date": "2025-11-26",
+        "price": 1.01,
+        "volatility": 43
+      },
+      {
+        "date": "2025-11-27",
+        "price": 1.04,
+        "volatility": 42.3
+      },
+      {
+        "date": "2025-11-28",
+        "price": 1,
+        "volatility": 45.3
+      },
+      {
+        "date": "2025-11-29",
+        "price": 0.96,
+        "volatility": 48.1
+      },
+      {
+        "date": "2025-11-30",
+        "price": 0.92,
+        "volatility": 49.8
+      },
+      {
+        "date": "2025-12-01",
+        "price": 0.91,
+        "volatility": 50.3
+      },
+      {
+        "date": "2025-12-02",
+        "price": 0.9,
+        "volatility": 50.1
+      },
+      {
+        "date": "2025-12-03",
+        "price": 0.9,
+        "volatility": 50
+      },
+      {
+        "date": "2025-12-04",
+        "price": 1,
+        "volatility": 62.8
+      },
+      {
+        "date": "2025-12-05",
+        "price": 1.01,
+        "volatility": 62.6
+      },
+      {
+        "date": "2025-12-06",
+        "price": 1.02,
+        "volatility": 62.4
+      },
+      {
+        "date": "2025-12-07",
+        "price": 1.01,
+        "volatility": 62.2
+      },
+      {
+        "date": "2025-12-08",
+        "price": 1,
+        "volatility": 62.3
+      },
+      {
+        "date": "2025-12-09",
+        "price": 1,
+        "volatility": 62.3
+      },
+      {
+        "date": "2025-12-10",
+        "price": 0.97,
+        "volatility": 63.6
+      },
+      {
+        "date": "2025-12-11",
+        "price": 0.94,
+        "volatility": 64.6
+      },
+      {
+        "date": "2025-12-12",
+        "price": 0.92,
+        "volatility": 63.9
+      },
+      {
+        "date": "2025-12-13",
+        "price": 0.92,
+        "volatility": 63.7
+      },
+      {
+        "date": "2025-12-14",
+        "price": 0.9,
+        "volatility": 63.7
+      },
+      {
+        "date": "2025-12-15",
+        "price": 0.89,
+        "volatility": 63.5
+      },
+      {
+        "date": "2025-12-16",
+        "price": 0.89,
+        "volatility": 63.5
+      },
+      {
+        "date": "2025-12-17",
+        "price": 0.88,
+        "volatility": 63.6
+      },
+      {
+        "date": "2025-12-18",
+        "price": 0.88,
+        "volatility": 63.6
+      },
+      {
+        "date": "2025-12-19",
+        "price": 0.9,
+        "volatility": 63.5
+      },
+      {
+        "date": "2025-12-20",
+        "price": 0.88,
+        "volatility": 63.9
+      },
+      {
+        "date": "2025-12-21",
+        "price": 0.88,
+        "volatility": 61.7
+      },
+      {
+        "date": "2025-12-22",
+        "price": 0.88,
+        "volatility": 61
+      },
+      {
+        "date": "2025-12-23",
+        "price": 0.87,
+        "volatility": 60.9
+      },
+      {
+        "date": "2025-12-24",
+        "price": 0.89,
+        "volatility": 60.4
+      },
+      {
+        "date": "2025-12-25",
+        "price": 0.89,
+        "volatility": 53.6
+      },
+      {
+        "date": "2025-12-26",
+        "price": 0.9,
+        "volatility": 53.8
+      },
+      {
+        "date": "2025-12-27",
+        "price": 0.94,
+        "volatility": 54.8
+      },
+      {
+        "date": "2025-12-28",
+        "price": 0.91,
+        "volatility": 54.3
+      },
+      {
+        "date": "2025-12-29",
+        "price": 0.88,
+        "volatility": 53.2
+      },
+      {
+        "date": "2025-12-30",
+        "price": 0.89,
+        "volatility": 52.1
+      },
+      {
+        "date": "2025-12-31",
+        "price": 0.9,
+        "volatility": 52.1
+      },
+      {
+        "date": "2026-01-01",
+        "price": 0.9,
+        "volatility": 51.9
+      },
+      {
+        "date": "2026-01-02",
+        "price": 0.9,
+        "volatility": 51.9
+      },
+      {
+        "date": "2026-01-03",
+        "price": 0.89,
+        "volatility": 33.6
+      },
+      {
+        "date": "2026-01-04",
+        "price": 0.89,
+        "volatility": 33.4
+      },
+      {
+        "date": "2026-01-05",
+        "price": 0.87,
+        "volatility": 33.5
+      },
+      {
+        "date": "2026-01-06",
+        "price": 0.88,
+        "volatility": 34
+      },
+      {
+        "date": "2026-01-07",
+        "price": 0.86,
+        "volatility": 34.3
+      },
+      {
+        "date": "2026-01-08",
+        "price": 0.84,
+        "volatility": 35.4
+      },
+      {
+        "date": "2026-01-09",
+        "price": 0.83,
+        "volatility": 34
+      },
+      {
+        "date": "2026-01-10",
+        "price": 0.83,
+        "volatility": 32.8
+      },
+      {
+        "date": "2026-01-11",
+        "price": 0.83,
+        "volatility": 32.7
+      },
+      {
+        "date": "2026-01-12",
+        "price": 0.82,
+        "volatility": 33
+      },
+      {
+        "date": "2026-01-13",
+        "price": 0.84,
+        "volatility": 34.1
+      },
+      {
+        "date": "2026-01-14",
+        "price": 0.83,
+        "volatility": 34.5
+      },
+      {
+        "date": "2026-01-15",
+        "price": 0.81,
+        "volatility": 35.3
+      },
+      {
+        "date": "2026-01-16",
+        "price": 0.79,
+        "volatility": 35.9
+      },
+      {
+        "date": "2026-01-17",
+        "price": 0.79,
+        "volatility": 35.8
+      },
+      {
+        "date": "2026-01-18",
+        "price": 0.8,
+        "volatility": 35.1
+      },
+      {
+        "date": "2026-01-19",
+        "price": 0.82,
+        "volatility": 37.1
+      },
+      {
+        "date": "2026-01-20",
+        "price": 0.81,
+        "volatility": 37.4
+      },
+      {
+        "date": "2026-01-21",
+        "price": 0.82,
+        "volatility": 37.6
+      },
+      {
+        "date": "2026-01-22",
+        "price": 0.82,
+        "volatility": 37.6
+      },
+      {
+        "date": "2026-01-23",
+        "price": 0.81,
+        "volatility": 37.1
+      },
+      {
+        "date": "2026-01-24",
+        "price": 0.8,
+        "volatility": 37.3
+      },
+      {
+        "date": "2026-01-25",
+        "price": 0.81,
+        "volatility": 37.4
+      },
+      {
+        "date": "2026-01-26",
+        "price": 0.81,
+        "volatility": 33.5
+      },
+      {
+        "date": "2026-01-27",
+        "price": 0.82,
+        "volatility": 33
+      },
+      {
+        "date": "2026-01-28",
+        "price": 0.83,
+        "volatility": 31.1
+      },
+      {
+        "date": "2026-01-29",
+        "price": 0.82,
+        "volatility": 30.8
+      },
+      {
+        "date": "2026-01-30",
+        "price": 0.8,
+        "volatility": 30.6
+      },
+      {
+        "date": "2026-01-31",
+        "price": 0.8,
+        "volatility": 30.5
+      },
+      {
+        "date": "2026-02-01",
+        "price": 0.8,
+        "volatility": 30.5
+      },
+      {
+        "date": "2026-02-02",
+        "price": 0.83,
+        "volatility": 33.6
+      },
+      {
+        "date": "2026-02-03",
+        "price": 0.82,
+        "volatility": 33.5
+      },
+      {
+        "date": "2026-02-04",
+        "price": 0.8,
+        "volatility": 34
+      },
+      {
+        "date": "2026-02-05",
+        "price": 0.8,
+        "volatility": 33.7
+      },
+      {
+        "date": "2026-02-06",
+        "price": 0.81,
+        "volatility": 33.3
+      },
+      {
+        "date": "2026-02-07",
+        "price": 0.81,
+        "volatility": 31.9
+      },
+      {
+        "date": "2026-02-08",
+        "price": 0.81,
+        "volatility": 31.8
+      },
+      {
+        "date": "2026-02-09",
+        "price": 0.8,
+        "volatility": 32.3
+      },
+      {
+        "date": "2026-02-10",
+        "price": 0.8,
+        "volatility": 32.1
+      },
+      {
+        "date": "2026-02-11",
+        "price": 0.81,
+        "volatility": 32
+      },
+      {
+        "date": "2026-02-12",
+        "price": 0.81,
+        "volatility": 30.3
+      },
+      {
+        "date": "2026-02-13",
+        "price": 0.8,
+        "volatility": 29.7
+      },
+      {
+        "date": "2026-02-14",
+        "price": 0.8,
+        "volatility": 28.6
+      },
+      {
+        "date": "2026-02-15",
+        "price": 0.8,
+        "volatility": 27.3
+      },
+      {
+        "date": "2026-02-16",
+        "price": 0.82,
+        "volatility": 28
+      },
+      {
+        "date": "2026-02-17",
+        "price": 0.81,
+        "volatility": 28.2
+      },
+      {
+        "date": "2026-02-18",
+        "price": 0.81,
+        "volatility": 25.5
+      },
+      {
+        "date": "2026-02-19",
+        "price": 0.83,
+        "volatility": 26.1
+      },
+      {
+        "date": "2026-02-20",
+        "price": 0.82,
+        "volatility": 26
+      },
+      {
+        "date": "2026-02-21",
+        "price": 0.82,
+        "volatility": 26.1
+      },
+      {
+        "date": "2026-02-22",
+        "price": 0.8,
+        "volatility": 27.6
+      },
+      {
+        "date": "2026-02-23",
+        "price": 0.81,
+        "volatility": 28.2
+      },
+      {
+        "date": "2026-02-24",
+        "price": 0.82,
+        "volatility": 28
+      },
+      {
+        "date": "2026-02-25",
+        "price": 0.82,
+        "volatility": 28
+      },
+      {
+        "date": "2026-02-26",
+        "price": 0.83,
+        "volatility": 27.7
+      },
+      {
+        "date": "2026-02-27",
+        "price": 0.84,
+        "volatility": 27.8
+      },
+      {
+        "date": "2026-02-28",
+        "price": 0.83,
+        "volatility": 27.8
+      },
+      {
+        "date": "2026-03-01",
+        "price": 0.84,
+        "volatility": 26.9
+      },
+      {
+        "date": "2026-03-02",
+        "price": 0.84,
+        "volatility": 27
+      },
+      {
+        "date": "2026-03-03",
+        "price": 0.84,
+        "volatility": 26.8
+      },
+      {
+        "date": "2026-03-04",
+        "price": 0.88,
+        "volatility": 27.7
+      },
+      {
+        "date": "2026-03-05",
+        "price": 0.88,
+        "volatility": 27.7
+      },
+      {
+        "date": "2026-03-06",
+        "price": 0.88,
+        "volatility": 25.6
+      },
+      {
+        "date": "2026-03-07",
+        "price": 0.89,
+        "volatility": 25.7
+      },
+      {
+        "date": "2026-03-08",
+        "price": 0.9,
+        "volatility": 26.2
+      },
+      {
+        "date": "2026-03-09",
+        "price": 0.89,
+        "volatility": 27.1
+      },
+      {
+        "date": "2026-03-10",
+        "price": 0.91,
+        "volatility": 27.5
+      },
+      {
+        "date": "2026-03-11",
+        "price": 0.93,
+        "volatility": 27.2
+      },
+      {
+        "date": "2026-03-12",
+        "price": 0.94,
+        "volatility": 27.4
+      },
+      {
+        "date": "2026-03-13",
+        "price": 0.96,
+        "volatility": 27.6
+      },
+      {
+        "date": "2026-03-14",
+        "price": 0.95,
+        "volatility": 28.1
+      },
+      {
+        "date": "2026-03-15",
+        "price": 0.92,
+        "volatility": 30.4
+      },
+      {
+        "date": "2026-03-16",
+        "price": 0.91,
+        "volatility": 31.2
+      },
+      {
+        "date": "2026-03-17",
+        "price": 0.9,
+        "volatility": 31.5
+      },
+      {
+        "date": "2026-03-18",
+        "price": 0.9,
+        "volatility": 31.1
+      },
+      {
+        "date": "2026-03-19",
+        "price": 0.9,
+        "volatility": 30.7
+      },
+      {
+        "date": "2026-03-20",
+        "price": 0.9,
+        "volatility": 30.7
+      },
+      {
+        "date": "2026-03-21",
+        "price": 0.91,
+        "volatility": 30.4
+      },
+      {
+        "date": "2026-03-22",
+        "price": 0.92,
+        "volatility": 30.1
+      },
+      {
+        "date": "2026-03-23",
+        "price": 0.91,
+        "volatility": 30.2
+      },
+      {
+        "date": "2026-03-24",
+        "price": 0.9,
+        "volatility": 28.4
+      },
+      {
+        "date": "2026-03-25",
+        "price": 0.91,
+        "volatility": 27.8
+      },
+      {
+        "date": "2026-03-26",
+        "price": 0.93,
+        "volatility": 28
+      },
+      {
+        "date": "2026-03-27",
+        "price": 0.96,
+        "volatility": 30.3
+      },
+      {
+        "date": "2026-03-28",
+        "price": 0.95,
+        "volatility": 30.7
+      },
+      {
+        "date": "2026-03-29",
+        "price": 0.93,
+        "volatility": 31.4
+      },
+      {
+        "date": "2026-03-30",
+        "price": 0.94,
+        "volatility": 31.2
+      },
+      {
+        "date": "2026-03-31",
+        "price": 0.96,
+        "volatility": 31.6
+      },
+      {
+        "date": "2026-04-01",
+        "price": 0.95,
+        "volatility": 32.2
+      },
+      {
+        "date": "2026-04-02",
+        "price": 0.95,
+        "volatility": 32.3
+      },
+      {
+        "date": "2026-04-03",
+        "price": 0.96,
+        "volatility": 29.1
+      },
+      {
+        "date": "2026-04-04",
+        "price": 0.97,
+        "volatility": 29.2
+      },
+      {
+        "date": "2026-04-05",
+        "price": 0.96,
+        "volatility": 29.6
+      }
+    ]
+  }
+}

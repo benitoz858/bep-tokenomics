@@ -8,6 +8,8 @@ import {
   getGPUThroughput,
   getCloudAccelerators,
   getCommentary,
+  getOrnnUtilization,
+  getOrnnOCPI,
 } from "@/lib/data";
 
 export const metadata: Metadata = {
@@ -34,6 +36,8 @@ export default function V2Page() {
   const throughputData = getGPUThroughput();
   const cloudAccel = getCloudAccelerators();
   const commentary = getCommentary();
+  const ornnUtilization = getOrnnUtilization();
+  const ornnOCPI = getOrnnOCPI();
 
   const tokenModels = tokenData?.models || FALLBACK_TOKEN_MODELS;
   const baseSummaries = gpuData?.summaries || [];
@@ -52,6 +56,8 @@ export default function V2Page() {
       gpuThroughput={throughputData?.gpus || {}}
       lpxCostAdder={throughputData?.lpxCostPerHourAdder || 2.50}
       commentary={commentary}
+      ornnUtilization={ornnUtilization}
+      ornnOCPI={ornnOCPI}
     />
   );
 }

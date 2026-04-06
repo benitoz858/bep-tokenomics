@@ -249,3 +249,39 @@ export interface GPUHardwareSpecsData {
 export function getGPUHardwareSpecs(): GPUHardwareSpecsData | null {
   return readJSON<GPUHardwareSpecsData>(join(DATA_DIR, "static", "gpu-hardware-specs.json"));
 }
+
+// ── Ornn AI Data ──
+export interface OrnnUtilizationHistory {
+  fetchedAt: string;
+  startDate: string;
+  endDate: string;
+  gpus: Record<string, Array<{ date: string; utilization: number }>>;
+}
+
+export function getOrnnUtilization(): OrnnUtilizationHistory | null {
+  return readJSON<OrnnUtilizationHistory>(join(DATA_DIR, "ornn", "gpu-utilization-history.json"));
+}
+
+export interface OrnnOCPIPrices {
+  fetchedAt: string;
+  latest: Record<string, { price: number; volatility: number }>;
+  history: Record<string, Array<{ date: string; price: number; volatility: number }>>;
+}
+
+export function getOrnnOCPI(): OrnnOCPIPrices | null {
+  return readJSON<OrnnOCPIPrices>(join(DATA_DIR, "ornn", "ocpi-prices.json"));
+}
+
+export interface OrnnMemoryPricing {
+  fetchedAt: string;
+  date: string;
+  current: Array<{
+    key: string; label: string; category: string;
+    price: number; changePct: number; weeklyHigh: number; weeklyLow: number;
+  }>;
+  history: Record<string, Array<{ date: string; price: number }>>;
+}
+
+export function getOrnnMemory(): OrnnMemoryPricing | null {
+  return readJSON<OrnnMemoryPricing>(join(DATA_DIR, "ornn", "memory-pricing.json"));
+}
