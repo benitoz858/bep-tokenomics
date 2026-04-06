@@ -4,6 +4,7 @@ import Link from "next/link";
 import MarketBrief from "./MarketBrief";
 import Metric from "./ui/Metric";
 import Section from "./ui/Section";
+import ExpandableChart from "./ui/ExpandableChart";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, ReferenceLine } from "recharts";
 import { GPU_DISPLAY_NAMES, PROVIDER_COLORS, costPerMillionFromGPU, inferenceMargin } from "@/lib/calculations";
 import type {
@@ -187,33 +188,39 @@ export default function DashboardV2({
               chartData.push(row);
             }
 
-            return (
-              <div className="bg-bep-card border border-bep-border rounded-md p-3 mb-3">
-                <div className="flex items-center justify-between mb-1">
-                  <div className="text-[9px] font-mono text-bep-muted uppercase tracking-wider">OCPI Spot Index — 6 Month (trade-based $/hr)</div>
-                  <a href="https://www.ornn.com" target="_blank" rel="noopener noreferrer" className="text-[8px] font-mono text-bep-cyan no-underline hover:underline">Ornn AI</a>
-                </div>
-                <ResponsiveContainer width="100%" height={160}>
-                  <LineChart data={chartData} margin={{ top: 5, right: 5, left: 0, bottom: 0 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#1a1a1a" />
-                    <XAxis dataKey="date" tick={{ fill: "#666", fontSize: 7 }} interval={Math.floor(chartData.length / 7)} />
-                    <YAxis tick={{ fill: "#666", fontSize: 8 }} tickFormatter={(v: number) => `$${v}`} />
-                    <Tooltip contentStyle={{ background: "#111", border: "1px solid #252525", fontSize: 9, fontFamily: "monospace" }}
-                      formatter={(v) => [`$${Number(v).toFixed(2)}/hr`, ""]} />
-                    {ocpiKeys.map(k => <Line key={k} type="monotone" dataKey={utilLabels[k] || k} stroke={utilColors[k]} strokeWidth={2} dot={false} connectNulls />)}
-                  </LineChart>
-                </ResponsiveContainer>
-                {/* OCPI price + vol cards inline */}
-                {ornnOCPI?.latest && (
-                  <div className="grid grid-cols-4 gap-1.5 mt-2">
-                    {Object.entries(ornnOCPI.latest).map(([k, v]) => (
-                      <div key={k} className="text-center">
-                        <span className="text-[12px] font-bold font-mono text-bep-cyan">${v.price}/hr</span>
-                        <span className="text-[8px] font-mono text-bep-dim ml-1">{utilLabels[k]} · {v.volatility}% vol</span>
-                      </div>
-                    ))}
+            const ocpiFooter = ornnOCPI?.latest ? (
+              <div className="grid grid-cols-4 gap-1.5">
+                {Object.entries(ornnOCPI.latest).map(([k, v]) => (
+                  <div key={k} className="text-center">
+                    <span className="text-[12px] font-bold font-mono text-bep-cyan">${v.price}/hr</span>
+                    <span className="text-[8px] font-mono text-bep-dim ml-1">{utilLabels[k]} · {v.volatility}% vol</span>
                   </div>
-                )}
+                ))}
+              </div>
+            ) : undefined;
+
+            return (
+              <div className="mb-3">
+                <ExpandableChart
+                  title="OCPI Spot Index — 6 Month (trade-based $/hr)"
+                  attribution={{ label: "Ornn AI", href: "https://www.ornn.com" }}
+                  compactHeight={160}
+                  expandedHeight={500}
+                  footer={ocpiFooter}
+                >
+                  {(height) => (
+                    <ResponsiveContainer width="100%" height={height}>
+                      <LineChart data={chartData} margin={{ top: 5, right: 5, left: 0, bottom: 0 }}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="#1a1a1a" />
+                        <XAxis dataKey="date" tick={{ fill: "#666", fontSize: 7 }} interval={Math.floor(chartData.length / 7)} />
+                        <YAxis tick={{ fill: "#666", fontSize: 8 }} tickFormatter={(v: number) => `$${v}`} />
+                        <Tooltip contentStyle={{ background: "#111", border: "1px solid #252525", fontSize: 9, fontFamily: "monospace" }}
+                          formatter={(v) => [`$${Number(v).toFixed(2)}/hr`, ""]} />
+                        {ocpiKeys.map(k => <Line key={k} type="monotone" dataKey={utilLabels[k] || k} stroke={utilColors[k]} strokeWidth={2} dot={false} connectNulls />)}
+                      </LineChart>
+                    </ResponsiveContainer>
+                  )}
+                </ExpandableChart>
               </div>
             );
           })()}
@@ -240,32 +247,39 @@ export default function DashboardV2({
               latestUtil[k] = arr[arr.length - 1]?.utilization || 0;
             }
 
-            return (
-              <div className="bg-bep-card border border-bep-border rounded-md p-3">
-                <div className="flex items-center justify-between mb-1">
-                  <div className="text-[9px] font-mono text-bep-muted uppercase tracking-wider">GPU Compute Demand — 6 Month Utilization</div>
-                  <a href="https://www.ornn.com" target="_blank" rel="noopener noreferrer" className="text-[8px] font-mono text-bep-cyan no-underline hover:underline">Ornn AI OCPI</a>
-                </div>
-                <ResponsiveContainer width="100%" height={160}>
-                  <LineChart data={utilData} margin={{ top: 5, right: 5, left: 0, bottom: 0 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#1a1a1a" />
-                    <XAxis dataKey="date" tick={{ fill: "#666", fontSize: 7 }} interval={Math.floor(utilData.length / 7)} />
-                    <YAxis tick={{ fill: "#666", fontSize: 8 }} tickFormatter={(v: number) => `${v}%`} domain={[0, 100]} />
-                    <Tooltip contentStyle={{ background: "#111", border: "1px solid #252525", fontSize: 9, fontFamily: "monospace" }}
-                      formatter={(v) => [`${Number(v).toFixed(1)}%`, ""]} />
-                    <ReferenceLine y={75} stroke="#FFB80030" strokeDasharray="3 3" />
-                    {keys.map(k => <Line key={k} type="monotone" dataKey={utilLabels[k] || k} stroke={utilColors[k]} strokeWidth={2} dot={false} connectNulls />)}
-                  </LineChart>
-                </ResponsiveContainer>
-                <div className="grid grid-cols-4 gap-1.5 mt-2">
-                  {keys.map(k => (
-                    <div key={k} className="text-center">
-                      <span className="text-[13px] font-bold font-mono" style={{ color: utilColors[k] }}>{latestUtil[k]?.toFixed(1)}%</span>
-                      <span className="text-[8px] font-mono text-bep-dim ml-1">{utilLabels[k]}</span>
-                    </div>
-                  ))}
-                </div>
+            const utilFooter = (
+              <div className="grid grid-cols-4 gap-1.5">
+                {keys.map(k => (
+                  <div key={k} className="text-center">
+                    <span className="text-[13px] font-bold font-mono" style={{ color: utilColors[k] }}>{latestUtil[k]?.toFixed(1)}%</span>
+                    <span className="text-[8px] font-mono text-bep-dim ml-1">{utilLabels[k]}</span>
+                  </div>
+                ))}
               </div>
+            );
+
+            return (
+              <ExpandableChart
+                title="GPU Compute Demand — 6 Month Utilization"
+                attribution={{ label: "Ornn AI OCPI", href: "https://www.ornn.com" }}
+                compactHeight={160}
+                expandedHeight={500}
+                footer={utilFooter}
+              >
+                {(height) => (
+                  <ResponsiveContainer width="100%" height={height}>
+                    <LineChart data={utilData} margin={{ top: 5, right: 5, left: 0, bottom: 0 }}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#1a1a1a" />
+                      <XAxis dataKey="date" tick={{ fill: "#666", fontSize: 7 }} interval={Math.floor(utilData.length / 7)} />
+                      <YAxis tick={{ fill: "#666", fontSize: 8 }} tickFormatter={(v: number) => `${v}%`} domain={[0, 100]} />
+                      <Tooltip contentStyle={{ background: "#111", border: "1px solid #252525", fontSize: 9, fontFamily: "monospace" }}
+                        formatter={(v) => [`${Number(v).toFixed(1)}%`, ""]} />
+                      <ReferenceLine y={75} stroke="#FFB80030" strokeDasharray="3 3" />
+                      {keys.map(k => <Line key={k} type="monotone" dataKey={utilLabels[k] || k} stroke={utilColors[k]} strokeWidth={2} dot={false} connectNulls />)}
+                    </LineChart>
+                  </ResponsiveContainer>
+                )}
+              </ExpandableChart>
             );
           })()}
 
