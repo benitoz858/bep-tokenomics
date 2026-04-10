@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-09",
+  "lastUpdated": "2026-04-10",
   "entries": {
     "2023-03-14": [
       {
@@ -1823,6 +1823,98 @@
       }
     ],
     "2026-04-09": [
+      {
+        "modelId": "openai/o3-pro",
+        "inputPerMillion": 20,
+        "outputPerMillion": 80
+      },
+      {
+        "modelId": "anthropic/claude-opus-4.6",
+        "inputPerMillion": 5,
+        "outputPerMillion": 25
+      },
+      {
+        "modelId": "openai/gpt-5.4",
+        "inputPerMillion": 2.5,
+        "outputPerMillion": 15
+      },
+      {
+        "modelId": "anthropic/claude-sonnet-4.6",
+        "inputPerMillion": 3,
+        "outputPerMillion": 15
+      },
+      {
+        "modelId": "openai/gpt-5.2",
+        "inputPerMillion": 1.75,
+        "outputPerMillion": 14
+      },
+      {
+        "modelId": "openai/gpt-5",
+        "inputPerMillion": 1.25,
+        "outputPerMillion": 10
+      },
+      {
+        "modelId": "google/gemini-2.5-pro",
+        "inputPerMillion": 1.25,
+        "outputPerMillion": 10
+      },
+      {
+        "modelId": "openai/o3",
+        "inputPerMillion": 2,
+        "outputPerMillion": 8
+      },
+      {
+        "modelId": "mistralai/mistral-large",
+        "inputPerMillion": 2,
+        "outputPerMillion": 6
+      },
+      {
+        "modelId": "anthropic/claude-haiku-4.5",
+        "inputPerMillion": 1,
+        "outputPerMillion": 5
+      },
+      {
+        "modelId": "openai/gpt-5.4-mini",
+        "inputPerMillion": 0.75,
+        "outputPerMillion": 4.5
+      },
+      {
+        "modelId": "openai/o3-mini",
+        "inputPerMillion": 1.1,
+        "outputPerMillion": 4.4
+      },
+      {
+        "modelId": "google/gemini-2.5-flash",
+        "inputPerMillion": 0.3,
+        "outputPerMillion": 2.5
+      },
+      {
+        "modelId": "deepseek/deepseek-r1",
+        "inputPerMillion": 0.7,
+        "outputPerMillion": 2.5
+      },
+      {
+        "modelId": "openai/gpt-5-mini",
+        "inputPerMillion": 0.25,
+        "outputPerMillion": 2
+      },
+      {
+        "modelId": "meta-llama/llama-4-maverick",
+        "inputPerMillion": 0.15,
+        "outputPerMillion": 0.6
+      },
+      {
+        "modelId": "x-ai/grok-4.1-fast",
+        "inputPerMillion": 0.19999999999999998,
+        "outputPerMillion": 0.5
+      },
+      {
+        "modelId": "deepseek/deepseek-v3.2",
+        "inputPerMillion": 0.26,
+        "outputPerMillion": 0.38
+      }
+    ],
+    "2026-04-10": [
       {
         "modelId": "openai/o3-pro",
         "inputPerMillion": 20,
