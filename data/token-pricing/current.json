@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-04-10T07:24:57.952Z",
+  "fetchedAt": "2026-04-11T06:58:44.166Z",
   "modelCount": 18,
   "models": [
     {
@@ -10,7 +10,7 @@
       "outputPerMillion": 80,
       "contextWindow": 200000,
       "maxOutput": 100000,
-      "fetchedAt": "2026-04-10T07:24:57.952Z"
+      "fetchedAt": "2026-04-11T06:58:44.165Z"
     },
     {
       "model": "Anthropic: Claude Opus 4.6",
@@ -20,7 +20,7 @@
       "outputPerMillion": 25,
       "contextWindow": 1000000,
       "maxOutput": 128000,
-      "fetchedAt": "2026-04-10T07:24:57.952Z"
+      "fetchedAt": "2026-04-11T06:58:44.165Z"
     },
     {
       "model": "OpenAI: GPT-5.4",
@@ -30,7 +30,7 @@
       "outputPerMillion": 15,
       "contextWindow": 1050000,
       "maxOutput": 128000,
-      "fetchedAt": "2026-04-10T07:24:57.951Z"
+      "fetchedAt": "2026-04-11T06:58:44.164Z"
     },
     {
       "model": "Anthropic: Claude Sonnet 4.6",
@@ -40,7 +40,7 @@
       "outputPerMillion": 15,
       "contextWindow": 1000000,
       "maxOutput": 128000,
-      "fetchedAt": "2026-04-10T07:24:57.952Z"
+      "fetchedAt": "2026-04-11T06:58:44.165Z"
     },
     {
       "model": "OpenAI: GPT-5.2",
@@ -50,7 +50,7 @@
       "outputPerMillion": 14,
       "contextWindow": 400000,
       "maxOutput": 128000,
-      "fetchedAt": "2026-04-10T07:24:57.951Z"
+      "fetchedAt": "2026-04-11T06:58:44.165Z"
     },
     {
       "model": "OpenAI: GPT-5",
@@ -60,7 +60,7 @@
       "outputPerMillion": 10,
       "contextWindow": 400000,
       "maxOutput": 128000,
-      "fetchedAt": "2026-04-10T07:24:57.951Z"
+      "fetchedAt": "2026-04-11T06:58:44.165Z"
     },
     {
       "model": "Google: Gemini 2.5 Pro",
@@ -70,7 +70,7 @@
       "outputPerMillion": 10,
       "contextWindow": 1048576,
       "maxOutput": 65536,
-      "fetchedAt": "2026-04-10T07:24:57.952Z"
+      "fetchedAt": "2026-04-11T06:58:44.165Z"
     },
     {
       "model": "OpenAI: o3",
@@ -80,7 +80,7 @@
       "outputPerMillion": 8,
       "contextWindow": 200000,
       "maxOutput": 100000,
-      "fetchedAt": "2026-04-10T07:24:57.952Z"
+      "fetchedAt": "2026-04-11T06:58:44.165Z"
     },
     {
       "model": "Mistral Large",
@@ -90,7 +90,7 @@
       "outputPerMillion": 6,
       "contextWindow": 128000,
       "maxOutput": null,
-      "fetchedAt": "2026-04-10T07:24:57.952Z"
+      "fetchedAt": "2026-04-11T06:58:44.166Z"
     },
     {
       "model": "Anthropic: Claude Haiku 4.5",
@@ -100,7 +100,7 @@
       "outputPerMillion": 5,
       "contextWindow": 200000,
       "maxOutput": 64000,
-      "fetchedAt": "2026-04-10T07:24:57.952Z"
+      "fetchedAt": "2026-04-11T06:58:44.165Z"
     },
     {
       "model": "OpenAI: GPT-5.4 Mini",
@@ -110,7 +110,7 @@
       "outputPerMillion": 4.5,
       "contextWindow": 400000,
       "maxOutput": 128000,
-      "fetchedAt": "2026-04-10T07:24:57.951Z"
+      "fetchedAt": "2026-04-11T06:58:44.165Z"
     },
     {
       "model": "OpenAI: o3 Mini",
@@ -120,7 +120,7 @@
       "outputPerMillion": 4.4,
       "contextWindow": 200000,
       "maxOutput": 100000,
-      "fetchedAt": "2026-04-10T07:24:57.952Z"
+      "fetchedAt": "2026-04-11T06:58:44.165Z"
     },
     {
       "model": "Google: Gemini 2.5 Flash",
@@ -130,7 +130,7 @@
       "outputPerMillion": 2.5,
       "contextWindow": 1048576,
       "maxOutput": 65535,
-      "fetchedAt": "2026-04-10T07:24:57.952Z"
+      "fetchedAt": "2026-04-11T06:58:44.165Z"
     },
     {
       "model": "DeepSeek: R1",
@@ -140,7 +140,7 @@
       "outputPerMillion": 2.5,
       "contextWindow": 64000,
       "maxOutput": 16000,
-      "fetchedAt": "2026-04-10T07:24:57.952Z"
+      "fetchedAt": "2026-04-11T06:58:44.165Z"
     },
     {
       "model": "OpenAI: GPT-5 Mini",
@@ -150,7 +150,7 @@
       "outputPerMillion": 2,
       "contextWindow": 400000,
       "maxOutput": 128000,
-      "fetchedAt": "2026-04-10T07:24:57.952Z"
+      "fetchedAt": "2026-04-11T06:58:44.165Z"
     },
     {
       "model": "Meta: Llama 4 Maverick",
@@ -160,7 +160,7 @@
       "outputPerMillion": 0.6,
       "contextWindow": 1048576,
       "maxOutput": 16384,
-      "fetchedAt": "2026-04-10T07:24:57.952Z"
+      "fetchedAt": "2026-04-11T06:58:44.165Z"
     },
     {
       "model": "xAI: Grok 4.1 Fast",
@@ -170,7 +170,7 @@
       "outputPerMillion": 0.5,
       "contextWindow": 2000000,
       "maxOutput": 30000,
-      "fetchedAt": "2026-04-10T07:24:57.952Z"
+      "fetchedAt": "2026-04-11T06:58:44.165Z"
     },
     {
       "model": "DeepSeek: DeepSeek V3.2",
@@ -180,7 +180,7 @@
       "outputPerMillion": 0.38,
       "contextWindow": 163840,
       "maxOutput": null,
-      "fetchedAt": "2026-04-10T07:24:57.952Z"
+      "fetchedAt": "2026-04-11T06:58:44.165Z"
     }
   ]
 }

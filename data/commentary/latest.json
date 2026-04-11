@@ -1,26 +1,26 @@
 {
-  "generatedAt": "2026-04-10T07:25:22.502Z",
-  "date": "2026-04-10",
-  "title": "Market Brief — Friday, April 10, 2026",
+  "generatedAt": "2026-04-11T06:59:11.594Z",
+  "date": "2026-04-11",
+  "title": "Market Brief — Saturday, April 11, 2026",
   "poweredBy": "Claude Opus 4.6",
-  "summary": "Compute is scarce across the board. H100 availability sits at 20% (76/301), H200 at a severe 12% (65/341), and B200 is the loosest at 28% (128/405) as Blackwell supply ramps. H200 spot jumped 17.5% overnight to $3.03/hr on tight supply, while H100 dropped 7.5% as workloads migrate to newer silicon and utilization fell 8.6pp over 30 days.",
+  "summary": "H100 availability sits at a severe 13% (131/355 GPUs), H200 at 26% (101/376), and B200 at a comfortable 41% (128/417), painting a two-tier market where last-gen silicon is critically scarce while Blackwell supply loosens fast. The biggest overnight move: H100 spot surged 20.9% to $1.87/hr even as H200 dropped 14.9% to $2.58, signaling legacy workload lock-in and a migration bottleneck away from Hopper.",
   "paragraphs": [
-    "Compute is scarce across the board. H100 availability sits at 20% (76/301), H200 at a severe 12% (65/341), and B200 is the loosest at 28% (128/405) as Blackwell supply ramps. H200 spot jumped 17.5% overnight to $3.03/hr on tight supply, while H100 dropped 7.5% as workloads migrate to newer silicon and utilization fell 8.6pp over 30 days.",
-    "B200 at TCO-adjusted cost of $3.49/M tokens is the only GPU where medium-tier inference turns a profit. H200 operators selling Llama 70B at medium tier face a loss of $2.74 per million tokens against a $7.26 TCO-adjusted cost. Provider grades: OpenAI Neutral, Anthropic Neutral, Google Strong, DeepSeek Burning Cash at $0.38/M output on R1 versus $2.50 list price, and open-source Burning Cash at scale.",
-    "B200 is undervalued: 96.6% annualized price volatility signals a market still discovering fair value, yet it already delivers the best inference margin stack. H100 is overvalued for new deployments given falling utilization and the H200/B200 cost crossover — sell H100 exposure, go long B200 capacity contracts before availability tightens below 20%."
+    "H100 availability sits at a severe 13% (131/355 GPUs), H200 at 26% (101/376), and B200 at a comfortable 41% (128/417), painting a two-tier market where last-gen silicon is critically scarce while Blackwell supply loosens fast. The biggest overnight move: H100 spot surged 20.9% to $1.87/hr even as H200 dropped 14.9% to $2.58, signaling legacy workload lock-in and a migration bottleneck away from Hopper.",
+    "At TCO-adjusted cost (1.25x spot), Llama 70B inference runs $6.83/M on H100, $6.19/M on H200, and $4.00/M on B200, meaning anyone selling at medium-tier pricing ($3/M) is underwater everywhere except B200 where losses narrow to $1.00/M per token. Provider grades: OpenAI Neutral (margin-rich o3 Pro subsidizes aggressive GPT-5 Mini at $2/M output), Anthropic Strong (Opus at $25/M prints money), Google Neutral (Flash at $2.50/M flirts with breakeven), DeepSeek Burning Cash (V3.2 at $0.38/M output is selling at an estimated loss of $3.62/M tokens on H200).",
+    "B200 at 96.8% annualized price volatility and 41% availability is overvalued for spot buyers who can wait 30 days for further supply normalization. H200 at $2.58 spot after a 14.9% single-day drop with utilization climbing 7.9pp monthly is the undervalued compute play, so rotate H100 inference workloads to H200 now before the migration wave reprices availability."
   ],
   "bullets": [
-    "12% H200 availability signals a severe shortage with only 65 of 341 GPUs free.",
-    "28% B200 availability marks the only GPU class above the scarcity threshold.",
-    "$3.03 H200 spot median jumped 17.5% day-over-day, the largest single move in the stack.",
-    "21.41 LLMflation index means API pricing has fallen roughly 79% since GPT-4 launch.",
-    "$0.38 DeepSeek V3.2 output pricing undercuts every Western frontier model by 5x or more.",
-    "87.7% H200 utilization surged 21.7 percentage points in 30 days, confirming demand concentration on next-gen silicon."
+    "131 of 355 H100 GPUs available, a severe 13% availability rate signaling acute scarcity.",
+    "101 of 376 H200 GPUs available at 26%, just crossing out of the scarcity zone.",
+    "$0.38/M output makes DeepSeek V3.2 the cheapest frontier-adjacent model, priced 99.5% below the LLMflation base.",
+    "96.8% annualized volatility on B200 OCPI makes Blackwell the riskiest compute asset to hold short-term.",
+    "21.41 on the LLMflation Index means token costs have fallen roughly 79% since GPT-4 launch.",
+    "$80/M output for o3 Pro is 211x more expensive than DeepSeek V3.2, the widest spread in the market."
   ],
   "dataPoints": {
     "modelsTracked": 18,
     "gpuMarketsTracked": 3,
     "llmflationIndex": 21.41,
-    "gpuOffers": 72
+    "gpuOffers": 102
   }
 }

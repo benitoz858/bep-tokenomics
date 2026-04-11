@@ -1,12 +1,12 @@
 {
-  "computedAt": "2026-04-10T07:25:01.149Z",
-  "date": "2026-04-10",
+  "computedAt": "2026-04-11T06:58:47.855Z",
+  "date": "2026-04-11",
   "margins": [
     {
       "gpuModel": "nvidia-h100",
-      "gpuCostPerHour": 1.54562962962963,
+      "gpuCostPerHour": 1.8688888888888886,
       "tokPerSecPerGpu": 95,
-      "costPerMillionTokens": 4.52,
+      "costPerMillionTokens": 5.46,
       "margins": [
         {
           "tier": "Free",
@@ -17,34 +17,34 @@
         {
           "tier": "Medium",
           "revenuePerMillion": 3,
-          "margin": -50.65,
-          "breakEvenUtilization": 150.65
+          "margin": -82.15,
+          "breakEvenUtilization": 182.15
         },
         {
           "tier": "High",
           "revenuePerMillion": 6,
-          "margin": 24.68,
-          "breakEvenUtilization": 75.32
+          "margin": 8.92,
+          "breakEvenUtilization": 91.08
         },
         {
           "tier": "Premium",
           "revenuePerMillion": 45,
-          "margin": 89.96,
-          "breakEvenUtilization": 10.04
+          "margin": 87.86,
+          "breakEvenUtilization": 12.14
         },
         {
           "tier": "Ultra",
           "revenuePerMillion": 150,
-          "margin": 96.99,
-          "breakEvenUtilization": 3.01
+          "margin": 96.36,
+          "breakEvenUtilization": 3.64
         }
       ]
     },
     {
       "gpuModel": "nvidia-h200",
-      "gpuCostPerHour": 3.032598566308244,
+      "gpuCostPerHour": 2.5817204301075267,
       "tokPerSecPerGpu": 145,
-      "costPerMillionTokens": 5.81,
+      "costPerMillionTokens": 4.95,
       "margins": [
         {
           "tier": "Free",
@@ -55,34 +55,34 @@
         {
           "tier": "Medium",
           "revenuePerMillion": 3,
-          "margin": -93.65,
-          "breakEvenUtilization": 193.65
+          "margin": -64.86,
+          "breakEvenUtilization": 164.86
         },
         {
           "tier": "High",
           "revenuePerMillion": 6,
-          "margin": 3.17,
-          "breakEvenUtilization": 96.83
+          "margin": 17.57,
+          "breakEvenUtilization": 82.43
         },
         {
           "tier": "Premium",
           "revenuePerMillion": 45,
-          "margin": 87.09,
-          "breakEvenUtilization": 12.91
+          "margin": 89.01,
+          "breakEvenUtilization": 10.99
         },
         {
           "tier": "Ultra",
           "revenuePerMillion": 150,
-          "margin": 96.13,
-          "breakEvenUtilization": 3.87
+          "margin": 96.7,
+          "breakEvenUtilization": 3.3
         }
       ]
     },
     {
       "gpuModel": "nvidia-b200",
-      "gpuCostPerHour": 3.8138888888888887,
+      "gpuCostPerHour": 4.375173611111111,
       "tokPerSecPerGpu": 380,
-      "costPerMillionTokens": 2.79,
+      "costPerMillionTokens": 3.2,
       "margins": [
         {
           "tier": "Free",
@@ -93,26 +93,26 @@
         {
           "tier": "Medium",
           "revenuePerMillion": 3,
-          "margin": 7.07,
-          "breakEvenUtilization": 92.93
+          "margin": -6.61,
+          "breakEvenUtilization": 106.61
         },
         {
           "tier": "High",
           "revenuePerMillion": 6,
-          "margin": 53.53,
-          "breakEvenUtilization": 46.47
+          "margin": 46.7,
+          "breakEvenUtilization": 53.3
         },
         {
           "tier": "Premium",
           "revenuePerMillion": 45,
-          "margin": 93.8,
-          "breakEvenUtilization": 6.2
+          "margin": 92.89,
+          "breakEvenUtilization": 7.11
         },
         {
           "tier": "Ultra",
           "revenuePerMillion": 150,
-          "margin": 98.14,
-          "breakEvenUtilization": 1.86
+          "margin": 97.87,
+          "breakEvenUtilization": 2.13
         }
       ]
     }
