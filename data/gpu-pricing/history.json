@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-12",
+  "lastUpdated": "2026-04-13",
   "entries": {
     "2026-03-26": [
       {
@@ -1249,6 +1249,97 @@
           "US": 283,
           "GB": 36,
           "JP": 139,
+          "SI": 16,
+          "NL": 8,
+          "AU": 1
+        }
+      }
+    ],
+    "2026-04-13": [
+      {
+        "gpuModel": "nvidia-h100",
+        "onDemand": {
+          "min": null,
+          "median": null,
+          "max": null,
+          "count": 0
+        },
+        "spot": {
+          "min": 0.9344444444444443,
+          "median": 1.7822962962962963,
+          "max": 6.667222222222223,
+          "count": 41
+        },
+        "availabilityPct": 19,
+        "offeringCount": 41,
+        "totalGpusAvailable": 118,
+        "totalGpusRented": 205,
+        "avgReliability": 98.92,
+        "regions": {
+          "FR": 71,
+          "NL": 30,
+          "JP": 31,
+          "US": 149,
+          "IN": 1,
+          "TW": 1,
+          "TH": 17,
+          "CZ": 7,
+          "SI": 16
+        }
+      },
+      {
+        "gpuModel": "nvidia-h200",
+        "onDemand": {
+          "min": null,
+          "median": null,
+          "max": null,
+          "count": 0
+        },
+        "spot": {
+          "min": 1.9876344086021505,
+          "median": 2.5817204301075267,
+          "max": 3.485304659498208,
+          "count": 14
+        },
+        "availabilityPct": 22,
+        "offeringCount": 14,
+        "totalGpusAvailable": 59,
+        "totalGpusRented": 282,
+        "avgReliability": 97.57,
+        "regions": {
+          "FR": 88,
+          "JP": 94,
+          "RU": 22,
+          "SE": 32,
+          "US": 84,
+          "IS": 8,
+          "CZ": 5,
+          "IT": 8
+        }
+      },
+      {
+        "gpuModel": "nvidia-b200",
+        "onDemand": {
+          "min": null,
+          "median": null,
+          "max": null,
+          "count": 0
+        },
+        "spot": {
+          "min": 3.0013888888888887,
+          "median": 4.750390625,
+          "max": 9.062847222222222,
+          "count": 30
+        },
+        "availabilityPct": 23,
+        "offeringCount": 30,
+        "totalGpusAvailable": 89,
+        "totalGpusRented": 291,
+        "avgReliability": 97.32,
+        "regions": {
+          "US": 219,
+          "GB": 28,
+          "JP": 108,
           "SI": 16,
           "NL": 8,
           "AU": 1
