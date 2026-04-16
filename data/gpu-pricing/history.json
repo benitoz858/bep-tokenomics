@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-15",
+  "lastUpdated": "2026-04-16",
   "entries": {
     "2026-03-26": [
       {
@@ -1517,6 +1517,68 @@
           "SI": 16,
           "AU": 1,
           "NL": 8
+        }
+      }
+    ],
+    "2026-04-16": [
+      {
+        "gpuModel": "nvidia-h100",
+        "onDemand": {
+          "min": null,
+          "median": null,
+          "max": null,
+          "count": 0
+        },
+        "spot": {
+          "min": 1.202222222222222,
+          "median": 2.000277777777778,
+          "max": 2.002222222222222,
+          "count": 23
+        },
+        "availabilityPct": 18,
+        "offeringCount": 23,
+        "totalGpusAvailable": 70,
+        "totalGpusRented": 233,
+        "avgReliability": 99.05,
+        "regions": {
+          "FR": 51,
+          "TH": 8,
+          "US": 166,
+          "JP": 47,
+          "TW": 1,
+          "CZ": 7,
+          "NL": 7,
+          "SI": 16
+        }
+      },
+      {
+        "gpuModel": "nvidia-h200",
+        "onDemand": {
+          "min": null,
+          "median": null,
+          "max": null,
+          "count": 0
+        },
+        "spot": {
+          "min": 2.0695340501792114,
+          "median": 3.3559139784946237,
+          "max": 3.6215053763440856,
+          "count": 15
+        },
+        "availabilityPct": 13,
+        "offeringCount": 15,
+        "totalGpusAvailable": 49,
+        "totalGpusRented": 276,
+        "avgReliability": 99.05,
+        "regions": {
+          "US": 101,
+          "SE": 36,
+          "JP": 74,
+          "FR": 69,
+          "CZ": 5,
+          "IT": 16,
+          "IS": 16,
+          "AU": 8
         }
       }
     ]
