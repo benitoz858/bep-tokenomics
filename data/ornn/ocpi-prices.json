@@ -1,32 +1,27 @@
 {
-  "fetchedAt": "2026-04-18T07:04:29.429Z",
-  "startDate": "2025-10-20",
-  "endDate": "2026-04-18",
+  "fetchedAt": "2026-04-19T07:16:27.012Z",
+  "startDate": "2025-10-21",
+  "endDate": "2026-04-19",
   "latest": {
     "h100": {
-      "price": 1.77,
-      "volatility": 18.5
+      "price": 1.75,
+      "volatility": 19.1
     },
     "h200": {
-      "price": 3.15,
-      "volatility": 48.4
+      "price": 3.36,
+      "volatility": 52.7
     },
     "b200": {
-      "price": 4.08,
-      "volatility": 96.1
+      "price": 4.1,
+      "volatility": 88.3
     },
     "a100": {
-      "price": 1.03,
-      "volatility": 43.3
+      "price": 1.02,
+      "volatility": 43.6
     }
   },
   "history": {
     "h100": [
-      {
-        "date": "2025-10-20",
-        "price": 1.84,
-        "volatility": 26.1
-      },
       {
         "date": "2025-10-21",
         "price": 1.88,
@@ -921,14 +916,14 @@
         "date": "2026-04-17",
         "price": 1.77,
         "volatility": 18.5
+      },
+      {
+        "date": "2026-04-18",
+        "price": 1.75,
+        "volatility": 19.1
       }
     ],
     "h200": [
-      {
-        "date": "2025-10-20",
-        "price": 2.56,
-        "volatility": 15.1
-      },
       {
         "date": "2025-10-21",
         "price": 2.55,
@@ -1823,14 +1818,14 @@
         "date": "2026-04-17",
         "price": 3.15,
         "volatility": 48.4
+      },
+      {
+        "date": "2026-04-18",
+        "price": 3.36,
+        "volatility": 52.7
       }
     ],
     "b200": [
-      {
-        "date": "2025-10-20",
-        "price": 3.61,
-        "volatility": 74.1
-      },
       {
         "date": "2025-10-21",
         "price": 3.91,
@@ -2725,14 +2720,14 @@
         "date": "2026-04-17",
         "price": 4.08,
         "volatility": 96.1
+      },
+      {
+        "date": "2026-04-18",
+        "price": 4.1,
+        "volatility": 88.3
       }
     ],
     "a100": [
-      {
-        "date": "2025-10-20",
-        "price": 0.87,
-        "volatility": 75.7
-      },
       {
         "date": "2025-10-21",
         "price": 0.92,
@@ -3627,6 +3622,11 @@
         "date": "2026-04-17",
         "price": 1.03,
         "volatility": 43.3
+      },
+      {
+        "date": "2026-04-18",
+        "price": 1.02,
+        "volatility": 43.6
       }
     ]
   }
