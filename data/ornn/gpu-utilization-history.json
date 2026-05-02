@@ -1,13 +1,9 @@
 {
-  "fetchedAt": "2026-05-01T08:08:57.658Z",
-  "startDate": "2025-11-02",
-  "endDate": "2026-05-01",
+  "fetchedAt": "2026-05-02T07:40:52.316Z",
+  "startDate": "2025-11-03",
+  "endDate": "2026-05-02",
   "gpus": {
     "h100": [
-      {
-        "date": "2025-11-02",
-        "utilization": 49.4
-      },
       {
         "date": "2025-11-03",
         "utilization": 52.5
@@ -726,14 +722,14 @@
       },
       {
         "date": "2026-05-01",
-        "utilization": 98.4
+        "utilization": 99.1
+      },
+      {
+        "date": "2026-05-02",
+        "utilization": 99.6
       }
     ],
     "h200": [
-      {
-        "date": "2025-11-02",
-        "utilization": 36.2
-      },
       {
         "date": "2025-11-03",
         "utilization": 39.9
@@ -1452,14 +1448,14 @@
       },
       {
         "date": "2026-05-01",
-        "utilization": 100
+        "utilization": 93.4
+      },
+      {
+        "date": "2026-05-02",
+        "utilization": 93.3
       }
     ],
     "b200": [
-      {
-        "date": "2025-11-02",
-        "utilization": 29.2
-      },
       {
         "date": "2025-11-03",
         "utilization": 34.8
@@ -2178,14 +2174,14 @@
       },
       {
         "date": "2026-05-01",
-        "utilization": 91.6
+        "utilization": 93.3
+      },
+      {
+        "date": "2026-05-02",
+        "utilization": 90.5
       }
     ],
     "a100": [
-      {
-        "date": "2025-11-02",
-        "utilization": 56.4
-      },
       {
         "date": "2025-11-03",
         "utilization": 64.3
@@ -2904,7 +2900,11 @@
       },
       {
         "date": "2026-05-01",
-        "utilization": 89.8
+        "utilization": 85.4
+      },
+      {
+        "date": "2026-05-02",
+        "utilization": 83.4
       }
     ]
   }
