@@ -1,17 +1,9 @@
 {
-  "fetchedAt": "2026-05-05T08:06:11.311Z",
-  "startDate": "2025-11-06",
-  "endDate": "2026-05-05",
+  "fetchedAt": "2026-05-07T08:30:34.170Z",
+  "startDate": "2025-11-08",
+  "endDate": "2026-05-07",
   "gpus": {
     "h100": [
-      {
-        "date": "2025-11-06",
-        "utilization": 57
-      },
-      {
-        "date": "2025-11-07",
-        "utilization": 50
-      },
       {
         "date": "2025-11-08",
         "utilization": 50.9
@@ -726,18 +718,18 @@
       },
       {
         "date": "2026-05-05",
-        "utilization": 97.6
+        "utilization": 97.7
+      },
+      {
+        "date": "2026-05-06",
+        "utilization": 95.4
+      },
+      {
+        "date": "2026-05-07",
+        "utilization": 95.6
       }
     ],
     "h200": [
-      {
-        "date": "2025-11-06",
-        "utilization": 63.6
-      },
-      {
-        "date": "2025-11-07",
-        "utilization": 69.1
-      },
       {
         "date": "2025-11-08",
         "utilization": 68.4
@@ -1452,18 +1444,18 @@
       },
       {
         "date": "2026-05-05",
-        "utilization": 89.2
+        "utilization": 94.5
+      },
+      {
+        "date": "2026-05-06",
+        "utilization": 92.1
+      },
+      {
+        "date": "2026-05-07",
+        "utilization": 82.9
       }
     ],
     "b200": [
-      {
-        "date": "2025-11-06",
-        "utilization": 14.8
-      },
-      {
-        "date": "2025-11-07",
-        "utilization": 7.7
-      },
       {
         "date": "2025-11-08",
         "utilization": 7.5
@@ -2178,18 +2170,18 @@
       },
       {
         "date": "2026-05-05",
-        "utilization": 92.2
+        "utilization": 92.8
+      },
+      {
+        "date": "2026-05-06",
+        "utilization": 88
+      },
+      {
+        "date": "2026-05-07",
+        "utilization": 85.1
       }
     ],
     "a100": [
-      {
-        "date": "2025-11-06",
-        "utilization": 66
-      },
-      {
-        "date": "2025-11-07",
-        "utilization": 66
-      },
       {
         "date": "2025-11-08",
         "utilization": 66.3
@@ -2904,7 +2896,15 @@
       },
       {
         "date": "2026-05-05",
-        "utilization": 90.8
+        "utilization": 89.5
+      },
+      {
+        "date": "2026-05-06",
+        "utilization": 90.5
+      },
+      {
+        "date": "2026-05-07",
+        "utilization": 90
       }
     ]
   }
