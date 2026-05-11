@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import SubPageShell from "@/components/SubPageShell";
 import LLMflationCurve from "@/components/LLMflationCurve";
 import TokenTiers from "@/components/TokenTiers";
@@ -11,6 +12,20 @@ import {
   getRevenuePerWatt, getCostStack, getGPUPricing, getGPUPricingHistory, getCloudAccelerators,
   getOrnnMemory,
 } from "@/lib/data";
+
+export const metadata: Metadata = {
+  title: "Deep Dive — LLMflation, Token Tiers & Revenue Per Watt",
+  description:
+    "Deep analysis of AI inference economics: LLMflation curves, NVIDIA token tier shifts, revenue-per-watt by GPU class, Jevons paradox dynamics, GPU price tracking, and HBM memory market structure.",
+  alternates: { canonical: "/tokenomics/deep-dive" },
+  openGraph: {
+    type: "website",
+    url: "https://www.bepresearch.com/tokenomics/deep-dive",
+    title: "Deep Dive — LLMflation, Token Tiers & Revenue Per Watt | BEP Research",
+    description:
+      "Inference economics deep dive — LLMflation, token tiers, revenue per watt, GPU pricing, and HBM markets.",
+  },
+};
 
 export default function DeepDivePage() {
   const tokenData = getTokenPricing();

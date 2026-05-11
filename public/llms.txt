@@ -1,0 +1,26 @@
+# BEP Research
+
+> Independent system-level research on AI infrastructure by Ben Pouladian. Covers AI semiconductors, HBM and memory architecture, optical interconnects, advanced packaging (CoWoS), NeoCloud datacenters, datacenter power, and the unit economics of inference (token pricing, GPU pricing, inference margins, LLMflation, cluster TCO).
+
+BEP Research publishes across several surfaces. The site at https://www.bepresearch.com hosts "The Stack" — a live, daily-updated dashboard of AI infrastructure unit economics, with reference hardware specs and methodology. Long-form analytical writing lives on Substack at https://bepresearch.substack.com. Video coverage is on YouTube at https://www.youtube.com/@bepresearch. Author Ben Pouladian's professional profile is at https://www.linkedin.com/in/benpouladian and his X/Twitter is https://x.com/benitoz.
+
+## Live data dashboard
+
+- [The Stack — AI Infrastructure Dashboard](https://www.bepresearch.com/tokenomics/v2): Daily GPU pricing (H100/H200/B200/etc.), token pricing across frontier models, inference margins, LLMflation tracking, cluster TCO, and provider-by-provider breakdowns.
+- [Inference Margins](https://www.bepresearch.com/tokenomics/margins): Per-model token pricing vs underlying GPU compute cost, with provider-level margin analysis updated daily.
+- [GPU Hardware Specs](https://www.bepresearch.com/tokenomics/hardware): Reference specs for AI accelerators — FLOPS, HBM capacity, memory bandwidth, NVLink, TDP — for the H100, H200, B200, GB200, and competitors.
+- [Cluster TCO](https://www.bepresearch.com/tokenomics/tco): Interactive total-cost-of-ownership calculator comparing hyperscaler and NeoCloud GPU clusters across hourly rates, utilization, power, and amortized capex.
+- [Token Cost Waterfall](https://www.bepresearch.com/tokenomics/waterfall): Where every dollar of inference revenue actually lands — compute, memory, networking, power, datacenter overhead, software margin, and provider take rate.
+- [Deep Dive — LLMflation, Token Tiers, Revenue Per Watt](https://www.bepresearch.com/tokenomics/deep-dive): LLMflation curves, NVIDIA token tier shifts, revenue-per-watt by GPU class, Jevons-paradox dynamics, GPU price tracking, and HBM memory market structure.
+
+## Methodology and sources
+
+- [Data Sources & Methodology](https://www.bepresearch.com/tokenomics/sources): Live feeds (OpenRouter API, Vast.ai API, Ornn AI OCPI), reference benchmarks, and the methodology behind every published number.
+
+## Long-form analysis (Substack)
+
+- [BEP Research on Substack](https://bepresearch.substack.com): Long-form analytical essays covering AI semiconductors, the memory wall, co-design architecture, optical interconnects, the watt economy, and the companies building the physical layer of intelligence.
+
+## About
+
+- [About Ben Pouladian / BEP Research](https://www.bepresearch.com): Author background, coverage areas, and the research thesis. Covers Co-Design Architecture, Memory & HBM Economics, Optical Interconnects, Advanced Packaging, NeoCloud Infrastructure, and Datacenter Power.

@@ -13,12 +13,25 @@ import {
 } from "@/lib/data";
 
 export const metadata: Metadata = {
-  title: "The Stack — AI Infrastructure Dashboard by Ben Pouladian | BEP Research",
-  description: "Ben Pouladian's live AI infrastructure intelligence dashboard. Daily GPU pricing, token economics, inference margins, and LLMflation tracking across H100, H200, and B200.",
+  title: "The Stack — AI Infrastructure Dashboard",
+  description:
+    "Ben Pouladian's live AI infrastructure dashboard. Daily GPU pricing, token economics, inference margins, LLMflation, and cluster TCO across H100, H200, B200, and beyond.",
+  alternates: { canonical: "/tokenomics/v2" },
   openGraph: {
+    type: "website",
+    url: "https://www.bepresearch.com/tokenomics/v2",
     title: "The Stack — AI Infrastructure Dashboard by Ben Pouladian",
-    description: "Live GPU pricing, token economics, and inference margin data. Updated daily by BEP Research.",
+    description:
+      "Live GPU pricing, token economics, inference margins, and cluster TCO. Updated daily by BEP Research.",
     siteName: "BEP Research",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "The Stack — AI Infrastructure Dashboard by Ben Pouladian",
+    description:
+      "Live GPU pricing, token economics, and inference margins. Updated daily by BEP Research.",
+    creator: "@benitoz",
+    site: "@benitoz",
   },
 };
 
