@@ -1,24 +1,24 @@
 {
-  "generatedAt": "2026-05-15T08:46:28.475Z",
-  "date": "2026-05-15",
-  "title": "Market Brief — Friday, May 15, 2026",
+  "generatedAt": "2026-05-16T08:01:29.831Z",
+  "date": "2026-05-16",
+  "title": "Market Brief — Saturday, May 16, 2026",
   "poweredBy": "Claude Opus 4.6",
-  "summary": "GPU supply is bifurcated: A100s sit at 85% availability (oversupply), H100s at 70%, and MI300X at 60%, while B200s at 25% signal scarcity and GB200s at 10% availability mark a severe shortage with no transparent pricing. The biggest price signal is B200 spot at $4.20/hr median — the only next-gen chip where inference margins turn positive at high-tier pricing, making it the bottleneck everyone is bidding on.",
+  "summary": "GPU supply is bifurcated: A100s at 85% and MI300X at 60% signal oversupply on last-gen silicon, while B200 at 25% sits at the scarcity threshold and GB200 at 10% availability flags a severe shortage. The forward curve is screaming: B200 spot at $4.20/hr with a $3.50-$5.50 range shows buyers stretching for next-gen compute as legacy iron goes begging.",
   "paragraphs": [
-    "GPU supply is bifurcated: A100s sit at 85% availability (oversupply), H100s at 70%, and MI300X at 60%, while B200s at 25% signal scarcity and GB200s at 10% availability mark a severe shortage with no transparent pricing. The biggest price signal is B200 spot at $4.20/hr median — the only next-gen chip where inference margins turn positive at high-tier pricing, making it the bottleneck everyone is bidding on.",
-    "At TCO-adjusted cost (1.25x spot), Llama 70B inference runs $9.48/M on A100, $9.84/M on H100, and $11.90/M on MI300X — meaning any provider selling open-weight model inference under $10/M is burning cash. DeepSeek V3.2 at $0.378/M output and Meta Llama 4 Maverick at $0.60/M are selling at losses exceeding $9/M tokens, subsidizing adoption with venture dollars. Grades: OpenAI Strong, Anthropic Neutral, Google Neutral, DeepSeek Burning Cash, Meta Burning Cash.",
-    "Overvalued: o3 Pro at $80/M output carries a 95%+ margin on B200s and prices in scarcity that competition will erode as B200 supply loosens past 25% availability. Undervalued: B200 spot compute at $4.20/hr is the only GPU class offering positive inference margins at standard pricing tiers — accumulate B200 capacity now before GB200 shortages push more demand downstream."
+    "GPU supply is bifurcated: A100s at 85% and MI300X at 60% signal oversupply on last-gen silicon, while B200 at 25% sits at the scarcity threshold and GB200 at 10% availability flags a severe shortage. The forward curve is screaming: B200 spot at $4.20/hr with a $3.50-$5.50 range shows buyers stretching for next-gen compute as legacy iron goes begging.",
+    "On Llama 70B reference, every GPU except B200 bleeds cash at medium-tier pricing, with MI300X the worst at $9.52/M raw ($11.90/M TCO-adjusted) versus $3/M medium revenue, a $8.90/M per-token loss. DeepSeek V3.2 at $0.378/M output is selling far below any TCO-adjusted production cost and is burning cash to buy market share. Provider grades: OpenAI Neutral, Anthropic Neutral, Google Strong, DeepSeek Burning Cash, Meta Burning Cash.",
+    "OpenAI o3 Pro at $80/M output is overvalued when Claude Opus 4.6 delivers frontier reasoning at $25/M, a 69% discount for comparable capability. Undervalued trade: accumulate B200 spot capacity near $3.50/hr floor and sell inference at premium tier where margins hit 91%."
   ],
   "bullets": [
-    "85% availability on A100s signals oversupply, making legacy compute a buyer's market.",
-    "10% availability on GB200s marks a severe shortage with no public spot pricing established yet.",
-    "$0.378 per million output tokens makes DeepSeek V3.2 the cheapest frontier-adjacent model, sold at an estimated $9.10/M token loss versus TCO.",
-    "21.41 on the LLMflation Index means API pricing has fallen roughly 79% from the GPT-4 launch baseline of 100.",
-    "$4.02 per million tokens on B200 is the lowest raw inference cost, 47% cheaper than MI300X at $9.52/M.",
-    "25% B200 availability sits exactly at the scarcity threshold, with spot ranges spanning $3.50 to $5.50 per hour."
+    "85% availability on A100s confirms oversupply of legacy compute with no supply constraints.",
+    "10% availability on GB200 marks a severe shortage of next-gen inference hardware.",
+    "$11.90/M TCO-adjusted cost on MI300X makes AMD the most expensive inference path per token.",
+    "21.41 on the LLMflation index means token prices have fallen 79% from the GPT-4 launch baseline.",
+    "$0.378/M output from DeepSeek V3.2 undercuts the next cheapest model by 37%.",
+    "91% margin on B200 at premium tier makes it the only GPU generating strong returns across all pricing bands."
   ],
   "dataPoints": {
-    "modelsTracked": 18,
+    "modelsTracked": 17,
     "gpuMarketsTracked": 5,
     "llmflationIndex": 21.41,
     "gpuOffers": 0
