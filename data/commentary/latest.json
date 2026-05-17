@@ -1,21 +1,21 @@
 {
-  "generatedAt": "2026-05-16T08:01:29.831Z",
-  "date": "2026-05-16",
-  "title": "Market Brief — Saturday, May 16, 2026",
+  "generatedAt": "2026-05-17T08:18:41.122Z",
+  "date": "2026-05-17",
+  "title": "Market Brief — Sunday, May 17, 2026",
   "poweredBy": "Claude Opus 4.6",
-  "summary": "GPU supply is bifurcated: A100s at 85% and MI300X at 60% signal oversupply on last-gen silicon, while B200 at 25% sits at the scarcity threshold and GB200 at 10% availability flags a severe shortage. The forward curve is screaming: B200 spot at $4.20/hr with a $3.50-$5.50 range shows buyers stretching for next-gen compute as legacy iron goes begging.",
+  "summary": "GPU supply is bifurcated: A100s sit at 85% availability (oversupply), H100s at 70%, and MI300X at 60%, while B200s at 25% signal scarcity and GB200s at 10% availability mark a severe shortage with no transparent pricing. The biggest price signal is B200 spot at $4.20/hr median with a $2 spread, reflecting acute demand for next-gen training silicon.",
   "paragraphs": [
-    "GPU supply is bifurcated: A100s at 85% and MI300X at 60% signal oversupply on last-gen silicon, while B200 at 25% sits at the scarcity threshold and GB200 at 10% availability flags a severe shortage. The forward curve is screaming: B200 spot at $4.20/hr with a $3.50-$5.50 range shows buyers stretching for next-gen compute as legacy iron goes begging.",
-    "On Llama 70B reference, every GPU except B200 bleeds cash at medium-tier pricing, with MI300X the worst at $9.52/M raw ($11.90/M TCO-adjusted) versus $3/M medium revenue, a $8.90/M per-token loss. DeepSeek V3.2 at $0.378/M output is selling far below any TCO-adjusted production cost and is burning cash to buy market share. Provider grades: OpenAI Neutral, Anthropic Neutral, Google Strong, DeepSeek Burning Cash, Meta Burning Cash.",
-    "OpenAI o3 Pro at $80/M output is overvalued when Claude Opus 4.6 delivers frontier reasoning at $25/M, a 69% discount for comparable capability. Undervalued trade: accumulate B200 spot capacity near $3.50/hr floor and sell inference at premium tier where margins hit 91%."
+    "GPU supply is bifurcated: A100s sit at 85% availability (oversupply), H100s at 70%, and MI300X at 60%, while B200s at 25% signal scarcity and GB200s at 10% availability mark a severe shortage with no transparent pricing. The biggest price signal is B200 spot at $4.20/hr median with a $2 spread, reflecting acute demand for next-gen training silicon.",
+    "At 1.25x TCO-adjusted costs, Llama 70B inference runs roughly $9.48/M on A100, $9.84/M on H100, and $11.90/M on MI300X. DeepSeek V3.2 at $0.378/M output is selling far below production cost, burning cash at an estimated loss of $9-11/M tokens depending on hardware. OpenAI o3 Pro at $80/M output prints premium margins. Provider grades: OpenAI Strong, Anthropic Neutral, Google Neutral, DeepSeek Burning Cash.",
+    "B200 and GB200 compute is undervalued given scarcity at 25% and 10% availability respectively, and locking in B200 spot below $4.00/hr is the cleanest trade on the board. OpenAI o3 Pro at $80/M output is overvalued relative to GPT-5.4 at $15/M, which benchmarks competitively, making o3 Pro demand unsustainable at 5x the spread."
   ],
   "bullets": [
-    "85% availability on A100s confirms oversupply of legacy compute with no supply constraints.",
-    "10% availability on GB200 marks a severe shortage of next-gen inference hardware.",
-    "$11.90/M TCO-adjusted cost on MI300X makes AMD the most expensive inference path per token.",
-    "21.41 on the LLMflation index means token prices have fallen 79% from the GPT-4 launch baseline.",
-    "$0.378/M output from DeepSeek V3.2 undercuts the next cheapest model by 37%.",
-    "91% margin on B200 at premium tier makes it the only GPU generating strong returns across all pricing bands."
+    "85% A100 availability signals oversupply in legacy compute.",
+    "10% GB200 availability is a severe shortage with no listed spot price.",
+    "$0.378/M output from DeepSeek V3.2 implies a per-token loss of roughly $9.10/M against TCO-adjusted A100 inference.",
+    "21.41 on the LLMflation Index means API prices have fallen roughly 79% since GPT-4 launch.",
+    "$4.20/hr B200 spot median carries a 57% spread between low and high, signaling illiquid price discovery.",
+    "25% B200 availability puts next-gen training compute squarely in the scarce zone."
   ],
   "dataPoints": {
     "modelsTracked": 17,
