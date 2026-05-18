@@ -7,7 +7,7 @@ const GETDEPLOYING_API = "https://getdeploying.com/api/gpu-offerings";
 const VASTAI_API = "https://console.vast.ai/api/v0/bundles/";
 
 // ── Ornn AI API (OCPI — GPU compute derivatives exchange) ──
-const ORNN_API = "https://data.ornnai.com";
+const ORNN_API = "https://api.ornnai.com";
 
 const TRACKED_GPUS = [
   "nvidia-a100", "nvidia-h100", "nvidia-h200",
