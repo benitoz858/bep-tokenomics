@@ -1,15 +1,15 @@
 {
-  "computedAt": "2026-05-18T02:43:46.439Z",
+  "computedAt": "2026-05-18T03:16:28.955Z",
   "date": "2026-05-18",
   "basePricePerMillion": 60,
   "baseDate": "2023-03-14",
-  "currentIndex": 21.41,
+  "currentIndex": 21.75,
   "components": {
     "OpenAI": 15,
     "Anthropic": 25,
     "Google": 10,
-    "DeepSeek": 0.378,
-    "open-source": 0.378
+    "DeepSeek": 2,
+    "open-source": null
   },
   "weights": {
     "OpenAI": 0.3,
