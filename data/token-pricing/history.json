@@ -5385,6 +5385,16 @@
         "outputPerMillion": 2
       },
       {
+        "modelId": "moonshotai/kimi-k2.5",
+        "inputPerMillion": 0.39999999999999997,
+        "outputPerMillion": 1.9
+      },
+      {
+        "modelId": "minimax/minimax-m2.5",
+        "inputPerMillion": 0.15,
+        "outputPerMillion": 1.15
+      },
+      {
         "modelId": "meta-llama/llama-4-maverick",
         "inputPerMillion": 0.15,
         "outputPerMillion": 0.6
@@ -5393,6 +5403,16 @@
         "modelId": "deepseek/deepseek-v3.2",
         "inputPerMillion": 0.252,
         "outputPerMillion": 0.378
+      },
+      {
+        "modelId": "meta-llama/llama-3.3-70b-instruct",
+        "inputPerMillion": 0.09999999999999999,
+        "outputPerMillion": 0.32
+      },
+      {
+        "modelId": "openai/gpt-oss-120b",
+        "inputPerMillion": 0.039,
+        "outputPerMillion": 0.18
       },
       {
         "modelId": "meta-llama/Meta-Llama-3.1-8B-Instruct",
