@@ -145,24 +145,29 @@ async function fetchVastAI(): Promise<GPUOffering[]> {
   const offerings: GPUOffering[] = [];
 
   const gpuQueries = ["H100 SXM", "H200", "A100 SXM", "A100", "B200"];
+  const vastHeaders = {
+    "Authorization": `Bearer ${apiKey}`,
+    "Content-Type": "application/json",
+  };
   for (const gpuName of gpuQueries) {
     try {
       // Fetch rentable (available) offers
-      const qAvail = JSON.stringify({ gpu_name: gpuName, num_gpus: { gte: 1 }, rentable: { eq: true } });
-      const urlAvail = `${VASTAI_API}?q=${encodeURIComponent(qAvail)}&limit=100`;
-      const resAvail = await fetch(urlAvail, {
-        headers: { Authorization: `Bearer ${apiKey}` },
+      const resAvail = await fetch(VASTAI_API, {
+        method: "POST",
+        headers: vastHeaders,
+        body: JSON.stringify({ gpu_name: gpuName, num_gpus: { gte: 1 }, rentable: { eq: true }, limit: 100 }),
       });
 
       // Fetch rented (unavailable) offers for true availability %
-      const qRented = JSON.stringify({ gpu_name: gpuName, num_gpus: { gte: 1 }, rented: { eq: true } });
-      const urlRented = `${VASTAI_API}?q=${encodeURIComponent(qRented)}&limit=100`;
-      const resRented = await fetch(urlRented, {
-        headers: { Authorization: `Bearer ${apiKey}` },
+      const resRented = await fetch(VASTAI_API, {
+        method: "POST",
+        headers: vastHeaders,
+        body: JSON.stringify({ gpu_name: gpuName, num_gpus: { gte: 1 }, rented: { eq: true }, limit: 100 }),
       });
 
       if (!resAvail.ok) {
-        console.error(`  [Vast.ai] ${gpuName}: HTTP ${resAvail.status} on rentable query`);
+        const body = await resAvail.text().catch(() => "");
+        console.error(`  [Vast.ai] ${gpuName}: HTTP ${resAvail.status} on rentable query — ${body.slice(0, 200)}`);
         continue;
       }
       if (!resRented.ok) {
