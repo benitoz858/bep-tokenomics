@@ -5443,12 +5443,6 @@
         "source": "Nebius"
       },
       {
-        "modelId": "Qwen/Qwen3-Embedding-8B",
-        "inputPerMillion": 0.01,
-        "outputPerMillion": 0,
-        "source": "Nebius"
-      },
-      {
         "modelId": "openai/gpt-oss-120b",
         "inputPerMillion": 0.15,
         "outputPerMillion": 0.6,
