@@ -144,107 +144,96 @@ async function fetchVastAI(): Promise<GPUOffering[]> {
   console.log("Fetching Vast.ai spot pricing...");
   const offerings: GPUOffering[] = [];
 
-  const gpuQueries = ["H100 SXM", "H200", "A100 SXM", "A100", "B200"];
+  interface VastOffer {
+    gpu_name?: string;
+    dph_total?: number;
+    num_gpus?: number;
+    gpu_ram?: number;
+    machine_id?: number;
+    reliability?: number;
+    reliability2?: number;
+    geolocation?: string;
+    rented?: boolean;
+    total_flops?: number;
+  }
+
   const vastHeaders = {
     "Authorization": `Bearer ${apiKey}`,
     "Content-Type": "application/json",
   };
-  for (const gpuName of gpuQueries) {
-    try {
-      // Fetch rentable (available) offers
-      const resAvail = await fetch(VASTAI_API, {
-        method: "POST",
-        headers: vastHeaders,
-        body: JSON.stringify({ gpu_name: { eq: gpuName }, num_gpus: { gte: 1 }, rentable: { eq: true }, limit: 100 }),
-      });
 
-      // Fetch rented (unavailable) offers for true availability %
-      const resRented = await fetch(VASTAI_API, {
-        method: "POST",
-        headers: vastHeaders,
-        body: JSON.stringify({ gpu_name: { eq: gpuName }, num_gpus: { gte: 1 }, rented: { eq: true }, limit: 100 }),
-      });
-
-      if (!resAvail.ok) {
-        const body = await resAvail.text().catch(() => "");
-        console.error(`  [Vast.ai] ${gpuName}: HTTP ${resAvail.status} on rentable query — ${body.slice(0, 200)}`);
-        continue;
-      }
-      if (!resRented.ok) {
-        console.error(`  [Vast.ai] ${gpuName}: HTTP ${resRented.status} on rented query`);
-      }
-
-      interface VastOffer {
-        dph_total?: number;
-        num_gpus?: number;
-        gpu_ram?: number;
-        machine_id?: number;
-        reliability?: number;
-        reliability2?: number;
-        geolocation?: string;
-        rented?: boolean;
-        total_flops?: number;
-      }
-
-      const availData = await resAvail.json() as { offers?: VastOffer[] };
-      const rentedData = resRented.ok ? await resRented.json() as { offers?: VastOffer[] } : { offers: [] };
-      const availOffers = availData.offers || [];
-      const rentedOffers = rentedData.offers || [];
-
-      for (const offer of availOffers) {
-        const normalized = normalizeGpuName(gpuName);
-        if (!normalized) continue;
-
-        const totalPerHour = offer.dph_total || 0;
-        const numGpus = offer.num_gpus || 1;
-
-        offerings.push({
-          provider: "vast-ai",
-          gpuModel: normalized,
-          gpuCount: numGpus,
-          hourlyPerGpu: totalPerHour / numGpus,
-          billingType: "SPOT",
-          availability: "AVAILABLE",
-          vramPerGpuGb: (offer.gpu_ram || 0) / 1024,
-          lastVerified: nowISO(),
-          reliability: offer.reliability2 || offer.reliability || 0,
-          geolocation: offer.geolocation || "Unknown",
-          rented: false,
-          totalFlops: offer.total_flops || 0,
-        });
-      }
-
-      // Add rented offers as OUT_OF_STOCK for availability tracking
-      for (const offer of rentedOffers) {
-        const normalized = normalizeGpuName(gpuName);
-        if (!normalized) continue;
-
-        const totalPerHour = offer.dph_total || 0;
-        const numGpus = offer.num_gpus || 1;
-
-        offerings.push({
-          provider: "vast-ai",
-          gpuModel: normalized,
-          gpuCount: numGpus,
-          hourlyPerGpu: totalPerHour / numGpus,
-          billingType: "SPOT",
-          availability: "OUT_OF_STOCK",
-          vramPerGpuGb: (offer.gpu_ram || 0) / 1024,
-          lastVerified: nowISO(),
-          reliability: offer.reliability2 || offer.reliability || 0,
-          geolocation: offer.geolocation || "Unknown",
-          rented: true,
-          totalFlops: offer.total_flops || 0,
-        });
-      }
-
-      const totalGpus = availOffers.reduce((s, o) => s + (o.num_gpus || 1), 0)
-        + rentedOffers.reduce((s, o) => s + (o.num_gpus || 1), 0);
-      const rentedGpus = rentedOffers.reduce((s, o) => s + (o.num_gpus || 1), 0);
-      console.log(`  [Vast.ai] ${gpuName}: ${availOffers.length} available, ${rentedOffers.length} rented (${totalGpus} total GPUs, ${totalGpus > 0 ? Math.round((1 - rentedGpus / totalGpus) * 100) : 0}% free)`);
-    } catch (err) {
-      console.error(`  [Vast.ai] Error fetching ${gpuName}:`, err);
+  // Single broad query per status — group by the offer's actual gpu_name
+  // client-side via normalizeGpuName. Avoids the brittle per-GPU loop where
+  // exact name strings ("A100 SXM" vs "A100 SXM4") silently miss matches.
+  async function broadQuery(filter: Record<string, unknown>, label: string): Promise<VastOffer[]> {
+    const res = await fetch(VASTAI_API, {
+      method: "POST",
+      headers: vastHeaders,
+      body: JSON.stringify({ ...filter, num_gpus: { gte: 1 }, limit: 1000 }),
+    });
+    if (!res.ok) {
+      const body = await res.text().catch(() => "");
+      console.error(`  [Vast.ai] ${label}: HTTP ${res.status} — ${body.slice(0, 200)}`);
+      return [];
     }
+    const data = await res.json() as { offers?: VastOffer[] };
+    return data.offers || [];
+  }
+
+  try {
+    const availOffers = await broadQuery({ rentable: { eq: true } }, "rentable");
+    const rentedOffers = await broadQuery({ rented: { eq: true } }, "rented");
+
+    const pushOffer = (offer: VastOffer, rented: boolean) => {
+      const normalized = normalizeGpuName(offer.gpu_name || "");
+      if (!normalized) return false;
+      const totalPerHour = offer.dph_total || 0;
+      const numGpus = offer.num_gpus || 1;
+      offerings.push({
+        provider: "vast-ai",
+        gpuModel: normalized,
+        gpuCount: numGpus,
+        hourlyPerGpu: totalPerHour / numGpus,
+        billingType: "SPOT",
+        availability: rented ? "OUT_OF_STOCK" : "AVAILABLE",
+        vramPerGpuGb: (offer.gpu_ram || 0) / 1024,
+        lastVerified: nowISO(),
+        reliability: offer.reliability2 || offer.reliability || 0,
+        geolocation: offer.geolocation || "Unknown",
+        rented,
+        totalFlops: offer.total_flops || 0,
+      });
+      return true;
+    };
+
+    // Per-GPU rollup for logging
+    const byGpu: Record<string, { avail: number; rented: number; gpus: number; rentedGpus: number }> = {};
+    const bump = (model: string, avail: number, gpus: number, rentedFlag: boolean) => {
+      const row = (byGpu[model] ||= { avail: 0, rented: 0, gpus: 0, rentedGpus: 0 });
+      if (rentedFlag) { row.rented += 1; row.rentedGpus += gpus; }
+      else { row.avail += 1; }
+      row.gpus += gpus;
+    };
+
+    let skippedUnknown = 0;
+    for (const o of availOffers) {
+      if (pushOffer(o, false)) bump(normalizeGpuName(o.gpu_name || "")!, 0, o.num_gpus || 1, false);
+      else skippedUnknown += 1;
+    }
+    for (const o of rentedOffers) {
+      if (pushOffer(o, true)) bump(normalizeGpuName(o.gpu_name || "")!, 0, o.num_gpus || 1, true);
+      else skippedUnknown += 1;
+    }
+
+    for (const [model, r] of Object.entries(byGpu).sort()) {
+      const freePct = r.gpus > 0 ? Math.round((1 - r.rentedGpus / r.gpus) * 100) : 0;
+      console.log(`  [Vast.ai] ${model}: ${r.avail} available, ${r.rented} rented (${r.gpus} total GPUs, ${freePct}% free)`);
+    }
+    if (skippedUnknown > 0) {
+      console.log(`  [Vast.ai] (${skippedUnknown} offers skipped — gpu_name didn't match any tracked GPU)`);
+    }
+  } catch (err) {
+    console.error(`  [Vast.ai] Broad query failed:`, err);
   }
 
   return offerings;
