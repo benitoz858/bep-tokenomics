@@ -19,8 +19,13 @@ const TRACKED_MODELS = [
   "x-ai/grok-4.1", "x-ai/grok-4.1-fast",
   // Meta
   "meta-llama/llama-4-maverick",
+  "meta-llama/llama-3.3-70b-instruct",
   // Mistral
   "mistralai/mistral-large", "mistralai/mistral-small",
+  // Open-weight models tracked for cross-provider arbitrage with Nebius
+  "openai/gpt-oss-120b",
+  "moonshotai/kimi-k2.5",
+  "minimax/minimax-m2.5",
 ];
 
 interface OpenRouterModel {

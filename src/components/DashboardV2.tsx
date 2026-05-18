@@ -6,6 +6,7 @@ import MarketBrief from "./MarketBrief";
 import Metric from "./ui/Metric";
 import Section from "./ui/Section";
 import ExpandableChart from "./ui/ExpandableChart";
+import TokenPriceCharts from "./TokenPriceCharts";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, ReferenceLine } from "recharts";
 import { GPU_DISPLAY_NAMES, PROVIDER_COLORS, costPerMillionFromGPU, inferenceMargin } from "@/lib/calculations";
 import type {
@@ -350,6 +351,11 @@ export default function DashboardV2({
             </Link>
           </div>
         </Section>
+
+        {/* ═══ CURATED TOKEN PRICING CHARTS ═══ */}
+        <div className="mt-4">
+          <TokenPriceCharts tokenModels={tokenModels} />
+        </div>
 
         {/* ═══ THESIS + CTA ═══ */}
         <div className="mt-5 bg-bep-card border border-[#76B90030] rounded-md p-4">
