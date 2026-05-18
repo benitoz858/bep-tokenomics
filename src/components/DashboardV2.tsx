@@ -313,21 +313,26 @@ export default function DashboardV2({
           </div>
           <div className="bg-bep-card border border-bep-border rounded-md overflow-hidden">
             <div className="grid font-mono text-[9px] text-bep-muted uppercase tracking-wider px-3 py-1.5 border-b border-bep-border"
-              style={{ gridTemplateColumns: "2fr 1fr 0.7fr 0.7fr" }}>
-              <span>Model</span><span>Provider</span><span className="text-right">In $/M</span><span className="text-right">Out $/M</span>
+              style={{ gridTemplateColumns: "2fr 1fr 0.7fr 0.7fr 0.7fr" }}>
+              <span>Model</span><span>Provider</span><span>Via</span><span className="text-right">In $/M</span><span className="text-right">Out $/M</span>
             </div>
             {(() => {
               const sortedModels = [...tokenModels].sort((a, b) => a.outputPerMillion - b.outputPerMillion);
               const displayModels = showAllModels ? sortedModels : sortedModels.slice(0, 8);
-              return displayModels.map((p, i) => (
-                <div key={p.model} className="grid px-3 py-1 text-[11px] border-b border-bep-border last:border-0"
-                  style={{ gridTemplateColumns: "2fr 1fr 0.7fr 0.7fr", background: i % 2 ? "#0d0d0d" : "transparent" }}>
-                  <span className="text-bep-white font-medium truncate">{p.model}</span>
-                  <span style={{ color: PROVIDER_COLORS[p.provider] || "#666" }}>{p.provider}</span>
-                  <span className="text-right text-bep-dim font-mono">${p.inputPerMillion < 1 ? p.inputPerMillion.toFixed(2) : p.inputPerMillion}</span>
-                  <span className="text-right text-bep-white font-mono font-semibold">${p.outputPerMillion < 1 ? p.outputPerMillion.toFixed(2) : p.outputPerMillion}</span>
-                </div>
-              ));
+              return displayModels.map((p, i) => {
+                const via = p.source || "OpenRouter";
+                const viaColor = via === "Nebius" ? "#A855F7" : "#5BA9FF";
+                return (
+                  <div key={`${p.modelId}-${via}`} className="grid px-3 py-1 text-[11px] border-b border-bep-border last:border-0"
+                    style={{ gridTemplateColumns: "2fr 1fr 0.7fr 0.7fr 0.7fr", background: i % 2 ? "#0d0d0d" : "transparent" }}>
+                    <span className="text-bep-white font-medium truncate">{p.model}</span>
+                    <span style={{ color: PROVIDER_COLORS[p.provider] || "#666" }}>{p.provider}</span>
+                    <span className="font-mono text-[10px]" style={{ color: viaColor }}>{via}</span>
+                    <span className="text-right text-bep-dim font-mono">${p.inputPerMillion < 1 ? p.inputPerMillion.toFixed(2) : p.inputPerMillion}</span>
+                    <span className="text-right text-bep-white font-mono font-semibold">${p.outputPerMillion < 1 ? p.outputPerMillion.toFixed(2) : p.outputPerMillion}</span>
+                  </div>
+                );
+              });
             })()}
             {!showAllModels && tokenModels.length > 8 && (
               <button onClick={() => setShowAllModels(true)}
