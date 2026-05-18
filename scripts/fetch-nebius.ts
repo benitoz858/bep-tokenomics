@@ -69,7 +69,8 @@ async function main() {
   });
   if (!res.ok) {
     console.error(`[Nebius] HTTP ${res.status} — ${await res.text().catch(() => "")}`);
-    process.exit(1);
+    console.error("[Nebius] Skipping this run; downstream steps will continue.");
+    return;
   }
 
   const { data } = (await res.json()) as { data: NebiusModel[] };
