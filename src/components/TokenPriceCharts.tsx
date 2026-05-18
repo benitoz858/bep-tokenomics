@@ -1,6 +1,6 @@
 "use client";
 
-import Section from "./ui/Section";
+import ExpandableChart from "./ui/ExpandableChart";
 import type { TokenPriceModel } from "@/lib/data";
 
 interface Props {
@@ -91,94 +91,102 @@ export default function TokenPriceCharts({ tokenModels }: Props) {
     points: distByLabel[r.label] || [],
   }));
 
+  const arbLegend = (
+    <div className="flex gap-4 text-[10px] font-mono text-bep-muted">
+      <span><span className="inline-block w-2 h-2 rounded-full mr-1 align-middle" style={{ background: OR_COLOR }} />OpenRouter</span>
+      <span><span className="inline-block w-2 h-2 rounded-full mr-1 align-middle" style={{ background: NB_COLOR }} />Nebius</span>
+      <span className="ml-auto">Positive markup = Nebius costs more than OpenRouter aggregate</span>
+    </div>
+  );
+
+  const distLegend = (
+    <div className="flex gap-4 text-[10px] font-mono text-bep-muted">
+      <span><span className="inline-block w-2 h-2 rounded-full mr-1 align-middle" style={{ background: OR_COLOR }} />OpenRouter</span>
+      <span><span className="inline-block w-2 h-2 rounded-full mr-1 align-middle" style={{ background: NB_COLOR }} />Nebius</span>
+      <span><span className="text-[#A855F7]">Frontier</span> / <span className="text-[#76B900]">Open-source</span></span>
+    </div>
+  );
+
   return (
     <div className="space-y-4">
       {arbRows.length > 0 && (
-        <Section
+        <ExpandableChart
           title="Same Model, Different Markets"
           subtitle="Output $/M when the same open-weight model is sold by both. The gap is the inference-provider markup."
+          footer={arbLegend}
         >
-          <div className="bg-bep-card border border-bep-border rounded-md p-4">
-            <div className="grid mb-2 text-[9px] font-mono text-bep-muted uppercase tracking-widest" style={{ gridTemplateColumns: "1.4fr 3fr 0.8fr" }}>
-              <span>Model</span><span></span><span className="text-right">Markup</span>
-            </div>
-            {arbRows.map((r) => {
-              const orPos = arbScale(r.or);
-              const nbPos = arbScale(r.nb);
-              const left = Math.min(orPos, nbPos);
-              const width = Math.abs(nbPos - orPos);
-              const markupColor = r.gapPct > 0 ? "#FF4444" : r.gapPct < 0 ? "#76B900" : "#999";
-              return (
-                <div key={r.label} className="grid items-center py-2 border-b border-bep-border last:border-0" style={{ gridTemplateColumns: "1.4fr 3fr 0.8fr" }}>
-                  <span className="text-[11px] text-bep-white font-medium truncate pr-2">{r.label}</span>
-                  <div className="relative h-6">
-                    {/* Connector line */}
-                    <div className="absolute top-1/2 -translate-y-1/2 h-px bg-bep-border" style={{ left: `${left}%`, width: `${width}%` }} />
-                    {/* OpenRouter dot */}
-                    <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2" style={{ left: `${orPos}%` }}>
-                      <div className="w-2.5 h-2.5 rounded-full" style={{ background: OR_COLOR, boxShadow: `0 0 0 1px ${OR_COLOR}33` }} />
-                      <span className="absolute top-3 left-1/2 -translate-x-1/2 text-[9px] font-mono whitespace-nowrap" style={{ color: OR_COLOR }}>${fmtPrice(r.or)}</span>
+          {() => (
+            <div>
+              <div className="grid mb-2 text-[9px] font-mono text-bep-muted uppercase tracking-widest" style={{ gridTemplateColumns: "1.4fr 3fr 0.8fr" }}>
+                <span>Model</span><span></span><span className="text-right">Markup</span>
+              </div>
+              {arbRows.map((r) => {
+                const orPos = arbScale(r.or);
+                const nbPos = arbScale(r.nb);
+                const left = Math.min(orPos, nbPos);
+                const width = Math.abs(nbPos - orPos);
+                const markupColor = r.gapPct > 0 ? "#FF4444" : r.gapPct < 0 ? "#76B900" : "#999";
+                return (
+                  <div key={r.label} className="grid items-center py-2 border-b border-bep-border last:border-0" style={{ gridTemplateColumns: "1.4fr 3fr 0.8fr" }}>
+                    <span className="text-[11px] text-bep-white font-medium truncate pr-2">{r.label}</span>
+                    <div className="relative h-6">
+                      <div className="absolute top-1/2 -translate-y-1/2 h-px bg-bep-border" style={{ left: `${left}%`, width: `${width}%` }} />
+                      <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2" style={{ left: `${orPos}%` }}>
+                        <div className="w-2.5 h-2.5 rounded-full" style={{ background: OR_COLOR, boxShadow: `0 0 0 1px ${OR_COLOR}33` }} />
+                        <span className="absolute top-3 left-1/2 -translate-x-1/2 text-[9px] font-mono whitespace-nowrap" style={{ color: OR_COLOR }}>${fmtPrice(r.or)}</span>
+                      </div>
+                      <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2" style={{ left: `${nbPos}%` }}>
+                        <div className="w-2.5 h-2.5 rounded-full" style={{ background: NB_COLOR, boxShadow: `0 0 0 1px ${NB_COLOR}33` }} />
+                        <span className="absolute bottom-3 left-1/2 -translate-x-1/2 text-[9px] font-mono whitespace-nowrap" style={{ color: NB_COLOR }}>${fmtPrice(r.nb)}</span>
+                      </div>
                     </div>
-                    {/* Nebius dot */}
-                    <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2" style={{ left: `${nbPos}%` }}>
-                      <div className="w-2.5 h-2.5 rounded-full" style={{ background: NB_COLOR, boxShadow: `0 0 0 1px ${NB_COLOR}33` }} />
-                      <span className="absolute bottom-3 left-1/2 -translate-x-1/2 text-[9px] font-mono whitespace-nowrap" style={{ color: NB_COLOR }}>${fmtPrice(r.nb)}</span>
-                    </div>
+                    <span className="text-[11px] font-mono font-semibold text-right" style={{ color: markupColor }}>
+                      {r.gapPct > 0 ? "+" : ""}{r.gapPct.toFixed(0)}%
+                    </span>
                   </div>
-                  <span className="text-[11px] font-mono font-semibold text-right" style={{ color: markupColor }}>
-                    {r.gapPct > 0 ? "+" : ""}{r.gapPct.toFixed(0)}%
-                  </span>
-                </div>
-              );
-            })}
-            <div className="flex gap-4 mt-3 text-[10px] font-mono text-bep-muted">
-              <span><span className="inline-block w-2 h-2 rounded-full mr-1 align-middle" style={{ background: OR_COLOR }} />OpenRouter</span>
-              <span><span className="inline-block w-2 h-2 rounded-full mr-1 align-middle" style={{ background: NB_COLOR }} />Nebius</span>
-              <span className="ml-auto">Positive markup = Nebius costs more than OpenRouter aggregate</span>
+                );
+              })}
             </div>
-          </div>
-        </Section>
+          )}
+        </ExpandableChart>
       )}
 
-      <Section
+      <ExpandableChart
         title="Token Economics by Model"
         subtitle="Output $/M for the models people actually deploy. Log scale — frontier reasoning models occupy a different cost universe from open-source workhorses."
+        footer={distLegend}
       >
-        <div className="bg-bep-card border border-bep-border rounded-md p-4">
-          {/* Log-scale axis labels */}
-          <div className="relative h-4 mb-1 text-[9px] font-mono text-bep-muted">
-            {[0.05, 0.1, 0.5, 1, 5, 10, 50, 100].filter(v => v >= Math.pow(10, logMin) * 0.5 && v <= Math.pow(10, logMax) * 2).map((tick) => (
-              <span key={tick} className="absolute -translate-x-1/2" style={{ left: `${logScale(tick)}%` }}>${tick}</span>
-            ))}
-          </div>
-          <div className="space-y-1.5">
-            {distRows.map((r) => (
-              <div key={r.label} className="grid items-center" style={{ gridTemplateColumns: "1.4fr 3fr" }}>
-                <span className="text-[11px] font-medium truncate pr-2" style={{ color: r.tier === "frontier" ? "#A855F7" : "#76B900" }}>{r.label}</span>
-                <div className="relative h-4 bg-bep-bg rounded-sm">
-                  {r.points.map((pt) => (
-                    <div
-                      key={pt.source}
-                      className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full"
-                      style={{
-                        left: `${logScale(pt.price)}%`,
-                        background: pt.source === "Nebius" ? NB_COLOR : OR_COLOR,
-                        boxShadow: `0 0 0 1px ${pt.source === "Nebius" ? NB_COLOR : OR_COLOR}33`,
-                      }}
-                      title={`${pt.source}: $${fmtPrice(pt.price)}/M output`}
-                    />
-                  ))}
+        {() => (
+          <div>
+            <div className="relative h-4 mb-1 text-[9px] font-mono text-bep-muted">
+              {[0.05, 0.1, 0.5, 1, 5, 10, 50, 100].filter(v => v >= Math.pow(10, logMin) * 0.5 && v <= Math.pow(10, logMax) * 2).map((tick) => (
+                <span key={tick} className="absolute -translate-x-1/2" style={{ left: `${logScale(tick)}%` }}>${tick}</span>
+              ))}
+            </div>
+            <div className="space-y-1.5">
+              {distRows.map((r) => (
+                <div key={r.label} className="grid items-center" style={{ gridTemplateColumns: "1.4fr 3fr" }}>
+                  <span className="text-[11px] font-medium truncate pr-2" style={{ color: r.tier === "frontier" ? "#A855F7" : "#76B900" }}>{r.label}</span>
+                  <div className="relative h-4 bg-bep-bg rounded-sm">
+                    {r.points.map((pt) => (
+                      <div
+                        key={pt.source}
+                        className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full"
+                        style={{
+                          left: `${logScale(pt.price)}%`,
+                          background: pt.source === "Nebius" ? NB_COLOR : OR_COLOR,
+                          boxShadow: `0 0 0 1px ${pt.source === "Nebius" ? NB_COLOR : OR_COLOR}33`,
+                        }}
+                        title={`${pt.source}: $${fmtPrice(pt.price)}/M output`}
+                      />
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-          <div className="flex gap-4 mt-3 text-[10px] font-mono text-bep-muted">
-            <span><span className="inline-block w-2 h-2 rounded-full mr-1 align-middle" style={{ background: OR_COLOR }} />OpenRouter</span>
-            <span><span className="inline-block w-2 h-2 rounded-full mr-1 align-middle" style={{ background: NB_COLOR }} />Nebius</span>
-            <span><span className="text-[#A855F7]">Frontier</span> / <span className="text-[#76B900]">Open-source</span></span>
-          </div>
-        </div>
-      </Section>
+        )}
+      </ExpandableChart>
     </div>
   );
 }
