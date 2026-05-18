@@ -1,26 +1,26 @@
 {
-  "generatedAt": "2026-05-18T03:30:58.171Z",
+  "generatedAt": "2026-05-18T04:15:42.774Z",
   "date": "2026-05-18",
   "title": "Market Brief — Monday, May 18, 2026",
   "poweredBy": "Claude Opus 4.6",
-  "summary": "GPU compute is in severe shortage across all classes. H100 availability sits at 10% (36/364), B200 at 14% (109/482), and H200 is tightest among newer chips at 21% (53/320). The scarcity is repricing fast: H100 spot surged 46.7% day-over-day to $2.93/hr, with H200 and B200 following at +33.3% and +19.1% respectively. This is a supply squeeze, not a demand fade.",
+  "summary": "Compute is scarce across every GPU class. H100 availability sits at a severe 10% (35/189 GPUs), B200 at 14% (88/177), A100 at 20% (144/342), and H200 at 21% (74/212) — none clearing the 25% threshold. H100 spot surged 42.9% day-over-day to $2.86/hr, the sharpest single-day move in the stack, while H100 utilization hit 90.3%, up 10.5pp in 30 days — demand is outrunning supply hard.",
   "paragraphs": [
-    "GPU compute is in severe shortage across all classes. H100 availability sits at 10% (36/364), B200 at 14% (109/482), and H200 is tightest among newer chips at 21% (53/320). The scarcity is repricing fast: H100 spot surged 46.7% day-over-day to $2.93/hr, with H200 and B200 following at +33.3% and +19.1% respectively. This is a supply squeeze, not a demand fade.",
-    "At TCO-adjusted cost (1.25x spot), Llama 70B inference runs $10.73/M on H100, $9.58/M on H200, and $4.58/M on B200. Anyone offering 70B-class models under $1/M output is burning cash. DeepSeek V3.2 at $0.38/M output is selling at a loss of roughly $4.20/M tokens on B200, the cheapest viable hardware. Grades: OpenAI Strong, Anthropic Neutral, Google Neutral, DeepSeek Burning Cash.",
-    "OpenAI's o3 Pro at $80/M output is overvalued when GPT-5.4 benchmarks comparably at $15/M, an 80% discount for marginal quality loss. B200 spot at $5.00/hr is undervalued against its OCPI trade price of $5.73/hr with utilization climbing to 85.5%, so lock in reserved B200 capacity now before availability drops below 10%."
+    "Compute is scarce across every GPU class. H100 availability sits at a severe 10% (35/189 GPUs), B200 at 14% (88/177), A100 at 20% (144/342), and H200 at 21% (74/212) — none clearing the 25% threshold. H100 spot surged 42.9% day-over-day to $2.86/hr, the sharpest single-day move in the stack, while H100 utilization hit 90.3%, up 10.5pp in 30 days — demand is outrunning supply hard.",
+    "At TCO-adjusted cost (1.25x spot), Llama 70B inference runs $10.45/M on H100 and $9.28/M on H200 — meaning any provider pricing medium-tier output at $3/M is selling at a loss of roughly $7/M tokens on H100. DeepSeek (V3.2 at $0.45/M output) and Meta Llama 4 Maverick ($0.60/M) are burning cash at scale. OpenAI's o3 Pro at $80/M output and Anthropic's Opus 4.6 at $25/M are the only models with comfortable margins. Grades: OpenAI Strong, Anthropic Neutral, Google Neutral, DeepSeek Burning Cash.",
+    "H100 is overvalued at $2.86 spot given 121.7% annualized vol on the competing H200 OCPI and only marginal throughput advantage — rotate exposure to B200 at $5.00/hr where TCO-adjusted inference ($4.58/M on A100-equivalent) yields 39%+ margin at high tier. Undervalued play: A100 at $0.91/hr with 20% availability offers the best margin profile at $4.58/M base cost, especially for open-source models priced near $0.30/M output where volume compensates."
   ],
   "bullets": [
-    "10% of H100 GPUs are available, meaning 328 of 364 units are currently occupied.",
-    "14% B200 availability with utilization up 5.6 percentage points in 30 days signals tightening supply.",
-    "$2.93 median H100 spot is up 46.7% in a single day, the largest move across all GPU classes.",
-    "21.76 on the LLMflation Index means frontier token prices have fallen 78% since GPT-4 launch.",
-    "$0.06 per million output tokens for open-source 8B models is 1,333x cheaper than o3 Pro.",
-    "121.7% annualized volatility on H200 OCPI makes it the riskiest GPU class to hold unhedged."
+    "10% of H100 GPUs are available, the tightest supply in the entire stack.",
+    "144 of 342 A100 GPUs are free, making it the most available class at 20%.",
+    "$2.86 median H100 spot is up 42.9% in a single day.",
+    "$0.06 per million output tokens is the floor, set by Meta Llama 3.1 8B and Gemma 2b.",
+    "90.3% H100 utilization marks a 10.5 percentage point jump in 30 days.",
+    "21.76 LLMflation index means GPT-4 equivalent output now costs 78% less than at launch."
   ],
   "dataPoints": {
     "modelsTracked": 48,
-    "gpuMarketsTracked": 3,
+    "gpuMarketsTracked": 4,
     "llmflationIndex": 21.76,
-    "gpuOffers": 69
+    "gpuOffers": 145
   }
 }

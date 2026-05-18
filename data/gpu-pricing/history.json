@@ -4957,6 +4957,44 @@
     ],
     "2026-05-18": [
       {
+        "gpuModel": "nvidia-a100",
+        "onDemand": {
+          "min": null,
+          "median": null,
+          "max": null,
+          "count": 0
+        },
+        "spot": {
+          "min": 0.2672222222222222,
+          "median": 0.9077777777777778,
+          "max": 1.7182757350347613,
+          "count": 67
+        },
+        "availabilityPct": 20,
+        "offeringCount": 67,
+        "totalGpusAvailable": 144,
+        "totalGpusRented": 198,
+        "avgReliability": 96.41,
+        "regions": {
+          "CA": 13,
+          "GB": 38,
+          "RU": 3,
+          "CZ": 40,
+          "US": 95,
+          "SI": 20,
+          "FI": 4,
+          "IT": 22,
+          "NL": 2,
+          "DE": 25,
+          "EE": 6,
+          "JP": 30,
+          "SE": 30,
+          "TW": 2,
+          "HR": 5,
+          "FR": 7
+        }
+      },
+      {
         "gpuModel": "nvidia-h100",
         "onDemand": {
           "min": null,
@@ -4965,27 +5003,28 @@
           "count": 0
         },
         "spot": {
-          "min": 1.4672222222222224,
-          "median": 2.9337500000000003,
-          "max": 6.348888888888889,
-          "count": 18
+          "min": 1.4677777777777778,
+          "median": 2.8577777777777778,
+          "max": 6.442222222222223,
+          "count": 23
         },
         "availabilityPct": 10,
-        "offeringCount": 18,
-        "totalGpusAvailable": 36,
-        "totalGpusRented": 328,
-        "avgReliability": 97.63,
+        "offeringCount": 23,
+        "totalGpusAvailable": 35,
+        "totalGpusRented": 154,
+        "avgReliability": 97.1,
         "regions": {
-          "FR": 35,
-          "US": 147,
-          "CN": 35,
+          "FR": 24,
+          "US": 77,
+          "IN": 2,
           "TH": 6,
-          "CZ": 7,
-          "NL": 39,
-          "SI": 16,
-          "TW": 4,
-          "JP": 60,
-          "IN": 15
+          "CZ": 8,
+          "NL": 22,
+          "SI": 8,
+          "JP": 24,
+          "BG": 8,
+          "GB": 8,
+          "CN": 2
         }
       },
       {
@@ -4998,23 +5037,27 @@
         },
         "spot": {
           "min": 3.2279569892473114,
-          "median": 4.000268817204301,
-          "max": 4.259498207885304,
-          "count": 18
+          "median": 3.873118279569892,
+          "max": 8.516397849462365,
+          "count": 25
         },
         "availabilityPct": 21,
-        "offeringCount": 18,
-        "totalGpusAvailable": 53,
-        "totalGpusRented": 267,
-        "avgReliability": 98.16,
+        "offeringCount": 25,
+        "totalGpusAvailable": 74,
+        "totalGpusRented": 138,
+        "avgReliability": 97.28,
         "regions": {
-          "US": 201,
-          "SE": 40,
-          "FR": 15,
-          "JP": 27,
-          "CZ": 5,
-          "IT": 8,
-          "IS": 24
+          "CZ": 17,
+          "US": 112,
+          "IN": 15,
+          "CA": 16,
+          "FR": 9,
+          "BR": 1,
+          "JP": 3,
+          "SE": 15,
+          "AT": 1,
+          "BG": 15,
+          "KR": 8
         }
       },
       {
@@ -5029,18 +5072,17 @@
           "min": 3.6252604166666664,
           "median": 5.0003472222222225,
           "max": 8.130555555555556,
-          "count": 33
+          "count": 30
         },
         "availabilityPct": 14,
-        "offeringCount": 33,
-        "totalGpusAvailable": 109,
-        "totalGpusRented": 373,
-        "avgReliability": 96.85,
+        "offeringCount": 30,
+        "totalGpusAvailable": 88,
+        "totalGpusRented": 89,
+        "avgReliability": 97.91,
         "regions": {
-          "US": 426,
-          "JP": 40,
-          "SI": 8,
-          "NL": 8
+          "US": 155,
+          "JP": 14,
+          "SI": 8
         }
       }
     ]
