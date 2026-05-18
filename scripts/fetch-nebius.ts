@@ -82,7 +82,10 @@ async function main() {
   for (const m of data) {
     const prompt = parseFloat(m.pricing?.prompt || "0");
     const completion = parseFloat(m.pricing?.completion || "0");
-    if (prompt === 0 && completion === 0) continue;
+    // Skip non-generative models (embeddings, classifiers, etc.) — completion=0
+    // means no output tokens are produced, so $/M-output comparisons are meaningless
+    // and would otherwise zero out the "token floor" headline.
+    if (completion === 0) continue;
 
     added.push({
       model: displayName(m.id, m.name),
