@@ -55,6 +55,9 @@ export default function DashboardV2({
   const [showAllModels, setShowAllModels] = useState(false);
   useEffect(() => setMounted(true), []);
 
+  // Round to 2 decimals and drop trailing zeros: 3.5999999 → "3.6", 80 → "80", 0.06 → "0.06"
+  const fmtPrice = (n: number) => parseFloat(n.toFixed(2)).toString();
+
   // Derived data
   const sorted = [...tokenModels].sort((a, b) => b.outputPerMillion - a.outputPerMillion);
   const cheapest = tokenModels.length ? tokenModels.reduce((min, m) => m.outputPerMillion < min.outputPerMillion ? m : min) : null;
@@ -137,7 +140,7 @@ export default function DashboardV2({
           <div className="text-[10px] font-mono text-bep-muted uppercase tracking-wider mb-2">Today&apos;s Numbers</div>
           <div className="grid grid-cols-6 gap-1.5">
             <Metric label="LLMflation" value={llmflationIndex ? llmflationIndex.toFixed(1) : "—"} sub="Base 100 = GPT-4" color="#76B900" />
-            <Metric label="Token Floor" value={cheapest ? `$${cheapest.outputPerMillion < 1 ? cheapest.outputPerMillion.toFixed(2) : cheapest.outputPerMillion}/M` : "—"} sub={cheapest?.model || ""} color="#FF4444" />
+            <Metric label="Token Floor" value={cheapest ? `$${fmtPrice(cheapest.outputPerMillion)}/M` : "—"} sub={cheapest?.model || ""} color="#FF4444" />
             <Metric label="Spread" value={spread ? `${spread}x` : "—"} sub="Floor to ceiling" color="#00D4FF" />
             {marginHighlights.slice(0, 3).map((m: any) => (
               <Metric key={m.gpuModel} label={m.name}
@@ -307,8 +310,8 @@ export default function DashboardV2({
         {/* ═══ TOKEN PRICING ═══ */}
         <Section title="Token Pricing" subtitle={`${tokenModels.length} frontier models. ${spread}x spread between floor and ceiling.`}>
           <div className="grid grid-cols-3 gap-2 mb-3">
-            <Metric label="Floor" value={cheapest ? `$${cheapest.outputPerMillion < 1 ? cheapest.outputPerMillion.toFixed(2) : cheapest.outputPerMillion}/M` : "—"} sub={cheapest?.model || ""} color="#FF4444" />
-            <Metric label="Ceiling" value={priciest ? `$${priciest.outputPerMillion}/M` : "—"} sub={priciest?.model || ""} color="#A855F7" />
+            <Metric label="Floor" value={cheapest ? `$${fmtPrice(cheapest.outputPerMillion)}/M` : "—"} sub={cheapest?.model || ""} color="#FF4444" />
+            <Metric label="Ceiling" value={priciest ? `$${fmtPrice(priciest.outputPerMillion)}/M` : "—"} sub={priciest?.model || ""} color="#A855F7" />
             <Metric label="Spread" value={spread ? `${spread}x` : "—"} sub="Bifurcation, not convergence" color="#00D4FF" />
           </div>
           <div className="bg-bep-card border border-bep-border rounded-md overflow-hidden">
@@ -328,8 +331,8 @@ export default function DashboardV2({
                     <span className="text-bep-white font-medium truncate">{p.model}</span>
                     <span style={{ color: PROVIDER_COLORS[p.provider] || "#666" }}>{p.provider}</span>
                     <span className="font-mono text-[10px]" style={{ color: viaColor }}>{via}</span>
-                    <span className="text-right text-bep-dim font-mono">${p.inputPerMillion < 1 ? p.inputPerMillion.toFixed(2) : p.inputPerMillion}</span>
-                    <span className="text-right text-bep-white font-mono font-semibold">${p.outputPerMillion < 1 ? p.outputPerMillion.toFixed(2) : p.outputPerMillion}</span>
+                    <span className="text-right text-bep-dim font-mono">${fmtPrice(p.inputPerMillion)}</span>
+                    <span className="text-right text-bep-white font-mono font-semibold">${fmtPrice(p.outputPerMillion)}</span>
                   </div>
                 );
               });
