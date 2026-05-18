@@ -1,6 +1,6 @@
 import { dataPath, writeJSON, nowISO, todayISO } from "./utils";
 
-const ORNN_API = "https://data.ornnai.com";
+const ORNN_API = "https://api.ornnai.com";
 const TOKEN = process.env.ORNN_AI_TOKEN;
 
 // 6 months back for charts
