@@ -155,14 +155,14 @@ async function fetchVastAI(): Promise<GPUOffering[]> {
       const resAvail = await fetch(VASTAI_API, {
         method: "POST",
         headers: vastHeaders,
-        body: JSON.stringify({ gpu_name: gpuName, num_gpus: { gte: 1 }, rentable: { eq: true }, limit: 100 }),
+        body: JSON.stringify({ gpu_name: { eq: gpuName }, num_gpus: { gte: 1 }, rentable: { eq: true }, limit: 100 }),
       });
 
       // Fetch rented (unavailable) offers for true availability %
       const resRented = await fetch(VASTAI_API, {
         method: "POST",
         headers: vastHeaders,
-        body: JSON.stringify({ gpu_name: gpuName, num_gpus: { gte: 1 }, rented: { eq: true }, limit: 100 }),
+        body: JSON.stringify({ gpu_name: { eq: gpuName }, num_gpus: { gte: 1 }, rented: { eq: true }, limit: 100 }),
       });
 
       if (!resAvail.ok) {
