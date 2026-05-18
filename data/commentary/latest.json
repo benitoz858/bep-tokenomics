@@ -1,21 +1,21 @@
 {
-  "generatedAt": "2026-05-18T03:22:21.065Z",
+  "generatedAt": "2026-05-18T03:28:27.083Z",
   "date": "2026-05-18",
   "title": "Market Brief — Monday, May 18, 2026",
   "poweredBy": "Claude Opus 4.6",
-  "summary": "GPU supply is bifurcated: A100s sit in oversupply at 85% availability, H100s are loose at 70%, and MI300X holds at 60%, but B200s are scarce at 25% and GB200s are in severe shortage at 10% with no tradeable spot price yet. The biggest price signal is H200 OCPI at $7.01/hr versus $3.00 spot median, a 134% dislocation reflecting 121.7% annualized volatility as training demand whipsaws a 45%-available tier.",
+  "summary": "GPU supply is bifurcated: A100s sit in oversupply at 85% availability, H100s are loose at 70%, and MI300X holds at 60%, but B200s are scarce at 25% and GB200s are in severe shortage at just 10% availability. The biggest price signal is H200 OCPI at $7.01/hr versus a $3.00 spot median, a 134% premium on trade-based pricing with 121.7% annualized volatility, screaming that next-gen capacity is being hoarded.",
   "paragraphs": [
-    "GPU supply is bifurcated: A100s sit in oversupply at 85% availability, H100s are loose at 70%, and MI300X holds at 60%, but B200s are scarce at 25% and GB200s are in severe shortage at 10% with no tradeable spot price yet. The biggest price signal is H200 OCPI at $7.01/hr versus $3.00 spot median, a 134% dislocation reflecting 121.7% annualized volatility as training demand whipsaws a 45%-available tier.",
-    "Applying 1.25x TCO to spot inference costs, Llama 70B on H100 runs $9.84/M tokens and on MI300X runs $11.90/M. DeepSeek V3.2 at $0.45/M output and Qwen3-32B at $0.30/M are selling at catastrophic losses exceeding $9/M tokens on H100, burning cash to buy share. OpenAI grades Neutral with o3 Pro commanding premium at $80/M output; Anthropic grades Strong with Opus 4.6 holding $25/M; Google grades Weak at $2.50 Flash output; DeepSeek grades Burning Cash.",
-    "B200 at 25% availability and $4.20 spot is undervalued given utilization surging 5.6pp to 85.5% in 30 days, positioning for a squeeze as training clusters absorb remaining capacity. Frontier token pricing from OpenAI o3 Pro at $80/M output is overvalued by roughly 3x versus Anthropic Opus 4.6 at $25/M on comparable capability, making Opus the better risk-adjusted API allocation."
+    "GPU supply is bifurcated: A100s sit in oversupply at 85% availability, H100s are loose at 70%, and MI300X holds at 60%, but B200s are scarce at 25% and GB200s are in severe shortage at just 10% availability. The biggest price signal is H200 OCPI at $7.01/hr versus a $3.00 spot median, a 134% premium on trade-based pricing with 121.7% annualized volatility, screaming that next-gen capacity is being hoarded.",
+    "On Llama 70B reference, every provider selling at medium tier on A100/H100/MI300X is burning cash, with MI300X losses hitting $12.90 per million tokens after TCO adjustment versus a $3.00 medium-tier price. DeepSeek: Burning Cash, pricing V3.2 output at $0.38/M against a TCO-adjusted production cost near $5.03/M on H100. OpenAI: Neutral, hedged across premium tiers. Anthropic: Strong on Opus margins. Google: Weak, underpricing Gemini 2.5 Flash at $2.50 output against thin margins.",
+    "B200 inference is undervalued: at $4.02/M raw cost it is the only GPU delivering positive margins at the high tier, and spot availability at 25% means pricing has room to run. H100 spot at $2.00/hr is overvalued relative to its $7.87/M inference cost, a capacity trap for anyone not serving premium-tier traffic."
   ],
   "bullets": [
-    "25% availability on B200 puts next-gen compute squarely in the scarcity zone with spot ranging $3.50 to $5.50 per hour.",
-    "10% availability on GB200 signals severe shortage with no executable spot price published.",
-    "21.76 on the LLMflation Index means frontier token costs have fallen 78% since GPT-4 launch at base 100.",
-    "$0.06 per million output tokens on open-source Gemma-2-2b represents a 1,333x discount to o3 Pro at $80.",
-    "90.3% H100 utilization is up 10.5 percentage points in 30 days, the largest demand surge across all GPU classes.",
-    "$41.17 per DDR5 16Gb chip rose 1.15% week-over-week, the only memory component showing upward price pressure."
+    "25% B200 availability signals compute scarcity in the only GPU class with positive high-tier inference margins.",
+    "10% GB200 availability marks a severe shortage with no reliable spot pricing yet established.",
+    "$7.01/hr H200 OCPI represents a 134% premium over the $3.00 spot median, the widest gap across all GPU classes.",
+    "90.3% H100 utilization surged 10.5 percentage points in 30 days despite 70% nominal availability, indicating shadow demand.",
+    "$0.06/M output for Meta-Llama-3.1-8B marks the floor, a 99.9% decline from GPT-4 launch pricing.",
+    "21.76 LLMflation index means frontier output costs have fallen roughly 78% from the March 2023 baseline."
   ],
   "dataPoints": {
     "modelsTracked": 48,
