@@ -161,7 +161,13 @@ async function fetchVastAI(): Promise<GPUOffering[]> {
         headers: { Authorization: `Bearer ${apiKey}` },
       });
 
-      if (!resAvail.ok) continue;
+      if (!resAvail.ok) {
+        console.error(`  [Vast.ai] ${gpuName}: HTTP ${resAvail.status} on rentable query`);
+        continue;
+      }
+      if (!resRented.ok) {
+        console.error(`  [Vast.ai] ${gpuName}: HTTP ${resRented.status} on rented query`);
+      }
 
       interface VastOffer {
         dph_total?: number;

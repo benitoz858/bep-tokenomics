@@ -22,6 +22,10 @@ jobs:
       # Fetch fresh data
       - name: Fetch OpenRouter token pricing
         run: npx tsx scripts/fetch-openrouter.ts
+      - name: Fetch Nebius Token Factory pricing
+        run: npx tsx scripts/fetch-nebius.ts
+        env:
+          NEBIUS_API_KEY: ${{ secrets.NEBIUS_API_KEY }}
       - name: Fetch GPU rental pricing
         run: npx tsx scripts/fetch-gpu-pricing.ts
         env:

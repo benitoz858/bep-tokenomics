@@ -198,7 +198,7 @@ export default function DashboardV2({
               <div className="grid grid-cols-4 gap-1.5">
                 {Object.entries(ornnOCPI.latest).map(([k, v]) => (
                   <div key={k} className="text-center">
-                    <span className="text-[12px] font-bold font-mono text-bep-cyan">${v.price}/hr</span>
+                    <span className="text-[12px] font-bold font-mono" style={{ color: utilColors[k] }}>${v.price}/hr</span>
                     <span className="text-[8px] font-mono text-bep-dim ml-1">{utilLabels[k]} · {v.volatility}% vol</span>
                   </div>
                 ))}
