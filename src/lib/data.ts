@@ -21,6 +21,7 @@ export interface TokenPriceModel {
   contextWindow: number;
   maxOutput: number | null;
   fetchedAt: string;
+  source?: string; // Inference provider: "Nebius" for Nebius Token Factory; OpenRouter aggregate by default
 }
 
 export interface TokenPricingData {

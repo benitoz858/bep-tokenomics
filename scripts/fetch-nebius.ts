@@ -38,6 +38,7 @@ function creatorFromId(id: string): string {
     "anthropic": "Anthropic",
     "google": "Google",
     "deepseek": "DeepSeek",
+    "deepseek-ai": "DeepSeek",
     "meta-llama": "Meta",
     "meta": "Meta",
     "mistralai": "Mistral",
@@ -48,6 +49,9 @@ function creatorFromId(id: string): string {
     "z-ai": "Z.ai",
     "x-ai": "xAI",
     "moonshotai": "Moonshot",
+    "nousresearch": "NousResearch",
+    "minimaxai": "MiniMax",
+    "primeintellect": "PrimeIntellect",
   };
   return map[prefix] || prefix;
 }
