@@ -4,6 +4,7 @@ import { useState, useRef, useCallback } from "react";
 
 interface Props {
   title: string;
+  subtitle?: string;
   attribution?: { label: string; href: string };
   children: (height: number) => React.ReactNode;
   compactHeight?: number;
@@ -64,7 +65,7 @@ async function exportChart(el: HTMLElement, title: string, format: "png" | "pdf"
   }
 }
 
-export default function ExpandableChart({ title, attribution, children, compactHeight = 160, expandedHeight = 480, footer }: Props) {
+export default function ExpandableChart({ title, subtitle, attribution, children, compactHeight = 160, expandedHeight = 480, footer }: Props) {
   const [expanded, setExpanded] = useState(false);
   const [exporting, setExporting] = useState(false);
   const chartRef = useRef<HTMLDivElement>(null);
@@ -88,7 +89,7 @@ export default function ExpandableChart({ title, attribution, children, compactH
           onClick={(e) => e.stopPropagation()}>
           {/* Capture area */}
           <div ref={chartRef}>
-            <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center justify-between mb-1">
               <div className="text-[11px] font-mono text-bep-muted uppercase tracking-wider">{title}</div>
               <div className="flex items-center gap-2">
                 {attribution && (
@@ -96,6 +97,7 @@ export default function ExpandableChart({ title, attribution, children, compactH
                 )}
               </div>
             </div>
+            {subtitle && <div className="text-[11px] text-bep-dim mb-3">{subtitle}</div>}
             {children(expandedHeight)}
             {footer && <div className="mt-3">{footer}</div>}
             {/* Visible watermark in export area */}
@@ -140,6 +142,7 @@ export default function ExpandableChart({ title, attribution, children, compactH
           </button>
         </div>
       </div>
+      {subtitle && <div className="text-[10px] text-bep-dim mb-2">{subtitle}</div>}
       {children(compactHeight)}
       {footer && <div className="mt-2">{footer}</div>}
     </div>
