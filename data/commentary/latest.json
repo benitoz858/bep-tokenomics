@@ -1,21 +1,21 @@
 {
-  "generatedAt": "2026-05-17T08:18:41.122Z",
-  "date": "2026-05-17",
-  "title": "Market Brief — Sunday, May 17, 2026",
+  "generatedAt": "2026-05-18T02:36:19.252Z",
+  "date": "2026-05-18",
+  "title": "Market Brief — Monday, May 18, 2026",
   "poweredBy": "Claude Opus 4.6",
-  "summary": "GPU supply is bifurcated: A100s sit at 85% availability (oversupply), H100s at 70%, and MI300X at 60%, while B200s at 25% signal scarcity and GB200s at 10% availability mark a severe shortage with no transparent pricing. The biggest price signal is B200 spot at $4.20/hr median with a $2 spread, reflecting acute demand for next-gen training silicon.",
+  "summary": "GPU supply is bifurcated: A100s at 85% and MI300X at 60% availability signal oversupply on last-gen silicon, while B200s at 25% are scarce and GB200s at 10% face severe shortage with no transparent spot pricing yet. The biggest price signal is B200 spot at $4.20/hr median — a 110% premium over H100 — confirming demand is stampeding toward next-gen compute while legacy iron rusts.",
   "paragraphs": [
-    "GPU supply is bifurcated: A100s sit at 85% availability (oversupply), H100s at 70%, and MI300X at 60%, while B200s at 25% signal scarcity and GB200s at 10% availability mark a severe shortage with no transparent pricing. The biggest price signal is B200 spot at $4.20/hr median with a $2 spread, reflecting acute demand for next-gen training silicon.",
-    "At 1.25x TCO-adjusted costs, Llama 70B inference runs roughly $9.48/M on A100, $9.84/M on H100, and $11.90/M on MI300X. DeepSeek V3.2 at $0.378/M output is selling far below production cost, burning cash at an estimated loss of $9-11/M tokens depending on hardware. OpenAI o3 Pro at $80/M output prints premium margins. Provider grades: OpenAI Strong, Anthropic Neutral, Google Neutral, DeepSeek Burning Cash.",
-    "B200 and GB200 compute is undervalued given scarcity at 25% and 10% availability respectively, and locking in B200 spot below $4.00/hr is the cleanest trade on the board. OpenAI o3 Pro at $80/M output is overvalued relative to GPT-5.4 at $15/M, which benchmarks competitively, making o3 Pro demand unsustainable at 5x the spread."
+    "GPU supply is bifurcated: A100s at 85% and MI300X at 60% availability signal oversupply on last-gen silicon, while B200s at 25% are scarce and GB200s at 10% face severe shortage with no transparent spot pricing yet. The biggest price signal is B200 spot at $4.20/hr median — a 110% premium over H100 — confirming demand is stampeding toward next-gen compute while legacy iron rusts.",
+    "DeepSeek is burning cash hardest: V3.2 output at $0.378/M sits well below TCO-adjusted Llama 70B inference cost of ~$5.03/M on B200s (the cheapest viable GPU), implying a loss of roughly $4.65 per million output tokens. Meta's Llama 4 Maverick at $0.60/M output is similarly underwater. OpenAI's o3 Pro at $80/M output and Anthropic's Opus 4.6 at $25/M are the only tiers printing real margin — everyone in the mid-tier is subsidizing growth.",
+    "OpenAI o3 Pro is overvalued at $80/M output — a 16x premium over GPT-5 for reasoning gains that don't scale linearly, making it vulnerable to DeepSeek R1 substitution at $2.50/M. Undervalued trade: lock in B200 spot capacity now at $4.20/hr before GB200 allocation drought pushes overflow demand back up the stack."
   ],
   "bullets": [
-    "85% A100 availability signals oversupply in legacy compute.",
-    "10% GB200 availability is a severe shortage with no listed spot price.",
-    "$0.378/M output from DeepSeek V3.2 implies a per-token loss of roughly $9.10/M against TCO-adjusted A100 inference.",
-    "21.41 on the LLMflation Index means API prices have fallen roughly 79% since GPT-4 launch.",
-    "$4.20/hr B200 spot median carries a 57% spread between low and high, signaling illiquid price discovery.",
-    "25% B200 availability puts next-gen training compute squarely in the scarce zone."
+    "85% availability on A100s confirms oversupply of legacy compute.",
+    "10% availability on GB200s signals severe shortage with no spot median established.",
+    "$4.65 per million tokens is DeepSeek V3.2's estimated loss versus TCO-adjusted B200 production cost.",
+    "21.41 on the LLMflation Index means token prices have fallen roughly 79% since GPT-4 launch.",
+    "$80/M output for o3 Pro is 212x more expensive than DeepSeek V3.2 output.",
+    "25% B200 availability marks the tightest supply among priced GPUs this cycle."
   ],
   "dataPoints": {
     "modelsTracked": 17,
