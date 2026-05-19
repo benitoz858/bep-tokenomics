@@ -109,6 +109,7 @@ export default function TokenWaterfall({ data, liveStages, liveTokenModels = [] 
         blendedCostPerM: blended.costPerM,
         tokensPerInteraction: tokens,
         interactionsPerUserPerDay,
+        markupRate: p.customerPricing?.markupRate ?? null,
       });
 
       const customerPrice: number = p.customerPricing.price;

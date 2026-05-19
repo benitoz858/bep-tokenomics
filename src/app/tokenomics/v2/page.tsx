@@ -78,6 +78,7 @@ function computePlatformSummary(tokenModels: ReturnType<typeof getTokenPricing>)
         blendedCostPerM: blended.costPerM,
         tokensPerInteraction: p.estimatedModelCost?.tokensPerInteraction ?? null,
         interactionsPerUserPerDay: p.estimatedModelCost?.interactionsPerUserPerDay ?? null,
+        markupRate: p.customerPricing?.markupRate ?? null,
       });
       if (margin.marginPct === null) continue;
       const verified =

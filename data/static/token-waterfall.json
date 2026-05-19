@@ -347,12 +347,12 @@
         "confidence": "high"
       },
       "estimatedModelCost": {
-        "tokensPerInteraction": 2000,
+        "tokensPerInteraction": null,
         "confidence": "low",
-        "assumptions": "Image generation dominates compute. Text portion 2K tokens of prompt+caption."
+        "assumptions": "Firefly is image-priced per generative credit, not token-priced. Image diffusion dominates cost; the text/caption LLM portion is negligible. Token-margin metric is not the right lens — see Adobe Q1 FY26 DM segment 88% gross margin for the right number."
       },
       "margins": {
-        "notes": "Firefly trained on licensed Adobe Stock corpus — defensible IP. Adobe DM segment 88% gross margin."
+        "notes": "Firefly trained on licensed Adobe Stock corpus — defensible IP moat. Image-credit pricing means margin is a function of GPU diffusion cost (cents per image), not LLM token cost. Adobe DM segment runs 88% gross margin."
       },
       "sourceLinks": [
         { "label": "Firefly pricing", "url": "https://www.adobe.com/products/firefly.html", "type": "pricing" },
@@ -523,15 +523,16 @@
         "price": 3,
         "unit": "$/credit (Cortex AI services)",
         "altPricing": "Per-token: $0.0006-$0.024/1K input tokens depending on model.",
-        "confidence": "high"
+        "confidence": "high",
+        "markupRate": 2.2
       },
       "estimatedModelCost": {
         "tokensPerInteraction": 6000,
         "confidence": "medium",
-        "assumptions": "Snowflake marks up model API rate ~2-3x via credit system. Compute included."
+        "assumptions": "Snowflake marks up model API rate ~2.2x via credit system (industry consensus on Cortex take rate). Margin = take rate on top of wholesale model cost passed through, NOT credit price minus token cost. Wholesale flows through to model provider; Snowflake keeps (markup-1)/markup."
       },
       "margins": {
-        "notes": "Snowflake Q1 FY26 product revenue $1.04B, 32% YoY. Cortex AI fastest-growing component."
+        "notes": "Snowflake Q1 FY26 product revenue $1.04B, 32% YoY. Cortex AI fastest-growing component. Headline 99% margin (early data) was wrong — Snowflake is a middleman taking a markup, not pocketing the full credit. True take rate ~55%."
       },
       "sourceLinks": [
         { "label": "Cortex AI pricing", "url": "https://www.snowflake.com/legal-files/CreditConsumptionTable.pdf", "type": "pricing" },
@@ -559,15 +560,16 @@
         "price": 4,
         "unit": "$/DBU (Mosaic AI workload)",
         "altPricing": "Per-token: $0.003-$0.075/1K depending on model.",
-        "confidence": "high"
+        "confidence": "high",
+        "markupRate": 2.0
       },
       "estimatedModelCost": {
         "tokensPerInteraction": 6000,
         "confidence": "medium",
-        "assumptions": "Mosaic markup ~2x model API rate. DBRX self-hosted at marginal cost."
+        "assumptions": "Mosaic markup ~2x wholesale model API rate via DBU consumption. DBRX self-hosted at near-marginal cost in the cheaper DBU tiers. Margin = take rate, not (DBU price − wholesale cost)."
       },
       "margins": {
-        "notes": "Databricks private ($62B valuation). Reported $3B+ ARR, ~35% YoY."
+        "notes": "Databricks private ($62B valuation). $3B+ ARR, ~35% YoY. Mosaic AI margin ~50% from middleman take rate on model API + DBU compute."
       },
       "sourceLinks": [
         { "label": "Databricks pricing", "url": "https://www.databricks.com/product/pricing", "type": "pricing" },
@@ -633,13 +635,13 @@
         "confidence": "high"
       },
       "estimatedModelCost": {
-        "tokensPerInteraction": 7000,
-        "interactionsPerUserPerDay": 30,
+        "tokensPerInteraction": 6000,
+        "interactionsPerUserPerDay": 15,
         "confidence": "medium-low",
-        "assumptions": "Power-user heavy. 30 completions/day × 7K tokens. Significant agentic loops."
+        "assumptions": "Aggregate user. 15 completions/day × 6K tokens (median across active days; power users hit 50+, light users 3-5). Real per-user variance is 10x. Use sensitivity slider to test the heavy-user case."
       },
       "margins": {
-        "notes": "Anysphere private ($9.9B valuation, May 2026). $300M+ ARR reported. Growth fast, margin tight."
+        "notes": "Anysphere private ($9.9B valuation, May 2026). $300M+ ARR reported. Sensitivity-test: at 3x baseline tokens, margin goes deeply negative (matches public claims that power users are loss-making)."
       },
       "sourceLinks": [
         { "label": "Cursor pricing", "url": "https://www.cursor.com/pricing", "type": "pricing" }
@@ -656,8 +658,8 @@
       "modelProvider": "xAI Grok (first-party)",
       "modelProviderNote": "First-party. xAI operates own GPU clusters (Colossus).",
       "modelMix": [
-        { "proprietary": "Grok-4", "weight": 0.70, "role": "default", "proprietaryCostPerM": 1.00 },
-        { "proprietary": "Grok-Code", "weight": 0.30, "role": "developer", "proprietaryCostPerM": 0.80 }
+        { "proprietary": "Grok-4", "weight": 0.70, "role": "default", "proprietaryCostPerM": 3.50 },
+        { "proprietary": "Grok-Code", "weight": 0.30, "role": "developer", "proprietaryCostPerM": 2.80 }
       ],
       "customerPricing": {
         "model": "per-user-month",
