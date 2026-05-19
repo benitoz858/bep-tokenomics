@@ -14,6 +14,7 @@ const jevonsData = [
   { date: "Jul 2025", costPerMTok: 3, tokPerQuery: 15000, infraDemand: 45 },
   { date: "Jan 2026", costPerMTok: 1.5, tokPerQuery: 50000, infraDemand: 75 },
   { date: "Mar 2026", costPerMTok: 0.60, tokPerQuery: 100000, infraDemand: 60 },
+  { date: "May 2026", costPerMTok: 0.32, tokPerQuery: 180000, infraDemand: 58 },
 ];
 
 export default function JevonsParadox() {
@@ -48,8 +49,8 @@ export default function JevonsParadox() {
       </Section>
 
       <div className="grid grid-cols-3 gap-2.5 mb-4">
-        <Metric label="Cost Deflation" value="100x" sub="$60 → $0.60/M (3 yrs)" color="#FF4444" />
-        <Metric label="Token Demand" value="200x" sub="500 → 100K tok/query" color="#00D4FF" />
+        <Metric label="Cost Deflation" value="188x" sub="$60 → $0.32/M (3 yrs)" color="#FF4444" />
+        <Metric label="Token Demand" value="360x" sub="500 → 180K tok/query" color="#00D4FF" />
         <Metric label="Net Effect" value="2x ↑" sub="Infrastructure demand grows" color="#76B900" />
       </div>
 

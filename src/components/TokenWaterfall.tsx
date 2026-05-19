@@ -7,25 +7,44 @@ import InsightBox from "./ui/InsightBox";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+interface LiveStages {
+  h100SpotPerHr: number;
+  h100TcoPerHr: number;
+  h100CostPerM: number;
+  h100TokPerSec: number;
+}
+
 interface Props {
   data: any;
+  liveStages?: LiveStages;
 }
 
 const MARGIN_COLORS = (pct: number) =>
   pct > 80 ? "#76B900" : pct > 50 ? "#00D4FF" : pct > 20 ? "#FFB800" : pct > 0 ? "#FF6B6B" : "#FF4444";
 
-export default function TokenWaterfall({ data }: Props) {
+export default function TokenWaterfall({ data, liveStages }: Props) {
   if (!data) return null;
 
   const platforms = data.platforms || [];
   const summary = data.waterfall_summary || {};
 
-  // Waterfall stages chart
+  // Live H100 → token production cost; falls back to prior reference values if data unavailable
+  const h100Tco = liveStages?.h100TcoPerHr || 3.00;
+  const h100CostPerM = liveStages?.h100CostPerM || 8.77;
+  const h100TokPerSec = liveStages?.h100TokPerSec || 95;
+
+  // Anthropic Sonnet 4.6 output price ($15/M) and Salesforce Agentforce $2/conv at ~6K tokens/conv
+  const SONNET_PRICE = 15;
+  const SALESFORCE_PER_CONV = 2;
+  const TOKENS_PER_CONV = 6000;
+  const platformPricePerM = (SALESFORCE_PER_CONV / TOKENS_PER_CONV) * 1_000_000;
+
+  // Waterfall stages chart — derived from live GPU pricing
   const waterfallStages = [
-    { stage: "GPU Rental", cost: 1.84, label: "H100 TCO $/hr", color: "#555" },
-    { stage: "Token Production", cost: 5.36, label: "$/M tokens (70B model)", color: "#FFB800" },
-    { stage: "API Sell Price", cost: 15, label: "Anthropic Sonnet $/M", color: "#00D4FF" },
-    { stage: "Platform Price", cost: 333, label: "Salesforce $2/conv → $/M equiv", color: "#76B900" },
+    { stage: "GPU Rental", cost: h100Tco, label: `H100 TCO $/hr (1.25x spot)`, color: "#555" },
+    { stage: "Token Production", cost: h100CostPerM, label: `$/M tokens — Llama 70B on H100 (${h100TokPerSec} tok/s)`, color: "#FFB800" },
+    { stage: "API Sell Price", cost: SONNET_PRICE, label: "Anthropic Sonnet 4.6 output $/M", color: "#00D4FF" },
+    { stage: "Platform Price", cost: platformPricePerM, label: `Salesforce $${SALESFORCE_PER_CONV}/conv → $/M equiv (${TOKENS_PER_CONV / 1000}K tokens)`, color: "#76B900" },
   ];
 
   // Platform margin comparison
@@ -51,11 +70,26 @@ export default function TokenWaterfall({ data }: Props) {
 
   return (
     <div>
-      {/* Hero metrics */}
+      {/* Hero metrics — live where possible */}
       <div className="grid grid-cols-4 gap-2.5 mb-5">
-        <Metric label="GPU → Token" value="$1.84 → $5.36" sub="H100 TCO to production cost" color="#FFB800" />
-        <Metric label="Token → API" value="$5.36 → $15" sub="Production to Anthropic sell" color="#00D4FF" />
-        <Metric label="API → Platform" value="$0.12 → $2.00" sub="Model cost to Salesforce price" color="#76B900" />
+        <Metric
+          label="GPU → Token"
+          value={`$${h100Tco.toFixed(2)} → $${h100CostPerM.toFixed(2)}`}
+          sub={`H100 TCO/hr → $/M (Llama 70B)`}
+          color="#FFB800"
+        />
+        <Metric
+          label="Token → API"
+          value={`$${h100CostPerM.toFixed(2)} → $${SONNET_PRICE}`}
+          sub="Production to Sonnet 4.6 sell"
+          color="#00D4FF"
+        />
+        <Metric
+          label="API → Platform"
+          value={`$${SONNET_PRICE} → $${platformPricePerM.toFixed(0)}`}
+          sub={`Sonnet $/M → Salesforce $/M equiv`}
+          color="#76B900"
+        />
         <Metric label="Highest Platform Margin" value={highestMargin ? `${highestMargin.margin}%` : "—"} sub={highestMargin?.name || ""} color="#76B900" />
       </div>
 

@@ -3,6 +3,8 @@ import SubPageShell from "@/components/SubPageShell";
 import TokenWaterfall from "@/components/TokenWaterfall";
 import { readFileSync } from "fs";
 import { join } from "path";
+import { getGPUPricing, getGPUThroughput } from "@/lib/data";
+import { costPerMillionFromGPU } from "@/lib/calculations";
 
 export const metadata: Metadata = {
   title: "Token Cost Waterfall — Where the Money Goes",
@@ -26,12 +28,32 @@ function getWaterfallData() {
   }
 }
 
+const TCO_MULTIPLIER = 1.25;
+
 export default function WaterfallPage() {
   const data = getWaterfallData();
+  const gpu = getGPUPricing();
+  const throughput = getGPUThroughput();
+
+  const h100 = gpu?.summaries.find((s) => s.gpuModel === "nvidia-h100");
+  const h100Spot = h100?.spot.median || h100?.onDemand.median || 0;
+  const h100Tco = h100Spot * TCO_MULTIPLIER;
+  const h100TokPerSec = throughput?.gpus["nvidia-h100"]?.profiles["llama-70b"]?.gpuOnly || 0;
+  const h100CostPerM = h100TokPerSec && h100Tco
+    ? costPerMillionFromGPU(h100Tco, h100TokPerSec)
+    : 0;
 
   return (
     <SubPageShell title="Token Cost Waterfall">
-      <TokenWaterfall data={data} />
+      <TokenWaterfall
+        data={data}
+        liveStages={{
+          h100SpotPerHr: h100Spot,
+          h100TcoPerHr: h100Tco,
+          h100CostPerM,
+          h100TokPerSec,
+        }}
+      />
     </SubPageShell>
   );
 }

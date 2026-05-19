@@ -36,7 +36,7 @@
       "id": "b200-sxm",
       "name": "B200 SXM",
       "vendor": "nvidia",
-      "memoryGB": 180,
+      "memoryGB": 192,
       "memoryType": "HBM3e",
       "memoryBandwidthTBs": 8.0,
       "fp4TFLOPS": 9000,

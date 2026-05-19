@@ -140,7 +140,7 @@ export default function DashboardV2({
         <div className="mb-5">
           <div className="text-[10px] font-mono text-bep-muted uppercase tracking-wider mb-2">Today&apos;s Numbers</div>
           <div className="grid grid-cols-6 gap-1.5">
-            <Metric label="LLMflation" value={llmflationIndex ? llmflationIndex.toFixed(1) : "—"} sub="Base 100 = GPT-4" color="#76B900" />
+            <Metric label="LLMflation" value={llmflationIndex ? llmflationIndex.toFixed(1) : "—"} sub="Base 100 = GPT-4 Mar 2023" color="#76B900" />
             <Metric label="Token Floor" value={cheapest ? `$${fmtPrice(cheapest.outputPerMillion)}/M` : "—"} sub={cheapest?.model || ""} color="#FF4444" />
             <Metric label="Spread" value={spread ? `${spread}x` : "—"} sub="Floor to ceiling" color="#00D4FF" />
             {marginHighlights.slice(0, 3).map((m: any) => (
