@@ -39,8 +39,12 @@ const CONFIDENCE_OPACITY: Record<string, number> = {
   low: 0.40,
 };
 
-// Visually distinguish modeled rows with dashed border
-const isVerified = (p: any) => p?.customerPricing?.confidence === "high" && p?.estimatedModelCost?.confidence === "high";
+// "Verified" = customer pricing is taken from a public pricing page (high confidence) AND
+// the token-cost estimate is at least medium confidence. Pure "high+high" is impossible
+// because no platform publicly discloses tokens/interaction.
+const isVerified = (p: any) =>
+  p?.customerPricing?.confidence === "high" &&
+  (p?.estimatedModelCost?.confidence === "high" || p?.estimatedModelCost?.confidence === "medium");
 
 const CATEGORY_LABELS: Record<string, string> = {
   "agent-platform": "Agent platforms",
