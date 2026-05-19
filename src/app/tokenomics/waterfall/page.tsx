@@ -3,8 +3,8 @@ import SubPageShell from "@/components/SubPageShell";
 import TokenWaterfall from "@/components/TokenWaterfall";
 import { readFileSync } from "fs";
 import { join } from "path";
-import { getGPUPricing, getGPUThroughput, getTokenPricing } from "@/lib/data";
-import { costPerMillionFromGPU } from "@/lib/calculations";
+import { getGPUPricing, getGPUThroughput, getTokenPricing, getTokenPricingHistory } from "@/lib/data";
+import { costPerMillionFromGPU, quarterlyLLMflationSeries } from "@/lib/calculations";
 
 export const metadata: Metadata = {
   title: "Token Cost Waterfall — Where the Money Goes",
@@ -35,6 +35,12 @@ export default function WaterfallPage() {
   const gpu = getGPUPricing();
   const throughput = getGPUThroughput();
   const tokens = getTokenPricing();
+  const tokenHistory = getTokenPricingHistory();
+
+  // Derive the historical LLMflation basket series from real token-pricing history at build time.
+  // Each quarterly point is computed from the actual snapshot in history.json with era-aware
+  // flagship picking, so the chart always reflects real data — never a hardcoded synthetic curve.
+  const historicalSeries = tokenHistory ? quarterlyLLMflationSeries(tokenHistory) : [];
 
   const h100 = gpu?.summaries.find((s) => s.gpuModel === "nvidia-h100");
   const h100Spot = h100?.spot.median || h100?.onDemand.median || 0;
@@ -55,6 +61,7 @@ export default function WaterfallPage() {
           h100TokPerSec,
         }}
         liveTokenModels={tokens?.models || []}
+        historicalSeries={historicalSeries}
       />
     </SubPageShell>
   );

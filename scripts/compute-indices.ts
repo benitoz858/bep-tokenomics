@@ -12,12 +12,14 @@ const WEIGHTS: Record<string, number> = {
   "open-source": 0.10,
 };
 
-// Map providers to their "flagship" model identifier patterns
+// Map providers to flagship-model identifier patterns. Listed in priority order so the
+// newest pattern wins at "today" time, but older patterns still match historical snapshots
+// — that lets the same logic compute the live index AND a real back-test from history.
 const FLAGSHIP_PATTERNS: Record<string, string[]> = {
-  "OpenAI": ["gpt-5.4", "gpt-5.2", "gpt-5"],
-  "Anthropic": ["claude-opus", "claude-sonnet"],
-  "Google": ["gemini-2.5-pro", "gemini-3-pro"],
-  "DeepSeek": ["deepseek-v3", "deepseek-r1"],
+  "OpenAI": ["gpt-5.4", "gpt-5.2", "gpt-5", "gpt-4.5", "gpt-4o", "gpt-4-turbo", "gpt-4"],
+  "Anthropic": ["claude-opus", "claude-sonnet", "claude-3"],
+  "Google": ["gemini-2.5-pro", "gemini-3-pro", "gemini-2.0-pro", "gemini-1.5-pro", "gemini-pro"],
+  "DeepSeek": ["deepseek-v3", "deepseek-r1", "deepseek-v2", "deepseek-chat"],
 };
 
 interface TokenPriceEntry {
