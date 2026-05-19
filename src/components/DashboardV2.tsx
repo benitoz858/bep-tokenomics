@@ -27,6 +27,24 @@ const TABS = [
   { href: "/tokenomics/sources", label: "Sources" },
 ];
 
+interface PlatformSummaryRow {
+  id: string;
+  vendor: string;
+  name: string;
+  category: string;
+  marginPct: number;
+  confidence: string;
+  verified: boolean;
+}
+
+interface PlatformSummary {
+  total: number;
+  computable: number;
+  profitable: number;
+  top3: PlatformSummaryRow[];
+  bottom: PlatformSummaryRow | null;
+}
+
 interface Props {
   tokenModels: TokenPriceModel[];
   llmflationIndex?: number;
@@ -36,6 +54,7 @@ interface Props {
   commentary: unknown;
   ornnUtilization?: OrnnUtilizationHistory | null;
   ornnOCPI?: OrnnOCPIPrices | null;
+  platformSummary?: PlatformSummary;
 }
 
 const SPOT_TCO_MULTIPLIER = 1.25;
@@ -49,6 +68,7 @@ export default function DashboardV2({
   commentary,
   ornnUtilization,
   ornnOCPI,
+  platformSummary,
 }: Props) {
 
   // Hydration guard — charts render blank in static export, need client render
@@ -151,6 +171,71 @@ export default function DashboardV2({
             ))}
           </div>
         </div>
+
+        {/* ═══ PLATFORM MARGINS — answer the "what are SaaS companies making" question front-and-center ═══ */}
+        {platformSummary && platformSummary.computable > 0 && (
+          <div className="mb-5 bg-bep-card border border-bep-border rounded-md p-4">
+            <div className="flex items-center justify-between mb-3">
+              <div>
+                <div className="text-[10px] font-mono text-bep-green uppercase tracking-wider mb-0.5">Platform Token Margins</div>
+                <div className="text-[12px] text-bep-dim leading-relaxed">
+                  <span className="text-bep-white font-semibold">{platformSummary.profitable}</span> of {platformSummary.computable} tracked SaaS platforms are token-profitable today. Margin = (customer price − live blended model cost) / customer price. Excludes hosting, R&amp;D, sales — see waterfall page for full breakdown.
+                </div>
+              </div>
+              <Link
+                href="/tokenomics/waterfall"
+                className="text-[11px] font-mono px-3 py-1.5 rounded border border-[#76B90040] text-bep-green no-underline hover:bg-[#76B90015] transition-colors whitespace-nowrap ml-3"
+              >
+                Full breakdown →
+              </Link>
+            </div>
+            <div className="grid grid-cols-4 gap-2">
+              {platformSummary.top3.map((p) => (
+                <Link key={p.id} href="/tokenomics/waterfall" className="no-underline">
+                  <div className="bg-bep-bg border border-bep-border rounded p-2.5 hover:border-bep-green transition-colors cursor-pointer">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-[9px] font-mono text-bep-muted uppercase tracking-wider truncate">{p.vendor}</span>
+                      {p.verified ? (
+                        <span className="text-[8px] font-mono text-bep-green">●</span>
+                      ) : (
+                        <span className="text-[8px] font-mono text-bep-amber">○</span>
+                      )}
+                    </div>
+                    <div className="text-[18px] font-extrabold font-mono text-bep-green leading-none">
+                      {p.marginPct > 0 ? "+" : ""}{p.marginPct.toFixed(0)}%
+                    </div>
+                    <div className="text-[10px] font-mono text-bep-dim truncate mt-0.5">{p.name}</div>
+                  </div>
+                </Link>
+              ))}
+              {platformSummary.bottom && (
+                <Link href="/tokenomics/waterfall" className="no-underline">
+                  <div className="bg-bep-bg border border-bep-border rounded p-2.5 hover:border-bep-red transition-colors cursor-pointer">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-[9px] font-mono text-bep-muted uppercase tracking-wider truncate">{platformSummary.bottom.vendor}</span>
+                      {platformSummary.bottom.verified ? (
+                        <span className="text-[8px] font-mono text-bep-green">●</span>
+                      ) : (
+                        <span className="text-[8px] font-mono text-bep-amber">○</span>
+                      )}
+                    </div>
+                    <div
+                      className="text-[18px] font-extrabold font-mono leading-none"
+                      style={{ color: platformSummary.bottom.marginPct > 0 ? "#FFB800" : "#FF4444" }}
+                    >
+                      {platformSummary.bottom.marginPct > 0 ? "+" : ""}{platformSummary.bottom.marginPct.toFixed(0)}%
+                    </div>
+                    <div className="text-[10px] font-mono text-bep-dim truncate mt-0.5">{platformSummary.bottom.name} <span className="text-bep-muted">(lowest)</span></div>
+                  </div>
+                </Link>
+              )}
+            </div>
+            <div className="text-[9px] font-mono text-bep-muted mt-2 flex gap-3">
+              <span><span className="text-bep-green">●</span> Verified pricing + earnings</span>
+              <span><span className="text-bep-amber">○</span> Modeled estimate</span>
+            </div>
+          </div>
+        )}
 
         {/* ═══ GPU ECONOMICS ═══ */}
         <Section title="GPU Inference Economics" subtitle="TCO-adjusted margins on Llama 70B. Who profits, who bleeds.">
