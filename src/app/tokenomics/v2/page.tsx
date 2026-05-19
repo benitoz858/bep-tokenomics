@@ -80,7 +80,9 @@ function computePlatformSummary(tokenModels: ReturnType<typeof getTokenPricing>)
         interactionsPerUserPerDay: p.estimatedModelCost?.interactionsPerUserPerDay ?? null,
       });
       if (margin.marginPct === null) continue;
-      const verified = p.customerPricing?.confidence === "high" && p.estimatedModelCost?.confidence === "high";
+      const verified =
+        p.customerPricing?.confidence === "high" &&
+        (p.estimatedModelCost?.confidence === "high" || p.estimatedModelCost?.confidence === "medium");
       rows.push({
         id: p.id,
         vendor: p.vendor,
