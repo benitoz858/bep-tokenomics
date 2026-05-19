@@ -98,6 +98,13 @@ export function blendedTokenCostFromMix(
 /**
  * Given a platform's tier + customer pricing + blended token cost + token assumptions,
  * compute the per-unit cost the platform incurs and the token-margin %.
+ *
+ * For consumption-credit middlemen (Snowflake Cortex, Databricks Mosaic), the platform
+ * isn't selling tokens at a 99% markup — it's marking up the wholesale model rate and
+ * passing the rest through to the model provider. Pass `markupRate` (e.g., 2.0 = 2x
+ * markup over wholesale) and we compute margin = (markupRate - 1) / markupRate.
+ *
+ * For per-engagement (Palantir) the token cost isn't the binding cost — return null.
  */
 export function platformTokenMargin(params: {
   pricingModel: string;
@@ -105,8 +112,30 @@ export function platformTokenMargin(params: {
   blendedCostPerM: number;
   tokensPerInteraction: number | null;
   interactionsPerUserPerDay?: number | null;
+  markupRate?: number | null;
 }): { costPerUnit: number | null; marginPct: number | null; marginPerUnit: number | null } {
-  const { pricingModel, customerPrice, blendedCostPerM, tokensPerInteraction, interactionsPerUserPerDay } = params;
+  const { pricingModel, customerPrice, blendedCostPerM, tokensPerInteraction, interactionsPerUserPerDay, markupRate } = params;
+
+  if (pricingModel === "per-engagement") {
+    return { costPerUnit: null, marginPct: null, marginPerUnit: null };
+  }
+
+  // Consumption-credit middleman: platform's margin is the markup over wholesale,
+  // NOT (credit price − wholesale cost). The customer effectively pays the wholesale
+  // rate × markup; the rest is passed through to the model provider.
+  if (pricingModel === "consumption-credits") {
+    if (!markupRate || markupRate <= 1) {
+      return { costPerUnit: null, marginPct: null, marginPerUnit: null };
+    }
+    // Pure middleman math: revenue per unit token = markupRate × wholesale.
+    // Platform pays wholesale; keeps (markupRate − 1) × wholesale.
+    // Margin% = (markupRate − 1) / markupRate.
+    const marginPct = ((markupRate - 1) / markupRate) * 100;
+    // Express cost-per-unit as the customer-facing credit price minus the platform's take.
+    const platformTake = customerPrice * (marginPct / 100);
+    const costPerUnit = customerPrice - platformTake;
+    return { costPerUnit, marginPct, marginPerUnit: platformTake };
+  }
 
   if (tokensPerInteraction === null) {
     return { costPerUnit: null, marginPct: null, marginPerUnit: null };
@@ -126,13 +155,6 @@ export function platformTokenMargin(params: {
       costPerUnit = (interactionsPerMonth * tokensPerInteraction / 1_000_000) * blendedCostPerM;
       break;
     }
-    case "consumption-credits":
-      // 1 credit corresponds roughly to one interaction worth of compute + model markup
-      costPerUnit = (tokensPerInteraction / 1_000_000) * blendedCostPerM;
-      break;
-    case "per-engagement":
-      // engagement model — token cost is not the binding cost (e.g., Palantir AIP)
-      return { costPerUnit: null, marginPct: null, marginPerUnit: null };
     default:
       costPerUnit = (tokensPerInteraction / 1_000_000) * blendedCostPerM;
   }
