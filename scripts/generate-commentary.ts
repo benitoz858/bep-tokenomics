@@ -46,10 +46,18 @@ function buildDataContext(): string {
 
   if (gpuData?.summaries) {
     const gpus = gpuData.summaries.filter(g => g.spot.median || g.onDemand.median);
-    sections.push(`## GPU Spot Market\n${gpus.map(g => {
+    sections.push(`## GPU Spot Market
+NOTE on availability: TWO separate metrics live on each row.
+  (a) "util-avail %"  = 100 − Ornn OCPI utilization. Tight-supply signal. THIS is the headline %.
+  (b) "offers free/total" = free vs rented from advertised NeoCloud offerings (GetDeploying + Vast.ai).
+DO NOT combine them: e.g. NEVER write "4% (43/192)". 4% is from (a), 43/192 is from (b) and equals 22%.
+Pick one framing per sentence and label it.
+
+${gpus.map(g => {
       const name = g.gpuModel.replace("nvidia-", "").replace("amd-", "").toUpperCase();
       const total = g.totalGpusAvailable + g.totalGpusRented;
-      return `${name}: spot median $${g.spot.median?.toFixed(2) || "N/A"}/hr, ${g.availabilityPct}% avail (${g.totalGpusAvailable}/${total} GPUs), range $${g.spot.min?.toFixed(2) || "?"}-$${g.spot.max?.toFixed(2) || "?"}/hr`;
+      const offersPct = total > 0 ? Math.round((g.totalGpusAvailable / total) * 100) : null;
+      return `${name}: spot median $${g.spot.median?.toFixed(2) || "N/A"}/hr | util-avail ${g.availabilityPct}% (Ornn) | offers free ${g.totalGpusAvailable}/${total}${offersPct !== null ? ` = ${offersPct}%` : ""} | range $${g.spot.min?.toFixed(2) || "?"}-$${g.spot.max?.toFixed(2) || "?"}/hr`;
     }).join("\n")}`);
   }
 
@@ -140,7 +148,7 @@ Rules:
 - MAXIMUM 80 words per paragraph. Cut ruthlessly.
 - Write at a 10th grade reading level. No jargon without context.
 - Be unbiased — grade Anthropic, OpenAI, Google, DeepSeek equally hard.
-- CRITICAL: Always state GPU availability percentages. Below 25% = "compute is scarce." Below 15% = "severe shortage." Above 60% = "oversupply." State free/total GPUs.
+- CRITICAL: Always state GPU availability percentages, using the util-avail % (Ornn) as the headline tightness signal. Below 25% = "compute is scarce." Below 15% = "severe shortage." Above 60% = "oversupply." Free/total advertised offerings is a different denominator — if you cite it, label it as "offerings" and never combine it with the util-avail % in the same parenthesis. NEVER write things like "H100 at 4% (43/192)" because 43/192 ≠ 4%.
 - Apply a 1.25x TCO multiplier to raw GPU spot for true cost. If a model sells below TCO-adjusted cost, say "X is selling at a loss of $Y per million tokens."
 - Provider grades in one word each: Strong / Neutral / Weak / Burning Cash.
 - Do NOT use markdown. Plain text. No headers, bold, or dashes.

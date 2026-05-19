@@ -14,6 +14,10 @@ const TIERS = [
   { tier: "Ultra", price: 150 },
 ];
 
+// Matches the multiplier on the Overview so both pages produce identical Cost/M
+// numbers when TCO view is selected. See data/static/tco-providers.json for derivation.
+const TCO_MULTIPLIER = 1.25;
+
 interface Props {
   gpuPricing: GPUSummary[];
   throughput: Record<string, GPUThroughput>;
@@ -22,7 +26,7 @@ interface Props {
   lpxCostAdder: number;
 }
 
-function MarginChart({ gpuOptions, throughput, selectedModel, selectedTier, tierHardware, lpxCostAdder, models }: {
+function MarginChart({ gpuOptions, throughput, selectedModel, selectedTier, tierHardware, lpxCostAdder, models, useTco }: {
   gpuOptions: GPUSummary[];
   throughput: Record<string, GPUThroughput>;
   selectedModel: string;
@@ -30,6 +34,7 @@ function MarginChart({ gpuOptions, throughput, selectedModel, selectedTier, tier
   tierHardware: Record<string, TierHardware>;
   lpxCostAdder: number;
   models: ModelInfo[];
+  useTco: boolean;
 }) {
   const tier = TIERS.find((t) => t.tier === selectedTier);
   const hwMode = tierHardware[selectedTier]?.mode || "gpuOnly";
@@ -47,7 +52,8 @@ function MarginChart({ gpuOptions, throughput, selectedModel, selectedTier, tier
       const tokPerSec = isLPX ? profile.withLPX : profile.gpuOnly;
       if (tokPerSec === null) return null;
 
-      const basePrice = gpu.onDemand.median || gpu.spot.median || 0;
+      const stickerPrice = gpu.onDemand.median || gpu.spot.median || 0;
+      const basePrice = useTco ? stickerPrice * TCO_MULTIPLIER : stickerPrice;
       const totalCost = isLPX ? basePrice + lpxCostAdder : basePrice;
       const costPerM = costPerMillionFromGPU(totalCost, tokPerSec);
       const margin = inferenceMargin(tier.price, costPerM);
@@ -70,14 +76,14 @@ function MarginChart({ gpuOptions, throughput, selectedModel, selectedTier, tier
       name: string; costPerM: number; margin: number; tokPerSec: number; sellPrice: number;
       gpuOnlyCostPerM: number | null; gpuOnlyMargin: number | null;
     }>;
-  }, [gpuOptions, throughput, selectedModel, tier, isLPX, lpxCostAdder]);
+  }, [gpuOptions, throughput, selectedModel, tier, isLPX, lpxCostAdder, useTco]);
 
   if (chartData.length === 0) return null;
 
   return (
     <Section
       title="Cost vs Margin by GPU"
-      subtitle={`Serving ${modelName} at ${selectedTier} tier ($${tier?.price}/M). Bars = production cost/M tokens (left). Line = inference margin % (right).${isLPX ? " With LPX decode." : ""}`}
+      subtitle={`Serving ${modelName} at ${selectedTier} tier ($${tier?.price}/M). Bars = production cost/M tokens (left). Line = inference margin % (right). ${useTco ? "TCO view (1.25x)" : "Sticker view (raw spot)"}.${isLPX ? " With LPX decode." : ""}`}
     >
       <div className="bg-bep-card border border-bep-border rounded-md p-4">
         <ResponsiveContainer width="100%" height={320}>
@@ -141,6 +147,8 @@ export default function InferenceMargin({ gpuPricing, throughput, models, tierHa
   const [selectedGpu, setSelectedGpu] = useState(gpuOptions[0]?.gpuModel || "nvidia-h100");
   const [selectedModel, setSelectedModel] = useState("llama-70b");
   const [selectedTier, setSelectedTier] = useState("Premium");
+  // TCO view applies the 1.25x multiplier so Cost/M numbers reconcile with the Overview page.
+  const [useTco, setUseTco] = useState(true);
 
   // Check if selected GPU supports LPX at all
   const gpuSupportsLPX = useMemo(() => {
@@ -193,7 +201,8 @@ export default function InferenceMargin({ gpuPricing, throughput, models, tierHa
     if (tokPerSec === null) return null;
 
     const modelInfo = models.find((m) => m.id === selectedModel);
-    const baseGpuCost = gpu.onDemand.median || gpu.spot.median || 0;
+    const stickerGpuCost = gpu.onDemand.median || gpu.spot.median || 0;
+    const baseGpuCost = useTco ? stickerGpuCost * TCO_MULTIPLIER : stickerGpuCost;
     const priceType = gpu.onDemand.median ? "on-demand" : "spot";
     const totalCostPerHour = isLPX ? baseGpuCost + lpxCostAdder : baseGpuCost;
     const costPerM = costPerMillionFromGPU(totalCostPerHour, tokPerSec);
@@ -206,6 +215,7 @@ export default function InferenceMargin({ gpuPricing, throughput, models, tierHa
 
     return {
       gpuName: GPU_DISPLAY_NAMES[selectedGpu] || selectedGpu,
+      stickerGpuCost,
       baseGpuCost,
       lpxAdder: isLPX ? lpxCostAdder : 0,
       totalCostPerHour,
@@ -224,12 +234,49 @@ export default function InferenceMargin({ gpuPricing, throughput, models, tierHa
       isLPX,
       hwLabel: tierHardware[selectedTier]?.label || "GPU only",
     };
-  }, [selectedGpu, selectedModel, effectiveTier, gpuPricing, throughput, models, isLPX, lpxCostAdder, tierHardware]);
+  }, [selectedGpu, selectedModel, effectiveTier, gpuPricing, throughput, models, isLPX, lpxCostAdder, tierHardware, useTco]);
 
   return (
     <div>
       <Section title="Inference Margin Calculator" subtitle="Pick a GPU, model, and pricing tier. Premium/Ultra tiers activate LPX decode acceleration — throughput jumps 3-5x, changing the entire margin picture.">
         <div className="bg-bep-card border border-bep-border rounded-md p-5">
+          {/* Sticker vs TCO toggle — keeps this page consistent with the Overview */}
+          <div className="flex items-center justify-between mb-4 pb-3 border-b border-bep-border">
+            <div>
+              <div className="text-[11px] font-mono text-bep-white font-semibold">Cost basis</div>
+              <div className="text-[10px] font-mono text-bep-dim">
+                {useTco
+                  ? "TCO (1.25x spot) — matches Overview page. Includes storage, support, goodput, setup."
+                  : "Sticker — raw $/hr only. Underestimates true cost; matches NeoCloud price list."}
+              </div>
+            </div>
+            <div className="flex gap-0 rounded border border-bep-border2 overflow-hidden font-mono text-[11px]">
+              <button
+                onClick={() => setUseTco(false)}
+                className="px-3 py-1.5 transition-colors"
+                style={{
+                  background: !useTco ? "#76B90015" : "transparent",
+                  color: !useTco ? "#76B900" : "#888",
+                  fontWeight: !useTco ? 600 : 400,
+                }}
+              >
+                Sticker
+              </button>
+              <button
+                onClick={() => setUseTco(true)}
+                className="px-3 py-1.5 transition-colors"
+                style={{
+                  background: useTco ? "#76B90015" : "transparent",
+                  color: useTco ? "#76B900" : "#888",
+                  fontWeight: useTco ? 600 : 400,
+                  borderLeft: "1px solid #252525",
+                }}
+              >
+                TCO
+              </button>
+            </div>
+          </div>
+
           <div className="grid grid-cols-3 gap-4 mb-4">
             <div>
               <label className="block text-[10px] text-bep-muted uppercase tracking-widest mb-2 font-mono">GPU</label>
@@ -239,11 +286,12 @@ export default function InferenceMargin({ gpuPricing, throughput, models, tierHa
                 className="w-full bg-bep-bg border border-bep-border2 rounded px-3 py-2 text-sm text-bep-white font-mono focus:border-bep-green focus:outline-none"
               >
                 {gpuOptions.map((g) => {
-                  const price = g.onDemand.median || g.spot.median;
+                  const sticker = g.onDemand.median || g.spot.median;
+                  const displayPrice = sticker ? (useTco ? sticker * TCO_MULTIPLIER : sticker) : null;
                   const type = g.onDemand.median ? "on-demand" : "spot";
                   return (
                     <option key={g.gpuModel} value={g.gpuModel}>
-                      {GPU_DISPLAY_NAMES[g.gpuModel] || g.gpuModel} — ${price?.toFixed(2) || "?"}/hr ({type})
+                      {GPU_DISPLAY_NAMES[g.gpuModel] || g.gpuModel} — ${displayPrice?.toFixed(2) || "?"}/hr ({useTco ? "TCO" : type})
                     </option>
                   );
                 })}
@@ -309,11 +357,13 @@ export default function InferenceMargin({ gpuPricing, throughput, models, tierHa
               )}
               <div className="grid grid-cols-4 gap-3">
                 <div className="bg-bep-bg border border-bep-border rounded p-3 text-center">
-                  <div className="text-[10px] text-bep-muted uppercase tracking-wider mb-1 font-mono">Total Cost</div>
+                  <div className="text-[10px] text-bep-muted uppercase tracking-wider mb-1 font-mono">Total Cost ({useTco ? "TCO" : "Sticker"})</div>
                   <div className="text-lg font-bold font-mono text-bep-amber">${calc.totalCostPerHour.toFixed(2)}/hr</div>
                   <div className="text-[10px] text-bep-dim">
                     {calc.isLPX ? (
                       <>{calc.gpuName} ${calc.baseGpuCost.toFixed(2)} + LPX ${calc.lpxAdder.toFixed(2)}</>
+                    ) : useTco ? (
+                      <>{calc.gpuName} ${calc.stickerGpuCost.toFixed(2)} × 1.25</>
                     ) : (
                       <>{calc.gpuName} {calc.priceType}</>
                     )}
@@ -380,6 +430,7 @@ export default function InferenceMargin({ gpuPricing, throughput, models, tierHa
         tierHardware={tierHardware}
         lpxCostAdder={lpxCostAdder}
         models={models}
+        useTco={useTco}
       />
 
       {/* Margin Matrix — GPU-only vs LPX side by side for selected model */}
@@ -398,7 +449,8 @@ export default function InferenceMargin({ gpuPricing, throughput, models, tierHa
             const profile = gpuData.profiles[selectedModel];
             if (!profile) return null;
 
-            const basePrice = gpu.onDemand.median || gpu.spot.median || 0;
+            const stickerPrice = gpu.onDemand.median || gpu.spot.median || 0;
+            const basePrice = useTco ? stickerPrice * TCO_MULTIPLIER : stickerPrice;
             const rows: Array<{ label: string; costPerHour: number; tokPerSec: number | null; isLpx: boolean }> = [];
 
             if (profile.gpuOnly !== null) {
