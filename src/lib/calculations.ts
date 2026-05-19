@@ -1,6 +1,132 @@
 // Derived metrics and calculations
 
-import type { TokenPriceModel } from "./data";
+import type { TokenPriceModel, TokenPricingHistory } from "./data";
+
+// ── LLMflation index reconstruction ──
+// Same logic as scripts/compute-indices.ts but era-aware so it works for historical snapshots too.
+// Listed in priority order: newest pattern wins at "today," older patterns still match historical entries.
+export const LLMFLATION_WEIGHTS = {
+  OpenAI: 0.30,
+  Anthropic: 0.25,
+  Google: 0.20,
+  DeepSeek: 0.15,
+  "open-source": 0.10,
+} as const;
+
+const FLAGSHIP_PATTERNS: Record<string, string[]> = {
+  OpenAI: ["gpt-5.4", "gpt-5.2", "gpt-5", "gpt-4.5", "gpt-4o", "gpt-4-turbo", "gpt-4"],
+  Anthropic: ["claude-opus", "claude-sonnet", "claude-3"],
+  Google: ["gemini-2.5-pro", "gemini-3-pro", "gemini-2.0-pro", "gemini-1.5-pro", "gemini-pro"],
+  DeepSeek: ["deepseek-v3", "deepseek-r1", "deepseek-v2", "deepseek-chat"],
+};
+
+const PROVIDER_PREFIX: Record<string, string> = {
+  "openai/": "OpenAI",
+  "anthropic/": "Anthropic",
+  "google/": "Google",
+  "deepseek/": "DeepSeek",
+};
+
+function providerOf(modelId: string): string | null {
+  for (const [prefix, provider] of Object.entries(PROVIDER_PREFIX)) {
+    if (modelId.toLowerCase().startsWith(prefix)) return provider;
+  }
+  return null;
+}
+
+function flagshipPrice(entries: Array<{ modelId: string; outputPerMillion: number }>, provider: string): number | null {
+  const patterns = FLAGSHIP_PATTERNS[provider];
+  if (!patterns) return null;
+  for (const pattern of patterns) {
+    const match = entries.find((e) => e.modelId.toLowerCase().includes(pattern));
+    if (match) return match.outputPerMillion;
+  }
+  return null;
+}
+
+export function computeLLMflationBasket(
+  entries: Array<{ modelId: string; outputPerMillion: number }>,
+): { basketPerM: number; index: number; components: Record<string, number | null> } {
+  const components: Record<string, number | null> = {};
+  let weightedTotal = 0;
+  let totalWeight = 0;
+
+  for (const [provider, weight] of Object.entries(LLMFLATION_WEIGHTS)) {
+    if (provider === "open-source") {
+      // Cheapest non-zero output (excluding frontier providers) is the OSS proxy.
+      const oss = entries.filter((e) => !providerOf(e.modelId) && e.outputPerMillion > 0);
+      if (oss.length) {
+        const min = Math.min(...oss.map((r) => r.outputPerMillion));
+        components[provider] = min;
+        weightedTotal += min * weight;
+        totalWeight += weight;
+      } else {
+        components[provider] = null;
+      }
+    } else {
+      const price = flagshipPrice(entries, provider);
+      components[provider] = price;
+      if (price !== null) {
+        weightedTotal += price * weight;
+        totalWeight += weight;
+      }
+    }
+  }
+
+  const basket = totalWeight > 0 ? weightedTotal / totalWeight : 0;
+  return {
+    basketPerM: basket,
+    index: (basket / 60) * 100,
+    components,
+  };
+}
+
+/**
+ * Pick quarterly anchors from a token-pricing history file and compute the LLMflation
+ * basket at each anchor. This gives a real, data-derived back-test rather than synthesized values.
+ */
+export function quarterlyLLMflationSeries(history: TokenPricingHistory): Array<{
+  quarter: string;
+  date: string;
+  basketPerM: number;
+  index: number;
+}> {
+  const dates = Object.keys(history.entries).sort();
+  if (!dates.length) return [];
+
+  const startDate = new Date(dates[0]);
+  const endDate = new Date(dates[dates.length - 1]);
+
+  // Generate quarter labels from start to end
+  const series: Array<{ quarter: string; date: string; basketPerM: number; index: number }> = [];
+  const seen = new Set<string>();
+
+  // For each quarter from start to end, find nearest history entry
+  const cursor = new Date(startDate.getFullYear(), Math.floor(startDate.getMonth() / 3) * 3, 1);
+  const endCursor = new Date(endDate.getFullYear(), Math.floor(endDate.getMonth() / 3) * 3 + 3, 1);
+  while (cursor < endCursor) {
+    const q = Math.floor(cursor.getMonth() / 3) + 1;
+    const label = `Q${q} ${cursor.getFullYear()}`;
+    // Pick the snapshot closest to the MIDPOINT of the quarter
+    const mid = new Date(cursor.getFullYear(), cursor.getMonth() + 1, 15);
+    const closest = dates.reduce<{ date: string; diff: number } | null>((best, d) => {
+      const diff = Math.abs(new Date(d).getTime() - mid.getTime());
+      if (best === null || diff < best.diff) return { date: d, diff };
+      return best;
+    }, null);
+    if (closest && !seen.has(label)) {
+      const entries = history.entries[closest.date];
+      const { basketPerM, index } = computeLLMflationBasket(entries);
+      if (basketPerM > 0) {
+        series.push({ quarter: label, date: closest.date, basketPerM, index });
+        seen.add(label);
+      }
+    }
+    cursor.setMonth(cursor.getMonth() + 3);
+  }
+
+  return series;
+}
 
 // ── Platform token-margin derivation ──
 // Each platform declares a modelMix; we compute blended $/M output from live token-pricing data

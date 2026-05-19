@@ -720,21 +720,7 @@
       "dataGap": "AI portion of Enterprise Plus pricing inferred from tier delta."
     }
   ],
-  "historicalCostBenchmark": {
-    "description": "Blended frontier output $/M output by quarter, used to back-test margin compounding. Index derived from LLMflation history.",
-    "series": [
-      { "quarter": "Q1 2024", "blendedCostPerM": 23 },
-      { "quarter": "Q2 2024", "blendedCostPerM": 18 },
-      { "quarter": "Q3 2024", "blendedCostPerM": 14 },
-      { "quarter": "Q4 2024", "blendedCostPerM": 11 },
-      { "quarter": "Q1 2025", "blendedCostPerM": 9 },
-      { "quarter": "Q2 2025", "blendedCostPerM": 7 },
-      { "quarter": "Q3 2025", "blendedCostPerM": 5.5 },
-      { "quarter": "Q4 2025", "blendedCostPerM": 4.2 },
-      { "quarter": "Q1 2026", "blendedCostPerM": 3.5 },
-      { "quarter": "Q2 2026", "blendedCostPerM": 3.0 }
-    ]
-  },
+  "historicalCostBenchmark_DEPRECATED": "The quarterly LLMflation back-test is now derived at build time from data/token-pricing/history.json via quarterlyLLMflationSeries() in src/lib/calculations.ts. This produces a real, era-aware history instead of synthesized constants.",
   "waterfall_summary": {
     "gpu_to_token": "GPU TCO $/hr ÷ tokens/sec ÷ 3600 × 1M = production cost per million tokens. H100 TCO ~$3.00/hr ÷ 95 tok/s/GPU = ~$8.77/M (Llama 70B GPU-only baseline).",
     "token_to_api": "Frontier labs sell at 1.5-3x production cost. Anthropic Sonnet 4.6 at $15/M output. Commodity floor ($0.18/M for gpt-oss-120b) is sold at a loss to capture marketshare.",

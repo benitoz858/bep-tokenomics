@@ -17,10 +17,18 @@ interface LiveStages {
   h100TokPerSec: number;
 }
 
+interface HistoricalPoint {
+  quarter: string;
+  date: string;
+  basketPerM: number;
+  index: number;
+}
+
 interface Props {
   data: any;
   liveStages?: LiveStages;
   liveTokenModels?: TokenPriceModel[];
+  historicalSeries?: HistoricalPoint[];
 }
 
 const MARGIN_COLOR = (pct: number | null) =>
@@ -66,7 +74,7 @@ const CATEGORY_COLOR: Record<string, string> = {
   "model-provider": "#5BA9FF",
 };
 
-export default function TokenWaterfall({ data, liveStages, liveTokenModels = [] }: Props) {
+export default function TokenWaterfall({ data, liveStages, liveTokenModels = [], historicalSeries = [] }: Props) {
   // Sensitivity slider: scale every platform's tokens-per-interaction by this factor.
   // Default 1.0 = data file assumptions. User can stress-test up/down 3x.
   const [tokenMultiplier, setTokenMultiplier] = useState(1.0);
@@ -77,7 +85,13 @@ export default function TokenWaterfall({ data, liveStages, liveTokenModels = [] 
 
   const platforms: any[] = data.platforms || [];
   const summary = data.waterfall_summary || {};
-  const historical = data.historicalCostBenchmark?.series || [];
+  // Prefer the live-derived historical series (computed from token-pricing/history.json with
+  // era-aware flagship picking). Fall back to the synthesized JSON series only if for some
+  // reason the server-derived series is empty.
+  const historical: Array<{ quarter: string; date?: string; basketPerM?: number; blendedCostPerM?: number; index?: number }> =
+    historicalSeries.length > 0
+      ? historicalSeries
+      : (data.historicalCostBenchmark?.series || []);
 
   // Live H100 → token production cost; falls back to prior reference values if data unavailable
   const h100Tco = liveStages?.h100TcoPerHr || 3.00;
@@ -162,21 +176,28 @@ export default function TokenWaterfall({ data, liveStages, liveTokenModels = [] 
     { stage: "Platform Price", cost: platformPricePerM, label: `Salesforce $${SALESFORCE_PER_CONV}/conv → $/M equiv (${TOKENS_PER_CONV / 1000}K tokens)`, color: "#76B900" },
   ];
 
-  // ── Historical margin compounding chart ──
-  // Pick a representative per-resolution platform (Salesforce Agentforce) — show how margin moved
-  // as blended cost fell each quarter, holding price constant. This is the thesis test.
+  // ── Historical LLMflation compounding chart — derived from REAL token-pricing history ──
+  // Each quarterly point is computed server-side from the closest snapshot in
+  // data/token-pricing/history.json using era-aware flagship-picking (so Q1 2024 picks
+  // GPT-4 Turbo + Claude 3 Opus, Q2 2025 picks GPT-4.5 at the $150/M peak, etc.). The
+  // hypothetical Agentforce margin shows what would have happened if Salesforce had
+  // routed their interactions through the LLMflation basket each quarter, holding price
+  // constant at $2/conv × 10K tokens. Real Agentforce routing uses cheaper models, so
+  // actual margin tracks higher.
   const historicalChart = useMemo(() => {
     const ref = computed.find((p) => p.id === "salesforce-agentforce");
     if (!ref || !historical.length) return [];
 
-    return historical.map((h: any) => {
+    return historical.map((h) => {
       const refTokens = ref.estimatedModelCost?.tokensPerInteraction ?? 10000;
-      const costPerUnit = (refTokens / 1_000_000) * h.blendedCostPerM;
+      const basket = h.basketPerM ?? h.blendedCostPerM ?? 0;
+      const costPerUnit = (refTokens / 1_000_000) * basket;
       const price = ref.customerPricing.price;
-      const marginPct = ((price - costPerUnit) / price) * 100;
+      const marginPct = price > 0 ? ((price - costPerUnit) / price) * 100 : 0;
       return {
         quarter: h.quarter,
-        blendedCostPerM: h.blendedCostPerM,
+        basketPerM: Math.round(basket * 100) / 100,
+        index: h.index !== undefined ? Math.round(h.index * 10) / 10 : Math.round((basket / 60) * 100 * 10) / 10,
         agentforceMargin: Math.round(marginPct * 10) / 10,
       };
     });
@@ -471,14 +492,14 @@ export default function TokenWaterfall({ data, liveStages, liveTokenModels = [] 
         </div>
       </Section>
 
-      {/* Historical margin compounding — test the thesis */}
+      {/* Historical LLMflation back-test — uses REAL token-pricing history */}
       {historicalChart.length > 0 && (
         <Section
-          title="Margin compounding (back-test)"
-          subtitle="Holding Salesforce Agentforce price constant at $2/conversation, what would the token margin have looked like every quarter as blended frontier cost fell? This is the LLMflation-compounding thesis, measured."
+          title="LLMflation back-test — derived from real token-pricing history"
+          subtitle="Each quarterly point is the closest LLMflation basket snapshot from data/token-pricing/history.json (real model launches, real prices). The green line is the hypothetical Agentforce token margin IF Salesforce had routed every $2 conversation through the basket each quarter, holding price + tokens constant. Real Agentforce routes to cheaper models than the basket, so actual margin tracks higher."
         >
           <div className="bg-bep-card border border-bep-border rounded-md p-4">
-            <ResponsiveContainer width="100%" height={260}>
+            <ResponsiveContainer width="100%" height={280}>
               <LineChart data={historicalChart} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#1a1a1a" />
                 <XAxis dataKey="quarter" tick={{ fill: "#666", fontSize: 10 }} />
@@ -487,23 +508,31 @@ export default function TokenWaterfall({ data, liveStages, liveTokenModels = [] 
                   orientation="left"
                   tick={{ fill: "#76B900", fontSize: 10 }}
                   tickFormatter={(v: number) => `${v}%`}
-                  domain={[80, 100]}
-                  label={{ value: "Agentforce token margin %", angle: -90, position: "insideLeft", fill: "#76B900", fontSize: 10 }}
+                  domain={[50, 100]}
+                  label={{ value: "Hypothetical Agentforce margin %", angle: -90, position: "insideLeft", fill: "#76B900", fontSize: 10 }}
                 />
                 <YAxis
                   yAxisId="cost"
                   orientation="right"
                   tick={{ fill: "#FF4444", fontSize: 10 }}
                   tickFormatter={(v: number) => `$${v}`}
-                  label={{ value: "Blended frontier $/M", angle: 90, position: "insideRight", fill: "#FF4444", fontSize: 10 }}
+                  label={{ value: "LLMflation basket $/M", angle: 90, position: "insideRight", fill: "#FF4444", fontSize: 10 }}
                 />
-                <Tooltip contentStyle={{ background: "#111", border: "1px solid #252525", fontSize: 11, fontFamily: "monospace" }} />
-                <Line yAxisId="cost" type="monotone" dataKey="blendedCostPerM" stroke="#FF4444" strokeWidth={2} name="Blended $/M output" dot={{ r: 3 }} />
-                <Line yAxisId="margin" type="monotone" dataKey="agentforceMargin" stroke="#76B900" strokeWidth={2.5} name="Agentforce token margin" dot={{ r: 4 }} />
+                <Tooltip
+                  contentStyle={{ background: "#111", border: "1px solid #252525", fontSize: 11, fontFamily: "monospace" }}
+                  formatter={(value, name) => {
+                    const v = Number(value);
+                    if (name === "Hypothetical Agentforce margin") return [`${v.toFixed(1)}%`, name];
+                    if (name === "LLMflation basket") return [`$${v.toFixed(2)}/M`, name];
+                    return [value, name];
+                  }}
+                />
+                <Line yAxisId="cost" type="monotone" dataKey="basketPerM" stroke="#FF4444" strokeWidth={2} name="LLMflation basket" dot={{ r: 3 }} />
+                <Line yAxisId="margin" type="monotone" dataKey="agentforceMargin" stroke="#76B900" strokeWidth={2.5} name="Hypothetical Agentforce margin" dot={{ r: 4 }} />
               </LineChart>
             </ResponsiveContainer>
             <div className="text-[10px] font-mono text-bep-dim text-center mt-2 leading-relaxed">
-              As LLMflation deflated frontier output prices from ~$23/M (Q1 2024) to ~$3/M today, Agentforce&apos;s implied token margin compounded from the high-80s into the high-90s — without raising customer prices. That&apos;s the per-resolution moat in one chart.
+              LLMflation isn&apos;t monotonic. The visible spike in mid-2025 is real: GPT-4.5 launched at $150/M output, re-inflating the frontier basket. The Q2 2026 drop reflects GPT-5 + Claude Opus 4.6 mass-market pricing. Per-resolution platforms with smart routing avoid the frontier spike entirely — that&apos;s why Salesforce&apos;s actual margin compounded steadily even when the basket re-inflated.
             </div>
           </div>
         </Section>
