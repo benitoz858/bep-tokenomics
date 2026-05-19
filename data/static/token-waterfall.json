@@ -1,36 +1,42 @@
 {
-  "source": "BEP Research — public pricing pages, earnings calls (Q4 FY2025/Q3 FY2026), SEC filings, press releases",
-  "lastUpdated": "2026-03-28",
-  "methodology": "Token Cost Waterfall maps the margin stack from GPU silicon to end-customer. Three layers: (1) Model Provider — what it costs to produce and sell tokens, (2) Enterprise Platform — what SaaS companies pay model providers and charge customers, (3) End Customer — effective cost per AI interaction. Confidence levels: HIGH = public pricing page, MEDIUM = earnings call disclosure + estimate, LOW = analyst inference.",
+  "source": "BEP Research — public pricing pages, earnings calls (Q4 FY2025/Q1 FY2026), SEC filings, press releases",
+  "lastUpdated": "2026-05-19",
+  "methodology": "Token Cost Waterfall maps the margin stack from GPU silicon to end-customer. The platform 'token margin' is (customer price per interaction − blended model cost per interaction) / customer price. modelCost is now DERIVED LIVE from data/token-pricing/current.json by weighting each platform's modelMix against today's market output prices; proprietary in-house models use a stated marginal-cost estimate. Confidence levels: HIGH = public pricing page, MEDIUM = earnings call disclosure + estimate, LOW = analyst inference. Token-margin EXCLUDES hosting, R&D, sales, and support — it isolates the input-cost variable that compounds with LLMflation.",
+  "tokenMarginCaveat": "Platform 'token margin' is gross margin on the token-cost line only. It is NOT company-level gross margin. Hosting, fine-tuning, customer support, sales commissions, and agent R&D sit on top of token cost and reduce true gross margin. Read as: 'of every dollar of platform revenue, X cents goes to model providers.'",
   "platforms": [
     {
       "id": "salesforce-agentforce",
       "name": "Agentforce",
       "vendor": "Salesforce",
+      "category": "agent-platform",
       "tier": "per-conversation",
-      "modelProvider": "OpenAI GPT-4o + Anthropic Claude + xGen (proprietary)",
-      "modelProviderNote": "Multi-model routing. xGen for dev tasks, GPT-4o default, Claude via Bedrock. BYOLLM supported.",
+      "modelProvider": "OpenAI + Anthropic + xGen (proprietary)",
+      "modelProviderNote": "Multi-model routing. xGen for dev tasks, GPT-5/GPT-4o default, Claude via Bedrock. BYOLLM supported.",
+      "modelMix": [
+        { "modelId": "openai/gpt-5", "weight": 0.40, "role": "default" },
+        { "modelId": "anthropic/claude-sonnet-4.6", "weight": 0.25, "role": "complex" },
+        { "modelId": "openai/gpt-5-mini", "weight": 0.20, "role": "classification" },
+        { "proprietary": "xGen", "weight": 0.15, "role": "proprietary", "proprietaryCostPerM": 0.50 }
+      ],
       "customerPricing": {
         "model": "per-conversation",
-        "price": 2.00,
+        "price": 2,
         "unit": "$/conversation",
         "altPricing": "$0.10/action via Flex Credits (May 2025). Also per-user at $125-650/user/month.",
-        "confidence": "high",
-        "source": "salesforce.com/agentforce/pricing"
+        "confidence": "high"
       },
       "estimatedModelCost": {
         "tokensPerInteraction": 10000,
-        "modelCostPerMTokens": 5,
-        "costPerConversation": 0.05,
         "confidence": "medium",
-        "assumptions": "~10K tokens/conversation. Blended $5/M (volume discount from published $10/M). xGen routing reduces cost on simpler queries."
+        "assumptions": "~10K tokens/conversation (system prompt + RAG context + reasoning + response). xGen routing reduces cost on simpler queries."
       },
       "margins": {
-        "platformMarginPct": 97,
-        "marginPerUnit": 1.95,
-        "modelProviderCost": 0.05,
-        "notes": "3.2 trillion tokens processed. $1.8B ARR (Agentforce + Data Cloud), 114% YoY growth. 9,500+ paid deals. Q3 FY26: 35.5% operating margin."
+        "notes": "3.2 trillion tokens processed (Q3 FY26). $1.8B ARR Agentforce + Data Cloud, 114% YoY. 9,500+ paid deals."
       },
+      "sourceLinks": [
+        { "label": "Agentforce pricing", "url": "https://www.salesforce.com/agentforce/pricing/", "type": "pricing" },
+        { "label": "Q3 FY26 earnings release", "url": "https://investor.salesforce.com/news/news-details/2025/Salesforce-Delivers-Record-Third-Quarter-Fiscal-2026-Results/", "type": "earnings" }
+      ],
       "flagged": false,
       "dataGap": null
     },
@@ -38,30 +44,35 @@
       "id": "zendesk-ai",
       "name": "AI Agents",
       "vendor": "Zendesk",
+      "category": "agent-platform",
       "tier": "per-resolution",
-      "modelProvider": "OpenAI GPT-4o + Anthropic Claude + Google + Amazon (multi-LLM failover)",
-      "modelProviderNote": "Automatic failover between providers for latency. Multi-LLM architecture.",
+      "modelProvider": "OpenAI + Anthropic + Google + Amazon",
+      "modelProviderNote": "Multi-LLM failover for latency. Routes simple intents to cheaper models.",
+      "modelMix": [
+        { "modelId": "openai/gpt-5-mini", "weight": 0.45, "role": "default" },
+        { "modelId": "anthropic/claude-haiku-4.5", "weight": 0.25, "role": "fast-path" },
+        { "modelId": "openai/gpt-5", "weight": 0.15, "role": "escalation" },
+        { "modelId": "google/gemini-2.5-flash", "weight": 0.15, "role": "fallback" }
+      ],
       "customerPricing": {
         "model": "per-resolution",
-        "price": 1.50,
+        "price": 1.5,
         "unit": "$/resolution (committed)",
         "altPricing": "$2.00/resolution pay-as-you-go. 10 free resolutions/agent/month included.",
-        "confidence": "high",
-        "source": "zendesk.com pricing, IDC report"
+        "confidence": "high"
       },
       "estimatedModelCost": {
         "tokensPerInteraction": 4000,
-        "modelCostPerMTokens": 5,
-        "costPerResolution": 0.02,
         "confidence": "medium",
-        "assumptions": "2-5K tokens per resolution. Multi-model routing sends simple queries to cheaper models. Only charged on full resolution (no human handoff)."
+        "assumptions": "2-5K tokens per resolution. Only charged on full resolution (no human handoff)."
       },
       "margins": {
-        "platformMarginPct": 99,
-        "marginPerUnit": 1.48,
-        "modelProviderCost": 0.02,
-        "notes": "Private company (Hellman & Friedman, $10.2B). Dynamic pricing plan allows remixing seats vs resolutions. Outcome-based pricing = pure margin play."
+        "notes": "Private (Hellman & Friedman, $10.2B take-private 2022). Dynamic pricing plan released 2025 allows remixing seats vs resolutions."
       },
+      "sourceLinks": [
+        { "label": "Zendesk pricing", "url": "https://www.zendesk.com/pricing/", "type": "pricing" },
+        { "label": "IDC outcome-based pricing report", "url": "https://my.idc.com/getdoc.jsp?containerId=US53414425", "type": "analyst" }
+      ],
       "flagged": false,
       "dataGap": "Private company — no revenue disclosure post-2022 privatization."
     },
@@ -69,30 +80,34 @@
       "id": "intercom-fin",
       "name": "Fin AI Agent",
       "vendor": "Intercom",
+      "category": "agent-platform",
       "tier": "per-resolution",
-      "modelProvider": "Anthropic Claude → Fin Apex 1.0 (proprietary, post-trained)",
-      "modelProviderNote": "Switched from OpenAI to Anthropic Claude for Fin 2 (Oct 2024). Now shipping proprietary Fin Apex 1.0 that beats GPT-5.4 and Claude Sonnet 4.6 on CS benchmarks (73.1% resolution rate). Apex included at no extra cost.",
+      "modelProvider": "Anthropic Claude + Fin Apex 1.0 (proprietary)",
+      "modelProviderNote": "Switched from OpenAI to Anthropic Claude for Fin 2 (Oct 2024). Fin Apex 1.0 (proprietary post-trained) beats GPT-5.4 and Claude Sonnet 4.6 on CS benchmarks (73.1% resolution rate). Apex included at no extra cost.",
+      "modelMix": [
+        { "proprietary": "Fin Apex 1.0", "weight": 0.50, "role": "default", "proprietaryCostPerM": 0.30 },
+        { "modelId": "anthropic/claude-haiku-4.5", "weight": 0.30, "role": "fast-path" },
+        { "modelId": "anthropic/claude-sonnet-4.6", "weight": 0.20, "role": "complex" }
+      ],
       "customerPricing": {
         "model": "per-resolution",
         "price": 0.99,
         "unit": "$/resolution",
         "altPricing": "Minimum 50 resolutions/month. Base seat required: $29-132/seat/month.",
-        "confidence": "high",
-        "source": "intercom.com pricing"
+        "confidence": "high"
       },
       "estimatedModelCost": {
         "tokensPerInteraction": 5000,
-        "modelCostPerMTokens": 3,
-        "costPerResolution": 0.015,
         "confidence": "medium",
-        "assumptions": "Mix of Claude Haiku ($5/M) for simple queries and Apex 1.0 (internal, near-zero marginal cost) for complex. Blended ~$3/M effective."
+        "assumptions": "Apex 1.0 handles ~50% of resolutions at near-zero marginal cost. Claude tier-2 handles complex cases."
       },
       "margins": {
-        "platformMarginPct": 98,
-        "marginPerUnit": 0.975,
-        "modelProviderCost": 0.015,
-        "notes": "Proprietary Apex 1.0 model is a margin expansion play — reduces dependence on external providers. Anthropic itself is a Fin customer. Private company."
+        "notes": "Proprietary Apex 1.0 is the margin-expansion play. Anthropic itself is a Fin customer. Private."
       },
+      "sourceLinks": [
+        { "label": "Intercom Fin pricing", "url": "https://www.intercom.com/pricing", "type": "pricing" },
+        { "label": "Fin Apex 1.0 benchmarks", "url": "https://venturebeat.com/technology/intercoms-new-post-trained-fin-apex-1-0-beats-gpt-5-4-and-claude-sonnet-4-6", "type": "press" }
+      ],
       "flagged": false,
       "dataGap": "Private company — no revenue or margin disclosure."
     },
@@ -100,63 +115,72 @@
       "id": "servicenow-nowassist",
       "name": "Now Assist",
       "vendor": "ServiceNow",
+      "category": "agent-platform",
       "tier": "per-user-month",
-      "modelProvider": "Anthropic Claude + OpenAI + ServiceNow proprietary",
-      "modelProviderNote": "Claude as default for Build Agent (Jan 2026 Anthropic partnership). Open ecosystem — customers can choose LLMs. Moving toward consumption-based token pricing.",
+      "modelProvider": "Anthropic + OpenAI + ServiceNow proprietary",
+      "modelProviderNote": "Claude as default for Build Agent (Jan 2026 Anthropic partnership). Open ecosystem — customers can choose LLMs.",
+      "modelMix": [
+        { "modelId": "anthropic/claude-sonnet-4.6", "weight": 0.40, "role": "default" },
+        { "modelId": "openai/gpt-5", "weight": 0.25, "role": "alternate" },
+        { "modelId": "anthropic/claude-haiku-4.5", "weight": 0.20, "role": "classification" },
+        { "proprietary": "Now LLM", "weight": 0.15, "role": "routing", "proprietaryCostPerM": 0.40 }
+      ],
       "customerPricing": {
         "model": "per-user-month",
         "price": 75,
-        "unit": "$/fulfiller/month (midpoint estimate)",
-        "altPricing": "$50/mo basic AI, $100+/mo full suite. For 500 fulfillers: $300-600K/year add-on.",
-        "confidence": "medium",
-        "source": "Analyst estimates, partner pricing guides. Not publicly listed."
+        "unit": "$/fulfiller/month (midpoint)",
+        "altPricing": "$50/mo basic AI, $100+/mo full suite.",
+        "confidence": "medium"
       },
       "estimatedModelCost": {
         "tokensPerInteraction": 6000,
         "interactionsPerUserPerDay": 10,
-        "modelCostPerMTokens": 8,
-        "monthlyModelCostPerUser": 14.40,
         "confidence": "low",
-        "assumptions": "10 AI interactions/day × 6K tokens × $8/M blended (mix of Claude + proprietary routing). Heavy model routing to cheaper models for classification/triage."
+        "assumptions": "10 AI interactions/day × 6K tokens. Heavy routing to cheaper models for classification/triage."
       },
       "margins": {
-        "platformMarginPct": 81,
-        "marginPerUnit": 60.60,
-        "modelProviderCost": 14.40,
-        "notes": "Now Assist ACV surpassed $600M (Q4 FY2025), tracking to $1B by year-end 2026. McDermott bought $23M personal shares. 31% non-GAAP operating margin, 35% FCF margin. Moving to consumption-based pricing."
+        "notes": "Now Assist ACV >$600M (Q4 FY2025), tracking $1B by year-end 2026. 31% non-GAAP op margin."
       },
+      "sourceLinks": [
+        { "label": "Q4 FY2025 earnings", "url": "https://newsroom.servicenow.com/press-releases/details/2026/ServiceNow-Reports-Fourth-Quarter-and-Full-Year-2025-Financial-Results/", "type": "earnings" },
+        { "label": "Now Assist pricing analysis", "url": "https://www.eesel.ai/blog/servicenow-ai-pricing", "type": "analyst" }
+      ],
       "flagged": true,
-      "dataGap": "Per-user pricing not publicly listed. ACV disclosed but per-seat breakdown estimated from partner guides."
+      "dataGap": "Per-user pricing not publicly listed. ACV disclosed but per-seat breakdown estimated."
     },
     {
       "id": "microsoft-copilot",
       "name": "M365 Copilot",
       "vendor": "Microsoft",
+      "category": "productivity-suite",
       "tier": "per-user-month",
-      "modelProvider": "OpenAI GPT-4o / GPT-5 class (49% ownership)",
-      "modelProviderNote": "Microsoft owns 49% of OpenAI. Exclusive cloud provider. Effectively captive supply.",
+      "modelProvider": "OpenAI GPT-5 class (49% ownership)",
+      "modelProviderNote": "Microsoft owns 49% of OpenAI. Exclusive cloud provider. Captive supply at sub-API cost.",
+      "modelMix": [
+        { "modelId": "openai/gpt-5", "weight": 0.55, "role": "default", "internalDiscount": 0.5 },
+        { "modelId": "openai/gpt-5-mini", "weight": 0.35, "role": "completion", "internalDiscount": 0.5 },
+        { "modelId": "openai/gpt-5.4", "weight": 0.10, "role": "reasoning", "internalDiscount": 0.5 }
+      ],
       "customerPricing": {
         "model": "per-user-month",
         "price": 30,
         "unit": "$/user/month",
-        "altPricing": "Business/SMB: $21/user/month. Copilot Pro (individual): $20/month. Base M365 E3 rising to $39/user/month July 2026.",
-        "confidence": "high",
-        "source": "microsoft.com/microsoft-365-copilot/pricing"
+        "altPricing": "Business/SMB: $21/user/month. Copilot Pro: $20/month. M365 E3 rising to $39/user/month July 2026.",
+        "confidence": "high"
       },
       "estimatedModelCost": {
         "tokensPerInteraction": 4000,
         "interactionsPerUserPerDay": 12,
-        "modelCostPerMTokens": 5,
-        "monthlyModelCostPerUser": 7.20,
         "confidence": "medium",
-        "assumptions": "12 interactions/day × 4K tokens × $5/M effective (massive volume discount via 49% ownership). Light users cost less, power users cost more."
+        "assumptions": "12 interactions/day × 4K tokens. 50% internal discount via equity stake."
       },
       "margins": {
-        "platformMarginPct": 76,
-        "marginPerUnit": 22.80,
-        "modelProviderCost": 7.20,
-        "notes": "Microsoft effectively pays itself for inference via OpenAI relationship. M365 base price increase ($36→$39, July 2026) absorbs AI cost. Azure AI revenue growing >100% YoY."
+        "notes": "Microsoft effectively pays itself for inference via OpenAI. M365 base price increase ($36→$39, July 2026) absorbs AI cost."
       },
+      "sourceLinks": [
+        { "label": "M365 Copilot pricing", "url": "https://www.microsoft.com/en-us/microsoft-365-copilot/pricing", "type": "pricing" },
+        { "label": "Q1 FY26 earnings (Azure AI)", "url": "https://www.microsoft.com/en-us/Investor/earnings/FY-2026-Q1/", "type": "earnings" }
+      ],
       "flagged": false,
       "dataGap": null
     },
@@ -164,59 +188,69 @@
       "id": "github-copilot",
       "name": "GitHub Copilot",
       "vendor": "Microsoft",
+      "category": "developer-tools",
       "tier": "per-user-month",
-      "modelProvider": "OpenAI GPT-4o + Anthropic Claude Opus 4 + Google Gemini (Pro+ tier)",
-      "modelProviderNote": "Multi-model in Pro+ tier. 300-1500 'premium requests' per month depending on plan.",
+      "modelProvider": "OpenAI + Anthropic + Google (Pro+)",
+      "modelProviderNote": "Multi-model. Power users hit premium-request caps to limit token exposure.",
+      "modelMix": [
+        { "modelId": "openai/gpt-5", "weight": 0.40, "role": "default", "internalDiscount": 0.5 },
+        { "modelId": "anthropic/claude-sonnet-4.6", "weight": 0.30, "role": "agent" },
+        { "modelId": "anthropic/claude-opus-4.6", "weight": 0.10, "role": "premium" },
+        { "modelId": "openai/gpt-5-mini", "weight": 0.20, "role": "completion", "internalDiscount": 0.5 }
+      ],
       "customerPricing": {
         "model": "per-user-month",
         "price": 19,
         "unit": "$/user/month (Individual/Business)",
-        "altPricing": "Pro: $10/mo (300 requests). Pro+: $39/mo (1500 requests). Enterprise: $39/user/mo (1000 requests).",
-        "confidence": "high",
-        "source": "github.com/features/copilot/plans"
+        "altPricing": "Pro+ at $39/user/month. Enterprise at $39+. Free tier with 2K completions/month.",
+        "confidence": "high"
       },
       "estimatedModelCost": {
         "tokensPerInteraction": 6000,
         "interactionsPerUserPerDay": 25,
-        "modelCostPerMTokens": 6,
-        "monthlyModelCostPerUser": 27.00,
         "confidence": "medium-low",
-        "assumptions": "Heavy users: 25 completions/day × 6K tokens × $6/M blended. Light users (~8/day) are profitable. Request caps on premium models limit exposure."
+        "assumptions": "Heavy users: 25 completions/day × 6K tokens. Light users (~8/day) are profitable. Premium model caps mitigate worst-case loss."
       },
       "margins": {
-        "platformMarginPct": -42,
-        "marginPerUnit": -8.00,
-        "modelProviderCost": 27.00,
-        "notes": "GitHub disclosed Copilot approaching profitability in aggregate (late 2025). Request caps introduced to control cost. Heavy users subsidized by light users. Strategic land-grab for developer ecosystem."
+        "notes": "GitHub disclosed Copilot 'approaching profitability' in aggregate (late 2025). Request caps introduced 2026 to control cost."
       },
+      "sourceLinks": [
+        { "label": "GitHub Copilot plans", "url": "https://github.com/features/copilot/plans", "type": "pricing" }
+      ],
       "flagged": true,
-      "dataGap": "Actual per-user token consumption varies 10x between light and heavy users. Aggregate margin disclosed as 'approaching profitability.'"
+      "dataGap": "Actual per-user token consumption varies 10x between light and heavy users."
     },
     {
       "id": "sap-joule",
       "name": "Joule AI",
       "vendor": "SAP",
+      "category": "productivity-suite",
       "tier": "per-ai-unit",
       "modelProvider": "OpenAI + Anthropic + SAP proprietary",
-      "modelProviderNote": "Joule Studio for custom agents. Multi-provider.",
+      "modelProviderNote": "AI Unit pricing intentionally opaque — obscures token economics.",
+      "modelMix": [
+        { "modelId": "anthropic/claude-sonnet-4.6", "weight": 0.40, "role": "default" },
+        { "modelId": "openai/gpt-5", "weight": 0.40, "role": "alternate" },
+        { "proprietary": "SAP-LLM", "weight": 0.20, "role": "domain", "proprietaryCostPerM": 0.60 }
+      ],
       "customerPricing": {
         "model": "per-ai-unit",
         "price": 7,
         "unit": "EUR/AI Unit",
-        "altPricing": "Joule Base is free with SAP Cloud. Premium: min 100 units/year (EUR 700/year). 1-8 AI Units per user/month depending on module.",
-        "confidence": "medium",
-        "source": "sap.com/products/artificial-intelligence/pricing"
+        "altPricing": "Joule Base free. Premium consumption-based.",
+        "confidence": "low"
       },
       "estimatedModelCost": {
         "tokensPerInteraction": null,
-        "modelCostPerMTokens": null,
         "confidence": "low",
-        "assumptions": "AI Unit → token mapping not disclosed. Opaque pricing unit makes margin analysis unreliable."
+        "assumptions": "AI Unit → token mapping not disclosed. Opaque pricing unit prevents reliable margin computation."
       },
       "margins": {
-        "platformMarginPct": null,
-        "notes": "Cloud gross margin ~73%. AI Unit pricing is intentionally opaque — obscures the token-level economics. SAP Cloud revenue EUR 4.7B/quarter, 27% YoY growth."
+        "notes": "Cloud gross margin ~73%. SAP Cloud revenue EUR 4.7B/quarter, 27% YoY."
       },
+      "sourceLinks": [
+        { "label": "SAP AI pricing", "url": "https://www.sap.com/products/artificial-intelligence/pricing.html", "type": "pricing" }
+      ],
       "flagged": true,
       "dataGap": "AI Unit to token conversion unknown. Cannot compute per-token margin."
     },
@@ -224,63 +258,501 @@
       "id": "google-workspace",
       "name": "Workspace + Gemini",
       "vendor": "Google",
-      "tier": "embedded",
-      "modelProvider": "Google Gemini (first-party, vertically integrated)",
-      "modelProviderNote": "Gemini folded into base Workspace plans. No separate AI add-on (discontinued early 2025). Google controls full stack: TPU → model → API → platform.",
+      "category": "productivity-suite",
+      "tier": "per-user-month",
+      "modelProvider": "Google Gemini (first-party, TPU)",
+      "modelProviderNote": "Vertically integrated TPU → Gemini → Workspace. Lowest cost producer.",
+      "modelMix": [
+        { "modelId": "google/gemini-2.5-flash", "weight": 0.70, "role": "default", "internalDiscount": 0.4 },
+        { "modelId": "google/gemini-2.5-pro", "weight": 0.30, "role": "reasoning", "internalDiscount": 0.4 }
+      ],
       "customerPricing": {
-        "model": "embedded",
+        "model": "per-user-month",
         "price": 4,
-        "unit": "$/user/month (estimated AI portion of 15-20% price increase)",
-        "altPricing": "Workspace plans $14-25/user/month total. Former Gemini add-on was $20-30/user/month before being folded in.",
-        "confidence": "medium",
-        "source": "workspace.google.com/pricing, analyst estimates"
+        "unit": "$/user/month (estimated AI portion)",
+        "altPricing": "Embedded in Workspace plans ($14-25/user/month).",
+        "confidence": "medium"
       },
       "estimatedModelCost": {
         "tokensPerInteraction": 3000,
         "interactionsPerUserPerDay": 8,
-        "modelCostPerMTokens": 2,
-        "monthlyModelCostPerUser": 1.44,
         "confidence": "medium",
-        "assumptions": "8 interactions/day × 3K tokens × $2/M (internal TPU cost, not API price). Google's vertical integration = lowest production cost."
+        "assumptions": "8 interactions/day × 3K tokens. 60% TPU-internal discount."
       },
       "margins": {
-        "platformMarginPct": 64,
-        "marginPerUnit": 2.56,
-        "modelProviderCost": 1.44,
-        "notes": "Vertically integrated: TPU → Gemini → Workspace. Lowest cost producer. Folding AI into base subscription is a penetration strategy — monetizes through retention, not AI markup. Cloud operating margin 10-12%."
+        "notes": "Folding AI into base subscription is penetration strategy — monetizes through retention."
       },
+      "sourceLinks": [
+        { "label": "Workspace pricing", "url": "https://workspace.google.com/pricing", "type": "pricing" },
+        { "label": "Gemini API pricing", "url": "https://ai.google.dev/gemini-api/docs/pricing", "type": "pricing" }
+      ],
       "flagged": false,
-      "dataGap": "AI cost portion of Workspace increase is estimated."
+      "dataGap": null
+    },
+    {
+      "id": "oracle-fusion-ai",
+      "name": "Fusion Applications AI",
+      "vendor": "Oracle",
+      "category": "agent-platform",
+      "tier": "per-user-month",
+      "modelProvider": "Cohere + Anthropic + Oracle proprietary",
+      "modelProviderNote": "Cohere primary via strategic partnership. Oracle proprietary models for specific domains.",
+      "modelMix": [
+        { "modelId": "anthropic/claude-sonnet-4.6", "weight": 0.30, "role": "default" },
+        { "modelId": "openai/gpt-5", "weight": 0.20, "role": "alternate" },
+        { "proprietary": "Cohere Command R+", "weight": 0.30, "role": "rag", "proprietaryCostPerM": 2.50 },
+        { "proprietary": "Oracle-LLM", "weight": 0.20, "role": "domain", "proprietaryCostPerM": 0.80 }
+      ],
+      "customerPricing": {
+        "model": "per-user-month",
+        "price": 35,
+        "unit": "$/user/month (estimated)",
+        "altPricing": "Bundled into Fusion Cloud subscriptions; AI premium ~20% uplift.",
+        "confidence": "low"
+      },
+      "estimatedModelCost": {
+        "tokensPerInteraction": 5000,
+        "interactionsPerUserPerDay": 6,
+        "confidence": "low",
+        "assumptions": "6 interactions/day × 5K tokens. Domain models handle structured ERP queries."
+      },
+      "margins": {
+        "notes": "Oracle Cloud Infrastructure revenue $7.1B (Q3 FY26). OCI margin ~38%."
+      },
+      "sourceLinks": [
+        { "label": "Oracle Fusion AI", "url": "https://www.oracle.com/applications/fusion-ai/", "type": "pricing" },
+        { "label": "Q3 FY26 earnings (OCI)", "url": "https://investor.oracle.com/", "type": "earnings" }
+      ],
+      "flagged": true,
+      "dataGap": "AI premium not separately disclosed; per-user pricing inferred from partner contracts."
+    },
+    {
+      "id": "adobe-firefly",
+      "name": "Firefly + GenStudio",
+      "vendor": "Adobe",
+      "category": "creative-tools",
+      "tier": "per-credit",
+      "modelProvider": "Adobe Firefly (proprietary diffusion + LLM)",
+      "modelProviderNote": "Adobe Firefly is image diffusion; LLM portion uses Anthropic. Credits monthly grant in CC.",
+      "modelMix": [
+        { "proprietary": "Adobe Firefly Image 4", "weight": 0.70, "role": "image", "proprietaryCostPerM": 0.20 },
+        { "modelId": "anthropic/claude-sonnet-4.6", "weight": 0.20, "role": "copy-llm" },
+        { "modelId": "openai/gpt-5", "weight": 0.10, "role": "ideation" }
+      ],
+      "customerPricing": {
+        "model": "per-credit",
+        "price": 0.10,
+        "unit": "$/generative credit",
+        "altPricing": "1000 credits/month included in Creative Cloud All Apps ($60/month).",
+        "confidence": "high"
+      },
+      "estimatedModelCost": {
+        "tokensPerInteraction": 2000,
+        "confidence": "low",
+        "assumptions": "Image generation dominates compute. Text portion 2K tokens of prompt+caption."
+      },
+      "margins": {
+        "notes": "Firefly trained on licensed Adobe Stock corpus — defensible IP. Adobe DM segment 88% gross margin."
+      },
+      "sourceLinks": [
+        { "label": "Firefly pricing", "url": "https://www.adobe.com/products/firefly.html", "type": "pricing" },
+        { "label": "Adobe Q1 FY26 earnings", "url": "https://www.adobe.com/investor-relations.html", "type": "earnings" }
+      ],
+      "flagged": true,
+      "dataGap": "Image generation isn't strictly token-priced. Credits map to GPU-seconds, not tokens."
+    },
+    {
+      "id": "hubspot-breeze",
+      "name": "Breeze",
+      "vendor": "HubSpot",
+      "category": "agent-platform",
+      "tier": "per-user-month",
+      "modelProvider": "OpenAI + Anthropic",
+      "modelProviderNote": "Multi-LLM under Breeze Intelligence umbrella. Free Breeze tier in all paid plans; premium agents charged separately.",
+      "modelMix": [
+        { "modelId": "openai/gpt-5", "weight": 0.50, "role": "default" },
+        { "modelId": "anthropic/claude-sonnet-4.6", "weight": 0.30, "role": "complex" },
+        { "modelId": "openai/gpt-5-mini", "weight": 0.20, "role": "classification" }
+      ],
+      "customerPricing": {
+        "model": "per-user-month",
+        "price": 50,
+        "unit": "$/user/month (Customer Agent add-on)",
+        "altPricing": "Breeze Intelligence credits $30/month. Free Breeze Copilot in all paid plans.",
+        "confidence": "high"
+      },
+      "estimatedModelCost": {
+        "tokensPerInteraction": 4500,
+        "interactionsPerUserPerDay": 8,
+        "confidence": "medium",
+        "assumptions": "8 interactions/day × 4.5K tokens for typical CRM workflow."
+      },
+      "margins": {
+        "notes": "HubSpot Q1 FY26 revenue $703M, 81% gross margin. Breeze cited as growth driver."
+      },
+      "sourceLinks": [
+        { "label": "HubSpot Breeze pricing", "url": "https://www.hubspot.com/products/artificial-intelligence", "type": "pricing" },
+        { "label": "HubSpot earnings", "url": "https://ir.hubspot.com/", "type": "earnings" }
+      ],
+      "flagged": false,
+      "dataGap": null
+    },
+    {
+      "id": "atlassian-rovo",
+      "name": "Rovo",
+      "vendor": "Atlassian",
+      "category": "developer-tools",
+      "tier": "per-user-month",
+      "modelProvider": "OpenAI + Anthropic + Atlassian proprietary",
+      "modelProviderNote": "Free Rovo Chat in all paid Cloud plans (Feb 2026). Premium agents charged separately.",
+      "modelMix": [
+        { "modelId": "anthropic/claude-sonnet-4.6", "weight": 0.40, "role": "default" },
+        { "modelId": "openai/gpt-5", "weight": 0.30, "role": "alternate" },
+        { "modelId": "anthropic/claude-haiku-4.5", "weight": 0.20, "role": "fast-path" },
+        { "proprietary": "Rovo Search", "weight": 0.10, "role": "retrieval", "proprietaryCostPerM": 0.30 }
+      ],
+      "customerPricing": {
+        "model": "per-user-month",
+        "price": 20,
+        "unit": "$/user/month (Rovo Agents tier)",
+        "altPricing": "Rovo Chat included free with Cloud plans. Agents add-on at $20/user/month.",
+        "confidence": "medium"
+      },
+      "estimatedModelCost": {
+        "tokensPerInteraction": 4000,
+        "interactionsPerUserPerDay": 10,
+        "confidence": "low",
+        "assumptions": "Margin computed against the $20 paid Agents tier. Free Chat is platform investment."
+      },
+      "margins": {
+        "notes": "Free Rovo Chat is platform-lock play. Atlassian Q3 FY26 Cloud revenue $1.45B, 71% YoY. Cloud gross margin ~85%."
+      },
+      "sourceLinks": [
+        { "label": "Rovo announcement", "url": "https://www.atlassian.com/software/rovo", "type": "press" },
+        { "label": "Atlassian Q3 FY26 earnings", "url": "https://investors.atlassian.com/", "type": "earnings" }
+      ],
+      "flagged": true,
+      "dataGap": "Free Rovo Chat distribution makes per-user margin ambiguous. Premium Agents not yet at scale."
+    },
+    {
+      "id": "notion-ai",
+      "name": "Notion AI",
+      "vendor": "Notion",
+      "category": "productivity-suite",
+      "tier": "per-user-month",
+      "modelProvider": "Anthropic + OpenAI",
+      "modelProviderNote": "Primary on Anthropic Claude. Built directly on frontier APIs, no proprietary layer.",
+      "modelMix": [
+        { "modelId": "anthropic/claude-sonnet-4.6", "weight": 0.60, "role": "default" },
+        { "modelId": "openai/gpt-5", "weight": 0.30, "role": "alternate" },
+        { "modelId": "anthropic/claude-haiku-4.5", "weight": 0.10, "role": "fast-path" }
+      ],
+      "customerPricing": {
+        "model": "per-user-month",
+        "price": 10,
+        "unit": "$/user/month (Notion AI add-on)",
+        "altPricing": "Bundled in Business plan ($20/user/month). Standalone $10/user/month.",
+        "confidence": "high"
+      },
+      "estimatedModelCost": {
+        "tokensPerInteraction": 4000,
+        "interactionsPerUserPerDay": 6,
+        "confidence": "medium",
+        "assumptions": "6 interactions/day × 4K tokens. Notion uses long context (full page content) which inflates input tokens."
+      },
+      "margins": {
+        "notes": "Private (last raised at $10B Apr 2024). No proprietary model — fully exposed to model-provider pricing."
+      },
+      "sourceLinks": [
+        { "label": "Notion AI pricing", "url": "https://www.notion.com/help/notion-ai-faqs", "type": "pricing" }
+      ],
+      "flagged": true,
+      "dataGap": "Private company. Token margin highly sensitive to Anthropic pricing."
+    },
+    {
+      "id": "openai-chatgpt-enterprise",
+      "name": "ChatGPT Enterprise",
+      "vendor": "OpenAI",
+      "category": "model-provider",
+      "tier": "per-user-month",
+      "modelProvider": "OpenAI (first-party)",
+      "modelProviderNote": "First-party — no margin leakage to external model provider. Token cost = internal GPU cost only.",
+      "modelMix": [
+        { "modelId": "openai/gpt-5", "weight": 0.60, "role": "default", "internalDiscount": 0.7 },
+        { "modelId": "openai/gpt-5.4", "weight": 0.25, "role": "reasoning", "internalDiscount": 0.7 },
+        { "modelId": "openai/gpt-5-mini", "weight": 0.15, "role": "fast-path", "internalDiscount": 0.7 }
+      ],
+      "customerPricing": {
+        "model": "per-user-month",
+        "price": 60,
+        "unit": "$/user/month (Enterprise estimate)",
+        "altPricing": "Plus $20/month. Team $30/user/month. Enterprise custom ($50-75/user/month).",
+        "confidence": "medium"
+      },
+      "estimatedModelCost": {
+        "tokensPerInteraction": 8000,
+        "interactionsPerUserPerDay": 20,
+        "confidence": "medium",
+        "assumptions": "20 interactions/day × 8K tokens (enterprise power users). 70% internal discount (GPU cost vs API list price)."
+      },
+      "margins": {
+        "notes": "OpenAI is first-party — pure GPU economics, no model-provider markup."
+      },
+      "sourceLinks": [
+        { "label": "ChatGPT Enterprise", "url": "https://openai.com/enterprise/", "type": "pricing" }
+      ],
+      "flagged": true,
+      "dataGap": "Enterprise pricing custom-negotiated; $60/user/month is midpoint estimate."
+    },
+    {
+      "id": "snowflake-cortex",
+      "name": "Cortex AI",
+      "vendor": "Snowflake",
+      "category": "data-platform",
+      "tier": "consumption-credits",
+      "modelProvider": "Anthropic + Meta + Snowflake Arctic + customer choice",
+      "modelProviderNote": "Cortex offers Claude, Llama, Arctic, Mistral. Customer pays Snowflake credits which include compute + model markup.",
+      "modelMix": [
+        { "modelId": "anthropic/claude-sonnet-4.6", "weight": 0.35, "role": "default" },
+        { "modelId": "meta-llama/Llama-3.3-70B-Instruct", "weight": 0.30, "role": "open" },
+        { "proprietary": "Arctic", "weight": 0.20, "role": "snowflake-native", "proprietaryCostPerM": 1.20 },
+        { "modelId": "openai/gpt-5", "weight": 0.15, "role": "alternate" }
+      ],
+      "customerPricing": {
+        "model": "consumption-credits",
+        "price": 3,
+        "unit": "$/credit (Cortex AI services)",
+        "altPricing": "Per-token: $0.0006-$0.024/1K input tokens depending on model.",
+        "confidence": "high"
+      },
+      "estimatedModelCost": {
+        "tokensPerInteraction": 6000,
+        "confidence": "medium",
+        "assumptions": "Snowflake marks up model API rate ~2-3x via credit system. Compute included."
+      },
+      "margins": {
+        "notes": "Snowflake Q1 FY26 product revenue $1.04B, 32% YoY. Cortex AI fastest-growing component."
+      },
+      "sourceLinks": [
+        { "label": "Cortex AI pricing", "url": "https://www.snowflake.com/legal-files/CreditConsumptionTable.pdf", "type": "pricing" },
+        { "label": "Snowflake Q1 FY26 earnings", "url": "https://investors.snowflake.com/", "type": "earnings" }
+      ],
+      "flagged": false,
+      "dataGap": null
+    },
+    {
+      "id": "databricks-mosaic",
+      "name": "Mosaic AI",
+      "vendor": "Databricks",
+      "category": "data-platform",
+      "tier": "consumption-credits",
+      "modelProvider": "Anthropic + Meta + Mosaic DBRX + customer choice",
+      "modelProviderNote": "Foundation Model APIs include DBRX, Llama, Claude, Mixtral. Mosaic ML acquired 2023 ($1.3B).",
+      "modelMix": [
+        { "modelId": "anthropic/claude-sonnet-4.6", "weight": 0.30, "role": "default" },
+        { "modelId": "meta-llama/Llama-3.3-70B-Instruct", "weight": 0.30, "role": "open" },
+        { "proprietary": "DBRX", "weight": 0.25, "role": "databricks-native", "proprietaryCostPerM": 1.50 },
+        { "modelId": "openai/gpt-5", "weight": 0.15, "role": "alternate" }
+      ],
+      "customerPricing": {
+        "model": "consumption-credits",
+        "price": 4,
+        "unit": "$/DBU (Mosaic AI workload)",
+        "altPricing": "Per-token: $0.003-$0.075/1K depending on model.",
+        "confidence": "high"
+      },
+      "estimatedModelCost": {
+        "tokensPerInteraction": 6000,
+        "confidence": "medium",
+        "assumptions": "Mosaic markup ~2x model API rate. DBRX self-hosted at marginal cost."
+      },
+      "margins": {
+        "notes": "Databricks private ($62B valuation). Reported $3B+ ARR, ~35% YoY."
+      },
+      "sourceLinks": [
+        { "label": "Databricks pricing", "url": "https://www.databricks.com/product/pricing", "type": "pricing" },
+        { "label": "DBRX announcement", "url": "https://www.databricks.com/blog/introducing-dbrx-new-state-art-open-llm", "type": "press" }
+      ],
+      "flagged": true,
+      "dataGap": "Private. DBU-to-token conversion varies by workload type."
+    },
+    {
+      "id": "palantir-aip",
+      "name": "AIP",
+      "vendor": "Palantir",
+      "category": "enterprise-ai",
+      "tier": "per-engagement",
+      "modelProvider": "OpenAI + Anthropic + customer-BYO",
+      "modelProviderNote": "AIP is orchestration layer over multiple LLMs. Multi-million-dollar enterprise contracts, not per-token.",
+      "modelMix": [
+        { "modelId": "openai/gpt-5", "weight": 0.40, "role": "default" },
+        { "modelId": "anthropic/claude-sonnet-4.6", "weight": 0.40, "role": "complex" },
+        { "modelId": "openai/gpt-5.4", "weight": 0.20, "role": "reasoning" }
+      ],
+      "customerPricing": {
+        "model": "per-engagement",
+        "price": 1000000,
+        "unit": "$/year (typical AIP enterprise contract)",
+        "altPricing": "AIP Bootcamp $1M flat. Foundry+AIP combined: $5-25M/year.",
+        "confidence": "medium"
+      },
+      "estimatedModelCost": {
+        "tokensPerInteraction": null,
+        "confidence": "low",
+        "assumptions": "Token consumption not the binding cost — Palantir margin dominated by Forward Deployed Engineers."
+      },
+      "margins": {
+        "notes": "Palantir Q1 FY26 commercial revenue $307M (+71%). US commercial AIP driving growth."
+      },
+      "sourceLinks": [
+        { "label": "Palantir AIP", "url": "https://www.palantir.com/platforms/aip/", "type": "pricing" },
+        { "label": "Q1 FY26 earnings", "url": "https://investors.palantir.com/", "type": "earnings" }
+      ],
+      "flagged": true,
+      "dataGap": "AIP value proposition is not token-priced — engagement model dominates. Token margin N/A."
+    },
+    {
+      "id": "cursor",
+      "name": "Cursor",
+      "vendor": "Anysphere",
+      "category": "developer-tools",
+      "tier": "per-user-month",
+      "modelProvider": "Anthropic + OpenAI",
+      "modelProviderNote": "Cursor Pro at $20/user/month. Heavy Claude routing for code edits.",
+      "modelMix": [
+        { "modelId": "anthropic/claude-sonnet-4.6", "weight": 0.55, "role": "default" },
+        { "modelId": "openai/gpt-5", "weight": 0.25, "role": "alternate" },
+        { "modelId": "anthropic/claude-opus-4.6", "weight": 0.10, "role": "premium" },
+        { "modelId": "openai/gpt-5-mini", "weight": 0.10, "role": "completion" }
+      ],
+      "customerPricing": {
+        "model": "per-user-month",
+        "price": 20,
+        "unit": "$/user/month (Pro)",
+        "altPricing": "Free tier with 2K completions/month. Business at $40/user/month.",
+        "confidence": "high"
+      },
+      "estimatedModelCost": {
+        "tokensPerInteraction": 7000,
+        "interactionsPerUserPerDay": 30,
+        "confidence": "medium-low",
+        "assumptions": "Power-user heavy. 30 completions/day × 7K tokens. Significant agentic loops."
+      },
+      "margins": {
+        "notes": "Anysphere private ($9.9B valuation, May 2026). $300M+ ARR reported. Growth fast, margin tight."
+      },
+      "sourceLinks": [
+        { "label": "Cursor pricing", "url": "https://www.cursor.com/pricing", "type": "pricing" }
+      ],
+      "flagged": true,
+      "dataGap": "Private. Token consumption per power user could be 2-3x stated assumption."
+    },
+    {
+      "id": "xai-grok-enterprise",
+      "name": "Grok for Business",
+      "vendor": "xAI",
+      "category": "model-provider",
+      "tier": "per-user-month",
+      "modelProvider": "xAI Grok (first-party)",
+      "modelProviderNote": "First-party. xAI operates own GPU clusters (Colossus).",
+      "modelMix": [
+        { "proprietary": "Grok-4", "weight": 0.70, "role": "default", "proprietaryCostPerM": 1.00 },
+        { "proprietary": "Grok-Code", "weight": 0.30, "role": "developer", "proprietaryCostPerM": 0.80 }
+      ],
+      "customerPricing": {
+        "model": "per-user-month",
+        "price": 40,
+        "unit": "$/user/month (Business estimate)",
+        "altPricing": "X Premium+ $40/month includes Grok.",
+        "confidence": "low"
+      },
+      "estimatedModelCost": {
+        "tokensPerInteraction": 6000,
+        "interactionsPerUserPerDay": 15,
+        "confidence": "low",
+        "assumptions": "15 interactions/day × 6K tokens. First-party GPU cost only."
+      },
+      "margins": {
+        "notes": "xAI valuation ~$200B (May 2026). Capex-heavy: Colossus 2 supercomputer cited as $5B+ buildout."
+      },
+      "sourceLinks": [
+        { "label": "xAI", "url": "https://x.ai/", "type": "pricing" }
+      ],
+      "flagged": true,
+      "dataGap": "Private. Enterprise pricing not formally published."
+    },
+    {
+      "id": "box-ai",
+      "name": "Box AI",
+      "vendor": "Box",
+      "category": "productivity-suite",
+      "tier": "per-user-month",
+      "modelProvider": "Anthropic + OpenAI + AWS Bedrock + Box Hubs",
+      "modelProviderNote": "Multi-LLM agentic platform. Box AI Studio launched 2024.",
+      "modelMix": [
+        { "modelId": "anthropic/claude-sonnet-4.6", "weight": 0.50, "role": "default" },
+        { "modelId": "openai/gpt-5", "weight": 0.30, "role": "alternate" },
+        { "modelId": "anthropic/claude-haiku-4.5", "weight": 0.20, "role": "fast-path" }
+      ],
+      "customerPricing": {
+        "model": "per-user-month",
+        "price": 15,
+        "unit": "$/user/month (AI add-on estimate)",
+        "altPricing": "Enterprise Plus $42.50/user/month includes AI Studio.",
+        "confidence": "medium"
+      },
+      "estimatedModelCost": {
+        "tokensPerInteraction": 5000,
+        "interactionsPerUserPerDay": 4,
+        "confidence": "medium",
+        "assumptions": "4 interactions/day × 5K tokens (document analysis is context-heavy)."
+      },
+      "margins": {
+        "notes": "Box Q1 FY26 revenue $277M, 75% gross margin. AI cited as 20% of new ARR."
+      },
+      "sourceLinks": [
+        { "label": "Box AI pricing", "url": "https://www.box.com/pricing", "type": "pricing" },
+        { "label": "Q1 FY26 earnings", "url": "https://investors.box.com/", "type": "earnings" }
+      ],
+      "flagged": true,
+      "dataGap": "AI portion of Enterprise Plus pricing inferred from tier delta."
     }
   ],
+  "historicalCostBenchmark": {
+    "description": "Blended frontier output $/M output by quarter, used to back-test margin compounding. Index derived from LLMflation history.",
+    "series": [
+      { "quarter": "Q1 2024", "blendedCostPerM": 23 },
+      { "quarter": "Q2 2024", "blendedCostPerM": 18 },
+      { "quarter": "Q3 2024", "blendedCostPerM": 14 },
+      { "quarter": "Q4 2024", "blendedCostPerM": 11 },
+      { "quarter": "Q1 2025", "blendedCostPerM": 9 },
+      { "quarter": "Q2 2025", "blendedCostPerM": 7 },
+      { "quarter": "Q3 2025", "blendedCostPerM": 5.5 },
+      { "quarter": "Q4 2025", "blendedCostPerM": 4.2 },
+      { "quarter": "Q1 2026", "blendedCostPerM": 3.5 },
+      { "quarter": "Q2 2026", "blendedCostPerM": 3.0 }
+    ]
+  },
   "waterfall_summary": {
-    "gpu_to_token": {
-      "description": "GPU rental → token production cost",
-      "example": "H100 at $1.84 TCO/hr → $5.36/M output tokens (Llama 70B)",
-      "margin_holder": "Cloud provider (Vast.ai, CoreWeave, Nebius)"
-    },
-    "token_to_api": {
-      "description": "Token production cost → API sell price",
-      "example": "$5.36/M cost → $15/M sell (Anthropic Sonnet) = 64% margin",
-      "margin_holder": "Model provider (OpenAI, Anthropic, Google)"
-    },
-    "api_to_platform": {
-      "description": "API price → enterprise platform price",
-      "example": "$0.05 model cost → $2/conversation (Salesforce) = 97% margin",
-      "margin_holder": "Enterprise platform (Salesforce, ServiceNow, Zendesk)"
-    },
+    "gpu_to_token": "GPU TCO $/hr ÷ tokens/sec ÷ 3600 × 1M = production cost per million tokens. H100 TCO ~$3.00/hr ÷ 95 tok/s/GPU = ~$8.77/M (Llama 70B GPU-only baseline).",
+    "token_to_api": "Frontier labs sell at 1.5-3x production cost. Anthropic Sonnet 4.6 at $15/M output. Commodity floor ($0.18/M for gpt-oss-120b) is sold at a loss to capture marketshare.",
+    "api_to_platform": "Enterprise platforms charge 20-100x model API cost per interaction. Per-resolution platforms (Zendesk, Intercom) and per-conversation platforms (Salesforce) compound margin fastest because their unit economics are decoupled from token deflation.",
     "compression_points": [
-      "Model provider margins under pressure as DeepSeek and open-source drive LLMflation below 25",
-      "Per-resolution platforms (Zendesk, Intercom, Salesforce) insulated from token deflation — they sell outcomes, not tokens",
-      "Per-user platforms (Microsoft, ServiceNow) exposed to power-user cost risk",
-      "Proprietary model development (Intercom Apex, Salesforce xGen) is the margin expansion play — cuts out external model provider entirely"
+      "Per-resolution platforms (Zendesk, Intercom, Salesforce) are insulated from token deflation — they sell outcomes, not tokens. Margin EXPANDS as input cost falls.",
+      "Per-user platforms (Microsoft, ServiceNow, HubSpot, Notion) face power-user cost risk. Token consumption scales with user behavior, not contract value.",
+      "Proprietary model development (Intercom Apex, Salesforce xGen, Adobe Firefly, Snowflake Arctic, Databricks DBRX) is the durable margin-expansion play.",
+      "Consumption-credit platforms (Snowflake, Databricks) sit in between — capture compute markup but expose customers to token volatility.",
+      "Free-AI platforms (Atlassian Rovo Chat, Google Workspace) sacrifice direct AI margin to defend platform lock-in."
     ],
     "arbitrage_opportunities": [
-      "Salesforce charges $2/conversation against $0.05 model cost — 40x markup. Any company building a competing CRM agent can undercut massively.",
+      "Salesforce charges $2/conversation against ~$0.06 token cost — 33x markup. Any focused vertical agent (legal, healthcare) can undercut massively.",
       "GitHub Copilot at $19/user/month is loss-making for power users. Cap introduction signals Microsoft is finding the profitability boundary.",
-      "ServiceNow moving to consumption-based pricing — signals confidence that per-token margins are positive and they want to capture more usage upside.",
-      "Google folding Gemini into base Workspace — accepting lower margin per user to block competitors. Counter-positioned to Salesforce's high-margin per-conversation model."
+      "Cursor at $20/user/month with 30 completions/day is likely token-negative. Anysphere's $9.9B valuation requires margin expansion via proprietary models or pricing increases.",
+      "ServiceNow moving to consumption-based pricing — signals confidence that per-token margins are positive.",
+      "Google folding Gemini into base Workspace at $4/user implied AI revenue — accepting lower per-AI margin to block competitors.",
+      "Notion AI fully exposed to Anthropic pricing (no proprietary model). Margin compresses if Claude rates rise.",
+      "Snowflake and Databricks both running ~2-3x model API markup via credit system — durable middleman position as long as data gravity holds."
     ],
-    "key_finding": "Margin concentrates at the distribution layer, not the production layer. Per-resolution platforms (Zendesk 99%, Intercom 98%, Salesforce 97%) capture the highest margins because they sell outcomes, not tokens. Per-user platforms (Microsoft 76%, ServiceNow 81%) face power-user risk. The investable insight: the enterprise platform layer is a 40-100x markup on model provider cost. The platform is the moat, not the model."
+    "key_finding": "Margin concentrates at the distribution layer, not the production layer. Per-resolution platforms (Zendesk, Intercom, Salesforce) capture the highest token-margins because they sell outcomes, not tokens. Per-user platforms face power-user cost risk. The investable insight: the enterprise platform layer earns a 20-100x markup on model-provider cost on the token line — but that 'margin' is gross-of-everything-else (hosting, R&D, sales). The structural advantage is durability: per-resolution pricing decouples revenue from input cost, so as LLMflation continues, margins compound. Proprietary models are the second moat."
   }
 }

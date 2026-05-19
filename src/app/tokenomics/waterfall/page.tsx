@@ -3,7 +3,7 @@ import SubPageShell from "@/components/SubPageShell";
 import TokenWaterfall from "@/components/TokenWaterfall";
 import { readFileSync } from "fs";
 import { join } from "path";
-import { getGPUPricing, getGPUThroughput } from "@/lib/data";
+import { getGPUPricing, getGPUThroughput, getTokenPricing } from "@/lib/data";
 import { costPerMillionFromGPU } from "@/lib/calculations";
 
 export const metadata: Metadata = {
@@ -34,6 +34,7 @@ export default function WaterfallPage() {
   const data = getWaterfallData();
   const gpu = getGPUPricing();
   const throughput = getGPUThroughput();
+  const tokens = getTokenPricing();
 
   const h100 = gpu?.summaries.find((s) => s.gpuModel === "nvidia-h100");
   const h100Spot = h100?.spot.median || h100?.onDemand.median || 0;
@@ -53,6 +54,7 @@ export default function WaterfallPage() {
           h100CostPerM,
           h100TokPerSec,
         }}
+        liveTokenModels={tokens?.models || []}
       />
     </SubPageShell>
   );
