@@ -6,7 +6,7 @@ import Section from "./ui/Section";
 import Metric from "./ui/Metric";
 import InsightBox from "./ui/InsightBox";
 import { blendedTokenCostFromMix, platformTokenMargin, type ModelMixEntry, type BlendedCostBreakdown } from "@/lib/calculations";
-import type { TokenPriceModel } from "@/lib/data";
+import type { TokenPriceModel, PlatformRegistry, PlatformDisclosures } from "@/lib/data";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -29,7 +29,26 @@ interface Props {
   liveStages?: LiveStages;
   liveTokenModels?: TokenPriceModel[];
   historicalSeries?: HistoricalPoint[];
+  registry?: PlatformRegistry | null;
+  disclosures?: PlatformDisclosures | null;
 }
+
+// Manual-verification freshness gate. Anything older than this triggers a STALE
+// badge so reviewers know the qualitative `margins.notes` paragraph needs eyes.
+const STALE_DAYS = 90;
+const daysSince = (dateStr: string | undefined): number => {
+  if (!dateStr) return Infinity;
+  const d = new Date(dateStr).getTime();
+  if (Number.isNaN(d)) return Infinity;
+  return Math.floor((Date.now() - d) / (1000 * 60 * 60 * 24));
+};
+
+const formatRevenue = (val: number, currency: string): string => {
+  const sym = currency === "USD" ? "$" : currency === "EUR" ? "€" : `${currency} `;
+  if (val >= 1e9) return `${sym}${(val / 1e9).toFixed(2)}B`;
+  if (val >= 1e6) return `${sym}${(val / 1e6).toFixed(0)}M`;
+  return `${sym}${val.toLocaleString()}`;
+};
 
 const MARGIN_COLOR = (pct: number | null) =>
   pct === null ? "#666"
@@ -47,12 +66,12 @@ const CONFIDENCE_OPACITY: Record<string, number> = {
   low: 0.40,
 };
 
-// "Verified" = customer pricing is taken from a public pricing page (high confidence) AND
-// the token-cost estimate is at least medium confidence. Pure "high+high" is impossible
-// because no platform publicly discloses tokens/interaction.
-const isVerified = (p: any) =>
-  p?.customerPricing?.confidence === "high" &&
-  (p?.estimatedModelCost?.confidence === "high" || p?.estimatedModelCost?.confidence === "medium");
+// "Pricing verified" = the customer-side price comes from a public pricing page (high confidence).
+// It does NOT mean the token-margin is verified — no platform publicly discloses tokens-per-interaction,
+// so the cost side is always modeled. We label the badge accordingly to avoid conflating verified
+// pricing with verified margin.
+const isPricingVerified = (p: any) =>
+  p?.customerPricing?.confidence === "high";
 
 const CATEGORY_LABELS: Record<string, string> = {
   "agent-platform": "Agent platforms",
@@ -74,7 +93,14 @@ const CATEGORY_COLOR: Record<string, string> = {
   "model-provider": "#5BA9FF",
 };
 
-export default function TokenWaterfall({ data, liveStages, liveTokenModels = [], historicalSeries = [] }: Props) {
+export default function TokenWaterfall({
+  data,
+  liveStages,
+  liveTokenModels = [],
+  historicalSeries = [],
+  registry = null,
+  disclosures = null,
+}: Props) {
   // Sensitivity slider: scale every platform's tokens-per-interaction by this factor.
   // Default 1.0 = data file assumptions. User can stress-test up/down 3x.
   const [tokenMultiplier, setTokenMultiplier] = useState(1.0);
@@ -107,8 +133,9 @@ export default function TokenWaterfall({ data, liveStages, liveTokenModels = [],
   const computed = useMemo(() => {
     return platforms.map((p) => {
       const mix: ModelMixEntry[] = (p.modelMix as ModelMixEntry[]) || [];
+      const inputWeightForBlend = p.estimatedModelCost?.inputOutputSplit?.input ?? 0.7;
       const blended: BlendedCostBreakdown = mix.length
-        ? blendedTokenCostFromMix(mix, liveTokenModels)
+        ? blendedTokenCostFromMix(mix, liveTokenModels, 5, inputWeightForBlend)
         : { costPerM: 0, details: [], missingModels: [] };
 
       const tokensRaw = p.estimatedModelCost?.tokensPerInteraction;
@@ -129,6 +156,12 @@ export default function TokenWaterfall({ data, liveStages, liveTokenModels = [],
       const customerPrice: number = p.customerPricing.price;
       const profitable = margin.marginPerUnit !== null && margin.marginPerUnit > 0;
 
+      // Merge registry + auto-refreshed disclosures by platform id.
+      const reg = registry?.platforms?.[p.id] ?? null;
+      const disc = disclosures?.snapshots?.[p.id] ?? null;
+      const latestQuarter = disc && "latestQuarter" in disc ? disc.latestQuarter ?? null : null;
+      const stale = daysSince(reg?.lastVerifiedAt) > STALE_DAYS;
+
       return {
         ...p,
         blended,
@@ -138,15 +171,18 @@ export default function TokenWaterfall({ data, liveStages, liveTokenModels = [],
         profitable,
         tokensAdjusted: tokens,
         customerPrice,
+        registry: reg,
+        latestQuarter,
+        stale,
       };
     });
-  }, [platforms, liveTokenModels, tokenMultiplier]);
+  }, [platforms, liveTokenModels, tokenMultiplier, registry, disclosures]);
 
   // ── Filtered rows for table/chart ──
   const filtered = useMemo(() => {
     return computed
       .filter((p) => activeCategory === "all" || p.category === activeCategory)
-      .filter((p) => !verifiedOnly || isVerified(p));
+      .filter((p) => !verifiedOnly || isPricingVerified(p));
   }, [computed, verifiedOnly, activeCategory]);
 
   // ── Hero stats ──
@@ -164,7 +200,7 @@ export default function TokenWaterfall({ data, liveStages, liveTokenModels = [],
       product: p.name,
       margin: Math.round(p.liveMarginPct! * 10) / 10,
       category: p.category,
-      verified: isVerified(p),
+      verified: isPricingVerified(p),
       opacity: CONFIDENCE_OPACITY[p.estimatedModelCost?.confidence ?? "low"] ?? 0.4,
     }));
 
@@ -231,6 +267,23 @@ export default function TokenWaterfall({ data, liveStages, liveTokenModels = [],
           sub="H100 TCO/hr → $/M (Llama 70B)"
           color="#FFB800"
         />
+      </div>
+
+      {/* Data freshness — counts of stale manual notes and auto-refreshed SEC snapshots */}
+      <div className="bg-bep-card border border-bep-border rounded-md p-2.5 mb-5 flex items-center justify-between flex-wrap gap-2 text-[10px] font-mono">
+        <div className="flex items-center gap-3 flex-wrap">
+          <span className="text-bep-muted uppercase tracking-wider">Data freshness</span>
+          <span className="text-bep-cyan">
+            SEC XBRL auto-refresh: {computed.filter((p) => p.latestQuarter).length}/{computed.filter((p) => p.registry?.ticker).length} public platforms
+          </span>
+          {disclosures?.lastUpdated && (
+            <span className="text-bep-dim">last cron run {disclosures.lastUpdated}</span>
+          )}
+          <span className={computed.some((p) => p.stale) ? "text-bep-red" : "text-bep-green"}>
+            Manual notes: {computed.filter((p) => p.stale).length} stale (&gt;{STALE_DAYS}d) / {computed.length}
+          </span>
+        </div>
+        <span className="text-bep-dim">platform-disclosures.json · platform-registry.json</span>
       </div>
 
       {/* Waterfall chart */}
@@ -300,7 +353,7 @@ export default function TokenWaterfall({ data, liveStages, liveTokenModels = [],
                 className="flex-1 px-2 py-1.5 transition-colors"
                 style={{ background: verifiedOnly ? "#76B90015" : "transparent", color: verifiedOnly ? "#76B900" : "#888", borderLeft: "1px solid #252525" }}
               >
-                Verified pricing only ({computed.filter(isVerified).length})
+                Pricing verified only ({computed.filter(isPricingVerified).length})
               </button>
             </div>
           </div>
@@ -323,7 +376,7 @@ export default function TokenWaterfall({ data, liveStages, liveTokenModels = [],
       {/* Platform margin chart with confidence opacity */}
       <Section
         title="Enterprise AI platform token margins"
-        subtitle={`Live blended model cost × per-platform token assumptions vs customer price. Bar opacity = confidence (full = verified pricing + earnings disclosure, faded = modeled estimate). Adjust the slider above to stress-test assumptions.${tokenMultiplier !== 1 ? ` Currently @ ${tokenMultiplier.toFixed(2)}x baseline tokens.` : ""}`}
+        subtitle={`Live blended model cost (70/30 input/output, overridable per platform) × per-platform token assumptions vs customer price. Bar opacity reflects the confidence of the token-cost estimate, NOT the verifiability of the margin — pricing is verified from public pages but tokens/interaction are always modeled. Use the slider to stress-test.${tokenMultiplier !== 1 ? ` Currently @ ${tokenMultiplier.toFixed(2)}x baseline tokens.` : ""}`}
       >
         <div className="bg-bep-card border border-bep-border rounded-md p-4 mb-3">
           <ResponsiveContainer width="100%" height={Math.max(260, marginData.length * 28)}>
@@ -342,10 +395,10 @@ export default function TokenWaterfall({ data, liveStages, liveTokenModels = [],
             </BarChart>
           </ResponsiveContainer>
           <div className="flex gap-3 text-[9px] font-mono text-bep-muted justify-center mt-1.5 flex-wrap">
-            <span><span className="inline-block w-3 h-2 mr-1 align-middle" style={{ background: "#76B900", opacity: 1 }} />Verified high</span>
-            <span><span className="inline-block w-3 h-2 mr-1 align-middle" style={{ background: "#76B900", opacity: 0.75 }} />Medium confidence</span>
+            <span><span className="inline-block w-3 h-2 mr-1 align-middle" style={{ background: "#76B900", opacity: 1 }} />Token-cost high conf.</span>
+            <span><span className="inline-block w-3 h-2 mr-1 align-middle" style={{ background: "#76B900", opacity: 0.75 }} />Medium</span>
             <span><span className="inline-block w-3 h-2 mr-1 align-middle" style={{ background: "#76B900", opacity: 0.55 }} />Medium-low</span>
-            <span><span className="inline-block w-3 h-2 mr-1 align-middle" style={{ background: "#76B900", opacity: 0.4 }} />Modeled low</span>
+            <span><span className="inline-block w-3 h-2 mr-1 align-middle" style={{ background: "#76B900", opacity: 0.4 }} />Low (modeled)</span>
           </div>
         </div>
 
@@ -354,7 +407,7 @@ export default function TokenWaterfall({ data, liveStages, liveTokenModels = [],
           {filtered.map((p) => {
             const margin = p.liveMarginPct;
             const marginColor = MARGIN_COLOR(margin);
-            const verified = isVerified(p);
+            const verified = isPricingVerified(p);
             const confKey = p.estimatedModelCost?.confidence ?? "low";
 
             return (
@@ -388,11 +441,25 @@ export default function TokenWaterfall({ data, liveStages, liveTokenModels = [],
                         border: `1px solid ${verified ? "#76B90040" : "#FFB80040"}`,
                       }}
                     >
-                      {verified ? "VERIFIED" : `MODELED (${confKey})`}
+                      {verified ? "PRICING VERIFIED" : `PRICING MODELED (${confKey})`}
                     </span>
                     {p.flagged && (
                       <span className="text-[8px] font-mono px-1.5 py-0.5 rounded bg-[#FFB80015] border border-[#FFB80030] text-bep-amber">
                         DATA GAP
+                      </span>
+                    )}
+                    {p.stale && (
+                      <span
+                        className="text-[8px] font-mono px-1.5 py-0.5 rounded uppercase tracking-wider"
+                        style={{ background: "#FF6B6B15", color: "#FF6B6B", border: "1px solid #FF6B6B40" }}
+                        title={`Manual notes last verified ${p.registry?.lastVerifiedAt} (${daysSince(p.registry?.lastVerifiedAt)} days ago)`}
+                      >
+                        STALE {daysSince(p.registry?.lastVerifiedAt)}d
+                      </span>
+                    )}
+                    {p.registry?.ticker && (
+                      <span className="text-[8px] font-mono px-1.5 py-0.5 rounded bg-[#5BA9FF15] border border-[#5BA9FF40] text-bep-cyan">
+                        {p.registry.ticker}
                       </span>
                     )}
                   </div>
@@ -462,8 +529,39 @@ export default function TokenWaterfall({ data, liveStages, liveTokenModels = [],
                   </div>
                 )}
 
+                {/* Auto-refreshed SEC XBRL snapshot — rewritten daily by the cron */}
+                {p.latestQuarter && (
+                  <div className="border-t border-bep-border pt-2 mb-2 flex items-center gap-2 flex-wrap text-[10px] font-mono">
+                    <span className="text-[8px] uppercase tracking-wider px-1.5 py-0.5 rounded bg-[#5BA9FF15] text-bep-cyan border border-[#5BA9FF40]">
+                      AUTO · SEC
+                    </span>
+                    <span className="text-bep-white">
+                      {p.latestQuarter.period}: {formatRevenue(p.latestQuarter.revenue, p.latestQuarter.currency)}
+                      {p.latestQuarter.revenueYoY !== null && (
+                        <span className={p.latestQuarter.revenueYoY >= 0 ? "text-bep-green" : "text-bep-red"}>
+                          {" "}{p.latestQuarter.revenueYoY >= 0 ? "+" : ""}{(p.latestQuarter.revenueYoY * 100).toFixed(1)}% YoY
+                        </span>
+                      )}
+                    </span>
+                    <a
+                      href={p.latestQuarter.sourceUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-bep-dim hover:text-bep-cyan no-underline text-[9px]"
+                      title={`${p.latestQuarter.form} filed ${p.latestQuarter.filedAt} · concept ${p.latestQuarter.concept}`}
+                    >
+                      filed {p.latestQuarter.filedAt} · {p.latestQuarter.form} ↗
+                    </a>
+                  </div>
+                )}
+
                 {p.margins?.notes && (
-                  <div className="text-[10px] text-bep-dim leading-relaxed mb-1">{p.margins.notes}</div>
+                  <div className="text-[10px] text-bep-dim leading-relaxed mb-1">
+                    {p.margins.notes}
+                    {p.registry?.lastVerifiedAt && (
+                      <span className="text-bep-muted font-mono ml-1">[verified {p.registry.lastVerifiedAt}]</span>
+                    )}
+                  </div>
                 )}
                 {p.dataGap && (
                   <div className="text-[10px] text-bep-amber font-mono mb-1">⚠ {p.dataGap}</div>

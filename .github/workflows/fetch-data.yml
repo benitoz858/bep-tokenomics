@@ -32,6 +32,10 @@ jobs:
           VASTAI_API_KEY: ${{ secrets.VASTAI_API_KEY }}
           GETDEPLOYING_API_KEY: ${{ secrets.GETDEPLOYING_API_KEY }}
           ORNN_AI_TOKEN: ${{ secrets.ORNN_AI_TOKEN }}
+      - name: Refresh public platform disclosures (SEC EDGAR XBRL)
+        run: npx tsx scripts/fetch-public-disclosures.ts
+        env:
+          SEC_USER_AGENT: 'BEP Research bot@bepresearch.com'
       - name: Compute indices
         run: npx tsx scripts/compute-indices.ts
       - name: Fetch Ornn AI history (GPU utilization, OCPI, memory)
