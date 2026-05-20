@@ -3,7 +3,14 @@ import SubPageShell from "@/components/SubPageShell";
 import TokenWaterfall from "@/components/TokenWaterfall";
 import { readFileSync } from "fs";
 import { join } from "path";
-import { getGPUPricing, getGPUThroughput, getTokenPricing, getTokenPricingHistory } from "@/lib/data";
+import {
+  getGPUPricing,
+  getGPUThroughput,
+  getTokenPricing,
+  getTokenPricingHistory,
+  getPlatformRegistry,
+  getPlatformDisclosures,
+} from "@/lib/data";
 import { costPerMillionFromGPU, quarterlyLLMflationSeries } from "@/lib/calculations";
 
 export const metadata: Metadata = {
@@ -36,6 +43,8 @@ export default function WaterfallPage() {
   const throughput = getGPUThroughput();
   const tokens = getTokenPricing();
   const tokenHistory = getTokenPricingHistory();
+  const registry = getPlatformRegistry();
+  const disclosures = getPlatformDisclosures();
 
   // Derive the historical LLMflation basket series from real token-pricing history at build time.
   // Each quarterly point is computed from the actual snapshot in history.json with era-aware
@@ -62,6 +71,8 @@ export default function WaterfallPage() {
         }}
         liveTokenModels={tokens?.models || []}
         historicalSeries={historicalSeries}
+        registry={registry}
+        disclosures={disclosures}
       />
     </SubPageShell>
   );

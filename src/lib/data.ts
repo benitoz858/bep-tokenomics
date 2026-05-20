@@ -43,6 +43,50 @@ export function getTokenPricingHistory(): TokenPricingHistory | null {
   return readJSON<TokenPricingHistory>(join(DATA_DIR, "token-pricing", "history.json"));
 }
 
+// ── Platform registry + auto-refreshed SEC disclosures ──
+// The registry is small + hand-maintained (ticker, CIK, lastVerifiedAt).
+// The disclosures file is rewritten daily by scripts/fetch-public-disclosures.ts.
+export interface PlatformRegistryEntry {
+  ticker: string | null;
+  secCik: string | null;
+  lastVerifiedAt: string; // ISO date
+  privateCompany?: boolean;
+  foreignPrivateIssuer?: boolean;
+}
+
+export interface PlatformRegistry {
+  lastUpdated: string;
+  platforms: Record<string, PlatformRegistryEntry>;
+}
+
+export interface QuarterSnapshot {
+  period: string;
+  periodEnd: string;
+  revenue: number;
+  currency: string;
+  revenueYoY: number | null;
+  filedAt: string;
+  form: string;
+  concept: string;
+  taxonomy: string;
+  source: "SEC XBRL";
+  sourceUrl: string;
+  fetchedAt: string;
+}
+
+export interface PlatformDisclosures {
+  lastUpdated: string | null;
+  snapshots: Record<string, { latestQuarter?: QuarterSnapshot; error?: string; fetchedAt?: string }>;
+}
+
+export function getPlatformRegistry(): PlatformRegistry | null {
+  return readJSON<PlatformRegistry>(join(DATA_DIR, "static", "platform-registry.json"));
+}
+
+export function getPlatformDisclosures(): PlatformDisclosures | null {
+  return readJSON<PlatformDisclosures>(join(DATA_DIR, "static", "platform-disclosures.json"));
+}
+
 // ── GPU Pricing ──
 export interface GPUSummary {
   gpuModel: string;

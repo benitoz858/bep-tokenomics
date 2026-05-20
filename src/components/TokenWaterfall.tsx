@@ -6,7 +6,7 @@ import Section from "./ui/Section";
 import Metric from "./ui/Metric";
 import InsightBox from "./ui/InsightBox";
 import { blendedTokenCostFromMix, platformTokenMargin, type ModelMixEntry, type BlendedCostBreakdown } from "@/lib/calculations";
-import type { TokenPriceModel } from "@/lib/data";
+import type { TokenPriceModel, PlatformRegistry, PlatformDisclosures } from "@/lib/data";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -29,7 +29,26 @@ interface Props {
   liveStages?: LiveStages;
   liveTokenModels?: TokenPriceModel[];
   historicalSeries?: HistoricalPoint[];
+  registry?: PlatformRegistry | null;
+  disclosures?: PlatformDisclosures | null;
 }
+
+// Manual-verification freshness gate. Anything older than this triggers a STALE
+// badge so reviewers know the qualitative `margins.notes` paragraph needs eyes.
+const STALE_DAYS = 90;
+const daysSince = (dateStr: string | undefined): number => {
+  if (!dateStr) return Infinity;
+  const d = new Date(dateStr).getTime();
+  if (Number.isNaN(d)) return Infinity;
+  return Math.floor((Date.now() - d) / (1000 * 60 * 60 * 24));
+};
+
+const formatRevenue = (val: number, currency: string): string => {
+  const sym = currency === "USD" ? "$" : currency === "EUR" ? "€" : `${currency} `;
+  if (val >= 1e9) return `${sym}${(val / 1e9).toFixed(2)}B`;
+  if (val >= 1e6) return `${sym}${(val / 1e6).toFixed(0)}M`;
+  return `${sym}${val.toLocaleString()}`;
+};
 
 const MARGIN_COLOR = (pct: number | null) =>
   pct === null ? "#666"
@@ -74,7 +93,14 @@ const CATEGORY_COLOR: Record<string, string> = {
   "model-provider": "#5BA9FF",
 };
 
-export default function TokenWaterfall({ data, liveStages, liveTokenModels = [], historicalSeries = [] }: Props) {
+export default function TokenWaterfall({
+  data,
+  liveStages,
+  liveTokenModels = [],
+  historicalSeries = [],
+  registry = null,
+  disclosures = null,
+}: Props) {
   // Sensitivity slider: scale every platform's tokens-per-interaction by this factor.
   // Default 1.0 = data file assumptions. User can stress-test up/down 3x.
   const [tokenMultiplier, setTokenMultiplier] = useState(1.0);
@@ -130,6 +156,12 @@ export default function TokenWaterfall({ data, liveStages, liveTokenModels = [],
       const customerPrice: number = p.customerPricing.price;
       const profitable = margin.marginPerUnit !== null && margin.marginPerUnit > 0;
 
+      // Merge registry + auto-refreshed disclosures by platform id.
+      const reg = registry?.platforms?.[p.id] ?? null;
+      const disc = disclosures?.snapshots?.[p.id] ?? null;
+      const latestQuarter = disc && "latestQuarter" in disc ? disc.latestQuarter ?? null : null;
+      const stale = daysSince(reg?.lastVerifiedAt) > STALE_DAYS;
+
       return {
         ...p,
         blended,
@@ -139,9 +171,12 @@ export default function TokenWaterfall({ data, liveStages, liveTokenModels = [],
         profitable,
         tokensAdjusted: tokens,
         customerPrice,
+        registry: reg,
+        latestQuarter,
+        stale,
       };
     });
-  }, [platforms, liveTokenModels, tokenMultiplier]);
+  }, [platforms, liveTokenModels, tokenMultiplier, registry, disclosures]);
 
   // ── Filtered rows for table/chart ──
   const filtered = useMemo(() => {
@@ -232,6 +267,23 @@ export default function TokenWaterfall({ data, liveStages, liveTokenModels = [],
           sub="H100 TCO/hr → $/M (Llama 70B)"
           color="#FFB800"
         />
+      </div>
+
+      {/* Data freshness — counts of stale manual notes and auto-refreshed SEC snapshots */}
+      <div className="bg-bep-card border border-bep-border rounded-md p-2.5 mb-5 flex items-center justify-between flex-wrap gap-2 text-[10px] font-mono">
+        <div className="flex items-center gap-3 flex-wrap">
+          <span className="text-bep-muted uppercase tracking-wider">Data freshness</span>
+          <span className="text-bep-cyan">
+            SEC XBRL auto-refresh: {computed.filter((p) => p.latestQuarter).length}/{computed.filter((p) => p.registry?.ticker).length} public platforms
+          </span>
+          {disclosures?.lastUpdated && (
+            <span className="text-bep-dim">last cron run {disclosures.lastUpdated}</span>
+          )}
+          <span className={computed.some((p) => p.stale) ? "text-bep-red" : "text-bep-green"}>
+            Manual notes: {computed.filter((p) => p.stale).length} stale (&gt;{STALE_DAYS}d) / {computed.length}
+          </span>
+        </div>
+        <span className="text-bep-dim">platform-disclosures.json · platform-registry.json</span>
       </div>
 
       {/* Waterfall chart */}
@@ -396,6 +448,20 @@ export default function TokenWaterfall({ data, liveStages, liveTokenModels = [],
                         DATA GAP
                       </span>
                     )}
+                    {p.stale && (
+                      <span
+                        className="text-[8px] font-mono px-1.5 py-0.5 rounded uppercase tracking-wider"
+                        style={{ background: "#FF6B6B15", color: "#FF6B6B", border: "1px solid #FF6B6B40" }}
+                        title={`Manual notes last verified ${p.registry?.lastVerifiedAt} (${daysSince(p.registry?.lastVerifiedAt)} days ago)`}
+                      >
+                        STALE {daysSince(p.registry?.lastVerifiedAt)}d
+                      </span>
+                    )}
+                    {p.registry?.ticker && (
+                      <span className="text-[8px] font-mono px-1.5 py-0.5 rounded bg-[#5BA9FF15] border border-[#5BA9FF40] text-bep-cyan">
+                        {p.registry.ticker}
+                      </span>
+                    )}
                   </div>
                   <div className="flex items-center gap-2">
                     {margin !== null && (
@@ -463,8 +529,39 @@ export default function TokenWaterfall({ data, liveStages, liveTokenModels = [],
                   </div>
                 )}
 
+                {/* Auto-refreshed SEC XBRL snapshot — rewritten daily by the cron */}
+                {p.latestQuarter && (
+                  <div className="border-t border-bep-border pt-2 mb-2 flex items-center gap-2 flex-wrap text-[10px] font-mono">
+                    <span className="text-[8px] uppercase tracking-wider px-1.5 py-0.5 rounded bg-[#5BA9FF15] text-bep-cyan border border-[#5BA9FF40]">
+                      AUTO · SEC
+                    </span>
+                    <span className="text-bep-white">
+                      {p.latestQuarter.period}: {formatRevenue(p.latestQuarter.revenue, p.latestQuarter.currency)}
+                      {p.latestQuarter.revenueYoY !== null && (
+                        <span className={p.latestQuarter.revenueYoY >= 0 ? "text-bep-green" : "text-bep-red"}>
+                          {" "}{p.latestQuarter.revenueYoY >= 0 ? "+" : ""}{(p.latestQuarter.revenueYoY * 100).toFixed(1)}% YoY
+                        </span>
+                      )}
+                    </span>
+                    <a
+                      href={p.latestQuarter.sourceUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-bep-dim hover:text-bep-cyan no-underline text-[9px]"
+                      title={`${p.latestQuarter.form} filed ${p.latestQuarter.filedAt} · concept ${p.latestQuarter.concept}`}
+                    >
+                      filed {p.latestQuarter.filedAt} · {p.latestQuarter.form} ↗
+                    </a>
+                  </div>
+                )}
+
                 {p.margins?.notes && (
-                  <div className="text-[10px] text-bep-dim leading-relaxed mb-1">{p.margins.notes}</div>
+                  <div className="text-[10px] text-bep-dim leading-relaxed mb-1">
+                    {p.margins.notes}
+                    {p.registry?.lastVerifiedAt && (
+                      <span className="text-bep-muted font-mono ml-1">[verified {p.registry.lastVerifiedAt}]</span>
+                    )}
+                  </div>
                 )}
                 {p.dataGap && (
                   <div className="text-[10px] text-bep-amber font-mono mb-1">⚠ {p.dataGap}</div>

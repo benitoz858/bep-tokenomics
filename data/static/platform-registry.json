@@ -1,0 +1,27 @@
+{
+  "source": "BEP Research — hand-curated mapping of waterfall platforms to SEC tickers + last manual verification dates.",
+  "lastUpdated": "2026-05-20",
+  "notes": "This registry is the small, stable surface that drives the automated SEC EDGAR disclosure fetch (scripts/fetch-public-disclosures.ts → data/static/platform-disclosures.json). `lastVerifiedAt` tracks the last human-confirmed date for each platform's qualitative `margins.notes` prose in token-waterfall.json — the UI shows a STALE badge when this is more than 90 days old.",
+  "platforms": {
+    "salesforce-agentforce":     { "ticker": "CRM",   "secCik": "0000827319", "lastVerifiedAt": "2026-05-20" },
+    "zendesk-ai":                { "ticker": null,    "secCik": null,        "lastVerifiedAt": "2026-02-15", "privateCompany": true },
+    "intercom-fin":              { "ticker": null,    "secCik": null,        "lastVerifiedAt": "2026-05-20", "privateCompany": true },
+    "servicenow-nowassist":      { "ticker": "NOW",   "secCik": "0001373715", "lastVerifiedAt": "2026-05-20" },
+    "microsoft-copilot":         { "ticker": "MSFT",  "secCik": "0000789019", "lastVerifiedAt": "2026-02-15" },
+    "github-copilot":            { "ticker": "MSFT",  "secCik": "0000789019", "lastVerifiedAt": "2026-02-15" },
+    "sap-joule":                 { "ticker": "SAP",   "secCik": "0001000184", "lastVerifiedAt": "2026-05-20", "foreignPrivateIssuer": true },
+    "google-workspace":          { "ticker": "GOOGL", "secCik": "0001652044", "lastVerifiedAt": "2026-02-15" },
+    "oracle-fusion-ai":          { "ticker": "ORCL",  "secCik": "0001341439", "lastVerifiedAt": "2026-05-20" },
+    "adobe-firefly":             { "ticker": "ADBE",  "secCik": "0000796343", "lastVerifiedAt": "2026-02-15" },
+    "hubspot-breeze":            { "ticker": "HUBS",  "secCik": "0001404655", "lastVerifiedAt": "2026-05-20" },
+    "atlassian-rovo":            { "ticker": "TEAM",  "secCik": "0001650372", "lastVerifiedAt": "2026-05-20" },
+    "notion-ai":                 { "ticker": null,    "secCik": null,        "lastVerifiedAt": "2026-05-20", "privateCompany": true },
+    "openai-chatgpt-enterprise": { "ticker": null,    "secCik": null,        "lastVerifiedAt": "2026-02-15", "privateCompany": true },
+    "snowflake-cortex":          { "ticker": "SNOW",  "secCik": "0001640147", "lastVerifiedAt": "2026-05-20" },
+    "databricks-mosaic":         { "ticker": null,    "secCik": null,        "lastVerifiedAt": "2026-02-15", "privateCompany": true },
+    "palantir-aip":              { "ticker": "PLTR",  "secCik": "0001321655", "lastVerifiedAt": "2026-05-20" },
+    "cursor":                    { "ticker": null,    "secCik": null,        "lastVerifiedAt": "2026-02-15", "privateCompany": true },
+    "xai-grok-enterprise":       { "ticker": null,    "secCik": null,        "lastVerifiedAt": "2026-02-15", "privateCompany": true },
+    "box-ai":                    { "ticker": "BOX",   "secCik": "0001372612", "lastVerifiedAt": "2026-05-20" }
+  }
+}
