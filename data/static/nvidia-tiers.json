@@ -1,6 +1,7 @@
 {
   "source": "NVIDIA GTC 2026 Keynote — Jensen's Five Inference Pricing Tiers",
   "lastUpdated": "2026-03-27",
+  "cadence": "Captured from GTC 2026 keynote. Refreshes per NVIDIA major event (GTC, COMPUTEX) — annual cadence.",
   "tiers": [
     {
       "tier": "Free",

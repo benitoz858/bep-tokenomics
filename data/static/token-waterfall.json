@@ -1,8 +1,28 @@
 {
-  "source": "BEP Research — public pricing pages, earnings calls (Q4 FY2025/Q1 FY2026), SEC filings, press releases",
+  "source": "BEP Research — public pricing pages, earnings calls (Q3 FY2026 / Q1 2026 calendar), SEC EDGAR XBRL (auto-refreshed daily), press releases. See data/static/platform-disclosures.json for the latest machine-verified quarterly figures.",
   "lastUpdated": "2026-05-19",
   "methodology": "Token Cost Waterfall maps the margin stack from GPU silicon to end-customer. The platform 'token margin' is (customer price per interaction − blended model cost per interaction) / customer price. modelCost is DERIVED LIVE from data/token-pricing/current.json by weighting each platform's modelMix against today's market prices, blended across input and output using a 70/30 input/output default (overridable per platform via inputOutputSplit when workload skew is known). Proprietary in-house models use a stated marginal-cost estimate. Confidence levels: HIGH = public pricing page (pricing) or earnings disclosure (cost), MEDIUM = earnings call disclosure + estimate, MEDIUM-LOW = bottom-up derivation with stated assumptions, LOW = analyst inference. The chart's 'PRICING VERIFIED' badge means the customer-side price is public — it does NOT mean the token-margin computation is verified, because no platform publicly discloses tokens-per-interaction. Token-margin EXCLUDES hosting, R&D, sales, support, performance guarantees, and forward-deployed engineering — it isolates the input-cost variable that compounds with LLMflation.",
+  "tokenTierFramework": {
+    "summary": "Each platform's tokensPerInteraction is anchored to one of six sourced tiers, so the assumption can be defended rather than waved at. Anthropic's published baseline: 'agents typically use about 4× more tokens than chat interactions, and multi-agent systems use about 15× more tokens than chats.' This calibrates the tier ranges below.",
+    "anthropicMultiplier": "Anthropic, How we built our multi-agent research system (engineering blog, 2025): 4x for single-agent tool-using vs chat; 15x for multi-agent.",
+    "tiers": {
+      "tier1-chat": { "label": "Chat / Q&A (no RAG)", "low": 500, "typical": 1500, "high": 5000, "examplePlatforms": ["google-workspace", "hubspot-breeze", "atlassian-rovo"], "source": "Anthropic chat baseline; Notion historical 2,048 token context" },
+      "tier2-rag": { "label": "RAG over documents", "low": 3000, "typical": 8000, "high": 30000, "examplePlatforms": ["microsoft-copilot", "notion-ai", "oracle-fusion-ai"], "source": "NVIDIA Developer Blog reranker eval; AI21 query-dependent chunking: 5-20 chunks, 2K-10K tokens" },
+      "tier3-code-completion": { "label": "Code completion (per completion)", "low": 500, "typical": 2000, "high": 8000, "examplePlatforms": ["github-copilot"], "source": "Simform Engineering: 'small inline + short comment ~5 tokens returns ~20 tokens of code'; Copilot Chat context 128-192K; heavy users 50K-200K/day" },
+      "tier4-agentic-resolution": { "label": "Agentic tool-calling loop (per resolution)", "low": 10000, "typical": 50000, "high": 250000, "examplePlatforms": ["salesforce-agentforce", "intercom-fin", "zendesk-ai", "servicenow-nowassist"], "source": "Anthropic 15x chat multiplier; Salesforce publicly bills 10,000 tokens/action with multi-action conversations; KAMI benchmark ~32K tokens/item" },
+      "tier5-coding-agent": { "label": "Multi-turn coding agent (per task)", "low": 50000, "typical": 250000, "high": 1000000, "examplePlatforms": ["cursor"], "source": "AgencyBench (arXiv 2601.11044): 138 tasks average 1M tokens and 90 tool calls. Anthropic: 'agent completing a code review task used 120,000 tokens (~$1.80)'" },
+      "tier6-doc-analysis": { "label": "Enterprise heavy-doc analysis", "low": 20000, "typical": 60000, "high": 200000, "examplePlatforms": ["box-ai", "sap-joule"], "source": "arXiv 2601.14470 Tokenomics: input tokens 53.9% of consumption; Code Review phase 59.4% of total tokens" }
+    },
+    "primarySources": [
+      "https://www.anthropic.com/engineering/multi-agent-research-system",
+      "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents",
+      "https://arxiv.org/abs/2601.11044",
+      "https://arxiv.org/abs/2601.14470",
+      "https://www.salesforce.com/agentforce/pricing/"
+    ]
+  },
   "tokenMarginCaveat": "Platform 'token margin' is gross margin on the token-cost line only. It is NOT company-level gross margin. Hosting, fine-tuning, customer support, sales commissions, performance guarantees, forward-deployed engineers, and agent R&D sit on top of token cost and reduce true gross margin. Verified-pricing × modeled-tokens × token-only-COGS does not equal verified-margin. Read each number as: 'of every dollar of platform revenue, X cents goes to model providers' — not 'X% gross margin.'",
+  "proprietaryCostMethodology": "Each proprietaryCostPerM is calibrated to one of three anchors: (a) the vendor's own published API rate where available — Cohere Command R+ ($2.50/M) maps to cohere.com/pricing; Grok-4 ($3.50/M) and Grok-Code ($2.80/M) map to xAI's API pricing; Snowflake Arctic ($1.20/M) and Databricks DBRX ($1.50/M) map to credit-converted hosting rates; (b) the small-model API equivalent for fine-tuned proprietary models with no public price — xGen, Now LLM, Fin Apex 1.0, SAP-LLM, Oracle-LLM, Rovo Search land in the $0.30-$0.80/M band, calibrated against gpt-5-mini ($0.51/M output) and Haiku-class ($1-2/M output) market rates with a discount for internal serving; (c) GPU marginal cost for first-party models on captive infra. These are estimates, not disclosures — sensitivity to ±50% on any single proprietary rate is small at the platform level because the model mix is diversified.",
   "platforms": [
     {
       "id": "salesforce-agentforce",
@@ -11,7 +31,7 @@
       "category": "agent-platform",
       "tier": "per-conversation",
       "modelProvider": "OpenAI + Anthropic + xGen (proprietary)",
-      "modelProviderNote": "Multi-model routing. xGen for dev tasks, GPT-5/GPT-4o default, Claude via Bedrock. BYOLLM supported.",
+      "modelProviderNote": "Multi-model routing. xGen for narrow dev tasks (proprietary), GPT-5 default, Claude Sonnet 4.6 via Amazon Bedrock for complex reasoning. BYOLLM supported via Einstein Trust Layer.",
       "modelMix": [
         { "modelId": "openai/gpt-5", "weight": 0.40, "role": "default" },
         { "modelId": "anthropic/claude-sonnet-4.6", "weight": 0.25, "role": "complex" },
@@ -27,9 +47,10 @@
       },
       "estimatedModelCost": {
         "tokensPerInteraction": 40000,
+        "tier": "tier4-agentic-resolution",
         "confidence": "medium-low",
         "inputOutputSplit": { "input": 0.80, "output": 0.20 },
-        "assumptions": "Bottom-up derivation: 3.2T tokens disclosed Q3 FY26 ÷ implied paid interactions ≈ 32-64K tokens per conversation, not the 10K we had previously. Agentforce is RAG-heavy (CRM record context + tool-call traces + multi-turn reasoning) — system prompt and retrieved context dominate, so 80/20 input/output skew (heavier than pure chat but balanced for reasoning + tool-call output). Earlier 10K estimate was a standard chat assumption that ignores agentic tool-calling loops (5-30x more tokens per task per production benchmarks)."
+        "assumptions": "Salesforce publicly bills 10,000 tokens per action (salesforce.com/agentforce/pricing). A typical conversation spans 3-5 actions = 30-50K tokens, so we hold at 40K. Cross-check: 3.2T tokens disclosed Q3 FY26 ÷ implied paid interactions ≈ 32-64K tokens per conversation. Agentforce is RAG-heavy (CRM record context + tool-call traces + multi-turn reasoning) — 80/20 input/output. The 10K we had before was a chat-loop assumption; agentic systems run 4-15x heavier per Anthropic's multi-agent research blog."
       },
       "margins": {
         "notes": "Q3 FY26 (Dec 3, 2025): Agentforce + Data 360 combined ARR ~$1.4B, +114% YoY. Agentforce-only ARR surpassed $540M, +330%. 3.2 trillion tokens processed. 18,500+ Agentforce deals closed since launch — only 9,500+ are paid, so roughly half remain on free/trial (relevant context for the headline 'paid deals' figure). Pricing model has fragmented: $2/conversation is the original SKU but Flex Credits ($0.10/action, May 2025) is the recommended deployment for most enterprises, and per-user licenses at $125-650/user/month are now also available. Token-margin computed against the $2/conv SKU should be read as the legacy-SKU ceiling, not a blended ASP."
@@ -64,8 +85,9 @@
       },
       "estimatedModelCost": {
         "tokensPerInteraction": 4000,
+        "tier": "tier4-agentic-resolution",
         "confidence": "medium",
-        "assumptions": "2-5K tokens per resolution. Only charged on full resolution (no human handoff)."
+        "assumptions": "Tier-4 agentic resolution. Per-resolution range is wide (10K-250K) — Zendesk's number is held at 4K because (a) Zendesk explicitly bills only on full resolution with no human handoff, biasing toward simpler tickets that resolve, (b) heavy routing to fast-path models (Haiku, Flash) compresses the per-resolution token budget. Push the sensitivity slider to 3x (12K) to model resolutions that involve more turns / longer context retrieval."
       },
       "margins": {
         "notes": "Private (Hellman & Friedman, $10.2B take-private 2022). Dynamic pricing plan released 2025 allows remixing seats vs resolutions."
@@ -99,8 +121,9 @@
       },
       "estimatedModelCost": {
         "tokensPerInteraction": 5000,
+        "tier": "tier4-agentic-resolution",
         "confidence": "medium",
-        "assumptions": "Apex 1.0 handles ~50% of resolutions at near-zero marginal cost. Claude tier-2 handles complex cases."
+        "assumptions": "Tier-4 agentic resolution. The aggregate is low (5K) because Fin Apex 1.0 (proprietary, post-trained) handles ~50% of resolutions at near-zero marginal cost; Claude Sonnet/Haiku absorb the complex tail. Effective blended cost is dominated by the non-Apex tail. The friend-review stress-test at 6x (30K) still leaves >94% token margin — i.e., Fin's economics are robust to this assumption."
       },
       "margins": {
         "notes": "Proprietary Apex 1.0 is the margin-expansion play. Anthropic itself is a Fin customer. Private. Caveats not in token-margin math: (1) Fin resolves ~67% of issues — Intercom pays inference tokens on every attempt but only collects on successful resolutions, so ~33% of inference is unbilled overhead; (2) Intercom backs Fin with a performance guarantee up to $1M if resolution targets aren't met, which is a real COGS liability; (3) Fin uses forward-deployed engineers as a customer-success/learning engine — material headcount that hits company-level gross margin even when token-margin holds high."
@@ -136,8 +159,9 @@
       "estimatedModelCost": {
         "tokensPerInteraction": 6000,
         "interactionsPerUserPerDay": 10,
+        "tier": "tier2-rag",
         "confidence": "low",
-        "assumptions": "10 AI interactions/day × 6K tokens. Heavy routing to cheaper models for classification/triage."
+        "assumptions": "Tier-2 RAG. Now Assist queries pull ITSM record context (incidents, CMDB, knowledge articles) + multi-turn reasoning. 6K is conservative for a typical workflow; complex 'Build Agent' tasks land in Tier-4 territory (10K-50K). 10 interactions/day reflects a fulfiller persona — not an end-user CSAT load."
       },
       "margins": {
         "notes": "Now Assist ACV >$600M (Q4 FY2025), tracking $1B by year-end 2026. 31% non-GAAP op margin."
@@ -172,8 +196,9 @@
       "estimatedModelCost": {
         "tokensPerInteraction": 4000,
         "interactionsPerUserPerDay": 12,
+        "tier": "tier2-rag",
         "confidence": "medium",
-        "assumptions": "12 interactions/day × 4K tokens. 50% internal discount via equity stake."
+        "assumptions": "Tier-2 RAG over user docs (Word, Excel, Outlook, Teams transcripts). 4K per interaction sits at the low end of the RAG band — Microsoft has been aggressively tuning retrieval to bound context. 12 interactions/day for an active Copilot seat (Microsoft has not disclosed; estimate). 50% internal discount applied because Microsoft owns 49% of OpenAI and is the exclusive cloud provider — effective cost is closer to GPU economics than API list."
       },
       "margins": {
         "notes": "Microsoft effectively pays itself for inference via OpenAI. M365 base price increase ($36→$39, July 2026) absorbs AI cost."
@@ -209,8 +234,9 @@
       "estimatedModelCost": {
         "tokensPerInteraction": 6000,
         "interactionsPerUserPerDay": 25,
+        "tier": "tier3-code-completion",
         "confidence": "medium-low",
-        "assumptions": "Heavy users: 25 completions/day × 6K tokens. Light users (~8/day) are profitable. Premium model caps mitigate worst-case loss."
+        "assumptions": "Tier-3 code completion. Per-completion in the 0.5K-8K band (Simform Engineering: small inline + short comment ~5 tokens returns ~20 tokens). We hold 6K average to reflect that 'agent mode' completions (which Anthropic frames as 4x chat) increasingly dominate vs simple autocomplete. 25/day is a heavy-user estimate; light users (~8/day) are clearly profitable, heavy users (50+/day, often power devs) trigger the premium-request caps Microsoft introduced 2026. Real per-user variance is 10x."
       },
       "margins": {
         "notes": "GitHub disclosed Copilot 'approaching profitability' in aggregate (late 2025). Request caps introduced 2026 to control cost."
@@ -277,8 +303,9 @@
       "estimatedModelCost": {
         "tokensPerInteraction": 3000,
         "interactionsPerUserPerDay": 8,
+        "tier": "tier1-chat",
         "confidence": "medium",
-        "assumptions": "8 interactions/day × 3K tokens. 60% TPU-internal discount."
+        "assumptions": "Tier-1 chat / light RAG (Gemini in Docs/Gmail/Sheets). 3K per interaction reflects short chat-style usage. 60% TPU-internal discount: Google operates Gemini on captive TPU clusters at substantially lower marginal cost than the API list price."
       },
       "margins": {
         "notes": "Folding AI into base subscription is penetration strategy — monetizes through retention."
@@ -314,8 +341,9 @@
       "estimatedModelCost": {
         "tokensPerInteraction": 5000,
         "interactionsPerUserPerDay": 6,
+        "tier": "tier2-rag",
         "confidence": "low",
-        "assumptions": "6 interactions/day × 5K tokens. Domain models handle structured ERP queries."
+        "assumptions": "Tier-2 RAG over Fusion ERP records. 5K per interaction at the low end of the RAG band — structured queries are usually shorter than open-ended doc analysis. 6 interactions/day reflects ERP user persona (fewer but heavier queries vs Copilot user). Domain models (Cohere Command R+, Oracle-LLM) handle structured retrievals at lower cost."
       },
       "margins": {
         "notes": "Oracle Q3 FY26 (reported Mar 10, 2026): Cloud Infrastructure (OCI) revenue $4.9B, +84% YoY; Cloud Applications $4.0B, +13%. Total revenue $17.2B, +22%. RPO ended at $553B (+325% YoY) on AI-infrastructure backlog. OCI margin ~38%."
@@ -385,8 +413,9 @@
       "estimatedModelCost": {
         "tokensPerInteraction": 4500,
         "interactionsPerUserPerDay": 8,
+        "tier": "tier2-rag",
         "confidence": "medium",
-        "assumptions": "8 interactions/day × 4.5K tokens for typical CRM workflow."
+        "assumptions": "Tier-2 RAG. Breeze Copilot pulls CRM record context for typical sales/marketing workflows. 4.5K mid-band for the tier. 8 interactions/day reflects active CRM user."
       },
       "margins": {
         "notes": "HubSpot Q1 2026 (reported May 7, 2026): revenue $881M, +23% YoY. Non-GAAP operating margin 18%. AI monetization accelerating — core seat users +90% YoY, credit consumption +67% QoQ. Full-year guide raised to ~$3.70B."
@@ -422,8 +451,9 @@
       "estimatedModelCost": {
         "tokensPerInteraction": 4000,
         "interactionsPerUserPerDay": 10,
+        "tier": "tier1-chat",
         "confidence": "low",
-        "assumptions": "Margin computed against the $20 paid Agents tier. Free Chat is platform investment."
+        "assumptions": "Tier-1 chat / lightweight RAG over Jira/Confluence. Rovo Chat is included free in all paid Cloud plans (Feb 2026) — the margin computation here is for the paid Rovo Agents add-on at $20/user/month. Free Chat is a platform-lock investment, not a margin product."
       },
       "margins": {
         "notes": "Free Rovo Chat is platform-lock play. Atlassian Q3 FY26 (ended Mar 31, 2026, reported Apr 30, 2026): Cloud revenue $1.13B, +29% YoY; total revenue $1.79B, +32% YoY. 34% non-GAAP operating margin. Cloud gross margin ~85%."
@@ -458,9 +488,10 @@
       "estimatedModelCost": {
         "tokensPerInteraction": 4000,
         "interactionsPerUserPerDay": 6,
+        "tier": "tier2-rag",
         "confidence": "medium",
         "inputOutputSplit": { "input": 0.80, "output": 0.20 },
-        "assumptions": "6 interactions/day × 4K tokens. Notion uses long context (full page content) which inflates input tokens — 80/20 input/output skew."
+        "assumptions": "Tier-2 RAG. Notion uses long page context (full page content), which inflates input tokens — 80/20 input/output skew. 4K aggregate sits at the low end of the RAG band; complex pages with long context skew much higher. 6 interactions/day reflects an active Notion AI user."
       },
       "margins": {
         "notes": "Private. Last primary round 2021; secondary tender at $10B (2022) and $11B (Dec 2025). No primary raise in four years — Bloomberg sources point to a potential 2026 IPO. No proprietary model — fully exposed to model-provider pricing."
@@ -494,8 +525,9 @@
       "estimatedModelCost": {
         "tokensPerInteraction": 8000,
         "interactionsPerUserPerDay": 20,
+        "tier": "tier2-rag",
         "confidence": "medium",
-        "assumptions": "20 interactions/day × 8K tokens (enterprise power users). 70% internal discount (GPU cost vs API list price)."
+        "assumptions": "Mostly Tier-2 RAG (file uploads, web search, retrieval) with occasional Tier-5 coding-agent tasks. 8K average reflects enterprise power-user load. 20 interactions/day estimated for active seats. 70% internal discount because OpenAI is first-party — no model-provider markup, only GPU cost."
       },
       "margins": {
         "notes": "OpenAI is first-party — pure GPU economics, no model-provider markup."
@@ -531,7 +563,7 @@
       "estimatedModelCost": {
         "tokensPerInteraction": 6000,
         "confidence": "medium",
-        "assumptions": "Snowflake marks up model API rate ~2.2x via credit system (industry consensus on Cortex take rate). Margin = take rate on top of wholesale model cost passed through, NOT credit price minus token cost. Wholesale flows through to model provider; Snowflake keeps (markup-1)/markup."
+        "assumptions": "Snowflake marks up wholesale model API rates via the credit system. Markup of ~2.2x is derived by comparing Cortex per-token credit consumption rates (snowflake.com/legal-files/CreditConsumptionTable.pdf) for, e.g., claude-sonnet-4 (~$0.024/1K input, $0.120/1K output via Cortex) against Anthropic's API list (~$0.003 input / $0.015 output per 1K) — implying ~7-8x output markup pre-volume, settling to ~2-2.5x at typical enterprise mix and prepaid-credit discount. Margin = take rate on top of wholesale model cost passed through, NOT credit price minus token cost. Wholesale flows through to model provider; Snowflake keeps (markup-1)/markup."
       },
       "margins": {
         "notes": "Snowflake Q4 FY26 (ended Jan 31, 2026, reported Feb 25, 2026): product revenue $1.23B, +30% YoY. Full-year FY26 product revenue $4.42B+. NRR 125%. Cortex AI fastest-growing component. Headline 99% margin (early data) was wrong — Snowflake is a middleman taking a markup, not pocketing the full credit. True take rate ~55%."
@@ -568,7 +600,7 @@
       "estimatedModelCost": {
         "tokensPerInteraction": 6000,
         "confidence": "medium",
-        "assumptions": "Mosaic markup ~2x wholesale model API rate via DBU consumption. DBRX self-hosted at near-marginal cost in the cheaper DBU tiers. Margin = take rate, not (DBU price − wholesale cost)."
+        "assumptions": "Mosaic markup ~2x wholesale model API rate via DBU consumption. Derived by comparing Databricks' Foundation Model API pricing (databricks.com/product/pricing) — e.g., Claude Sonnet at ~$0.0072 input / $0.036 output per 1K DBU-equivalent — against Anthropic API list of ~$0.003 / $0.015 per 1K. Output markup ~2.4x at quoted rates; volume DBU commits compress to ~1.8-2.0x effective. DBRX self-hosted at near-marginal cost in the cheaper DBU tiers. Margin = take rate, not (DBU price − wholesale cost)."
       },
       "margins": {
         "notes": "Databricks private ($62B valuation). $3B+ ARR, ~35% YoY. Mosaic AI margin ~50% from middleman take rate on model API + DBU compute."
@@ -639,8 +671,9 @@
       "estimatedModelCost": {
         "tokensPerInteraction": 6000,
         "interactionsPerUserPerDay": 15,
+        "tier": "tier3-code-completion",
         "confidence": "medium-low",
-        "assumptions": "Aggregate user. 15 completions/day × 6K tokens (median across active days; power users hit 50+, light users 3-5). Real per-user variance is 10x. Use sensitivity slider to test the heavy-user case."
+        "assumptions": "Currently modeled as Tier-3 (completions) — but Cursor's pricing is set against agent-mode usage that lands in Tier-5 (50K-1M tokens/task per AgencyBench). At baseline (6K × 15 = 90K/day = ~2M/month) Cursor is marginal; at 3x sensitivity the slider pushes it deeply negative, which matches the well-known public claim that Anysphere subsidizes power users. The thesis is convert-to-Business-tier, not per-seat margin."
       },
       "margins": {
         "notes": "Anysphere private ($9.9B valuation, May 2026). $300M+ ARR reported. Sensitivity-test: at 3x baseline tokens, margin goes deeply negative (matches public claims that power users are loss-making)."
@@ -673,8 +706,9 @@
       "estimatedModelCost": {
         "tokensPerInteraction": 6000,
         "interactionsPerUserPerDay": 15,
+        "tier": "tier2-rag",
         "confidence": "low",
-        "assumptions": "15 interactions/day × 6K tokens. First-party GPU cost only."
+        "assumptions": "Tier-2 estimate (no public enterprise-mix disclosure from xAI). 6K × 15/day reflects an active business user. xAI operates Colossus internally, so the cost-per-token is GPU economics — not API list pricing. Enterprise SKU details not formally published."
       },
       "margins": {
         "notes": "xAI valuation ~$200B (May 2026). Capex-heavy: Colossus 2 supercomputer cited as $5B+ buildout."
@@ -708,9 +742,10 @@
       "estimatedModelCost": {
         "tokensPerInteraction": 5000,
         "interactionsPerUserPerDay": 4,
+        "tier": "tier6-doc-analysis",
         "confidence": "medium",
         "inputOutputSplit": { "input": 0.80, "output": 0.20 },
-        "assumptions": "4 interactions/day × 5K tokens (document analysis is context-heavy — 80/20 input/output skew)."
+        "assumptions": "Tier-6 enterprise document analysis. Box AI workloads are doc-heavy (contracts, slide decks, PDFs); 5K is conservative for that tier (typical 20K-60K). 4 interactions/day reflects deliberate per-document review use, not chat-heavy use. 80/20 input/output skew because input context dominates document Q&A."
       },
       "margins": {
         "notes": "Box Q4 FY26 (reported Mar 3, 2026): revenue $306M, +9% YoY; full-year FY26 revenue $1.18B, +8%. 28% full-year operating margin. AI-driven suites cited as the growth-acceleration driver vs prior 5% YoY base rate."

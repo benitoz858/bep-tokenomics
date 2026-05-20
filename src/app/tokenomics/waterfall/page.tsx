@@ -10,6 +10,7 @@ import {
   getTokenPricingHistory,
   getPlatformRegistry,
   getPlatformDisclosures,
+  getPricingChecks,
 } from "@/lib/data";
 import { costPerMillionFromGPU, quarterlyLLMflationSeries } from "@/lib/calculations";
 
@@ -45,6 +46,7 @@ export default function WaterfallPage() {
   const tokenHistory = getTokenPricingHistory();
   const registry = getPlatformRegistry();
   const disclosures = getPlatformDisclosures();
+  const pricingChecks = getPricingChecks();
 
   // Derive the historical LLMflation basket series from real token-pricing history at build time.
   // Each quarterly point is computed from the actual snapshot in history.json with era-aware
@@ -73,6 +75,7 @@ export default function WaterfallPage() {
         historicalSeries={historicalSeries}
         registry={registry}
         disclosures={disclosures}
+        pricingChecks={pricingChecks}
       />
     </SubPageShell>
   );

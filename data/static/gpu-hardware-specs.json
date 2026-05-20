@@ -1,6 +1,7 @@
 {
   "source": "InferenceX (Apache 2.0) + manufacturer specifications",
   "lastUpdated": "2026-04-01",
+  "cadence": "Refreshed per hardware launch (NVIDIA: GTC and COMPUTEX; AMD: AdvancingAI events). Specs do not change post-launch.",
   "gpus": [
     {
       "id": "h100-sxm",

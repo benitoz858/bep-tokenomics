@@ -1,6 +1,7 @@
 {
   "source": "The Information (Anthropic), IPO prospectus (MiniMax, Zhipu), BEP Research estimates",
   "lastUpdated": "2026-03-27",
+  "cadence": "Refreshed when The Information or other primary sources publish new lab-economics data. Anthropic's last public margin disclosure was the 2025 revision; 2027 figure is internal target.",
   "insight": "AI inference isn't a commodity. It's a managed experience. The secret is interactivity: tokens per second per user. Labs that understand the interactivity lever operate at 60%+ margins. The rest race to zero.",
   "sustainableMarginRange": { "low": 50, "high": 75, "bepResearchEstimate": 60 },
   "labMargins": [
@@ -9,7 +10,7 @@
       "source": "The Information (Anthropic internal targets)",
       "dataPoints": [
         { "year": 2024, "grossMarginPct": -94, "type": "actual", "note": "Paying customers. Massive GPU spend ramp." },
-        { "year": 2025, "grossMarginPct": 40, "type": "actual", "note": "Revised from 25% target. Opus 4.1 pricing power." },
+        { "year": 2025, "grossMarginPct": 40, "type": "actual", "note": "Revised from 25% target. Sonnet 4 / Opus 4 family pricing power." },
         { "year": 2027, "grossMarginPct": 77, "type": "target", "note": "Internal target per The Information." }
       ],
       "color": "#00D4FF"

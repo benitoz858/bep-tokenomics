@@ -1,6 +1,7 @@
 {
   "source": "BEP Research — Constraint Tracker",
   "lastUpdated": "2026-03-27",
+  "cadence": "Reviewed quarterly. Supply constraints (HBM, advanced packaging, power) shift on multi-quarter horizons, not weekly.",
   "constraints": [
     {
       "name": "CoWoS Packaging",

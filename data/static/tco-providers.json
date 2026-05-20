@@ -1,6 +1,7 @@
 {
-  "source": "Provider documentation, earnings calls, IPO filings, and public cloud pricing pages. BEP Research aggregation.",
+  "source": "Provider documentation, earnings calls, IPO filings, and public cloud pricing pages. BEP Research aggregation. Based on the Nebius–SemiAnalysis 8-component TCO framework (March 2026).",
   "lastUpdated": "2026-03-27",
+  "cadence": "Reviewed per provider price-list change and per public TCO study update (Nebius–SemiAnalysis, CoreWeave, Lambda Labs). Quarterly review recommended.",
   "methodology": "BEP Research 8-component TCO framework: TCO = GPU + Storage + Networking + Control Plane + Support + Goodput + Setup + Debugging. Goodput uses G_restart formula: {[(t_id + t_chkpt/2) + t_init] × j_size + t_repair × b_radius} × #failures × $/GPU-hr",
   "formula": {
     "components": ["gpu", "storage", "networking", "controlPlane", "support", "goodput", "setup", "debugging"],

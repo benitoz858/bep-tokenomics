@@ -1,6 +1,7 @@
 {
   "source": "NVIDIA GTC 2026 Keynote + BEP Research estimates",
   "lastUpdated": "2026-03-27",
+  "cadence": "Captured from GTC 2026 keynote. Refreshes per NVIDIA major event — annual cadence.",
   "platforms": [
     {
       "platform": "Hopper H100",

@@ -1,6 +1,7 @@
 {
   "source": "Google Cloud TPU Pricing + AWS EC2 Pricing — manually updated",
   "lastUpdated": "2026-03-27",
+  "cadence": "Quarterly review against cloud.google.com/tpu/pricing and aws.amazon.com/ec2 instance pages. Hyperscaler accelerator prices are stable between major announcements.",
   "note": "Static pricing for non-GPU accelerators. These are not on Vast.ai/GetDeploying — priced from GCP/AWS directly. Per-chip pricing.",
   "accelerators": [
     {
@@ -27,7 +28,7 @@
       "totalGpusRented": 0,
       "avgReliability": 99.9,
       "regions": { "us-central1": 1, "europe-west4": 1, "us-east5": 1 },
-      "notes": "Trillium. 32 GB HBM per chip. 4.7x perf improvement over v5e. GA Dec 2024. 1yr CUD: $1.89, 3yr CUD: $1.22."
+      "notes": "Trillium (v6e). 32 GB HBM per chip. 4.7x perf improvement over v5e. Generally available since Dec 2024. 1yr CUD: $1.89, 3yr CUD: $1.22."
     },
     {
       "gpuModel": "aws-trainium1",
