@@ -87,6 +87,31 @@ export function getPlatformDisclosures(): PlatformDisclosures | null {
   return readJSON<PlatformDisclosures>(join(DATA_DIR, "static", "platform-disclosures.json"));
 }
 
+// ── Pricing-page drift checks (auto-fetched by scripts/check-pricing-pages.ts) ──
+export interface PricingCheck {
+  platformId: string;
+  vendor: string;
+  productName: string;
+  pricingUrl: string;
+  currentPrice: number;
+  currentUnit: string;
+  extractedPrice: number | null;
+  extractedUnit: string | null;
+  match: "exact" | "close" | "mismatch" | "extraction-failed" | "fetch-failed";
+  notes: string;
+  fetchedAt: string;
+  rawSnippet?: string;
+}
+
+export interface PricingChecksFile {
+  lastUpdated: string | null;
+  checks: PricingCheck[];
+}
+
+export function getPricingChecks(): PricingChecksFile | null {
+  return readJSON<PricingChecksFile>(join(DATA_DIR, "static", "pricing-checks.json"));
+}
+
 // ── GPU Pricing ──
 export interface GPUSummary {
   gpuModel: string;

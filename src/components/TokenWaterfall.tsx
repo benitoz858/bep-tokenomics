@@ -1,12 +1,12 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { BarChart, Bar, LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Cell, ReferenceLine } from "recharts";
+import { BarChart, Bar, LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Cell, ReferenceLine, ErrorBar } from "recharts";
 import Section from "./ui/Section";
 import Metric from "./ui/Metric";
 import InsightBox from "./ui/InsightBox";
 import { blendedTokenCostFromMix, platformTokenMargin, type ModelMixEntry, type BlendedCostBreakdown } from "@/lib/calculations";
-import type { TokenPriceModel, PlatformRegistry, PlatformDisclosures } from "@/lib/data";
+import type { TokenPriceModel, PlatformRegistry, PlatformDisclosures, PricingChecksFile } from "@/lib/data";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -31,6 +31,7 @@ interface Props {
   historicalSeries?: HistoricalPoint[];
   registry?: PlatformRegistry | null;
   disclosures?: PlatformDisclosures | null;
+  pricingChecks?: PricingChecksFile | null;
 }
 
 // Manual-verification freshness gate. Anything older than this triggers a STALE
@@ -100,6 +101,7 @@ export default function TokenWaterfall({
   historicalSeries = [],
   registry = null,
   disclosures = null,
+  pricingChecks = null,
 }: Props) {
   // Sensitivity slider: scale every platform's tokens-per-interaction by this factor.
   // Default 1.0 = data file assumptions. User can stress-test up/down 3x.
@@ -129,22 +131,36 @@ export default function TokenWaterfall({
   const TOKENS_PER_CONV = 6000;
   const platformPricePerM = (SALESFORCE_PER_CONV / TOKENS_PER_CONV) * 1_000_000;
 
-  // ── Compute LIVE token margins for every platform ──
+  // ── Compute LIVE token margins for every platform, plus a worst/best band ──
+  // The band varies tokens-per-interaction ±50% and input/output weight ±0.10
+  // around the per-platform baseline. This shows the uncertainty inherent in
+  // modeled inputs without baking in a single misleading point estimate.
   const computed = useMemo(() => {
     return platforms.map((p) => {
       const mix: ModelMixEntry[] = (p.modelMix as ModelMixEntry[]) || [];
-      const inputWeightForBlend = p.estimatedModelCost?.inputOutputSplit?.input ?? 0.7;
-      const blended: BlendedCostBreakdown = mix.length
-        ? blendedTokenCostFromMix(mix, liveTokenModels, 5, inputWeightForBlend)
+      const baseInputWeight = p.estimatedModelCost?.inputOutputSplit?.input ?? 0.7;
+
+      // Three blended-cost scenarios at the model-mix level. "best" pushes
+      // toward cheaper input tokens; "worst" pushes toward more expensive output.
+      const blendedTypical: BlendedCostBreakdown = mix.length
+        ? blendedTokenCostFromMix(mix, liveTokenModels, 5, baseInputWeight)
         : { costPerM: 0, details: [], missingModels: [] };
+      const blendedBest: BlendedCostBreakdown = mix.length
+        ? blendedTokenCostFromMix(mix, liveTokenModels, 5, Math.min(0.95, baseInputWeight + 0.1))
+        : blendedTypical;
+      const blendedWorst: BlendedCostBreakdown = mix.length
+        ? blendedTokenCostFromMix(mix, liveTokenModels, 5, Math.max(0.30, baseInputWeight - 0.1))
+        : blendedTypical;
 
       const tokensRaw = p.estimatedModelCost?.tokensPerInteraction;
-      const tokens = tokensRaw !== null && tokensRaw !== undefined
+      const tokensTypical = tokensRaw !== null && tokensRaw !== undefined
         ? Math.round(tokensRaw * tokenMultiplier)
         : null;
+      const tokensBest = tokensTypical !== null ? Math.round(tokensTypical * 0.5) : null;
+      const tokensWorst = tokensTypical !== null ? Math.round(tokensTypical * 1.5) : null;
       const interactionsPerUserPerDay = p.estimatedModelCost?.interactionsPerUserPerDay ?? null;
 
-      const margin = platformTokenMargin({
+      const marginAt = (blended: BlendedCostBreakdown, tokens: number | null) => platformTokenMargin({
         pricingModel: p.customerPricing.model,
         customerPrice: p.customerPricing.price,
         blendedCostPerM: blended.costPerM,
@@ -153,30 +169,38 @@ export default function TokenWaterfall({
         markupRate: p.customerPricing?.markupRate ?? null,
       });
 
+      const marginTypical = marginAt(blendedTypical, tokensTypical);
+      const marginBest = marginAt(blendedBest, tokensBest);
+      const marginWorst = marginAt(blendedWorst, tokensWorst);
+
       const customerPrice: number = p.customerPricing.price;
-      const profitable = margin.marginPerUnit !== null && margin.marginPerUnit > 0;
+      const profitable = marginTypical.marginPerUnit !== null && marginTypical.marginPerUnit > 0;
 
       // Merge registry + auto-refreshed disclosures by platform id.
       const reg = registry?.platforms?.[p.id] ?? null;
       const disc = disclosures?.snapshots?.[p.id] ?? null;
       const latestQuarter = disc && "latestQuarter" in disc ? disc.latestQuarter ?? null : null;
       const stale = daysSince(reg?.lastVerifiedAt) > STALE_DAYS;
+      const priceCheck = pricingChecks?.checks?.find((c) => c.platformId === p.id) ?? null;
 
       return {
         ...p,
-        blended,
-        liveCostPerUnit: margin.costPerUnit,
-        liveMarginPerUnit: margin.marginPerUnit,
-        liveMarginPct: margin.marginPct,
+        blended: blendedTypical,
+        liveCostPerUnit: marginTypical.costPerUnit,
+        liveMarginPerUnit: marginTypical.marginPerUnit,
+        liveMarginPct: marginTypical.marginPct,
+        marginPctBest: marginBest.marginPct,
+        marginPctWorst: marginWorst.marginPct,
         profitable,
-        tokensAdjusted: tokens,
+        tokensAdjusted: tokensTypical,
         customerPrice,
         registry: reg,
         latestQuarter,
         stale,
+        priceCheck,
       };
     });
-  }, [platforms, liveTokenModels, tokenMultiplier, registry, disclosures]);
+  }, [platforms, liveTokenModels, tokenMultiplier, registry, disclosures, pricingChecks]);
 
   // ── Filtered rows for table/chart ──
   const filtered = useMemo(() => {
@@ -186,23 +210,44 @@ export default function TokenWaterfall({
   }, [computed, verifiedOnly, activeCategory]);
 
   // ── Hero stats ──
+  // For the top-margin headline we exclude private companies and Adobe Firefly
+  // (image-credit, not token-priced). A reviewer can pick apart "Zendesk has the
+  // highest margin!" by pointing out Zendesk's cost is the least-verifiable
+  // (private + no token disclosure). Anchoring the headline to public companies
+  // with auto-refreshed disclosures keeps it defensible.
   const computable = computed.filter((p) => p.liveMarginPct !== null);
   const profitableCount = computable.filter((p) => p.profitable).length;
-  const topMargin = [...computable].sort((a, b) => (b.liveMarginPct! - a.liveMarginPct!))[0];
-  const lowestMargin = [...computable].sort((a, b) => (a.liveMarginPct! - b.liveMarginPct!))[0];
+  const headlineEligible = computable.filter(
+    (p) => p.registry?.ticker && p.id !== "adobe-firefly" && p.id !== "palantir-aip",
+  );
+  const topMargin = [...headlineEligible].sort((a, b) => (b.liveMarginPct! - a.liveMarginPct!))[0];
+  const lowestMargin = [...headlineEligible].sort((a, b) => (a.liveMarginPct! - b.liveMarginPct!))[0];
 
-  // ── Margin chart data ──
+  // ── Margin chart data — point estimate + uncertainty band ──
+  // ErrorBar in Recharts expects [errorDown, errorUp] relative to the bar value.
+  // Exclude image-credit pricing (Adobe Firefly) and per-engagement (Palantir) —
+  // their economics aren't comparable to per-token margins, only to themselves.
+  const NON_COMPARABLE_FROM_CHART = new Set(["adobe-firefly", "palantir-aip"]);
   const marginData = filtered
-    .filter((p) => p.liveMarginPct !== null)
+    .filter((p) => p.liveMarginPct !== null && !NON_COMPARABLE_FROM_CHART.has(p.id))
     .sort((a, b) => b.liveMarginPct! - a.liveMarginPct!)
-    .map((p) => ({
-      name: p.vendor,
-      product: p.name,
-      margin: Math.round(p.liveMarginPct! * 10) / 10,
-      category: p.category,
-      verified: isPricingVerified(p),
-      opacity: CONFIDENCE_OPACITY[p.estimatedModelCost?.confidence ?? "low"] ?? 0.4,
-    }));
+    .map((p) => {
+      const m = p.liveMarginPct!;
+      const lo = p.marginPctWorst ?? m;
+      const hi = p.marginPctBest ?? m;
+      return {
+        name: p.vendor,
+        product: p.name,
+        margin: Math.round(m * 10) / 10,
+        marginLow: Math.round(lo * 10) / 10,
+        marginHigh: Math.round(hi * 10) / 10,
+        // Recharts ErrorBar expects [absDown, absUp] from the bar value.
+        errorBand: [Math.max(0, m - lo), Math.max(0, hi - m)],
+        category: p.category,
+        verified: isPricingVerified(p),
+        opacity: CONFIDENCE_OPACITY[p.estimatedModelCost?.confidence ?? "low"] ?? 0.4,
+      };
+    });
 
   // ── Waterfall stages (live) ──
   const waterfallStages = [
@@ -276,14 +321,23 @@ export default function TokenWaterfall({
           <span className="text-bep-cyan">
             SEC XBRL auto-refresh: {computed.filter((p) => p.latestQuarter).length}/{computed.filter((p) => p.registry?.ticker).length} public platforms
           </span>
-          {disclosures?.lastUpdated && (
-            <span className="text-bep-dim">last cron run {disclosures.lastUpdated}</span>
+          {disclosures?.lastUpdated ? (
+            <span className="text-bep-dim">last cron {disclosures.lastUpdated}</span>
+          ) : (
+            <span className="text-bep-amber">pending first cron · next run 6 AM UTC daily</span>
           )}
           <span className={computed.some((p) => p.stale) ? "text-bep-red" : "text-bep-green"}>
             Manual notes: {computed.filter((p) => p.stale).length} stale (&gt;{STALE_DAYS}d) / {computed.length}
           </span>
+          {pricingChecks?.lastUpdated ? (
+            <span className={computed.some((p) => p.priceCheck?.match === "mismatch") ? "text-bep-amber" : "text-bep-green"}>
+              Pricing-page drift: {computed.filter((p) => p.priceCheck?.match === "mismatch").length} mismatched / {computed.filter((p) => p.priceCheck).length} checked
+            </span>
+          ) : (
+            <span className="text-bep-amber">Pricing-page check: pending first run</span>
+          )}
         </div>
-        <span className="text-bep-dim">platform-disclosures.json · platform-registry.json</span>
+        <span className="text-bep-dim">platform-disclosures.json · platform-registry.json · pricing-checks.json</span>
       </div>
 
       {/* Waterfall chart */}
@@ -376,7 +430,7 @@ export default function TokenWaterfall({
       {/* Platform margin chart with confidence opacity */}
       <Section
         title="Enterprise AI platform token margins"
-        subtitle={`Live blended model cost (70/30 input/output, overridable per platform) × per-platform token assumptions vs customer price. Bar opacity reflects the confidence of the token-cost estimate, NOT the verifiability of the margin — pricing is verified from public pages but tokens/interaction are always modeled. Use the slider to stress-test.${tokenMultiplier !== 1 ? ` Currently @ ${tokenMultiplier.toFixed(2)}x baseline tokens.` : ""}`}
+        subtitle={`Live blended model cost (70/30 input/output, overridable per platform) × per-platform token assumptions vs customer price. Whiskers show the uncertainty band: tokens-per-interaction varied ±50%, input/output weight ±0.10 around each platform's baseline. Bar opacity reflects the confidence of the token-cost estimate, NOT the verifiability of the margin. Use the slider for additional stress-testing.${tokenMultiplier !== 1 ? ` Currently @ ${tokenMultiplier.toFixed(2)}x baseline tokens.` : ""}`}
       >
         <div className="bg-bep-card border border-bep-border rounded-md p-4 mb-3">
           <ResponsiveContainer width="100%" height={Math.max(260, marginData.length * 28)}>
@@ -385,12 +439,19 @@ export default function TokenWaterfall({
               <XAxis type="number" tick={{ fill: "#666", fontSize: 10 }} tickFormatter={(v: number) => `${v}%`} domain={[-350, 100]} />
               <YAxis type="category" dataKey="name" tick={{ fill: "#f0f0f0", fontSize: 11 }} width={100} />
               <Tooltip contentStyle={{ background: "#111", border: "1px solid #252525", fontSize: 11, fontFamily: "monospace" }}
-                formatter={(v) => [`${Number(v)}%`, "Token margin"]} />
+                formatter={(v, name, props) => {
+                  if (name === "Token margin") {
+                    const d = props?.payload as { marginLow?: number; marginHigh?: number };
+                    return [`${Number(v)}% (range ${d?.marginLow ?? "?"}-${d?.marginHigh ?? "?"}%)`, "Token margin"];
+                  }
+                  return [`${Number(v)}%`, name];
+                }} />
               <ReferenceLine x={0} stroke="#666" />
-              <Bar dataKey="margin" radius={[0, 4, 4, 0]} barSize={22}>
+              <Bar dataKey="margin" radius={[0, 4, 4, 0]} barSize={22} name="Token margin">
                 {marginData.map((d, i) => (
                   <Cell key={i} fill={MARGIN_COLOR(d.margin)} fillOpacity={d.opacity} />
                 ))}
+                <ErrorBar dataKey="errorBand" width={6} stroke="#f0f0f0" strokeOpacity={0.55} direction="x" />
               </Bar>
             </BarChart>
           </ResponsiveContainer>
@@ -462,12 +523,28 @@ export default function TokenWaterfall({
                         {p.registry.ticker}
                       </span>
                     )}
+                    {p.priceCheck && p.priceCheck.match === "mismatch" && p.priceCheck.extractedPrice !== null && (
+                      <span
+                        className="text-[8px] font-mono px-1.5 py-0.5 rounded uppercase tracking-wider"
+                        style={{ background: "#FFB80020", color: "#FFB800", border: "1px solid #FFB80060" }}
+                        title={`Scraper found ${p.priceCheck.extractedPrice} ${p.priceCheck.extractedUnit ?? ""} on ${p.priceCheck.fetchedAt.slice(0, 10)} vs our ${p.priceCheck.currentPrice} ${p.priceCheck.currentUnit}. ${p.priceCheck.notes}`}
+                      >
+                        PRICE DRIFT → {p.priceCheck.extractedPrice}
+                      </span>
+                    )}
                   </div>
                   <div className="flex items-center gap-2">
                     {margin !== null && (
-                      <span className="text-lg font-bold font-mono" style={{ color: marginColor }}>
-                        {margin > 0 ? "+" : ""}{margin.toFixed(0)}%
-                      </span>
+                      <div className="flex flex-col items-end">
+                        <span className="text-lg font-bold font-mono leading-none" style={{ color: marginColor }}>
+                          {margin > 0 ? "+" : ""}{margin.toFixed(0)}%
+                        </span>
+                        {p.marginPctWorst !== null && p.marginPctBest !== null && (
+                          <span className="text-[9px] font-mono text-bep-dim mt-0.5">
+                            range {Math.round(p.marginPctWorst)}% to {Math.round(p.marginPctBest)}%
+                          </span>
+                        )}
+                      </div>
                     )}
                   </div>
                 </div>

@@ -36,6 +36,11 @@ jobs:
         run: npx tsx scripts/fetch-public-disclosures.ts
         env:
           SEC_USER_AGENT: 'BEP Research bot@bepresearch.com'
+      - name: Check enterprise pricing pages for drift
+        run: npx tsx scripts/check-pricing-pages.ts
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        continue-on-error: true # Pricing pages are flaky; never block the cron.
       - name: Compute indices
         run: npx tsx scripts/compute-indices.ts
       - name: Fetch Ornn AI history (GPU utilization, OCPI, memory)
