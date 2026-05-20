@@ -1,8 +1,8 @@
 {
   "source": "BEP Research — public pricing pages, earnings calls (Q4 FY2025/Q1 FY2026), SEC filings, press releases",
   "lastUpdated": "2026-05-19",
-  "methodology": "Token Cost Waterfall maps the margin stack from GPU silicon to end-customer. The platform 'token margin' is (customer price per interaction − blended model cost per interaction) / customer price. modelCost is now DERIVED LIVE from data/token-pricing/current.json by weighting each platform's modelMix against today's market output prices; proprietary in-house models use a stated marginal-cost estimate. Confidence levels: HIGH = public pricing page, MEDIUM = earnings call disclosure + estimate, LOW = analyst inference. Token-margin EXCLUDES hosting, R&D, sales, and support — it isolates the input-cost variable that compounds with LLMflation.",
-  "tokenMarginCaveat": "Platform 'token margin' is gross margin on the token-cost line only. It is NOT company-level gross margin. Hosting, fine-tuning, customer support, sales commissions, and agent R&D sit on top of token cost and reduce true gross margin. Read as: 'of every dollar of platform revenue, X cents goes to model providers.'",
+  "methodology": "Token Cost Waterfall maps the margin stack from GPU silicon to end-customer. The platform 'token margin' is (customer price per interaction − blended model cost per interaction) / customer price. modelCost is DERIVED LIVE from data/token-pricing/current.json by weighting each platform's modelMix against today's market prices, blended across input and output using a 70/30 input/output default (overridable per platform via inputOutputSplit when workload skew is known). Proprietary in-house models use a stated marginal-cost estimate. Confidence levels: HIGH = public pricing page (pricing) or earnings disclosure (cost), MEDIUM = earnings call disclosure + estimate, MEDIUM-LOW = bottom-up derivation with stated assumptions, LOW = analyst inference. The chart's 'PRICING VERIFIED' badge means the customer-side price is public — it does NOT mean the token-margin computation is verified, because no platform publicly discloses tokens-per-interaction. Token-margin EXCLUDES hosting, R&D, sales, support, performance guarantees, and forward-deployed engineering — it isolates the input-cost variable that compounds with LLMflation.",
+  "tokenMarginCaveat": "Platform 'token margin' is gross margin on the token-cost line only. It is NOT company-level gross margin. Hosting, fine-tuning, customer support, sales commissions, performance guarantees, forward-deployed engineers, and agent R&D sit on top of token cost and reduce true gross margin. Verified-pricing × modeled-tokens × token-only-COGS does not equal verified-margin. Read each number as: 'of every dollar of platform revenue, X cents goes to model providers' — not 'X% gross margin.'",
   "platforms": [
     {
       "id": "salesforce-agentforce",
@@ -21,17 +21,18 @@
       "customerPricing": {
         "model": "per-conversation",
         "price": 2,
-        "unit": "$/conversation",
-        "altPricing": "$0.10/action via Flex Credits (May 2025). Also per-user at $125-650/user/month.",
+        "unit": "$/conversation (legacy SKU)",
+        "altPricing": "Flex Credits at $0.10/action (May 2025) is the recommended deployment for most new enterprises; per-user licenses also available at $125-650/user/month. The $2/conversation SKU is the original pricing and still listed but no longer dominant.",
         "confidence": "high"
       },
       "estimatedModelCost": {
-        "tokensPerInteraction": 10000,
-        "confidence": "medium",
-        "assumptions": "~10K tokens/conversation (system prompt + RAG context + reasoning + response). xGen routing reduces cost on simpler queries."
+        "tokensPerInteraction": 40000,
+        "confidence": "medium-low",
+        "inputOutputSplit": { "input": 0.80, "output": 0.20 },
+        "assumptions": "Bottom-up derivation: 3.2T tokens disclosed Q3 FY26 ÷ implied paid interactions ≈ 32-64K tokens per conversation, not the 10K we had previously. Agentforce is RAG-heavy (CRM record context + tool-call traces + multi-turn reasoning) — system prompt and retrieved context dominate, so 80/20 input/output skew (heavier than pure chat but balanced for reasoning + tool-call output). Earlier 10K estimate was a standard chat assumption that ignores agentic tool-calling loops (5-30x more tokens per task per production benchmarks)."
       },
       "margins": {
-        "notes": "3.2 trillion tokens processed (Q3 FY26). $1.8B ARR Agentforce + Data Cloud, 114% YoY. 9,500+ paid deals."
+        "notes": "Q3 FY26 (Dec 3, 2025): Agentforce + Data 360 combined ARR ~$1.4B, +114% YoY. Agentforce-only ARR surpassed $540M, +330%. 3.2 trillion tokens processed. 18,500+ Agentforce deals closed since launch — only 9,500+ are paid, so roughly half remain on free/trial (relevant context for the headline 'paid deals' figure). Pricing model has fragmented: $2/conversation is the original SKU but Flex Credits ($0.10/action, May 2025) is the recommended deployment for most enterprises, and per-user licenses at $125-650/user/month are now also available. Token-margin computed against the $2/conv SKU should be read as the legacy-SKU ceiling, not a blended ASP."
       },
       "sourceLinks": [
         { "label": "Agentforce pricing", "url": "https://www.salesforce.com/agentforce/pricing/", "type": "pricing" },
@@ -102,7 +103,7 @@
         "assumptions": "Apex 1.0 handles ~50% of resolutions at near-zero marginal cost. Claude tier-2 handles complex cases."
       },
       "margins": {
-        "notes": "Proprietary Apex 1.0 is the margin-expansion play. Anthropic itself is a Fin customer. Private."
+        "notes": "Proprietary Apex 1.0 is the margin-expansion play. Anthropic itself is a Fin customer. Private. Caveats not in token-margin math: (1) Fin resolves ~67% of issues — Intercom pays inference tokens on every attempt but only collects on successful resolutions, so ~33% of inference is unbilled overhead; (2) Intercom backs Fin with a performance guarantee up to $1M if resolution targets aren't met, which is a real COGS liability; (3) Fin uses forward-deployed engineers as a customer-success/learning engine — material headcount that hits company-level gross margin even when token-margin holds high."
       },
       "sourceLinks": [
         { "label": "Intercom Fin pricing", "url": "https://www.intercom.com/pricing", "type": "pricing" },
@@ -246,7 +247,7 @@
         "assumptions": "AI Unit → token mapping not disclosed. Opaque pricing unit prevents reliable margin computation."
       },
       "margins": {
-        "notes": "Cloud gross margin ~73%. SAP Cloud revenue EUR 4.7B/quarter, 27% YoY."
+        "notes": "SAP Q1 2026 (reported Apr 23, 2026): Cloud revenue EUR 5.96B, +27% YoY at constant currencies. Cloud ERP Suite +30%. Current cloud backlog EUR 21.9B, +25%. Cloud gross margin ~73%. Management flagged Q2 deceleration from one-time quarter-specific tailwinds."
       },
       "sourceLinks": [
         { "label": "SAP AI pricing", "url": "https://www.sap.com/products/artificial-intelligence/pricing.html", "type": "pricing" }
@@ -317,7 +318,7 @@
         "assumptions": "6 interactions/day × 5K tokens. Domain models handle structured ERP queries."
       },
       "margins": {
-        "notes": "Oracle Cloud Infrastructure revenue $7.1B (Q3 FY26). OCI margin ~38%."
+        "notes": "Oracle Q3 FY26 (reported Mar 10, 2026): Cloud Infrastructure (OCI) revenue $4.9B, +84% YoY; Cloud Applications $4.0B, +13%. Total revenue $17.2B, +22%. RPO ended at $553B (+325% YoY) on AI-infrastructure backlog. OCI margin ~38%."
       },
       "sourceLinks": [
         { "label": "Oracle Fusion AI", "url": "https://www.oracle.com/applications/fusion-ai/", "type": "pricing" },
@@ -388,7 +389,7 @@
         "assumptions": "8 interactions/day × 4.5K tokens for typical CRM workflow."
       },
       "margins": {
-        "notes": "HubSpot Q1 FY26 revenue $703M, 81% gross margin. Breeze cited as growth driver."
+        "notes": "HubSpot Q1 2026 (reported May 7, 2026): revenue $881M, +23% YoY. Non-GAAP operating margin 18%. AI monetization accelerating — core seat users +90% YoY, credit consumption +67% QoQ. Full-year guide raised to ~$3.70B."
       },
       "sourceLinks": [
         { "label": "HubSpot Breeze pricing", "url": "https://www.hubspot.com/products/artificial-intelligence", "type": "pricing" },
@@ -425,7 +426,7 @@
         "assumptions": "Margin computed against the $20 paid Agents tier. Free Chat is platform investment."
       },
       "margins": {
-        "notes": "Free Rovo Chat is platform-lock play. Atlassian Q3 FY26 Cloud revenue $1.45B, 71% YoY. Cloud gross margin ~85%."
+        "notes": "Free Rovo Chat is platform-lock play. Atlassian Q3 FY26 (ended Mar 31, 2026, reported Apr 30, 2026): Cloud revenue $1.13B, +29% YoY; total revenue $1.79B, +32% YoY. 34% non-GAAP operating margin. Cloud gross margin ~85%."
       },
       "sourceLinks": [
         { "label": "Rovo announcement", "url": "https://www.atlassian.com/software/rovo", "type": "press" },
@@ -458,10 +459,11 @@
         "tokensPerInteraction": 4000,
         "interactionsPerUserPerDay": 6,
         "confidence": "medium",
-        "assumptions": "6 interactions/day × 4K tokens. Notion uses long context (full page content) which inflates input tokens."
+        "inputOutputSplit": { "input": 0.80, "output": 0.20 },
+        "assumptions": "6 interactions/day × 4K tokens. Notion uses long context (full page content) which inflates input tokens — 80/20 input/output skew."
       },
       "margins": {
-        "notes": "Private (last raised at $10B Apr 2024). No proprietary model — fully exposed to model-provider pricing."
+        "notes": "Private. Last primary round 2021; secondary tender at $10B (2022) and $11B (Dec 2025). No primary raise in four years — Bloomberg sources point to a potential 2026 IPO. No proprietary model — fully exposed to model-provider pricing."
       },
       "sourceLinks": [
         { "label": "Notion AI pricing", "url": "https://www.notion.com/help/notion-ai-faqs", "type": "pricing" }
@@ -532,7 +534,7 @@
         "assumptions": "Snowflake marks up model API rate ~2.2x via credit system (industry consensus on Cortex take rate). Margin = take rate on top of wholesale model cost passed through, NOT credit price minus token cost. Wholesale flows through to model provider; Snowflake keeps (markup-1)/markup."
       },
       "margins": {
-        "notes": "Snowflake Q1 FY26 product revenue $1.04B, 32% YoY. Cortex AI fastest-growing component. Headline 99% margin (early data) was wrong — Snowflake is a middleman taking a markup, not pocketing the full credit. True take rate ~55%."
+        "notes": "Snowflake Q4 FY26 (ended Jan 31, 2026, reported Feb 25, 2026): product revenue $1.23B, +30% YoY. Full-year FY26 product revenue $4.42B+. NRR 125%. Cortex AI fastest-growing component. Headline 99% margin (early data) was wrong — Snowflake is a middleman taking a markup, not pocketing the full credit. True take rate ~55%."
       },
       "sourceLinks": [
         { "label": "Cortex AI pricing", "url": "https://www.snowflake.com/legal-files/CreditConsumptionTable.pdf", "type": "pricing" },
@@ -604,7 +606,7 @@
         "assumptions": "Token consumption not the binding cost — Palantir margin dominated by Forward Deployed Engineers."
       },
       "margins": {
-        "notes": "Palantir Q1 FY26 commercial revenue $307M (+71%). US commercial AIP driving growth."
+        "notes": "Palantir Q1 2026 (reported May 5, 2026): total revenue $1.633B, +85% YoY (fastest since IPO). US commercial revenue $595M, +133% YoY. Full-year 2026 guidance raised to 71% growth; US commercial guide raised to >$3.224B (+120%+). AIP driving the acceleration."
       },
       "sourceLinks": [
         { "label": "Palantir AIP", "url": "https://www.palantir.com/platforms/aip/", "type": "pricing" },
@@ -707,10 +709,11 @@
         "tokensPerInteraction": 5000,
         "interactionsPerUserPerDay": 4,
         "confidence": "medium",
-        "assumptions": "4 interactions/day × 5K tokens (document analysis is context-heavy)."
+        "inputOutputSplit": { "input": 0.80, "output": 0.20 },
+        "assumptions": "4 interactions/day × 5K tokens (document analysis is context-heavy — 80/20 input/output skew)."
       },
       "margins": {
-        "notes": "Box Q1 FY26 revenue $277M, 75% gross margin. AI cited as 20% of new ARR."
+        "notes": "Box Q4 FY26 (reported Mar 3, 2026): revenue $306M, +9% YoY; full-year FY26 revenue $1.18B, +8%. 28% full-year operating margin. AI-driven suites cited as the growth-acceleration driver vs prior 5% YoY base rate."
       },
       "sourceLinks": [
         { "label": "Box AI pricing", "url": "https://www.box.com/pricing", "type": "pricing" },

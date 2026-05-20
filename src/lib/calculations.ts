@@ -154,17 +154,23 @@ export interface BlendedCostBreakdown {
 }
 
 /**
- * Compute blended output $/M for a platform's model mix using LIVE token-pricing data.
+ * Compute blended $/M for a platform's model mix using LIVE token-pricing data.
+ * Per-token rate is an input/output-weighted blend (default 70% input / 30% output) — real
+ * enterprise workloads are input-heavy (system prompt + RAG context + history dominate),
+ * and an output-only blend systematically understates cost. Pass `inputWeight` to override
+ * per platform (e.g., 0.85 for Agentforce / Notion where context dominates).
  * Falls back to fallbackRate for any modelId we can't resolve (so the dashboard never breaks).
  */
 export function blendedTokenCostFromMix(
   mix: ModelMixEntry[],
   liveModels: TokenPriceModel[],
   fallbackRate = 5,
+  inputWeight = 0.7,
 ): BlendedCostBreakdown {
   const details: BlendedCostBreakdown["details"] = [];
   const missing: string[] = [];
   let total = 0;
+  const outputWeight = 1 - inputWeight;
 
   for (const entry of mix) {
     if (entry.proprietary) {
@@ -191,7 +197,11 @@ export function blendedTokenCostFromMix(
     let rate: number;
     let source: "live" | "fallback";
     if (live) {
-      rate = live.outputPerMillion;
+      // Input-weighted blend. If input price is missing/zero in the live feed, fall back to
+      // output-only rather than producing a misleadingly cheap rate.
+      rate = live.inputPerMillion > 0
+        ? inputWeight * live.inputPerMillion + outputWeight * live.outputPerMillion
+        : live.outputPerMillion;
       source = "live";
     } else {
       rate = fallbackRate;
