@@ -1,6 +1,6 @@
 import { readFileSync } from "fs";
 import { join } from "path";
-import { getTokenPricing, getTokenPricingHistory, type TokenPriceModel } from "@/lib/data";
+import { getTokenPricing, type TokenPriceModel } from "@/lib/data";
 import NebiusPreview, { type NebiusPreviewProps } from "@/components/NebiusPreview";
 
 interface WaterfallPlatform {
@@ -20,66 +20,38 @@ function getWaterfall(): { platforms: WaterfallPlatform[] } | null {
   }
 }
 
-// Normalize model identifiers so a Nebius slug ("Qwen/Qwen3.5-397B-A17B")
-// matches an OpenRouter slug ("qwen/qwen3.5-397b-a17b") and platform mix entries
-// referencing the same underlying open weights regardless of casing or org prefix.
+// Normalize model identifiers so platform-mix entries match Nebius catalog entries
+// regardless of casing, hyphen/underscore drift, or org prefix.
 function normalizeId(id: string): string {
   return id.toLowerCase().replace(/[-_]/g, "").split("/").pop() || id.toLowerCase();
 }
 
+const CLOSED_PREFIXES = ["openai/", "anthropic/", "google/", "x-ai/"];
+
 export default function NebiusPreviewPage() {
   const tokens = getTokenPricing();
-  const history = getTokenPricingHistory();
   const waterfall = getWaterfall();
 
   const all = tokens?.models || [];
   const nebius: TokenPriceModel[] = all.filter((m) => m.source === "Nebius");
-  const market: TokenPriceModel[] = all.filter((m) => m.source !== "Nebius");
-
-  // Build normalized lookup from the broader (OpenRouter-aggregate) market so we
-  // can do head-to-head comparisons on the open models Nebius hosts.
-  const marketByNorm = new Map<string, TokenPriceModel>();
-  for (const m of market) marketByNorm.set(normalizeId(m.modelId), m);
 
   const catalog = [...nebius].sort((a, b) => a.outputPerMillion - b.outputPerMillion);
-
-  const headToHead = catalog
-    .map((n) => {
-      const peer = marketByNorm.get(normalizeId(n.modelId));
-      if (!peer) return null;
-      const nebOut = n.outputPerMillion;
-      const peerOut = peer.outputPerMillion;
-      const deltaPct = peerOut > 0 ? ((peerOut - nebOut) / peerOut) * 100 : 0;
-      return {
-        modelId: n.modelId,
-        display: n.model,
-        nebiusIn: n.inputPerMillion,
-        nebiusOut: nebOut,
-        marketIn: peer.inputPerMillion,
-        marketOut: peerOut,
-        deltaPct,
-      };
-    })
-    .filter((x): x is NonNullable<typeof x> => x !== null)
-    .sort((a, b) => b.deltaPct - a.deltaPct);
-
-  // Floor: cheapest Nebius output rate across the catalog.
   const floor = catalog.length > 0 ? catalog[0] : null;
 
-  // Average head-to-head Nebius discount vs. the OpenRouter market median, for
-  // the keynote line. Skip entries where the peer rate is non-positive.
-  const validDeltas = headToHead.filter((h) => h.marketOut > 0);
-  const avgDiscountPct =
-    validDeltas.length > 0
-      ? validDeltas.reduce((s, h) => s + h.deltaPct, 0) / validDeltas.length
-      : 0;
+  const distinctCreators = new Set(nebius.map((m) => m.provider)).size;
+  const maxContext = nebius.reduce((mx, m) => Math.max(mx, m.contextWindow || 0), 0);
+  const maxContextModel = nebius.reduce<TokenPriceModel | null>(
+    (best, m) => ((m.contextWindow || 0) > (best?.contextWindow || 0) ? m : best),
+    null,
+  );
 
-  // Platform Nebius-addressability: for each tracked platform, how much of the
-  // model mix (by weight) is open-weights served by Nebius today? This is the
-  // GTM lever — platforms with high open-share are the easiest "move to Nebius"
-  // conversations.
+  // Platform open-model exposure across the full BEP enterprise panel. We keep
+  // every tracked platform (not just those Nebius already serves) so the chart
+  // shows the actual shape of enterprise model usage — closed-frontier-heavy
+  // today, with the data-cloud platforms (Snowflake, Databricks) currently the
+  // only ones routing Nebius-hosted open weights.
   const nebiusNormSet = new Set(nebius.map((n) => normalizeId(n.modelId)));
-  const platformAddressability = (waterfall?.platforms || [])
+  const platforms = (waterfall?.platforms || [])
     .map((p) => {
       const mix = p.modelMix || [];
       let openShare = 0;
@@ -92,11 +64,13 @@ export default function NebiusPreviewPage() {
           continue;
         }
         if (!e.modelId) continue;
-        if (nebiusNormSet.has(normalizeId(e.modelId))) {
-          openShare += e.weight;
-          matchedModels.push(e.modelId);
-        } else {
+        if (CLOSED_PREFIXES.some((prefix) => e.modelId!.startsWith(prefix))) {
           closedShare += e.weight;
+        } else {
+          openShare += e.weight;
+          if (nebiusNormSet.has(normalizeId(e.modelId))) {
+            matchedModels.push(e.modelId);
+          }
         }
       }
       return {
@@ -111,33 +85,29 @@ export default function NebiusPreviewPage() {
         matchedModels,
       };
     })
-    .filter((p) => p.openShare > 0)
     .sort((a, b) => b.openShare - a.openShare);
 
-  // Quarter-end trajectory of Nebius's lowest output price, for the LLMflation
-  // overlay. We can only reconstruct this for dates where the history file
-  // actually contains Nebius-sourced entries.
-  const trajectory: Array<{ date: string; floor: number }> = [];
-  const entries = history?.entries || {};
-  const dates = Object.keys(entries).sort();
-  for (const d of dates) {
-    const day = entries[d] || [];
-    const nebDay = day.filter((e) => (e as { source?: string }).source === "Nebius");
-    if (nebDay.length === 0) continue;
-    const minOut = Math.min(...nebDay.map((e) => e.outputPerMillion).filter((v) => v > 0));
-    if (isFinite(minOut)) trajectory.push({ date: d, floor: minOut });
-  }
+  const platformsAddressableNow = platforms.filter((p) => p.matchedModels.length > 0).length;
 
   const props: NebiusPreviewProps = {
     generatedAt: tokens?.fetchedAt || new Date().toISOString(),
-    catalog,
-    headToHead,
-    floor: floor ? { display: floor.model, modelId: floor.modelId, outputPerMillion: floor.outputPerMillion } : null,
-    avgDiscountPct,
+    catalog: catalog.map((m) => ({
+      model: m.model,
+      modelId: m.modelId,
+      provider: m.provider,
+      inputPerMillion: m.inputPerMillion,
+      outputPerMillion: m.outputPerMillion,
+      contextWindow: m.contextWindow || 0,
+    })),
     catalogSize: nebius.length,
-    marketComparableCount: validDeltas.length,
-    platforms: platformAddressability,
-    trajectory,
+    floor: floor
+      ? { display: floor.model, modelId: floor.modelId, outputPerMillion: floor.outputPerMillion }
+      : null,
+    distinctCreators,
+    maxContext,
+    maxContextModel: maxContextModel ? { display: maxContextModel.model, modelId: maxContextModel.modelId } : null,
+    platforms,
+    platformsAddressableNow,
   };
 
   return <NebiusPreview {...props} />;
