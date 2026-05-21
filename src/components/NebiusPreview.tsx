@@ -65,9 +65,9 @@ const MKT_GREY = "#666666";
 type TabId = "marketing" | "pricing" | "gtm";
 
 const TABS: Array<{ id: TabId; label: string; sub: string }> = [
-  { id: "marketing", label: "01 · Marketing", sub: "the keynote stat" },
-  { id: "pricing", label: "02 · Pricing", sub: "head-to-head reference" },
-  { id: "gtm", label: "03 · GTM", sub: "platform addressability" },
+  { id: "marketing", label: "01 · Headline", sub: "the number to lead with" },
+  { id: "pricing", label: "02 · Catalog", sub: "model-by-model vs. market" },
+  { id: "gtm", label: "03 · Platforms", sub: "where the open share sits" },
 ];
 
 export default function NebiusPreview(props: NebiusPreviewProps) {
@@ -81,17 +81,18 @@ export default function NebiusPreview(props: NebiusPreviewProps) {
       <div className="px-6 pt-5 pb-4 max-w-[960px] mx-auto">
         <div className="flex items-baseline justify-between mb-1">
           <div className="font-serif text-[28px] font-bold text-bep-white leading-tight">
-            Cost-per-token, the Nebius cut
+            Nebius · cost-per-token, the independent view
           </div>
           <div className="text-[10px] font-mono text-bep-dim hidden sm:block">
-            BEP Research · Ben Pouladian
+            Prepared by BEP Research
           </div>
         </div>
         <div className="text-[12px] text-bep-dim leading-relaxed max-w-[680px]">
-          A pre-read for the Nebius team ahead of June 9, San Francisco. Three views on the
-          same dataset: the keynote-ready stat for marketing, the head-to-head pricing reference,
-          and the platform shortlist for GTM. Numbers below are computed from live Nebius
-          Token Factory pricing and the BEP Research market panel.
+          Independent measurement of where Nebius Token Factory sits in the broader inference
+          market, computed daily from live pricing feeds. Three views: the topline Nebius can
+          lead with publicly, the model-by-model catalog with market comparisons, and the
+          shortlist of enterprise platforms whose disclosed model mix is already addressable
+          by Nebius today.
         </div>
 
         <div className="mt-5 flex gap-0 border-b border-bep-border">
@@ -180,15 +181,15 @@ function MarketingTab(p: NebiusPreviewProps) {
 
       <div className="bg-bep-card border border-bep-border rounded-md p-4 mb-6">
         <div className="text-[10px] font-mono uppercase tracking-widest text-bep-muted mb-2">
-          The line for a keynote
+          Topline
         </div>
         <div className="font-serif text-[18px] leading-snug text-bep-white">
           {p.floor && p.marketComparableCount > 0 ? (
             <>
-              Nebius serves <span style={{ color: NEB_GREEN }}>{p.catalogSize} open models</span>{" "}
-              from a floor of <span style={{ color: NEB_GREEN }}>${p.floor.outputPerMillion.toFixed(2)}/M output tokens</span>.
-              Across the {p.marketComparableCount} open models where we can compare directly to the broader inference market,
-              Nebius lands an average of <span style={{ color: NEB_GREEN }}>{discount.toFixed(0)}% below</span> the market output rate.
+              Nebius Token Factory currently offers <span style={{ color: NEB_GREEN }}>{p.catalogSize} open models</span>{" "}
+              from a floor of <span style={{ color: NEB_GREEN }}>${p.floor.outputPerMillion.toFixed(2)} per million output tokens</span>.
+              Across the {p.marketComparableCount} open models where a direct, same-day comparison is available, Nebius
+              prices an average of <span style={{ color: NEB_GREEN }}>{discount.toFixed(0)}% below</span> the broader inference market.
             </>
           ) : (
             <>Catalog and market-comparison metrics will populate once the next pricing snapshot lands.</>
@@ -278,11 +279,12 @@ function MarketingTab(p: NebiusPreviewProps) {
         </>
       )}
 
-      <Insight>
-        For a marketing/AR conversation, the strongest single number is the floor — &quot;from
-        ${p.floor ? p.floor.outputPerMillion.toFixed(2) : "—"}/M&quot; — paired with the {discount.toFixed(0)}% market-delta. SemiAnalysis
-        tracks silicon and capex; this is the demand-side equivalent.
-      </Insight>
+      <Note>
+        Both numbers are independently verifiable and refresh daily from the Token Factory API and
+        a panel of competing inference endpoints. Where supply-side coverage (silicon, capex,
+        datacenter) sits with other research, the demand-side cost-per-token view above is
+        designed to be quoted publicly without compromising commercial sensitivity.
+      </Note>
     </div>
   );
 }
@@ -328,11 +330,12 @@ function PricingTab(p: NebiusPreviewProps) {
         })}
       </div>
 
-      <Insight>
-        &quot;vs. mkt&quot; is the spread on output rate vs. the OpenRouter aggregate price for the same model
-        weights — a conservative comparison since OpenRouter routes to the cheapest serving provider it can find.
-        Where the comparison is shown, the underlying methodology and source list are available under commercial terms.
-      </Insight>
+      <Note>
+        &quot;vs. mkt&quot; compares the Nebius output rate against the aggregate market price for the
+        same open-weights model — a deliberately conservative benchmark, since the market aggregate
+        already reflects the cheapest serving provider on any given day. Rows without a delta are
+        models where Nebius is currently the most direct host in this panel.
+      </Note>
     </div>
   );
 }
@@ -418,11 +421,13 @@ function GTMTab(p: NebiusPreviewProps) {
         ))}
       </div>
 
-      <Insight>
-        The platforms above already serve at least one model Nebius hosts. The honest GTM read:
-        most enterprise platforms are closed-frontier-heavy today, so the immediate Nebius wedge is the
-        open-share slice and the platforms increasing it. The list narrows fast — and that&apos;s the point.
-      </Insight>
+      <Note>
+        Every platform listed above already routes at least one open-weights model Nebius
+        hosts today — so the integration question is &quot;which provider&quot; rather than
+        &quot;whether to add open models.&quot; Open share is the cleanest leading indicator: it
+        tracks where Nebius&apos;s catalog overlaps disclosed mix, and it rises every quarter as
+        platforms diversify away from single-frontier dependence.
+      </Note>
     </div>
   );
 }
@@ -458,10 +463,10 @@ function BigMetric({
   );
 }
 
-function Insight({ children }: { children: React.ReactNode }) {
+function Note({ children }: { children: React.ReactNode }) {
   return (
     <div className="bg-bep-card border border-bep-border rounded-md p-3 text-[11px] text-bep-dim leading-relaxed font-mono mt-4">
-      <span style={{ color: NEB_GREEN }}>BEP read: </span>
+      <span style={{ color: NEB_GREEN }}>Note · </span>
       {children}
     </div>
   );
@@ -471,15 +476,16 @@ function FooterCTA() {
   return (
     <div className="mt-10 border-t border-bep-border pt-5 pb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
       <div className="text-[11px] text-bep-dim font-mono leading-relaxed max-w-[520px]">
-        Methodology, source list, and the daily refresh pipeline are not published on this preview.
-        Commercial terms — embed, data feed, bespoke quarterly — available on request.
+        Numbers above refresh daily. Full source panel, refresh methodology, and tailored
+        cuts (Nebius-branded embed, weekly data feed, quarterly written report) available on
+        request. Prepared by Ben Pouladian, BEP Research.
       </div>
       <a
-        href="mailto:ben@bepresearch.com?subject=Nebius%20preview%20%E2%80%94%20commercial%20terms"
+        href="mailto:ben@bepresearch.com?subject=Nebius%20cost-per-token%20%E2%80%94%20next%20steps"
         className="no-underline inline-block px-4 py-2 text-[12px] font-mono"
         style={{ background: NEB_GREEN, color: "#050505", borderRadius: 4, fontWeight: 700 }}
       >
-        Request commercial terms →
+        Reply to Ben →
       </a>
     </div>
   );
