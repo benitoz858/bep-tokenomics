@@ -1,6 +1,6 @@
 import { readFileSync } from "fs";
 import { join } from "path";
-import { getTokenPricing, getTokenPricingHistory, type TokenPriceModel } from "@/lib/data";
+import { getTokenPricing, type TokenPriceModel } from "@/lib/data";
 import NebiusPreview, { type NebiusPreviewProps } from "@/components/NebiusPreview";
 
 interface WaterfallPlatform {
@@ -30,7 +30,6 @@ const CLOSED_PREFIXES = ["openai/", "anthropic/", "google/", "x-ai/"];
 
 export default function NebiusPreviewPage() {
   const tokens = getTokenPricing();
-  const history = getTokenPricingHistory();
   const waterfall = getWaterfall();
 
   const all = tokens?.models || [];
@@ -90,18 +89,6 @@ export default function NebiusPreviewPage() {
 
   const platformsAddressableNow = platforms.filter((p) => p.matchedModels.length > 0).length;
 
-  // Per-day trajectory of Nebius's lowest output rate. Only emits points for
-  // days where history.json actually contains Nebius entries — never a
-  // synthesized line.
-  const trajectory: Array<{ date: string; floor: number }> = [];
-  const entries = history?.entries || {};
-  for (const d of Object.keys(entries).sort()) {
-    const nebDay = (entries[d] || []).filter((e) => (e as { source?: string }).source === "Nebius");
-    if (nebDay.length === 0) continue;
-    const minOut = Math.min(...nebDay.map((e) => e.outputPerMillion).filter((v) => v > 0));
-    if (isFinite(minOut)) trajectory.push({ date: d, floor: minOut });
-  }
-
   const props: NebiusPreviewProps = {
     generatedAt: tokens?.fetchedAt || new Date().toISOString(),
     catalog: catalog.map((m) => ({
@@ -121,7 +108,6 @@ export default function NebiusPreviewPage() {
     maxContextModel: maxContextModel ? { display: maxContextModel.model, modelId: maxContextModel.modelId } : null,
     platforms,
     platformsAddressableNow,
-    trajectory,
   };
 
   return <NebiusPreview {...props} />;

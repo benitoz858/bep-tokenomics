@@ -4,8 +4,6 @@ import { useState } from "react";
 import {
   BarChart,
   Bar,
-  LineChart,
-  Line,
   XAxis,
   YAxis,
   Tooltip,
@@ -46,7 +44,6 @@ export interface NebiusPreviewProps {
   maxContextModel: { display: string; modelId: string } | null;
   platforms: PlatformExposure[];
   platformsAddressableNow: number;
-  trajectory: Array<{ date: string; floor: number }>;
 }
 
 const NEB_GREEN = "#76B900";
@@ -170,9 +167,9 @@ function HeadlineTab(p: NebiusPreviewProps) {
             <>
               Nebius Token Factory currently lists <span style={{ color: NEB_GREEN }}>{p.catalogSize} open-weights models</span> from{" "}
               <span style={{ color: NEB_GREEN }}>{p.distinctCreators} model creators</span> — Meta, DeepSeek, Qwen, NVIDIA, MiniMax,
-              Moonshot, Z.ai and others. Pricing starts at a floor of{" "}
+              Moonshot, Google, Z.ai and others. Pricing starts at a floor of{" "}
               <span style={{ color: NEB_GREEN }}>${p.floor.outputPerMillion.toFixed(2)} per million output tokens</span>{" "}
-              and the catalog extends to a {p.maxContext >= 1_000_000 ? `${(p.maxContext / 1_000_000).toFixed(1)}M-token` : `${Math.round(p.maxContext / 1000)}K-token`} context window for long-context workloads — the broadest open-weights coverage in this market panel.
+              and the catalog extends to a {p.maxContext >= 1_000_000 ? `${(p.maxContext / 1_000_000).toFixed(1)}M-token` : `${Math.round(p.maxContext / 1000)}K-token`} context window for long-context workloads — covering the high-volume small-model tier and the long-context flagship tier in a single catalog.
             </>
           ) : (
             <>Catalog metrics will populate once the next pricing snapshot lands.</>
@@ -224,38 +221,6 @@ function HeadlineTab(p: NebiusPreviewProps) {
           $/M output tokens · brighter green = sub-$0.50/M tier
         </div>
       </div>
-
-      {p.trajectory.length > 1 && (
-        <>
-          <div className="mt-6" />
-          <SectionHeader
-            title="Nebius output floor — daily trajectory"
-            sub="Lowest $/M output rate Nebius has offered, per day, across the catalog we observe."
-          />
-          <div className="bg-bep-card border border-bep-border rounded-md p-3">
-            <div style={{ width: "100%", height: 220 }}>
-              <ResponsiveContainer>
-                <LineChart data={p.trajectory.map((t) => ({ date: t.date.slice(5), floor: round(t.floor, 3) }))}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#1a1a1a" />
-                  <XAxis dataKey="date" stroke="#666" tick={{ fontSize: 10, fontFamily: "monospace" }} />
-                  <YAxis stroke="#666" tick={{ fontSize: 10, fontFamily: "monospace" }} tickFormatter={(v) => `$${v}`} />
-                  <Tooltip
-                    contentStyle={{
-                      background: "#0a0a0a",
-                      border: "1px solid #252525",
-                      borderRadius: 4,
-                      fontSize: 11,
-                      fontFamily: "monospace",
-                    }}
-                    formatter={(value) => `$${Number(value)}/M`}
-                  />
-                  <Line type="monotone" dataKey="floor" stroke={NEB_GREEN} strokeWidth={2} dot={false} />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-        </>
-      )}
 
       <Note>
         Numbers refresh daily from the Token Factory API; the catalog distribution chart is
@@ -404,7 +369,9 @@ function PlatformsTab(p: NebiusPreviewProps) {
         Enterprise AI today is overwhelmingly closed-frontier — the immediate Nebius foothold sits
         with the data-cloud platforms that have already moved a slice of their mix to open weights.
         The other rows represent the growth surface as enterprise platforms diversify away from
-        single-frontier dependence.
+        single-frontier dependence. Mix percentages are BEP estimates synthesized from public model
+        availability, earnings-call commentary, and pricing-page disclosures — vendors do not
+        publish actual routing weights.
       </Note>
     </div>
   );
