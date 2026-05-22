@@ -1,3 +1,7 @@
 /opengraph-image
   Content-Type: image/png
   Cache-Control: public, max-age=3600
+
+/preview/*
+  Cache-Control: no-store, no-cache, must-revalidate, max-age=0
+  X-Robots-Tag: noindex, nofollow
