@@ -26,6 +26,9 @@ jobs:
         run: npx tsx scripts/fetch-nebius.ts
         env:
           NEBIUS_API_KEY: ${{ secrets.NEBIUS_API_KEY }}
+      - name: Fetch OpenRouter per-provider endpoints (competitive map)
+        run: npx tsx scripts/fetch-provider-endpoints.ts
+        continue-on-error: true # Best-effort: OpenRouter endpoints API can be flaky per-model.
       - name: Fetch GPU rental pricing
         run: npx tsx scripts/fetch-gpu-pricing.ts
         env:
