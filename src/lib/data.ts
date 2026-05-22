@@ -355,3 +355,46 @@ export interface OrnnMemoryPricing {
 export function getOrnnMemory(): OrnnMemoryPricing | null {
   return readJSON<OrnnMemoryPricing>(join(DATA_DIR, "ornn", "memory-pricing.json"));
 }
+
+// ── Per-provider endpoints (OpenRouter-sourced) ──
+export interface ProviderEndpoint {
+  providerName: string;
+  contextLength: number;
+  maxCompletion: number | null;
+  inputPerMillion: number;
+  outputPerMillion: number;
+  quantization: string | null;
+  uptime30m: number | null;
+}
+
+export interface ProviderEndpointsFile {
+  fetchedAt: string;
+  modelCount: number;
+  models: Record<string, { endpoints: ProviderEndpoint[] }>;
+}
+
+export function getProviderEndpoints(): ProviderEndpointsFile | null {
+  return readJSON<ProviderEndpointsFile>(join(DATA_DIR, "token-pricing", "provider-endpoints.json"));
+}
+
+// ── Cost-per-task workload templates ──
+export interface CostPerTaskWorkload {
+  id: string;
+  name: string;
+  description: string;
+  inputTokens: number;
+  outputTokens: number;
+  turns: number;
+  exampleCallout: string;
+  color: string;
+}
+
+export interface CostPerTaskFile {
+  lastUpdated: string;
+  source: string;
+  workloads: CostPerTaskWorkload[];
+}
+
+export function getCostPerTaskWorkloads(): CostPerTaskFile | null {
+  return readJSON<CostPerTaskFile>(join(DATA_DIR, "static", "cost-per-task-workloads.json"));
+}

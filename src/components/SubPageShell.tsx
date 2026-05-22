@@ -5,6 +5,9 @@ import { usePathname } from "next/navigation";
 
 const TABS = [
   { href: "/tokenomics/v2", label: "Overview" },
+  { href: "/tokenomics/providers", label: "Providers" },
+  { href: "/tokenomics/frontier", label: "Frontier" },
+  { href: "/tokenomics/cost-per-task", label: "Cost / task" },
   { href: "/tokenomics/margins", label: "Margin Calculator" },
   { href: "/tokenomics/tco", label: "Cluster TCO" },
   { href: "/tokenomics/waterfall", label: "Waterfall" },

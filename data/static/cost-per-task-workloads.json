@@ -1,0 +1,56 @@
+{
+  "lastUpdated": "2026-05-22",
+  "source": "BEP Research — synthesized from observed traffic patterns at the workload types listed below. Token estimates are typical-case medians, not maxima.",
+  "workloads": [
+    {
+      "id": "code-completion",
+      "name": "Code completion (Cursor / Copilot style)",
+      "description": "Single inline completion: editor context + open files prefix, short generation.",
+      "inputTokens": 2000,
+      "outputTokens": 200,
+      "turns": 1,
+      "exampleCallout": "Copilot reports ~330ms p50 latency on completions — the latency tier matters here.",
+      "color": "#00D4FF"
+    },
+    {
+      "id": "rag-qa",
+      "name": "RAG Q&A on a 50-page document",
+      "description": "Retrieve 5–10 chunks, stuff into prompt, generate a structured answer with citations.",
+      "inputTokens": 20000,
+      "outputTokens": 1000,
+      "turns": 1,
+      "exampleCallout": "Cost is dominated by the input side. Input-token pricing matters more than output-token pricing.",
+      "color": "#76B900"
+    },
+    {
+      "id": "coding-agent",
+      "name": "Coding agent task (Claude Code / Cursor agent)",
+      "description": "Multi-turn agent reading & writing files, running tools, iterating until task complete.",
+      "inputTokens": 100000,
+      "outputTokens": 10000,
+      "turns": 1,
+      "exampleCallout": "Long-context flagship territory. 100k input is conservative — real agent runs blow well past that.",
+      "color": "#A855F7"
+    },
+    {
+      "id": "support-agent",
+      "name": "Customer support agent (5-turn conversation)",
+      "description": "RAG into help-center docs + user history, multi-turn back-and-forth to resolve a ticket.",
+      "inputTokens": 5000,
+      "outputTokens": 500,
+      "turns": 5,
+      "exampleCallout": "Cumulative tokens per ticket. Tier of model matters less than reliability + latency.",
+      "color": "#FFB800"
+    },
+    {
+      "id": "voice-realtime",
+      "name": "Voice agent — single exchange",
+      "description": "Streaming low-latency back-and-forth. Time-to-first-token matters as much as $/M.",
+      "inputTokens": 500,
+      "outputTokens": 200,
+      "turns": 1,
+      "exampleCallout": "Fast-tier variants (gpt-oss-120b-fast, Kimi-K2.5-fast etc.) are priced for this workload.",
+      "color": "#EC4899"
+    }
+  ]
+}
