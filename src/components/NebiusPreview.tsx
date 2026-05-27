@@ -428,7 +428,7 @@ function FieldTab(p: NebiusPreviewProps) {
     <div>
       <SectionHeader
         title="Nebius vs the field"
-        sub="Same model, every provider serving it at full production context (≥100K tokens), head-to-head. Provider-endpoint data sourced from the OpenRouter pricing & availability feed. Nebius highlighted in green."
+        sub="Same model, every provider serving it at production-grade context (≥32K tokens, filtering out truncated-context endpoints), head-to-head. Data sourced from the OpenRouter pricing & availability feed. Nebius highlighted in green."
       />
 
       <div className="flex flex-wrap gap-1.5 mb-4">
@@ -563,12 +563,12 @@ function FieldTab(p: NebiusPreviewProps) {
       </div>
 
       <Note>
-        Field includes every provider listed on OpenRouter for the selected model at ≥100K
+        Field includes every provider listed on OpenRouter for the selected model at ≥32K
         context — a production-config filter that excludes truncated-context endpoints. Where a
         provider publishes multiple endpoints, the cheapest output rate is shown. Across the{" "}
         {comparisons.length} models above, Nebius is in the top three on{" "}
         {comparisons.filter((c) => c.nebiusRank <= 3).length} of them. Coverage extends to any
-        model in the Nebius catalog by adding it to the tracked set — partnership scope.
+        model in the Nebius catalog by adding it to the tracked set.
       </Note>
     </div>
   );

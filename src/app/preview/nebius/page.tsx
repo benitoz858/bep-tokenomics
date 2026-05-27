@@ -68,8 +68,10 @@ function buildFieldComparisons(file: ProviderEndpointsFile | null): FieldCompari
   if (!file) return [];
   const comparisons: FieldComparison[] = [];
   for (const [modelId, entry] of Object.entries(file.models)) {
+    // Production-grade filter: drop endpoints with truncated context (≥32K covers
+    // most models' native context; the long-context flagships go up to 1M+).
     const productionEndpoints = entry.endpoints
-      .filter((e) => e.contextLength >= 100_000)
+      .filter((e) => e.contextLength >= 32_000)
       .filter((e) => e.outputPerMillion > 0);
 
     // Dedupe per provider — keep the cheapest output endpoint.

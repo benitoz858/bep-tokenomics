@@ -21,12 +21,18 @@ const TRACKED_OPEN_MODELS = [
   "deepseek/deepseek-v3.2",
   "deepseek/deepseek-r1",
   "moonshotai/kimi-k2.5",
+  "moonshotai/kimi-k2.6",
   "minimax/minimax-m2.5",
   "openai/gpt-oss-120b",
   "mistralai/mistral-large",
   "qwen/qwen3-32b",
+  "qwen/qwen3-30b-a3b-instruct-2507",
+  "qwen/qwen3-next-80b-a3b-thinking",
   "qwen/qwen3-235b-a22b-instruct-2507",
+  "qwen/qwen3.5-397b-a17b",
+  "qwen/qwen2.5-vl-72b-instruct",
   "google/gemma-3-27b-it",
+  "nvidia/nemotron-3-super-120b-a12b",
 ];
 
 interface RawEndpoint {
