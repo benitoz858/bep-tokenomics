@@ -136,8 +136,6 @@ export default function NebiusPreview(props: NebiusPreviewProps) {
           {tab === "field" && <FieldTab {...props} />}
         </div>
 
-        <PartnershipPanel />
-
         <Footer />
       </div>
     </div>
@@ -572,104 +570,6 @@ function FieldTab(p: NebiusPreviewProps) {
         {comparisons.filter((c) => c.nebiusRank <= 3).length} of them. Coverage extends to any
         model in the Nebius catalog by adding it to the tracked set — partnership scope.
       </Note>
-    </div>
-  );
-}
-
-function PartnershipPanel() {
-  const tiers = [
-    {
-      name: "Pulse",
-      cadence: "Live · refreshed daily",
-      tagline: "An embedded chart on a Nebius marketing surface, kept current automatically.",
-      deliverable:
-        "Embeddable iframe + JSON data feed of the cost-per-token catalog distribution, Nebius co-branded.",
-      examples: [
-        "Catalog price-distribution chart embedded on the Token Factory landing page",
-        "JSON feed for PMM to pull into other marketing surfaces",
-      ],
-    },
-    {
-      name: "Brief",
-      cadence: "Weekly · 600–900 words",
-      tagline:
-        "A short independent written piece each week framing where Nebius sits in the open-weights market.",
-      deliverable:
-        "One BEP-authored weekly brief with original framing, published on bepresearch.com and licensed to Nebius for marketing reuse.",
-      examples: [
-        "\"Llama-3.3-70B provider field: where the price ladder moved this week\"",
-        "\"Open vs. closed: enterprise platform mix-shift tracker\"",
-      ],
-    },
-    {
-      name: "Deep",
-      cadence: "Quarterly · 3,000–5,000 words",
-      tagline:
-        "A long-form quarterly piece in the SemiAnalysis × Nebius mold — original thesis, original data.",
-      deliverable:
-        "BEP-authored deep-dive on a Token Factory economics topic of mutual interest, with co-distribution rights and Nebius input on substance.",
-      examples: [
-        "\"The Token Factory economics: catalog breadth as competitive moat\"",
-        "\"Where enterprise routing actually goes — a quantitative model\"",
-      ],
-    },
-  ];
-
-  return (
-    <div className="mt-12 border-t border-bep-border pt-7">
-      <div className="font-serif text-[22px] font-bold text-bep-white leading-tight">
-        What a partnership could look like
-      </div>
-      <div className="text-[12px] text-bep-dim leading-relaxed mt-1 max-w-[680px]">
-        Three shapes — pick one, mix two, or design something else with us. Each is built on the
-        same independent daily-refreshed data backbone the four views above are powered by, so
-        any shape we agree on can be live within four weeks.
-      </div>
-
-      <div className="grid md:grid-cols-3 gap-3 mt-5">
-        {tiers.map((t) => (
-          <div
-            key={t.name}
-            className="bg-bep-card border border-bep-border rounded-md p-4"
-            style={{ borderTop: `2px solid ${NEB_GREEN}` }}
-          >
-            <div className="text-[9px] font-mono uppercase tracking-widest text-bep-muted">
-              {t.cadence}
-            </div>
-            <div className="font-serif text-[20px] font-bold text-bep-white mt-1">{t.name}</div>
-            <div className="text-[12px] text-bep-dim leading-relaxed mt-2">{t.tagline}</div>
-            <div className="mt-3 text-[11px] text-bep-text leading-relaxed">{t.deliverable}</div>
-            <div className="mt-3">
-              <div className="text-[9px] font-mono uppercase tracking-widest text-bep-muted mb-1">
-                Example titles
-              </div>
-              {t.examples.map((ex, i) => (
-                <div
-                  key={i}
-                  className="text-[11px] text-bep-dim italic leading-snug mt-1"
-                >
-                  {ex}
-                </div>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div
-        className="mt-5 bg-bep-card border border-bep-border rounded-md p-4"
-        style={{ borderLeft: `3px solid ${NEB_GREEN}` }}
-      >
-        <div className="text-[13px] text-bep-white leading-relaxed">
-          Next step →{" "}
-          <span className="text-bep-dim">
-            a 20-minute call to pick a shape, agree on a pilot deliverable, and put it on a Nebius
-            surface within four weeks. Reach Ben Pouladian at{" "}
-            <span className="text-bep-white">ben@bepresearch.com</span> or via the contact form at
-            bepresearch.com.
-          </span>
-        </div>
-      </div>
     </div>
   );
 }
