@@ -1,7 +1,11 @@
 import { readFileSync } from "fs";
 import { join } from "path";
 import { getTokenPricing, type TokenPriceModel } from "@/lib/data";
-import NebiusPreview, { type NebiusPreviewProps } from "@/components/NebiusPreview";
+import NebiusPreview, {
+  type FieldComparison,
+  type FieldEndpoint,
+  type NebiusPreviewProps,
+} from "@/components/NebiusPreview";
 
 interface WaterfallPlatform {
   id: string;
@@ -12,12 +16,100 @@ interface WaterfallPlatform {
   modelMix?: Array<{ modelId?: string; proprietary?: string; weight: number; role?: string }>;
 }
 
+interface ProviderEndpointEntry {
+  providerName: string;
+  contextLength: number;
+  maxCompletion?: number;
+  inputPerMillion: number;
+  outputPerMillion: number;
+  quantization?: string;
+  uptime30m?: number;
+}
+
+interface ProviderEndpointsFile {
+  fetchedAt: string;
+  modelCount: number;
+  models: Record<string, { endpoints: ProviderEndpointEntry[] }>;
+}
+
 function getWaterfall(): { platforms: WaterfallPlatform[] } | null {
   try {
     return JSON.parse(readFileSync(join(process.cwd(), "data/static/token-waterfall.json"), "utf-8"));
   } catch {
     return null;
   }
+}
+
+function getProviderEndpoints(): ProviderEndpointsFile | null {
+  try {
+    return JSON.parse(
+      readFileSync(join(process.cwd(), "data/token-pricing/provider-endpoints.json"), "utf-8"),
+    );
+  } catch {
+    return null;
+  }
+}
+
+// Catalog-friendly display name from an OpenRouter modelId like
+// "meta-llama/llama-3.3-70b-instruct" -> "Llama 3.3 70B Instruct".
+function displayShortName(modelId: string): string {
+  const slug = modelId.split("/").pop() || modelId;
+  return slug
+    .split("-")
+    .map((part) => {
+      if (/^\d/.test(part)) return part.toUpperCase();
+      if (part.length <= 3) return part.toUpperCase();
+      return part.charAt(0).toUpperCase() + part.slice(1);
+    })
+    .join(" ");
+}
+
+function buildFieldComparisons(file: ProviderEndpointsFile | null): FieldComparison[] {
+  if (!file) return [];
+  const comparisons: FieldComparison[] = [];
+  for (const [modelId, entry] of Object.entries(file.models)) {
+    const productionEndpoints = entry.endpoints
+      .filter((e) => e.contextLength >= 100_000)
+      .filter((e) => e.outputPerMillion > 0);
+
+    // Dedupe per provider — keep the cheapest output endpoint.
+    const byProvider = new Map<string, ProviderEndpointEntry>();
+    for (const e of productionEndpoints) {
+      const existing = byProvider.get(e.providerName);
+      if (!existing || e.outputPerMillion < existing.outputPerMillion) {
+        byProvider.set(e.providerName, e);
+      }
+    }
+    const sorted = Array.from(byProvider.values()).sort(
+      (a, b) => a.outputPerMillion - b.outputPerMillion,
+    );
+
+    const nebius = sorted.find((e) => e.providerName === "Nebius");
+    if (!nebius) continue; // Only include models Nebius actively serves.
+    const nebiusRank = sorted.indexOf(nebius) + 1;
+
+    const endpoints: FieldEndpoint[] = sorted.map((e) => ({
+      providerName: e.providerName,
+      inputPerMillion: e.inputPerMillion,
+      outputPerMillion: e.outputPerMillion,
+      contextLength: e.contextLength,
+      quantization: e.quantization || "—",
+    }));
+
+    comparisons.push({
+      modelId,
+      modelDisplay: displayShortName(modelId),
+      endpoints,
+      nebiusRank,
+      nebiusOutput: nebius.outputPerMillion,
+      nebiusQuant: nebius.quantization || "—",
+      nebiusContext: nebius.contextLength,
+      cheapestProvider: sorted[0].providerName,
+      cheapestOutput: sorted[0].outputPerMillion,
+      totalProviders: sorted.length,
+    });
+  }
+  return comparisons.sort((a, b) => a.nebiusRank - b.nebiusRank);
 }
 
 // Normalize model identifiers so platform-mix entries match Nebius catalog entries
@@ -31,6 +123,7 @@ const CLOSED_PREFIXES = ["openai/", "anthropic/", "google/", "x-ai/"];
 export default function NebiusPreviewPage() {
   const tokens = getTokenPricing();
   const waterfall = getWaterfall();
+  const fieldComparisons = buildFieldComparisons(getProviderEndpoints());
 
   const all = tokens?.models || [];
   const nebius: TokenPriceModel[] = all.filter((m) => m.source === "Nebius");
@@ -108,6 +201,7 @@ export default function NebiusPreviewPage() {
     maxContextModel: maxContextModel ? { display: maxContextModel.model, modelId: maxContextModel.modelId } : null,
     platforms,
     platformsAddressableNow,
+    fieldComparisons,
   };
 
   return <NebiusPreview {...props} />;
