@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-05-29T09:49:56.093Z",
+  "fetchedAt": "2026-05-30T08:25:13.863Z",
   "modelCount": 16,
   "models": {
     "meta-llama/llama-3.3-70b-instruct": {
@@ -11,7 +11,7 @@
           "inputPerMillion": 0.09999999999999999,
           "outputPerMillion": 0.32,
           "quantization": "fp8",
-          "uptime30m": 98.42591652279881
+          "uptime30m": 98.08
         },
         {
           "providerName": "Inceptron",
@@ -20,7 +20,7 @@
           "inputPerMillion": 0.12,
           "outputPerMillion": 0.38,
           "quantization": "fp8",
-          "uptime30m": 99.55820631764965
+          "uptime30m": 97.94372294372295
         },
         {
           "providerName": "Nebius",
@@ -29,7 +29,7 @@
           "inputPerMillion": 0.13,
           "outputPerMillion": 0.39999999999999997,
           "quantization": "fp8",
-          "uptime30m": 72.55466052934408
+          "uptime30m": 91.09099571224392
         },
         {
           "providerName": "AkashML",
@@ -38,7 +38,7 @@
           "inputPerMillion": 0.13,
           "outputPerMillion": 0.39999999999999997,
           "quantization": "fp8",
-          "uptime30m": 99.30610626486916
+          "uptime30m": 99.05231235784684
         },
         {
           "providerName": "Novita",
@@ -47,7 +47,7 @@
           "inputPerMillion": 0.135,
           "outputPerMillion": 0.39999999999999997,
           "quantization": "bf16",
-          "uptime30m": 98.24418129848918
+          "uptime30m": 92.44604316546763
         },
         {
           "providerName": "Parasail",
@@ -56,7 +56,7 @@
           "inputPerMillion": 0.22,
           "outputPerMillion": 0.5,
           "quantization": "int8",
-          "uptime30m": 98.68637110016421
+          "uptime30m": 95.11077158135983
         },
         {
           "providerName": "Friendli",
@@ -83,7 +83,7 @@
           "inputPerMillion": 0.72,
           "outputPerMillion": 0.72,
           "quantization": "unknown",
-          "uptime30m": 95.29411764705881
+          "uptime30m": null
         },
         {
           "providerName": "Google",
@@ -92,7 +92,7 @@
           "inputPerMillion": 0.72,
           "outputPerMillion": 0.72,
           "quantization": "unknown",
-          "uptime30m": 99.95002498750625
+          "uptime30m": 100
         },
         {
           "providerName": "Groq",
@@ -101,16 +101,7 @@
           "inputPerMillion": 0.59,
           "outputPerMillion": 0.7899999999999999,
           "quantization": "unknown",
-          "uptime30m": 99.75768396888152
-        },
-        {
-          "providerName": "Together",
-          "contextLength": 131072,
-          "maxCompletion": 2048,
-          "inputPerMillion": 0.88,
-          "outputPerMillion": 0.88,
-          "quantization": "fp8",
-          "uptime30m": 98.56115107913669
+          "uptime30m": 99.92429977289932
         },
         {
           "providerName": "SambaNova",
@@ -119,7 +110,16 @@
           "inputPerMillion": 0.44999999999999996,
           "outputPerMillion": 0.8999999999999999,
           "quantization": "bf16",
-          "uptime30m": 99.24050632911391
+          "uptime30m": 99.51219512195122
+        },
+        {
+          "providerName": "Together",
+          "contextLength": 131072,
+          "maxCompletion": 2048,
+          "inputPerMillion": 1.04,
+          "outputPerMillion": 1.04,
+          "quantization": "fp8",
+          "uptime30m": 100
         },
         {
           "providerName": "SambaNova",
@@ -128,7 +128,7 @@
           "inputPerMillion": 0.6,
           "outputPerMillion": 1.2,
           "quantization": "bf16",
-          "uptime30m": 98.70689655172413
+          "uptime30m": null
         },
         {
           "providerName": "Cloudflare",
@@ -137,7 +137,7 @@
           "inputPerMillion": 0.293,
           "outputPerMillion": 2.2529999999999997,
           "quantization": "fp8",
-          "uptime30m": 99.49152542372882
+          "uptime30m": 98.88888888888889
         }
       ]
     },
@@ -150,7 +150,7 @@
           "inputPerMillion": 0.15,
           "outputPerMillion": 0.6,
           "quantization": "fp8",
-          "uptime30m": 98.22217758135797
+          "uptime30m": 99.93229519295869
         },
         {
           "providerName": "Novita",
@@ -159,7 +159,7 @@
           "inputPerMillion": 0.27,
           "outputPerMillion": 0.85,
           "quantization": "fp8",
-          "uptime30m": 97.82312925170068
+          "uptime30m": 100
         },
         {
           "providerName": "Parasail",
@@ -168,7 +168,7 @@
           "inputPerMillion": 0.35,
           "outputPerMillion": 1,
           "quantization": "fp8",
-          "uptime30m": 99.95807245080502
+          "uptime30m": 99.98424487958587
         },
         {
           "providerName": "SambaNova",
@@ -177,7 +177,7 @@
           "inputPerMillion": 0.63,
           "outputPerMillion": 1.7999999999999998,
           "quantization": "unknown",
-          "uptime30m": 98.9247311827957
+          "uptime30m": 97.94721407624634
         }
       ]
     },
@@ -190,7 +190,7 @@
           "inputPerMillion": 0.252,
           "outputPerMillion": 0.378,
           "quantization": "fp8",
-          "uptime30m": 99.82363315696648
+          "uptime30m": 99.97101449275362
         },
         {
           "providerName": "DeepInfra",
@@ -199,7 +199,7 @@
           "inputPerMillion": 0.26,
           "outputPerMillion": 0.38,
           "quantization": "fp4",
-          "uptime30m": 99.71841802124663
+          "uptime30m": 99.1929793614394
         },
         {
           "providerName": "AtlasCloud",
@@ -208,7 +208,7 @@
           "inputPerMillion": 0.26,
           "outputPerMillion": 0.38,
           "quantization": "fp8",
-          "uptime30m": 95.90609694308394
+          "uptime30m": 96.64249860568879
         },
         {
           "providerName": "StreamLake",
@@ -217,7 +217,7 @@
           "inputPerMillion": 0.2574,
           "outputPerMillion": 0.3861,
           "quantization": "unknown",
-          "uptime30m": 99.11089330719687
+          "uptime30m": 99.12120972211227
         },
         {
           "providerName": "Novita",
@@ -226,7 +226,7 @@
           "inputPerMillion": 0.26899999999999996,
           "outputPerMillion": 0.39999999999999997,
           "quantization": "fp8",
-          "uptime30m": 99.95278564683665
+          "uptime30m": 99.9952274137355
         },
         {
           "providerName": "SiliconFlow",
@@ -235,7 +235,7 @@
           "inputPerMillion": 0.25899999999999995,
           "outputPerMillion": 0.42,
           "quantization": "fp8",
-          "uptime30m": 99.41528108973313
+          "uptime30m": 99.32304556704032
         },
         {
           "providerName": "Parasail",
@@ -244,7 +244,7 @@
           "inputPerMillion": 0.28,
           "outputPerMillion": 0.44999999999999996,
           "quantization": "fp8",
-          "uptime30m": 98.74903983320532
+          "uptime30m": 98.3265363521305
         },
         {
           "providerName": "Alibaba",
@@ -253,7 +253,7 @@
           "inputPerMillion": 0.3705,
           "outputPerMillion": 1.1115000000000002,
           "quantization": "unknown",
-          "uptime30m": 98.82995319812792
+          "uptime30m": 98.73928391326274
         },
         {
           "providerName": "Friendli",
@@ -262,7 +262,16 @@
           "inputPerMillion": 0.5,
           "outputPerMillion": 1.5,
           "quantization": "unknown",
-          "uptime30m": 99.98981255093724
+          "uptime30m": 100
+        },
+        {
+          "providerName": "DigitalOcean",
+          "contextLength": 128000,
+          "maxCompletion": 128000,
+          "inputPerMillion": 0.5,
+          "outputPerMillion": 1.5999999999999999,
+          "quantization": "unknown",
+          "uptime30m": 100
         },
         {
           "providerName": "Google",
@@ -271,7 +280,7 @@
           "inputPerMillion": 0.56,
           "outputPerMillion": 1.68,
           "quantization": "unknown",
-          "uptime30m": 93.63517060367454
+          "uptime30m": 100
         },
         {
           "providerName": "SambaNova",
@@ -302,7 +311,7 @@
           "inputPerMillion": 1.4849999999999999,
           "outputPerMillion": 5.9399999999999995,
           "quantization": "unknown",
-          "uptime30m": 99.51219512195122
+          "uptime30m": 100
         }
       ]
     },
@@ -315,7 +324,7 @@
           "inputPerMillion": 0.39999999999999997,
           "outputPerMillion": 1.9,
           "quantization": "fp4",
-          "uptime30m": 99.84816853292845
+          "uptime30m": 100
         },
         {
           "providerName": "Chutes",
@@ -324,7 +333,7 @@
           "inputPerMillion": 0.44,
           "outputPerMillion": 2,
           "quantization": "int4",
-          "uptime30m": 96.27085377821393
+          "uptime30m": 99.72358722358723
         },
         {
           "providerName": "DeepInfra",
@@ -333,7 +342,7 @@
           "inputPerMillion": 0.44999999999999996,
           "outputPerMillion": 2.25,
           "quantization": "fp4",
-          "uptime30m": 99.92298806314979
+          "uptime30m": 99.88826815642457
         },
         {
           "providerName": "SiliconFlow",
@@ -342,7 +351,7 @@
           "inputPerMillion": 0.44999999999999996,
           "outputPerMillion": 2.25,
           "quantization": "int4",
-          "uptime30m": 99.83948635634029
+          "uptime30m": 99.26706367384334
         },
         {
           "providerName": "AtlasCloud",
@@ -351,7 +360,7 @@
           "inputPerMillion": 0.49,
           "outputPerMillion": 2.5,
           "quantization": "int4",
-          "uptime30m": 99.4475138121547
+          "uptime30m": 99.95258416311049
         },
         {
           "providerName": "Parasail",
@@ -360,7 +369,7 @@
           "inputPerMillion": 0.6,
           "outputPerMillion": 2.8,
           "quantization": "int4",
-          "uptime30m": 99.64953271028037
+          "uptime30m": 100
         },
         {
           "providerName": "StreamLake",
@@ -369,7 +378,7 @@
           "inputPerMillion": 0.5700000000000001,
           "outputPerMillion": 2.8499999999999996,
           "quantization": "unknown",
-          "uptime30m": 98.54368932038835
+          "uptime30m": 99.5398773006135
         },
         {
           "providerName": "Novita",
@@ -378,7 +387,7 @@
           "inputPerMillion": 0.5700000000000001,
           "outputPerMillion": 2.8499999999999996,
           "quantization": "unknown",
-          "uptime30m": 99.95059288537549
+          "uptime30m": 99.97444416049068
         },
         {
           "providerName": "Phala",
@@ -387,7 +396,7 @@
           "inputPerMillion": 0.6,
           "outputPerMillion": 3,
           "quantization": "unknown",
-          "uptime30m": 95.9866220735786
+          "uptime30m": 99.70326409495549
         },
         {
           "providerName": "Moonshot AI",
@@ -396,7 +405,7 @@
           "inputPerMillion": 0.6,
           "outputPerMillion": 3,
           "quantization": "int4",
-          "uptime30m": 98.56850715746421
+          "uptime30m": 100
         },
         {
           "providerName": "Fireworks",
@@ -414,7 +423,7 @@
           "inputPerMillion": 0.6,
           "outputPerMillion": 3,
           "quantization": "unknown",
-          "uptime30m": 92.14601769911505
+          "uptime30m": 100
         },
         {
           "providerName": "Venice",
@@ -423,7 +432,7 @@
           "inputPerMillion": 0.56,
           "outputPerMillion": 3.5,
           "quantization": "unknown",
-          "uptime30m": 98.24561403508771
+          "uptime30m": 86.60714285714286
         }
       ]
     },
@@ -436,7 +445,16 @@
           "inputPerMillion": 0.7999999999999999,
           "outputPerMillion": 3.4,
           "quantization": "unknown",
-          "uptime30m": 99.90325077399382
+          "uptime30m": 99.72170686456401
+        },
+        {
+          "providerName": "Baidu",
+          "contextLength": 262144,
+          "maxCompletion": 262144,
+          "inputPerMillion": 0.684,
+          "outputPerMillion": 3.42,
+          "quantization": "fp4",
+          "uptime30m": 100
         },
         {
           "providerName": "Io Net",
@@ -445,7 +463,7 @@
           "inputPerMillion": 0.73,
           "outputPerMillion": 3.49,
           "quantization": "int4",
-          "uptime30m": 98.05636540330418
+          "uptime30m": 98.19376026272579
         },
         {
           "providerName": "Chutes",
@@ -454,7 +472,7 @@
           "inputPerMillion": 0.74,
           "outputPerMillion": 3.5,
           "quantization": "int4",
-          "uptime30m": 99.89041095890411
+          "uptime30m": 100
         },
         {
           "providerName": "Cloudflare",
@@ -463,7 +481,7 @@
           "inputPerMillion": 0.74,
           "outputPerMillion": 3.5,
           "quantization": "unknown",
-          "uptime30m": 99.53703703703704
+          "uptime30m": 100
         },
         {
           "providerName": "Inceptron",
@@ -472,7 +490,7 @@
           "inputPerMillion": 0.74,
           "outputPerMillion": 3.5,
           "quantization": "int4",
-          "uptime30m": 98.61884147598433
+          "uptime30m": 97.7287336618813
         },
         {
           "providerName": "Parasail",
@@ -481,7 +499,7 @@
           "inputPerMillion": 0.75,
           "outputPerMillion": 3.5,
           "quantization": "int4",
-          "uptime30m": 98.88365169933019
+          "uptime30m": 99.46013289036544
         },
         {
           "providerName": "DeepInfra",
@@ -490,16 +508,7 @@
           "inputPerMillion": 0.75,
           "outputPerMillion": 3.5,
           "quantization": "fp4",
-          "uptime30m": 99.5640802092415
-        },
-        {
-          "providerName": "Baidu",
-          "contextLength": 262144,
-          "maxCompletion": 262144,
-          "inputPerMillion": 0.855,
-          "outputPerMillion": 3.5999999999999996,
-          "quantization": "fp4",
-          "uptime30m": 99.82440737489026
+          "uptime30m": 100
         },
         {
           "providerName": "StreamLake",
@@ -508,7 +517,7 @@
           "inputPerMillion": 0.9025000000000001,
           "outputPerMillion": 3.8,
           "quantization": "unknown",
-          "uptime30m": 99.2619926199262
+          "uptime30m": 99.81447124304268
         },
         {
           "providerName": "SiliconFlow",
@@ -517,7 +526,7 @@
           "inputPerMillion": 0.8999999999999999,
           "outputPerMillion": 4,
           "quantization": "fp8",
-          "uptime30m": 99.01245169600686
+          "uptime30m": 100
         },
         {
           "providerName": "Fireworks",
@@ -535,7 +544,7 @@
           "inputPerMillion": 0.95,
           "outputPerMillion": 4,
           "quantization": "int4",
-          "uptime30m": 100
+          "uptime30m": 99.97150185237959
         },
         {
           "providerName": "WandB",
@@ -544,7 +553,7 @@
           "inputPerMillion": 0.95,
           "outputPerMillion": 4,
           "quantization": "fp4",
-          "uptime30m": 99.76415094339622
+          "uptime30m": 100
         },
         {
           "providerName": "AtlasCloud",
@@ -553,7 +562,7 @@
           "inputPerMillion": 0.95,
           "outputPerMillion": 4,
           "quantization": "int4",
-          "uptime30m": 98.83570504527813
+          "uptime30m": 98.56209150326798
         },
         {
           "providerName": "AkashML",
@@ -571,7 +580,16 @@
           "inputPerMillion": 0.95,
           "outputPerMillion": 4,
           "quantization": "int4",
-          "uptime30m": 99.66265060240964
+          "uptime30m": 91.85336048879837
+        },
+        {
+          "providerName": "DigitalOcean",
+          "contextLength": 262144,
+          "maxCompletion": null,
+          "inputPerMillion": 0.95,
+          "outputPerMillion": 4,
+          "quantization": "unknown",
+          "uptime30m": 100
         },
         {
           "providerName": "Together",
@@ -580,7 +598,7 @@
           "inputPerMillion": 1.2,
           "outputPerMillion": 4.5,
           "quantization": "unknown",
-          "uptime30m": 75.97597597597597
+          "uptime30m": 97.50390015600624
         },
         {
           "providerName": "Phala",
@@ -589,7 +607,7 @@
           "inputPerMillion": 1.0899999999999999,
           "outputPerMillion": 4.6,
           "quantization": "unknown",
-          "uptime30m": 99.5850622406639
+          "uptime30m": 100
         },
         {
           "providerName": "Venice",
@@ -598,7 +616,7 @@
           "inputPerMillion": 0.85,
           "outputPerMillion": 4.655,
           "quantization": "int4",
-          "uptime30m": 100
+          "uptime30m": null
         }
       ]
     },
@@ -611,7 +629,7 @@
           "inputPerMillion": 0.24,
           "outputPerMillion": 0.8999999999999999,
           "quantization": "fp8",
-          "uptime30m": 100
+          "uptime30m": 99.87102321582115
         },
         {
           "providerName": "Baidu",
@@ -629,7 +647,7 @@
           "inputPerMillion": 0.15,
           "outputPerMillion": 1.15,
           "quantization": "fp8",
-          "uptime30m": 98.12206572769952
+          "uptime30m": 96.91780821917808
         },
         {
           "providerName": "DeepInfra",
@@ -638,7 +656,7 @@
           "inputPerMillion": 0.15,
           "outputPerMillion": 1.15,
           "quantization": "fp8",
-          "uptime30m": 99.981718464351
+          "uptime30m": 99.98272685398433
         },
         {
           "providerName": "Venice",
@@ -656,7 +674,7 @@
           "inputPerMillion": 0.15,
           "outputPerMillion": 1.2,
           "quantization": "fp8",
-          "uptime30m": 99.96428571428572
+          "uptime30m": 99.581589958159
         },
         {
           "providerName": "AtlasCloud",
@@ -665,7 +683,7 @@
           "inputPerMillion": 0.295,
           "outputPerMillion": 1.2,
           "quantization": "fp8",
-          "uptime30m": 99.90917347865576
+          "uptime30m": 100
         },
         {
           "providerName": "Mara",
@@ -692,7 +710,7 @@
           "inputPerMillion": 0.3,
           "outputPerMillion": 1.2,
           "quantization": "fp8",
-          "uptime30m": 96.71916010498688
+          "uptime30m": 95.85858585858585
         },
         {
           "providerName": "Novita",
@@ -701,7 +719,7 @@
           "inputPerMillion": 0.3,
           "outputPerMillion": 1.2,
           "quantization": "fp8",
-          "uptime30m": null
+          "uptime30m": 99.45054945054946
         },
         {
           "providerName": "SiliconFlow",
@@ -710,7 +728,7 @@
           "inputPerMillion": 0.3,
           "outputPerMillion": 1.2,
           "quantization": "fp8",
-          "uptime30m": 95.7983193277311
+          "uptime30m": null
         },
         {
           "providerName": "Parasail",
@@ -719,7 +737,7 @@
           "inputPerMillion": 0.3,
           "outputPerMillion": 1.2,
           "quantization": "fp8",
-          "uptime30m": 100
+          "uptime30m": null
         },
         {
           "providerName": "WandB",
@@ -746,7 +764,7 @@
           "inputPerMillion": 0.19999999999999998,
           "outputPerMillion": 1.38,
           "quantization": "unknown",
-          "uptime30m": 100
+          "uptime30m": null
         },
         {
           "providerName": "Minimax",
@@ -755,7 +773,7 @@
           "inputPerMillion": 0.6,
           "outputPerMillion": 2.4,
           "quantization": "fp8",
-          "uptime30m": null
+          "uptime30m": 71.68141592920354
         }
       ]
     },
@@ -768,7 +786,7 @@
           "inputPerMillion": 0.039,
           "outputPerMillion": 0.18,
           "quantization": "bf16",
-          "uptime30m": 97.74814442068185
+          "uptime30m": 99.28065054211844
         },
         {
           "providerName": "DeepInfra",
@@ -777,7 +795,7 @@
           "inputPerMillion": 0.039,
           "outputPerMillion": 0.19,
           "quantization": "bf16",
-          "uptime30m": 99.67894050366209
+          "uptime30m": 99.83306172741365
         },
         {
           "providerName": "Novita",
@@ -786,7 +804,7 @@
           "inputPerMillion": 0.049999999999999996,
           "outputPerMillion": 0.25,
           "quantization": "fp4",
-          "uptime30m": 98.78363832077503
+          "uptime30m": 99.98630512188441
         },
         {
           "providerName": "Google",
@@ -795,7 +813,7 @@
           "inputPerMillion": 0.09,
           "outputPerMillion": 0.36,
           "quantization": "unknown",
-          "uptime30m": 99.31891025641025
+          "uptime30m": 98.43869002284845
         },
         {
           "providerName": "SiliconFlow",
@@ -804,7 +822,7 @@
           "inputPerMillion": 0.049999999999999996,
           "outputPerMillion": 0.44999999999999996,
           "quantization": "fp8",
-          "uptime30m": 92.18067022826615
+          "uptime30m": 99.68091895341416
         },
         {
           "providerName": "BaseTen",
@@ -813,7 +831,7 @@
           "inputPerMillion": 0.09999999999999999,
           "outputPerMillion": 0.5,
           "quantization": "fp4",
-          "uptime30m": 100
+          "uptime30m": 99.8166819431714
         },
         {
           "providerName": "Amazon Bedrock",
@@ -822,7 +840,7 @@
           "inputPerMillion": 0.15,
           "outputPerMillion": 0.6,
           "quantization": "unknown",
-          "uptime30m": 99.90473922362467
+          "uptime30m": 100
         },
         {
           "providerName": "Phala",
@@ -831,7 +849,7 @@
           "inputPerMillion": 0.15,
           "outputPerMillion": 0.6,
           "quantization": "unknown",
-          "uptime30m": 99.89816700610999
+          "uptime30m": 99.79612640163099
         },
         {
           "providerName": "Amazon Bedrock",
@@ -849,7 +867,7 @@
           "inputPerMillion": 0.15,
           "outputPerMillion": 0.6,
           "quantization": "unknown",
-          "uptime30m": 93.90862944162437
+          "uptime30m": 100
         },
         {
           "providerName": "Ambient",
@@ -858,7 +876,7 @@
           "inputPerMillion": 0.15,
           "outputPerMillion": 0.6,
           "quantization": "unknown",
-          "uptime30m": 99.95038451997023
+          "uptime30m": 97.75208734746307
         },
         {
           "providerName": "Groq",
@@ -867,7 +885,7 @@
           "inputPerMillion": 0.15,
           "outputPerMillion": 0.6,
           "quantization": "unknown",
-          "uptime30m": 99.97840997791174
+          "uptime30m": 99.98763715036316
         },
         {
           "providerName": "WandB",
@@ -885,7 +903,7 @@
           "inputPerMillion": 0.15,
           "outputPerMillion": 0.6,
           "quantization": "fp4",
-          "uptime30m": 96.92536047497879
+          "uptime30m": 100
         },
         {
           "providerName": "DeepInfra",
@@ -894,6 +912,15 @@
           "inputPerMillion": 0.15,
           "outputPerMillion": 0.6,
           "quantization": "bf16",
+          "uptime30m": 99.830220713073
+        },
+        {
+          "providerName": "DigitalOcean",
+          "contextLength": 128000,
+          "maxCompletion": null,
+          "inputPerMillion": 0.09999999999999999,
+          "outputPerMillion": 0.7,
+          "quantization": "unknown",
           "uptime30m": 100
         },
         {
@@ -903,7 +930,7 @@
           "inputPerMillion": 0.09999999999999999,
           "outputPerMillion": 0.75,
           "quantization": "fp4",
-          "uptime30m": 99.74415204678363
+          "uptime30m": 100
         },
         {
           "providerName": "Mara",
@@ -912,7 +939,7 @@
           "inputPerMillion": 0.15,
           "outputPerMillion": 0.75,
           "quantization": "unknown",
-          "uptime30m": 99.94209612044007
+          "uptime30m": 98.32869080779945
         },
         {
           "providerName": "Cerebras",
@@ -921,7 +948,7 @@
           "inputPerMillion": 0.35,
           "outputPerMillion": 0.75,
           "quantization": "fp16",
-          "uptime30m": 100
+          "uptime30m": 99.97008495871724
         },
         {
           "providerName": "SambaNova",
@@ -930,7 +957,7 @@
           "inputPerMillion": 0.14,
           "outputPerMillion": 0.95,
           "quantization": "unknown",
-          "uptime30m": 98.63013698630137
+          "uptime30m": 98.08333333333333
         }
       ]
     },
@@ -956,7 +983,7 @@
           "inputPerMillion": 0.08,
           "outputPerMillion": 0.28,
           "quantization": "fp8",
-          "uptime30m": 99.9748427672956
+          "uptime30m": 99.95187680461981
         },
         {
           "providerName": "Nebius",
@@ -983,7 +1010,7 @@
           "inputPerMillion": 0.09999999999999999,
           "outputPerMillion": 0.44999999999999996,
           "quantization": "fp8",
-          "uptime30m": 90
+          "uptime30m": 100
         },
         {
           "providerName": "SiliconFlow",
@@ -992,7 +1019,7 @@
           "inputPerMillion": 0.14,
           "outputPerMillion": 0.5700000000000001,
           "quantization": "fp8",
-          "uptime30m": 99.34640522875817
+          "uptime30m": 97.74266365688487
         },
         {
           "providerName": "Groq",
@@ -1010,7 +1037,7 @@
           "inputPerMillion": 0.09999999999999999,
           "outputPerMillion": 1.2,
           "quantization": "fp8",
-          "uptime30m": 100
+          "uptime30m": 99.94432071269487
         }
       ]
     },
@@ -1023,7 +1050,7 @@
           "inputPerMillion": 0.09,
           "outputPerMillion": 0.3,
           "quantization": "fp8",
-          "uptime30m": 92.5178646490122
+          "uptime30m": 72.63544536271809
         },
         {
           "providerName": "Nebius",
@@ -1032,7 +1059,7 @@
           "inputPerMillion": 0.09999999999999999,
           "outputPerMillion": 0.3,
           "quantization": "fp8",
-          "uptime30m": 90.39905175819834
+          "uptime30m": 100
         },
         {
           "providerName": "AtlasCloud",
@@ -1041,7 +1068,7 @@
           "inputPerMillion": 0.09999999999999999,
           "outputPerMillion": 0.3,
           "quantization": "fp8",
-          "uptime30m": 99.90654205607477
+          "uptime30m": 99.67866323907455
         },
         {
           "providerName": "WandB",
@@ -1059,7 +1086,7 @@
           "inputPerMillion": 0.13,
           "outputPerMillion": 0.52,
           "quantization": "unknown",
-          "uptime30m": 99.35897435897436
+          "uptime30m": 99.4711792702274
         },
         {
           "providerName": "Venice",
@@ -1068,7 +1095,7 @@
           "inputPerMillion": 0.19,
           "outputPerMillion": 0.69,
           "quantization": "unknown",
-          "uptime30m": null
+          "uptime30m": 100
         }
       ]
     },
@@ -1081,7 +1108,7 @@
           "inputPerMillion": 0.0975,
           "outputPerMillion": 0.78,
           "quantization": "unknown",
-          "uptime30m": null
+          "uptime30m": 100
         },
         {
           "providerName": "Nebius",
@@ -1139,7 +1166,7 @@
           "inputPerMillion": 0.44999999999999996,
           "outputPerMillion": 3,
           "quantization": "fp8",
-          "uptime30m": 99.89270386266095
+          "uptime30m": 99.55985915492957
         },
         {
           "providerName": "Morph",
@@ -1148,7 +1175,7 @@
           "inputPerMillion": 0.5489999999999999,
           "outputPerMillion": 3.5,
           "quantization": "unknown",
-          "uptime30m": 99.90610328638498
+          "uptime30m": 99.69604863221885
         },
         {
           "providerName": "AtlasCloud",
@@ -1157,7 +1184,7 @@
           "inputPerMillion": 0.55,
           "outputPerMillion": 3.5,
           "quantization": "fp8",
-          "uptime30m": 100
+          "uptime30m": 99.24812030075188
         },
         {
           "providerName": "Phala",
@@ -1166,7 +1193,7 @@
           "inputPerMillion": 0.55,
           "outputPerMillion": 3.5,
           "quantization": "unknown",
-          "uptime30m": 100
+          "uptime30m": 95.34883720930233
         },
         {
           "providerName": "DeepInfra",
@@ -1175,7 +1202,7 @@
           "inputPerMillion": 0.49,
           "outputPerMillion": 3.5999999999999996,
           "quantization": "fp8",
-          "uptime30m": 94.86590038314176
+          "uptime30m": 98.79154078549848
         },
         {
           "providerName": "Parasail",
@@ -1193,7 +1220,7 @@
           "inputPerMillion": 0.6,
           "outputPerMillion": 3.5999999999999996,
           "quantization": "unknown",
-          "uptime30m": 100
+          "uptime30m": 99.5
         },
         {
           "providerName": "Together",
@@ -1202,16 +1229,7 @@
           "inputPerMillion": 0.6,
           "outputPerMillion": 3.5999999999999996,
           "quantization": "unknown",
-          "uptime30m": 100
-        },
-        {
-          "providerName": "Nebius",
-          "contextLength": 262144,
-          "maxCompletion": null,
-          "inputPerMillion": 0.6,
-          "outputPerMillion": 3.5999999999999996,
-          "quantization": "fp4",
-          "uptime30m": 100
+          "uptime30m": 99.77116704805492
         },
         {
           "providerName": "GMICloud",
@@ -1220,7 +1238,7 @@
           "inputPerMillion": 0.6,
           "outputPerMillion": 3.5999999999999996,
           "quantization": "fp8",
-          "uptime30m": 94.9685534591195
+          "uptime30m": 98.29787234042553
         },
         {
           "providerName": "Venice",
@@ -1242,7 +1260,7 @@
           "inputPerMillion": 0.25,
           "outputPerMillion": 0.75,
           "quantization": "fp8",
-          "uptime30m": 99.93434011818779
+          "uptime30m": 98.3204134366925
         },
         {
           "providerName": "Novita",
@@ -1251,7 +1269,7 @@
           "inputPerMillion": 0.7999999999999999,
           "outputPerMillion": 0.7999999999999999,
           "quantization": "bf16",
-          "uptime30m": null
+          "uptime30m": 75.78125
         },
         {
           "providerName": "Parasail",
@@ -1260,7 +1278,7 @@
           "inputPerMillion": 0.7999999999999999,
           "outputPerMillion": 1,
           "quantization": "fp8",
-          "uptime30m": 99.45533769063181
+          "uptime30m": 85.88007736943906
         }
       ]
     },
@@ -1273,7 +1291,7 @@
           "inputPerMillion": 0.08,
           "outputPerMillion": 0.16,
           "quantization": "fp8",
-          "uptime30m": 98.74591994502663
+          "uptime30m": 93.09800828239007
         },
         {
           "providerName": "Novita",
@@ -1282,7 +1300,7 @@
           "inputPerMillion": 0.119,
           "outputPerMillion": 0.19999999999999998,
           "quantization": "bf16",
-          "uptime30m": 77.00348432055749
+          "uptime30m": 99.94311717861206
         },
         {
           "providerName": "Nebius",
@@ -1291,7 +1309,7 @@
           "inputPerMillion": 0.09999999999999999,
           "outputPerMillion": 0.3,
           "quantization": "fp8",
-          "uptime30m": 99.48786461812514
+          "uptime30m": 99.67368733313556
         },
         {
           "providerName": "Phala",
@@ -1300,7 +1318,7 @@
           "inputPerMillion": 0.11,
           "outputPerMillion": 0.39999999999999997,
           "quantization": "unknown",
-          "uptime30m": 99.88151658767772
+          "uptime30m": 100
         },
         {
           "providerName": "Parasail",
@@ -1309,7 +1327,7 @@
           "inputPerMillion": 0.08,
           "outputPerMillion": 0.44999999999999996,
           "quantization": "fp8",
-          "uptime30m": 99.98147233201581
+          "uptime30m": 99.88457839050979
         }
       ]
     },
@@ -1322,7 +1340,7 @@
           "inputPerMillion": 0.09,
           "outputPerMillion": 0.44999999999999996,
           "quantization": "fp8",
-          "uptime30m": 95.95015576323988
+          "uptime30m": 98.5973597359736
         },
         {
           "providerName": "DeepInfra",
@@ -1331,7 +1349,7 @@
           "inputPerMillion": 0.09999999999999999,
           "outputPerMillion": 0.5,
           "quantization": "bf16",
-          "uptime30m": 68.29268292682927
+          "uptime30m": 70.13888888888889
         },
         {
           "providerName": "Nebius",
@@ -1340,7 +1358,7 @@
           "inputPerMillion": 0.3,
           "outputPerMillion": 0.8999999999999999,
           "quantization": "fp4",
-          "uptime30m": 99.58847736625515
+          "uptime30m": null
         }
       ]
     }
