@@ -1,24 +1,24 @@
 {
-  "fetchedAt": "2026-06-01T11:29:09.481Z",
-  "date": "2026-05-31T00:00:00.000Z",
+  "fetchedAt": "2026-06-02T10:20:22.257Z",
+  "date": "2026-06-01T00:00:00.000Z",
   "current": [
     {
       "key": "ddr5-rdimm-32gb",
       "label": "DDR5 RDIMM 32GB",
       "category": "module",
-      "price": 1020,
-      "changePct": 4.62,
+      "price": 1035,
+      "changePct": 1.47,
       "weeklyHigh": 1200,
-      "weeklyLow": 920
+      "weeklyLow": 950
     },
     {
       "key": "ddr5-16gb-chip",
       "label": "DDR5 16Gb Chip",
       "category": "dram",
-      "price": 41.9,
-      "changePct": 0.16,
-      "weeklyHigh": 52.6,
-      "weeklyLow": 30
+      "price": 42.267,
+      "changePct": 0.88,
+      "weeklyHigh": 53,
+      "weeklyLow": 30.5
     },
     {
       "key": "ddr5-16gb-ett",
@@ -26,8 +26,8 @@
       "category": "dram",
       "price": 22.5,
       "changePct": 0,
-      "weeklyHigh": 24.7,
-      "weeklyLow": 22
+      "weeklyHigh": 25,
+      "weeklyLow": 21.8
     }
   ],
   "history": {
@@ -787,6 +787,10 @@
       {
         "date": "2026-05-31",
         "price": 1020
+      },
+      {
+        "date": "2026-06-01",
+        "price": 1035
       }
     ],
     "ddr5-16gb-chip": [
@@ -1289,6 +1293,10 @@
       {
         "date": "2026-05-31",
         "price": 41.9
+      },
+      {
+        "date": "2026-06-01",
+        "price": 42.267
       }
     ],
     "ddr5-16gb-ett": [
@@ -2090,6 +2098,10 @@
       },
       {
         "date": "2026-05-31",
+        "price": 22.5
+      },
+      {
+        "date": "2026-06-01",
         "price": 22.5
       }
     ]
