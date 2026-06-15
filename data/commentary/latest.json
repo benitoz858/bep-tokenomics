@@ -1,26 +1,26 @@
 {
-  "generatedAt": "2026-06-14T09:31:23.436Z",
-  "date": "2026-06-14",
-  "title": "Market Brief — Sunday, June 14, 2026",
+  "generatedAt": "2026-06-15T11:59:52.445Z",
+  "date": "2026-06-15",
+  "title": "Market Brief — Monday, June 15, 2026",
   "poweredBy": "Claude Opus 4.6",
-  "summary": "GPU supply is loose across every class. Util-avail stands at 43% for A100, 40% for H100, 61% for H200, and 54% for B200, putting H200 squarely in oversupply territory and the rest well above any scarcity threshold. The sharpest price moves: A100 spiked 10.3% day-over-day to $1.07/hr while B200 dropped 5.6% to $4.13/hr, signaling demand rotating back into legacy silicon as buyers hunt value.",
+  "summary": "GPU supply is loose and loosening fast. Util-avail sits at 47% for A100, 48% for H100, 58% for H200, and 58% for B200, all comfortably above oversupply thresholds after 30-day utilization collapsed 36-52 percentage points across every class. H200 spot dropped 7.1% overnight to $3.35/hr, the day's sharpest move, while B200 bucked the trend rising 6.0% to $4.38/hr on early-cycle demand.",
   "paragraphs": [
-    "GPU supply is loose across every class. Util-avail stands at 43% for A100, 40% for H100, 61% for H200, and 54% for B200, putting H200 squarely in oversupply territory and the rest well above any scarcity threshold. The sharpest price moves: A100 spiked 10.3% day-over-day to $1.07/hr while B200 dropped 5.6% to $4.13/hr, signaling demand rotating back into legacy silicon as buyers hunt value.",
-    "At TCO-adjusted cost (1.25x spot), running Llama 70B on H100 costs roughly $8.99/M tokens, meaning anyone pricing open-weight 70B inference at the medium tier ($3/M) is selling at a loss of approximately $5.99 per million tokens. DeepSeek V3.2 at $0.34/M output and Meta Llama 3.3 70B at $0.32/M are deep underwater. Provider grades: OpenAI Neutral, Anthropic Neutral, Google Strong, DeepSeek Burning Cash, open-source Burning Cash.",
-    "B200 at $4.13/hr spot with 77% of NeoCloud offerings sitting idle is overvalued and due for further compression. A100 at $1.07/hr with TCO-adjusted Llama 70B cost of $6.75/M is the undervalued inference play, offering positive margins at high-tier pricing where H100 cannot."
+    "GPU supply is loose and loosening fast. Util-avail sits at 47% for A100, 48% for H100, 58% for H200, and 58% for B200, all comfortably above oversupply thresholds after 30-day utilization collapsed 36-52 percentage points across every class. H200 spot dropped 7.1% overnight to $3.35/hr, the day's sharpest move, while B200 bucked the trend rising 6.0% to $4.38/hr on early-cycle demand.",
+    "Inference margins are brutal outside premium tiers. At TCO-adjusted cost (1.25x spot), serving Llama 70B on H100 runs $8.78/M tokens, meaning DeepSeek V3.2 at $0.34/M output is selling at a loss of roughly $8.44 per million tokens. DeepSeek: Burning Cash. OpenAI gpt-oss-120b at $0.18/M output: Burning Cash. Qwen sub-$0.60 models: Burning Cash. Only premium-priced Anthropic Opus 4.6 at $25/M output and OpenAI o3 Pro at $80/M earn real margin: both Strong.",
+    "B200 at $4.38/hr spot looks overvalued given 58% util-avail slack and 76% of NeoCloud offerings sitting idle, while H200 at $3.35/hr post-correction with 209.6% annualized vol is the dislocation trade for cost-optimized inference workloads."
   ],
   "bullets": [
-    "61% util-avail on H200 marks the only GPU class in outright oversupply territory today.",
-    "40% util-avail on H100 reflects a 39.4 percentage point utilization collapse over 30 days.",
-    "$4.13/hr B200 spot fell 5.6% day-over-day, the largest single-day GPU price decline.",
-    "21.78 on the LLMflation Index means frontier output tokens cost 78% less than GPT-4 at launch.",
-    "$0.18/M output for OpenAI gpt-oss-120b is the cheapest frontier-adjacent token price ever recorded.",
-    "213% annualized volatility on H200 OCPI makes it the most unstable GPU contract by a factor of three."
+    "58% util-avail on B200 signals meaningful oversupply despite being the newest GPU class.",
+    "48% util-avail on H100 reflects a 45.7 percentage point utilization crash in 30 days.",
+    "$3.35/hr H200 spot median is down 7.1% day-over-day, the steepest single-day GPU drop.",
+    "21.78 LLMflation index means frontier token prices have fallen 78% since GPT-4 launch.",
+    "$0.18/M output on OpenAI gpt-oss-120b is the lowest price ever from a major lab.",
+    "209.6% annualized volatility on H200 OCPI makes it the most unstable GPU contract by 3x."
   ],
   "dataPoints": {
     "modelsTracked": 54,
     "gpuMarketsTracked": 4,
     "llmflationIndex": 21.78,
-    "gpuOffers": 189
+    "gpuOffers": 183
   }
 }
