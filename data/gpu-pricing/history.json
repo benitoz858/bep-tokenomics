@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-06-26",
+  "lastUpdated": "2026-06-27",
   "entries": {
     "2026-03-26": [
       {
@@ -10149,6 +10149,136 @@
         "avgReliability": 98.73,
         "regions": {
           "US": 199
+        }
+      }
+    ],
+    "2026-06-27": [
+      {
+        "gpuModel": "nvidia-a100",
+        "onDemand": {
+          "min": null,
+          "median": null,
+          "max": null,
+          "count": 0
+        },
+        "spot": {
+          "min": 0.40148148148148144,
+          "median": 0.9784059259259259,
+          "max": 1.333611111111111,
+          "count": 44
+        },
+        "availabilityPct": 38,
+        "offeringCount": 44,
+        "totalGpusAvailable": 97,
+        "totalGpusRented": 180,
+        "avgReliability": 99.25,
+        "regions": {
+          "JP": 63,
+          "GB": 21,
+          "US": 88,
+          "RU": 6,
+          "CZ": 25,
+          "SE": 7,
+          "EE": 2,
+          "AE": 14,
+          "FI": 3,
+          "CA": 24,
+          "LU": 1,
+          "SI": 19,
+          "KR": 4
+        }
+      },
+      {
+        "gpuModel": "nvidia-h100",
+        "onDemand": {
+          "min": null,
+          "median": null,
+          "max": null,
+          "count": 0
+        },
+        "spot": {
+          "min": 1.602222222222222,
+          "median": 2.068888888888889,
+          "max": 3.494444444444445,
+          "count": 55
+        },
+        "availabilityPct": 37,
+        "offeringCount": 55,
+        "totalGpusAvailable": 101,
+        "totalGpusRented": 128,
+        "avgReliability": 98.99,
+        "regions": {
+          "US": 54,
+          "CZ": 25,
+          "NL": 23,
+          "IE": 1,
+          "SI": 16,
+          "BG": 19,
+          "JP": 44,
+          "IN": 19,
+          "MY": 1,
+          "RO": 4,
+          "FR": 7,
+          "ES": 1,
+          "CA": 1,
+          "GB": 14
+        }
+      },
+      {
+        "gpuModel": "nvidia-h200",
+        "onDemand": {
+          "min": null,
+          "median": null,
+          "max": null,
+          "count": 0
+        },
+        "spot": {
+          "min": 1.9358888888888892,
+          "median": 3.125,
+          "max": 4.080043859649123,
+          "count": 54
+        },
+        "availabilityPct": 34,
+        "offeringCount": 54,
+        "totalGpusAvailable": 139,
+        "totalGpusRented": 119,
+        "avgReliability": 99.12,
+        "regions": {
+          "US": 95,
+          "CZ": 25,
+          "SA": 18,
+          "JP": 37,
+          "CA": 4,
+          "IT": 8,
+          "FR": 7,
+          "BG": 30,
+          "AT": 4,
+          "MT": 10,
+          "IN": 19,
+          "BR": 1
+        }
+      },
+      {
+        "gpuModel": "nvidia-b200",
+        "onDemand": {
+          "min": null,
+          "median": null,
+          "max": null,
+          "count": 0
+        },
+        "spot": {
+          "min": 3.439236111111111,
+          "median": 4.501302083333333,
+          "max": 5.944444444444445,
+          "count": 36
+        },
+        "availabilityPct": 31,
+        "offeringCount": 36,
+        "totalGpusAvailable": 114,
+        "totalGpusRented": 61,
+        "avgReliability": 99.39,
+        "regions": {
+          "US": 175
         }
       }
     ]

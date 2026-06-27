@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-06-26T09:20:52.316Z",
+  "fetchedAt": "2026-06-27T08:32:36.419Z",
   "modelCount": 44,
   "models": [
     {
@@ -10,7 +10,7 @@
       "outputPerMillion": 80,
       "contextWindow": 200000,
       "maxOutput": 100000,
-      "fetchedAt": "2026-06-26T09:20:51.205Z"
+      "fetchedAt": "2026-06-27T08:32:35.093Z"
     },
     {
       "model": "Anthropic: Claude Opus 4.6",
@@ -20,7 +20,7 @@
       "outputPerMillion": 25,
       "contextWindow": 1000000,
       "maxOutput": 128000,
-      "fetchedAt": "2026-06-26T09:20:51.205Z"
+      "fetchedAt": "2026-06-27T08:32:35.094Z"
     },
     {
       "model": "OpenAI: GPT-5.4",
@@ -30,7 +30,7 @@
       "outputPerMillion": 15,
       "contextWindow": 1050000,
       "maxOutput": 128000,
-      "fetchedAt": "2026-06-26T09:20:51.204Z"
+      "fetchedAt": "2026-06-27T08:32:35.093Z"
     },
     {
       "model": "Anthropic: Claude Sonnet 4.6",
@@ -40,7 +40,7 @@
       "outputPerMillion": 15,
       "contextWindow": 1000000,
       "maxOutput": 128000,
-      "fetchedAt": "2026-06-26T09:20:51.205Z"
+      "fetchedAt": "2026-06-27T08:32:35.094Z"
     },
     {
       "model": "OpenAI: GPT-5.2",
@@ -50,7 +50,7 @@
       "outputPerMillion": 14,
       "contextWindow": 400000,
       "maxOutput": 128000,
-      "fetchedAt": "2026-06-26T09:20:51.205Z"
+      "fetchedAt": "2026-06-27T08:32:35.093Z"
     },
     {
       "model": "OpenAI: GPT-5",
@@ -60,7 +60,7 @@
       "outputPerMillion": 10,
       "contextWindow": 400000,
       "maxOutput": 128000,
-      "fetchedAt": "2026-06-26T09:20:51.205Z"
+      "fetchedAt": "2026-06-27T08:32:35.093Z"
     },
     {
       "model": "Google: Gemini 2.5 Pro",
@@ -70,7 +70,7 @@
       "outputPerMillion": 10,
       "contextWindow": 1048576,
       "maxOutput": 65536,
-      "fetchedAt": "2026-06-26T09:20:51.205Z"
+      "fetchedAt": "2026-06-27T08:32:35.094Z"
     },
     {
       "model": "OpenAI: o3",
@@ -80,7 +80,7 @@
       "outputPerMillion": 8,
       "contextWindow": 200000,
       "maxOutput": 100000,
-      "fetchedAt": "2026-06-26T09:20:51.205Z"
+      "fetchedAt": "2026-06-27T08:32:35.093Z"
     },
     {
       "model": "Mistral Large",
@@ -90,7 +90,7 @@
       "outputPerMillion": 6,
       "contextWindow": 128000,
       "maxOutput": null,
-      "fetchedAt": "2026-06-26T09:20:51.206Z"
+      "fetchedAt": "2026-06-27T08:32:35.094Z"
     },
     {
       "model": "Anthropic: Claude Haiku 4.5",
@@ -100,7 +100,7 @@
       "outputPerMillion": 5,
       "contextWindow": 200000,
       "maxOutput": 64000,
-      "fetchedAt": "2026-06-26T09:20:51.205Z"
+      "fetchedAt": "2026-06-27T08:32:35.094Z"
     },
     {
       "model": "OpenAI: GPT-5.4 Mini",
@@ -110,7 +110,7 @@
       "outputPerMillion": 4.5,
       "contextWindow": 400000,
       "maxOutput": 128000,
-      "fetchedAt": "2026-06-26T09:20:51.205Z"
+      "fetchedAt": "2026-06-27T08:32:35.093Z"
     },
     {
       "model": "OpenAI: o3 Mini",
@@ -120,7 +120,7 @@
       "outputPerMillion": 4.4,
       "contextWindow": 200000,
       "maxOutput": 100000,
-      "fetchedAt": "2026-06-26T09:20:51.205Z"
+      "fetchedAt": "2026-06-27T08:32:35.093Z"
     },
     {
       "model": "GLM-5.1",
@@ -130,7 +130,7 @@
       "outputPerMillion": 4.4,
       "contextWindow": 202752,
       "maxOutput": null,
-      "fetchedAt": "2026-06-26T09:20:52.314Z",
+      "fetchedAt": "2026-06-27T08:32:36.417Z",
       "source": "Nebius"
     },
     {
@@ -141,7 +141,7 @@
       "outputPerMillion": 4.4,
       "contextWindow": 432000,
       "maxOutput": null,
-      "fetchedAt": "2026-06-26T09:20:52.314Z",
+      "fetchedAt": "2026-06-27T08:32:36.417Z",
       "source": "Nebius"
     },
     {
@@ -152,7 +152,7 @@
       "outputPerMillion": 4,
       "contextWindow": 262144,
       "maxOutput": null,
-      "fetchedAt": "2026-06-26T09:20:52.314Z",
+      "fetchedAt": "2026-06-27T08:32:36.417Z",
       "source": "Nebius"
     },
     {
@@ -163,7 +163,7 @@
       "outputPerMillion": 3.5999999999999996,
       "contextWindow": 262144,
       "maxOutput": null,
-      "fetchedAt": "2026-06-26T09:20:52.314Z",
+      "fetchedAt": "2026-06-27T08:32:36.417Z",
       "source": "Nebius"
     },
     {
@@ -174,7 +174,7 @@
       "outputPerMillion": 3.5,
       "contextWindow": 1048576,
       "maxOutput": null,
-      "fetchedAt": "2026-06-26T09:20:52.314Z",
+      "fetchedAt": "2026-06-27T08:32:36.417Z",
       "source": "Nebius"
     },
     {
@@ -185,7 +185,7 @@
       "outputPerMillion": 3,
       "contextWindow": 131072,
       "maxOutput": null,
-      "fetchedAt": "2026-06-26T09:20:52.314Z",
+      "fetchedAt": "2026-06-27T08:32:36.417Z",
       "source": "Nebius"
     },
     {
@@ -196,7 +196,7 @@
       "outputPerMillion": 3,
       "contextWindow": 262144,
       "maxOutput": null,
-      "fetchedAt": "2026-06-26T09:20:52.314Z",
+      "fetchedAt": "2026-06-27T08:32:36.417Z",
       "source": "Nebius"
     },
     {
@@ -207,7 +207,7 @@
       "outputPerMillion": 2.5,
       "contextWindow": 1048576,
       "maxOutput": 65535,
-      "fetchedAt": "2026-06-26T09:20:51.205Z"
+      "fetchedAt": "2026-06-27T08:32:35.094Z"
     },
     {
       "model": "DeepSeek: R1",
@@ -217,7 +217,7 @@
       "outputPerMillion": 2.5,
       "contextWindow": 163840,
       "maxOutput": 16000,
-      "fetchedAt": "2026-06-26T09:20:51.205Z"
+      "fetchedAt": "2026-06-27T08:32:35.094Z"
     },
     {
       "model": "MoonshotAI: Kimi K2.5",
@@ -227,7 +227,7 @@
       "outputPerMillion": 2.025,
       "contextWindow": 262144,
       "maxOutput": null,
-      "fetchedAt": "2026-06-26T09:20:51.206Z"
+      "fetchedAt": "2026-06-27T08:32:35.094Z"
     },
     {
       "model": "OpenAI: GPT-5 Mini",
@@ -237,7 +237,7 @@
       "outputPerMillion": 2,
       "contextWindow": 400000,
       "maxOutput": 128000,
-      "fetchedAt": "2026-06-26T09:20:51.205Z"
+      "fetchedAt": "2026-06-27T08:32:35.093Z"
     },
     {
       "model": "Llama-3_1-Nemotron-Ultra-253B-v1",
@@ -247,7 +247,7 @@
       "outputPerMillion": 1.7999999999999998,
       "contextWindow": 8000,
       "maxOutput": null,
-      "fetchedAt": "2026-06-26T09:20:52.314Z",
+      "fetchedAt": "2026-06-27T08:32:36.417Z",
       "source": "Nebius"
     },
     {
@@ -258,7 +258,7 @@
       "outputPerMillion": 1.2,
       "contextWindow": 128000,
       "maxOutput": null,
-      "fetchedAt": "2026-06-26T09:20:52.314Z",
+      "fetchedAt": "2026-06-27T08:32:36.417Z",
       "source": "Nebius"
     },
     {
@@ -269,7 +269,7 @@
       "outputPerMillion": 1.2,
       "contextWindow": 196608,
       "maxOutput": null,
-      "fetchedAt": "2026-06-26T09:20:52.314Z",
+      "fetchedAt": "2026-06-27T08:32:36.417Z",
       "source": "Nebius"
     },
     {
@@ -280,7 +280,7 @@
       "outputPerMillion": 1.1099999999999999,
       "contextWindow": 32000,
       "maxOutput": null,
-      "fetchedAt": "2026-06-26T09:20:52.314Z",
+      "fetchedAt": "2026-06-27T08:32:36.417Z",
       "source": "Nebius"
     },
     {
@@ -291,7 +291,7 @@
       "outputPerMillion": 0.8999999999999999,
       "contextWindow": 262144,
       "maxOutput": null,
-      "fetchedAt": "2026-06-26T09:20:52.314Z",
+      "fetchedAt": "2026-06-27T08:32:36.417Z",
       "source": "Nebius"
     },
     {
@@ -302,7 +302,7 @@
       "outputPerMillion": 0.75,
       "contextWindow": 32000,
       "maxOutput": null,
-      "fetchedAt": "2026-06-26T09:20:52.314Z",
+      "fetchedAt": "2026-06-27T08:32:36.417Z",
       "source": "Nebius"
     },
     {
@@ -313,7 +313,7 @@
       "outputPerMillion": 0.6,
       "contextWindow": 1048576,
       "maxOutput": 16384,
-      "fetchedAt": "2026-06-26T09:20:51.206Z"
+      "fetchedAt": "2026-06-27T08:32:35.094Z"
     },
     {
       "model": "Qwen3-235B-A22B-Instruct-2507",
@@ -323,7 +323,7 @@
       "outputPerMillion": 0.6,
       "contextWindow": 262144,
       "maxOutput": null,
-      "fetchedAt": "2026-06-26T09:20:52.314Z",
+      "fetchedAt": "2026-06-27T08:32:36.417Z",
       "source": "Nebius"
     },
     {
@@ -334,7 +334,7 @@
       "outputPerMillion": 0.6,
       "contextWindow": 131072,
       "maxOutput": null,
-      "fetchedAt": "2026-06-26T09:20:52.314Z",
+      "fetchedAt": "2026-06-27T08:32:36.417Z",
       "source": "Nebius"
     },
     {
@@ -345,7 +345,7 @@
       "outputPerMillion": 0.48,
       "contextWindow": 204800,
       "maxOutput": 196608,
-      "fetchedAt": "2026-06-26T09:20:51.206Z"
+      "fetchedAt": "2026-06-27T08:32:35.094Z"
     },
     {
       "model": "Llama-3.3-70B-Instruct",
@@ -355,7 +355,7 @@
       "outputPerMillion": 0.39999999999999997,
       "contextWindow": 131072,
       "maxOutput": null,
-      "fetchedAt": "2026-06-26T09:20:52.314Z",
+      "fetchedAt": "2026-06-27T08:32:36.417Z",
       "source": "Nebius"
     },
     {
@@ -366,7 +366,7 @@
       "outputPerMillion": 0.39999999999999997,
       "contextWindow": 131072,
       "maxOutput": null,
-      "fetchedAt": "2026-06-26T09:20:52.314Z",
+      "fetchedAt": "2026-06-27T08:32:36.417Z",
       "source": "Nebius"
     },
     {
@@ -377,7 +377,7 @@
       "outputPerMillion": 0.3432,
       "contextWindow": 131072,
       "maxOutput": 64000,
-      "fetchedAt": "2026-06-26T09:20:51.205Z"
+      "fetchedAt": "2026-06-27T08:32:35.094Z"
     },
     {
       "model": "Meta: Llama 3.3 70B Instruct",
@@ -387,7 +387,7 @@
       "outputPerMillion": 0.32,
       "contextWindow": 131072,
       "maxOutput": 16384,
-      "fetchedAt": "2026-06-26T09:20:51.206Z"
+      "fetchedAt": "2026-06-27T08:32:35.094Z"
     },
     {
       "model": "Qwen3-32B",
@@ -397,7 +397,7 @@
       "outputPerMillion": 0.3,
       "contextWindow": 40960,
       "maxOutput": null,
-      "fetchedAt": "2026-06-26T09:20:52.314Z",
+      "fetchedAt": "2026-06-27T08:32:36.417Z",
       "source": "Nebius"
     },
     {
@@ -408,7 +408,7 @@
       "outputPerMillion": 0.3,
       "contextWindow": 110000,
       "maxOutput": null,
-      "fetchedAt": "2026-06-26T09:20:52.314Z",
+      "fetchedAt": "2026-06-27T08:32:36.417Z",
       "source": "Nebius"
     },
     {
@@ -419,7 +419,7 @@
       "outputPerMillion": 0.3,
       "contextWindow": 262144,
       "maxOutput": null,
-      "fetchedAt": "2026-06-26T09:20:52.314Z",
+      "fetchedAt": "2026-06-27T08:32:36.417Z",
       "source": "Nebius"
     },
     {
@@ -430,7 +430,7 @@
       "outputPerMillion": 0.3,
       "contextWindow": 262144,
       "maxOutput": null,
-      "fetchedAt": "2026-06-26T09:20:52.314Z",
+      "fetchedAt": "2026-06-27T08:32:36.417Z",
       "source": "Nebius"
     },
     {
@@ -441,7 +441,7 @@
       "outputPerMillion": 0.24,
       "contextWindow": 262144,
       "maxOutput": null,
-      "fetchedAt": "2026-06-26T09:20:52.314Z",
+      "fetchedAt": "2026-06-27T08:32:36.417Z",
       "source": "Nebius"
     },
     {
@@ -452,7 +452,7 @@
       "outputPerMillion": 0.24,
       "contextWindow": 8000,
       "maxOutput": null,
-      "fetchedAt": "2026-06-26T09:20:52.314Z",
+      "fetchedAt": "2026-06-27T08:32:36.417Z",
       "source": "Nebius"
     },
     {
@@ -463,7 +463,7 @@
       "outputPerMillion": 0.15,
       "contextWindow": 131072,
       "maxOutput": 131072,
-      "fetchedAt": "2026-06-26T09:20:51.206Z"
+      "fetchedAt": "2026-06-27T08:32:35.094Z"
     }
   ]
 }
