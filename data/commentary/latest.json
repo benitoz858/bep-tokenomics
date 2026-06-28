@@ -1,26 +1,26 @@
 {
-  "generatedAt": "2026-06-27T08:33:48.755Z",
-  "date": "2026-06-27",
-  "title": "Market Brief — Saturday, June 27, 2026",
+  "generatedAt": "2026-06-28T08:49:03.211Z",
+  "date": "2026-06-28",
+  "title": "Market Brief — Sunday, June 28, 2026",
   "poweredBy": "Claude Opus 4.6",
-  "summary": "GPU availability is loosening fast across every class. Util-avail stands at 38% for A100, 37% for H100, 34% for H200, and 31% for B200, all well above scarcity thresholds after utilization collapsed 17 to 27 percentage points in 30 days. The biggest daily move was H200 spot crashing 8.6% to $3.13/hr, signaling demand destruction at the high end.",
+  "summary": "GPU compute is loose across every class: util-avail stands at 36% for A100, 35% for H100, 37% for H200, and 37% for B200, all signaling ample spare capacity well above scarcity thresholds. The biggest overnight move is H200 spot jumping 10.3% to $3.45/hr, a demand spike contradicting the broader utilization glut where H200 usage cratered 31.3pp over 30 days.",
   "paragraphs": [
-    "GPU availability is loosening fast across every class. Util-avail stands at 38% for A100, 37% for H100, 34% for H200, and 31% for B200, all well above scarcity thresholds after utilization collapsed 17 to 27 percentage points in 30 days. The biggest daily move was H200 spot crashing 8.6% to $3.13/hr, signaling demand destruction at the high end.",
-    "DeepSeek V3.2 at $0.34/M output against a TCO-adjusted cost near $4.11/M on A100 is selling at a loss of roughly $3.77 per million tokens. Burning Cash. OpenAI's gpt-oss-120b at $0.15/M output is similarly underwater. B200 is the only GPU where mid-tier inference breaks even, with margins turning positive at 45% for high-volume pricing, making NVIDIA's newest silicon the only defensible cost base for open-weight hosting.",
-    "B200 compute at $4.50/hr with 69% utilization is overvalued relative to H200 spot now at $3.13/hr offering comparable inference throughput at 34% utilization. Trade is short premium B200 contracts, accumulate H200 spot while the 8.6% daily selloff extends into a structural repricing."
+    "GPU compute is loose across every class: util-avail stands at 36% for A100, 35% for H100, 37% for H200, and 37% for B200, all signaling ample spare capacity well above scarcity thresholds. The biggest overnight move is H200 spot jumping 10.3% to $3.45/hr, a demand spike contradicting the broader utilization glut where H200 usage cratered 31.3pp over 30 days.",
+    "DeepSeek V3.2 at $0.34/M output is selling below its TCO-adjusted B200 production cost of $4.00/M, burning roughly $3.66 per million tokens to hold market share. OpenAI grades Neutral, monetizing o3 Pro at $80/M output while subsidizing gpt-oss-120b at $0.15/M. Anthropic grades Strong on Opus 4.6 premium pricing. Google grades Neutral. DeepSeek grades Burning Cash.",
+    "B200 spot at $4.38/hr looks overvalued given 65% of NeoCloud offerings sitting idle and utilization stuck at 63%, suggesting price correction ahead. A100 at $0.93/hr is undervalued for inference shops running Llama 70B, where TCO-adjusted cost yields 21% margin at high-tier pricing versus negative margins on H100 and H200."
   ],
   "bullets": [
-    "38% util-avail on A100 marks the loosest supply across all GPU classes tracked by Ornn.",
-    "31% util-avail on B200 is the tightest class but still far above the 25% scarcity threshold.",
-    "$3.13/hr H200 spot median fell 8.6% day-over-day, the largest single-day GPU price move in today's data.",
-    "21.36 on the LLMflation Index means frontier token prices have fallen roughly 79% since the GPT-4 baseline of 100.",
-    "$0.34/M output tokens from DeepSeek V3.2 undercuts every Western frontier model by at least 10x.",
-    "126.9% annualized volatility on H200 OCPI makes it the most unstable GPU contract to hold."
+    "37% util-avail on H200 means over a third of deployed capacity is idle despite a 10.3% overnight spot price spike.",
+    "35% util-avail on H100 reflects a 25.3pp utilization drop over 30 days, the second steepest decline across GPU classes.",
+    "$0.15 per million output tokens is what OpenAI charges for gpt-oss-120b, a 99.75% deflation from GPT-4 launch pricing.",
+    "65% of advertised B200 offerings on NeoCloud platforms sit unrented, the highest vacancy rate of any GPU class.",
+    "$3.66 per million tokens is the estimated loss DeepSeek eats on every V3.2 output call versus TCO-adjusted B200 cost.",
+    "127.2% annualized volatility on H200 OCPI makes it the most unstable GPU contract, more than double B200 volatility."
   ],
   "dataPoints": {
     "modelsTracked": 44,
     "gpuMarketsTracked": 4,
     "llmflationIndex": 21.36,
-    "gpuOffers": 189
+    "gpuOffers": 169
   }
 }
