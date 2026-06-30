@@ -298,7 +298,8 @@ export default function DashboardV2({
               <div className="mb-3">
                 <ExpandableChart
                   title="OCPI Spot Index — 6 Month (trade-based $/hr)"
-                  attribution={{ label: "Ornn AI", href: "https://www.ornn.com" }}
+                  subtitle="H100, H200 & B200 curves built on OCPI — Ornn's transaction-based compute benchmarks, now published live at data.ornn.com."
+                  attribution={{ label: "data.ornn.com", href: "https://data.ornn.com" }}
                   compactHeight={160}
                   expandedHeight={500}
                   footer={ocpiFooter}
@@ -356,7 +357,7 @@ export default function DashboardV2({
             return (
               <ExpandableChart
                 title="GPU Compute Demand — 6 Month Utilization"
-                attribution={{ label: "Ornn AI OCPI", href: "https://www.ornn.com" }}
+                attribution={{ label: "Ornn OCPI · data.ornn.com", href: "https://data.ornn.com" }}
                 compactHeight={160}
                 expandedHeight={500}
                 footer={utilFooter}
@@ -483,8 +484,8 @@ export default function DashboardV2({
             <span className="text-[10px] font-mono text-bep-dim">Updated daily 6AM UTC</span>
           </div>
           <div className="text-[9px] font-mono text-bep-dim">
-            GPU utilization data powered by{" "}
-            <a href="https://www.ornn.com" target="_blank" rel="noopener noreferrer" className="text-bep-cyan hover:underline no-underline">Ornn AI (OCPI)</a>
+            H100 / H200 / B200 compute curves powered by{" "}
+            <a href="https://data.ornn.com" target="_blank" rel="noopener noreferrer" className="text-bep-cyan hover:underline no-underline">Ornn OCPI (data.ornn.com)</a>
             {" "}· Pricing from GetDeploying + Vast.ai · Token pricing from OpenRouter
           </div>
         </div>

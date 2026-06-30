@@ -11,7 +11,7 @@ const SOURCES = [
       { name: "Nebius Token Factory", url: "https://nebius.com/services/token-factory", what: "Token pricing for Nebius-hosted open-source endpoints (Llama, Qwen, DeepSeek, Kimi, MiniMax, GLM, Hermes, NVIDIA Nemotron, Gemma). Source label = 'Nebius'. Powers the same-model arbitrage chart.", frequency: "Daily (6AM UTC)" },
       { name: "GetDeploying", url: "https://getdeploying.com/", what: "Aggregated on-demand GPU rental pricing across NeoClouds.", frequency: "Daily (6AM UTC)" },
       { name: "Vast.ai API", url: "https://docs.vast.ai/", what: "GPU spot pricing, availability, reliability scores for H100/H200/B200. Includes rented vs available counts.", frequency: "Daily (6AM UTC)" },
-      { name: "Ornn AI (OCPI)", url: "https://www.ornn.com", what: "GPU compute utilization and trade-based spot index from the Ornn Compute Price Index. Used to override availabilityPct (= 1 − utilization) and to power the OCPI chart.", frequency: "Daily (6AM UTC)" },
+      { name: "Ornn OCPI (data.ornn.com)", url: "https://data.ornn.com", what: "Transaction-based compute benchmarks from the Ornn Compute Price Index, with published H100 / H200 / B200 spot curves and GPU utilization. Used to override availabilityPct (= 1 − utilization) and to power the OCPI chart.", frequency: "Daily (6AM UTC)" },
     ]
   },
   {
