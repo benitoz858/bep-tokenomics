@@ -84,6 +84,28 @@ export default function HomeContent({ postCount }: { postCount: number }) {
               </p>
             </div>
           </a>
+
+          <a href="https://tools.bepresearch.com/call-sheet" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
+            <div style={{
+              background: "#0a0a0a", border: "1px solid #1a1a1a", borderRadius: 8, padding: "24px 28px",
+              marginBottom: 12, cursor: "pointer", transition: "border-color 0.2s",
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.borderColor = "#FFB800")}
+            onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#1a1a1a")}
+            >
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+                <span style={{ fontFamily: "'Inter', -apple-system, sans-serif", fontSize: 18, fontWeight: 700, color: "#f0f0f0" }}>
+                  The Call Sheet
+                </span>
+                <span style={{ fontSize: 11, fontFamily: "'JetBrains Mono', monospace", color: "#FFB800", letterSpacing: 1, padding: "2px 8px", border: "1px solid #FFB80040", borderRadius: 4, background: "#FFB80010" }}>
+                  LIVE RETURNS
+                </span>
+              </div>
+              <p style={{ fontSize: 13, color: "#888", lineHeight: 1.6, margin: 0 }}>
+                Every named stock call on the record — entry price, live price, and return since the article that made it. Sortable, exportable, updated in real time.
+              </p>
+            </div>
+          </a>
         </div>
 
         {/* Thesis Areas */}
