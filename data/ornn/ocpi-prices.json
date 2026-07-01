@@ -1,19 +1,19 @@
 {
-  "fetchedAt": "2026-06-30T09:30:13.573Z",
-  "startDate": "2026-01-01",
-  "endDate": "2026-06-30",
+  "fetchedAt": "2026-07-01T09:41:41.956Z",
+  "startDate": "2026-01-02",
+  "endDate": "2026-07-01",
   "latest": {
     "h100": {
-      "price": 2.45,
-      "volatility": 61.1
+      "price": 2.46,
+      "volatility": 61
     },
     "h200": {
-      "price": 3.61,
-      "volatility": 123.9
+      "price": 3.65,
+      "volatility": 110.1
     },
     "b200": {
-      "price": 4.41,
-      "volatility": 46.2
+      "price": 4.46,
+      "volatility": 46.7
     },
     "a100": {
       "price": 1.02,
@@ -22,11 +22,6 @@
   },
   "history": {
     "h100": [
-      {
-        "date": "2026-01-01",
-        "price": 2.17,
-        "volatility": 66.8
-      },
       {
         "date": "2026-01-02",
         "price": 2.18,
@@ -921,14 +916,14 @@
         "date": "2026-06-29",
         "price": 2.45,
         "volatility": 61.1
+      },
+      {
+        "date": "2026-06-30",
+        "price": 2.46,
+        "volatility": 61
       }
     ],
     "h200": [
-      {
-        "date": "2026-01-01",
-        "price": 2.27,
-        "volatility": 54.2
-      },
       {
         "date": "2026-01-02",
         "price": 2.28,
@@ -1823,14 +1818,14 @@
         "date": "2026-06-29",
         "price": 3.61,
         "volatility": 123.9
+      },
+      {
+        "date": "2026-06-30",
+        "price": 3.65,
+        "volatility": 110.1
       }
     ],
     "b200": [
-      {
-        "date": "2026-01-01",
-        "price": 3.64,
-        "volatility": 64.5
-      },
       {
         "date": "2026-01-02",
         "price": 3.63,
@@ -2725,14 +2720,14 @@
         "date": "2026-06-29",
         "price": 4.41,
         "volatility": 46.2
+      },
+      {
+        "date": "2026-06-30",
+        "price": 4.46,
+        "volatility": 46.7
       }
     ],
     "a100": [
-      {
-        "date": "2026-01-01",
-        "price": 0.9,
-        "volatility": 51.9
-      },
       {
         "date": "2026-01-02",
         "price": 0.9,
@@ -3625,6 +3620,11 @@
       },
       {
         "date": "2026-06-29",
+        "price": 1.02,
+        "volatility": 46.3
+      },
+      {
+        "date": "2026-06-30",
         "price": 1.02,
         "volatility": 46.3
       }
